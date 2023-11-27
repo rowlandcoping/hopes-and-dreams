@@ -32,7 +32,7 @@ My research ahead of this project has involved looking at existing social platfo
 
 ### 2) Project Goal
 
-Hopes and Dreams intends to be a place to realise positive aspirations. I intend to avoid the sort of language that exists around setting goals.  Whilst planning tools can be part of the process (either as part of the MVP or part of the evolution of the project) this is about blue skies thinking. The intention is that a community will develop to support people in pursuit of their dreams, at which point they could become goals, rather than interaction with the site be a goal-setting exercise in itself.  The aspiration is almost as important as the realisation, as such creating and sharing a dream with the community will be intended as a journey of discovery rather than a chore.  Dreams are meant to be shared almost as much as they are meant to be realised.
+Hopes and Dreams intends to be a place to realise positive aspirations. In spite of this, I intend to avoid the sort of language that exists around setting goals.  Whilst planning tools can be part of the process (either as part of the MVP or part of the evolution of the project) this platform is about encouraging blue skies thinking. The intention is that a community will develop to support people in pursuit of their dreams, at which point they might even become goals, rather than interaction with the site be a goal-setting exercise in itself.  The aspiration is almost as important as the realisation, as such creating and sharing a dream with the community will be intended as a journey of discovery rather than a chore.  Dreams are meant to be shared and celebrated almost as much as they are meant to be realised.
 
 The main goal of the project then, is to develop this community and bring people together, through a UI which makes the site a pleasure to use.  It's about having people put their dreams and ideas in writing and find like-minded people.  On a simple MVP level this will simply be about matching dreams to users, creating a 'feed of dreams' containing a variety of fascinating hopes and aspirations, hopefully some of which will motivate the user to positively engage - whether this engagement means offering advice, the benefit of experience or even practical assistance.  The site will also act as a more conventional social platform, where you can actively search for and follow individuals or their aspirations and receive updates about how things are going for them.
 
@@ -76,16 +76,49 @@ I have chosen to use MongoDB over PostgreSQL for a number of reasons (in order o
  - Development Cycle: The lack of requirement for a rigid schema will suit the ongoing development of this project, with its potential for expansion and growth (both to MVP level and beyond).  I feel like the application could see significant evolution as I develop it and encounter new challenges.
  - Data storage capacity:  ElephantSQL only provides 25MB storage with the base package, which is extremely low headroom for this sort of application, whilst MongoDB Atlas provides 512MB which should be more than enough.
  - MongoDB Atlas:  Atlas is a slick platform with a superb UI and great documentation, making it a pleasure to use. 
- - Personal Development:  Because (as far as I can gather) my fourth project will involve using the Django framework with a relational database, I feel like using MongoDB here will add a very useful string to my bow and further my professional development.
- - Obselescence: This relates to course material, where the PostgreSQL module is far lower in quality than the MongoDB content.  Whilst both contain deprecated code, only minor changes were required to update PyMongo functionality to be compatible with latest package versions and therefore make the code viable for use in a brand new real-world application. The SQLAlchemy methodology I have been taught caused all sorts of problems and required very specific package versions to function whilst leaving out key concepts such as search functionality and user authentication; it would need a lot of additional learning to fill these gaps in my knowledge which I don't have time for in the context of this course.
+ - Personal Development:  Because my fourth project will involve using the Django framework with a relational database and being familiar with MySQL from the past, I feel like using MongoDB here will add a very useful string to my bow and further my professional development.
+ - Obselescence: This relates to course material, where the PostgreSQL module is far lower in quality than the MongoDB content.  Whilst both contain deprecated code, only minor changes were required to update PyMongo functionality to be compatible with latest package versions and therefore make the code viable for use in a brand-new real-world application. The SQLAlchemy methodology I have been taught caused all sorts of problems and required very specific package versions to function whilst leaving out key concepts such as search functionality and user authentication; it would need a lot of additional learning to fill these gaps in my knowledge which I don't have time for in the context of this course.
 
 ### Core Elements (MVP)
 
 #### Structure
 
+ - Landing Page: features logo, brief site description and sign up / sign in option.  All about branding the site.
+ - New User Journey:  On clicking Sign Up will begin a user journey.
+ - Base Elements:  Once signed in each page will have title/logo and menu with four core elements, plus a search.
+ - Feed (default page): The main site feed is divided into two elements, Dreamscape (default) and Personal
+ - Profile: Consists of an overview of your profile and options to update info divided into 2 sections, account or personal settings.
+ - Dreams: This page will list your current Hopes and Dreams. 
+ - Dreambuilder:  This is a walkthrough process for creating a new dream. 
+ - Update Dream Page:  Page will consist of a description, and underneath icons representing each aspect of a dream.  Where an available module doesn't exist there will be the option to create it.
+ - View dream page: here you can review your dream as others see it, and view, rate and respond to any offers of help, comments or encouragement that other users have provided.
+
 #### Features
 
+NB This MVP feature list represents this site as I currently envisage it, and will be subject to change (probably quite a lot of it!)
+
+ - Detailed step-by-step user journey planner to introduce them to the world of hopes and dreams, which not only gets them signed up to the site but introduces the site concept in small bites.  Unfolds in stages over multiple pages with strong brand imagery based around default theme.  A bare minimum of the personal profile settings will be set compulsararily here for initial discovery (to avoid an empty feed after signup!).
+ - Multiple feeds - one just to follow and/or assist with dreams and one to follow people and dreams you know or are interested in.
+ - Dreamscape feed is a 'feed of dreams' consisting of dreams from other users that appear based on the user's interests/skills and also personal settings.  The user can choose to comment, offer advice or offer a service (based on dream requirements).  Alternatively users can just enjoy reading other peoples hopes and dreams.
+ - Personal feed will consist of actions from people or dreams you follow, reactions to your comments, comments on your own dreams or any other modules (beyond the MVP)
+ - Step-by-step Dreambuilder wizard to walk the user through the process of building their dream. Only a name, description and keywords are compulsary fields, the rest can be added later, or not added at all.  The intention is dreams should be quite freeform.
+ - Optional modular elements for your dream, the core of which will be the dream diary, dream requirements and a dream planner
+ - Each dream will be listed with a brief description if any exist, and the option to view the dream, update it, or undream it.  If you have no dreams a tutorial message will appear below the Dreambuilder inviting you to share your hopes and dreams.
+ - Opportunities to update skills and interests to ensure the user only sees what they are intererested in. Account and personal settings which allow the user to customize their experience.Account settings will include Name, Profile Pic, e-mail address, Location (optional), notifications/privacy settings (if included). Personal settings inlcude Skills/Experiences/Interests, projects, open to (which may be rolled into the privacy settings)
+ - Users may comment on a dream to offer advice or encouragement, or offer specific help or services.  They may also follow a specific dream in their personal feed.
+ - Users may rate comments, and have the option to filter users with very low scores (which indicates spam, trolling or other destructive behaviour)
+ - Search facility to find friends or chase specific dreams.
+ - 3 user levels, admin, moderator or user.  The single admin (ie me) will be able to create other moderators and both will be able to remove users and content deemded to be in breach of the Terms of Use Policy.
+ - Basic themes - dreams and indeed profiles can be tailored with basic color themes.
+ - Image handling - all user supplied images converted and compressed appropriately to the platform. I will also need to work out somewhere to put them when using a Heroku deployment.
+
 ### Optional Features
+
+ - Additional Services module for dreams. Will allow companies to offer their services (eg if your dream is to be a web developer, you might be offered courses). Would allow for targeted, entirely optional monetisation without weakening the platform.
+ - Organisations module for dreams. If added would provide details of organisations that may be able to help via an API. 
+ - Extended notification and privacy settings for each feed, in order to make them highly customisable.
+ - The ability to have an advanced range of search options and more advanced requirement gathering, allowing dreams to feature according to multple categories. This is highly unlikely to feature in the MVP; although there may well be multple categories for users/dreams it is likely they will be indexed together for each for discovery purposes.
+ - Advanced/custom themes: The ability to select from multiple advanced themes when setting up dreams and accounts, including images.  The ability to create custom themes.  Whilst I view this as a lot more important than just a nice to have given the feedback from some of my research, I'm not sure I'll have time to include it in the MVP for this project as well as providing the basic functionality it needs to be a working real-world application.
 
 ## UX - Structure
 ([back to top](#contents))
