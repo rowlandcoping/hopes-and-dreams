@@ -184,7 +184,7 @@ This will include basic user data, including but not limited to the following ke
 
 #### Notifications / Privacy settings
 
-This collection will be created alongside a new user; each user will have their own collection of this type. It will relate to the individual user's privacy and discovery settings.  There is scope to expand this to include advanced notification settings, but his is beyond the MVP. It will include they keys user_ID (ie the user it relates to), user_followed, user_blocked, dream_followed.
+This collection will be created alongside a new user; each user will have their own collection of this type. It will relate to the individual user's privacy and discovery settings.  There is scope to expand this to include advanced notification settings, but his is beyond the MVP. It will include they keys user_ID (ie the user it relates to), user_followed, user_blocked, dream_followed, entities_liked/disliked (to prevent dupes).
 
 #### Dream Collection
 
@@ -192,7 +192,7 @@ This is the collection for base dream data.  It includes all the data to be incl
 
 #### Diary Collection
 
-Each document in the diary collection is linked to a dream by the dream's ID. They consist of the following keys: dream_ID(the related dream), diary entry (these will be numbered sequentially and created on the fly as they are added). Comments will be enabled for diary entries
+Each document in the diary collection is linked to a dream by the dream's ID. They consist of the following keys: dream_ID(the related dream), diary entry (these will be numbered sequentially and created on the fly as they are added), no_entries (this will be incremented each time an entry is added, and used to iterate over the data). Comments will be enabled for diary entries
 
 #### Goals Collection
 
@@ -200,15 +200,15 @@ The Goals collection will be created on the same basis as diary entries and will
 
 #### Planner Collection
 
-The Planner collection will be created on the same basis as diary entries and will have comments enabled.  Additionally, each plan added to the planner will have the option to create a seperate task entry linked to the plan by an ID created in Python.  I have chosen to use this rather than create nested entities.
+The Planner collection will be created on the same basis as diary entries and will have comments enabled.  Additionally, each plan added to the planner will have the option to create a seperate task entry linked.  I have chosen to use this rather than create nested entities.
 
 #### Requests Collection
 
-The Requestscollection will be created on the same basis as diary entries and will have comments enabled.
+The Requests collection will be created on the same basis as diary entries and will have comments enabled.
 
 #### Comments Collection
 
-Each comment will be linked to another entity and a user by ID. It can be identified by the following keys:  user_ID (user making the comment), entity_ID (entity it relates to), like, dislike reply1, reply1 like/dislikes, reply1 user_id etc (replies added on the fly to each document as they are added).
+Each comment will be linked to another entity and a user by ID. It can be identified by the following keys:  user_ID (user making the comment), entity_ID (entity it relates to), like, dislike reply1, reply1 like/dislikes, reply1 user_id etc (replies added on the fly to each document as they are added), no_replies (for iterating over the data).
 
 ## UX - Skeleton
 ([back to top](#contents))
