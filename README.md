@@ -88,10 +88,10 @@ I have chosen to use MongoDB over PostgreSQL for a number of reasons (in order o
  - Base Elements:  Once signed in each page will have title/logo and menu with four core elements, plus a search.
  - Feed (default page): The main site feed is divided into two elements, Dreamscape (default) and Personal
  - Profile: Consists of an overview of your profile and options to update info divided into 2 sections, account or personal settings.
- - Dreams: This page will list your current Hopes and Dreams. 
+ - Dreams: This page will list the user's current Hopes and Dreams. 
  - Dreambuilder:  This is a walkthrough process for creating a new dream. 
  - Update Dream Page:  Page will consist of a description, and underneath icons representing each aspect of a dream.  Where an available module doesn't exist there will be the option to create it.
- - View dream page: here you can review your dream as others see it, and view, rate and respond to any offers of help, comments or encouragement that other users have provided.
+ - View dream page: here the user can review your dream as others see it, and view, rate and respond to any offers of help, comments or encouragement that other users have provided.
 
 #### Features
 
@@ -117,17 +117,98 @@ NB This MVP feature list represents this site as I currently envisage it, and wi
  - Additional Services module for dreams. Will allow companies to offer their services (eg if your dream is to be a web developer, you might be offered courses). Would allow for targeted, entirely optional monetisation without weakening the platform.
  - Organisations module for dreams. If added would provide details of organisations that may be able to help via an API. 
  - Extended notification and privacy settings for each feed, in order to make them highly customisable.
- - The ability to have an advanced range of search options and more advanced requirement gathering, allowing dreams to feature according to multple categories. This is highly unlikely to feature in the MVP; although there may well be multple categories for users/dreams it is likely they will be indexed together for each for discovery purposes.
+ - The ability to have an advanced range of search options and more advanced requirement gathering, allowing dreams to feature according to multple categories. This is highly unlikely to feature in the MVP; although there may well be multple categories for users/dreams it is likely they will be grouped together when indexing each side of the search for discovery purposes.
  - Advanced/custom themes: The ability to select from multiple advanced themes when setting up dreams and accounts, including images.  The ability to create custom themes.  Whilst I view this as a lot more important than just a nice to have given the feedback from some of my research, I'm not sure I'll have time to include it in the MVP for this project as well as providing the basic functionality it needs to be a working real-world application.
+ - Suggest people to follow by connecting with other social apps via API.  Could also use to invite new users to the service.  Useful growth tool.
+ - Infinite scrolling on feeds.
+
+ ### Hopes and Dreams
+
+ - Hopes and Dreams mobile app, with full site integration.
 
 ## UX - Structure
 ([back to top](#contents))
 
-### Navigation
+### Site pages and elements
 
-#### Essential elements:
+#### Header and Site Navigation
 
-#### Optional elements:
+The homepage navigation will simply be a sign up/sign in button prominently placed, which leads either to the sign-up user journey or the Dreamscape feed by default on signing in.
+
+Once logged in the main navigation will be in the form of bold icons indicating the function of each page, and a logo will appear either alongside or above the navigation.
+ - Feeds
+ - Profile
+ - Dreams
+
+Furthermore search functionality will also be included on all pages.  This will take either the form of a search bar with a radial offering the option to search for people or dreams, or an additional icon which would open a more detailed search page.  The choice of concept here will likely evolve along with the site design.
+
+My philosophy is to simplify navigation and avoid the need for additional pop-up/drop-down menus on mobile which impair site feel and are largely un-necessary if navigation is well designed.
+
+#### Footer
+
+If I view any social site there is no main footer as such, and indeed Facebook does not include one either - this seems to be for two reasons; one is infinite scroll, the other is space being limited on a mobile screen.  Any important information (copyright, terms of service) can be located elsewhere; with this in mind I'm not sure what a footer would add so I won't be including one. 
+
+#### Sign-up user journey
+
+This will consist of a series of pages requesting use information to complete the sign-up process.  The intention is not only to gather the information required for the site to be functional, but to introduce the user to key site concepts, build anticipation about site content and encourage exploration once signed up.
+
+#### Feed pages
+
+The feed pages will consist of a scrollable list of items in the feed, along with options to interact at the bottom of each item.  This will include like buttons, and the ability to follow, unfollow, expand the comments section or leave a new comment.  Where dreams are concerned users will also be able to access full details about the dream and the user who created it from the feed.
+
+The feed will take two forms - one is a personal feed which will show the latest from all the content and people the user is following.  the other is the Dreamscape feed where the user can browse the dreams that others have created.
+
+#### Dreams page
+
+The dreams page will list Dreams and descriptions of them, with latest comments.  You can also expand them to view various modules and comments therein, or open them in the Dream Editor page.  At the top of the page will also be the Dream Builder button which initiates the user journey for building a dream.
+
+#### Dream Editor
+
+Large icons will represent the various dream modules if present, otherwise there is an icon to create them.  Here you can also enter various modules to edit and update them
+
+#### Dream Builder
+
+The Dream Builder icon initiates the user journey to create a dream, walking the user through each stage of the process.  Not all modules are compulsary but each dream will require a name, description and some category tags so people can discover it.
+
+#### Profile Page
+
+The user will be faced with two options - it defaults to personal which allows them to update skills, interests, projects and experience to tailor what they see in their Dreamscape feed.  The user can also access Account Settings from this page to update their personal info and privacy/notification settings.
+
+### Data Structure
+
+Using Mongo DB and a modular approach to building key elements of the site means I have opted for an extremely flat structure, creating new collections where possible to make data easily accessible and speeding up the process of removing data.  This data structure has been put together with two major provisos - one is that this is my first MongoDB project and I do not yet know how this structure will evolve in practice.  It may well be that I need to merge, nest or separate various collections as the requirements of the platform become clearer.  My preference at this stage is to keep it as simple as possible!
+
+#### Users Collection
+
+This will include basic user data, including but not limited to the following keys:  Name, Base Theme, Profile Picture, e-mail, location, skills/experience/interests (some of all of these fields will be included/indexed to pair with similar dream fields for discovery purposes), projects, and also a setting which will enable a user to block others below a certain rating(ie users with very low feedback scores who are likely trolls).
+
+#### Notifications / Privacy settings
+
+This collection will be created alongside a new user; each user will have their own collection of this type. It will relate to the individual user's privacy and discovery settings.  There is scope to expand this to include advanced notification settings, but his is beyond the MVP. It will include they keys user_ID (ie the user it relates to), user_followed, user_blocked, dream_followed.
+
+#### Dream Collection
+
+This is the collection for base dream data.  It includes all the data to be included in feeds and discovery info in the following keys: user_ID (ie who created it), name, description, skills needed/categories (to be matched with profile settings for discovery purposes).  Comments will be enabled on dreams.
+
+#### Diary Collection
+
+Each document in the diary collection is linked to a dream by the dream's ID. They consist of the following keys: dream_ID(the related dream), diary entry (these will be numbered sequentially and created on the fly as they are added). Comments will be enabled for diary entries
+
+#### Goals Collection
+
+The Goals collection will be created on the same basis as diary entries and will have comments enabled.
+
+#### Planner Collection
+
+The Planner collection will be created on the same basis as diary entries and will have comments enabled.  Additionally, each plan added to the planner will have the option to create a seperate task entry linked to the plan by an ID created in Python.  I have chosen to use this rather than create nested entities.
+
+#### Requests Collection
+
+The Requestscollection will be created on the same basis as diary entries and will have comments enabled.
+
+#### Comments Collection
+
+Each comment will be linked to another entity and a user by ID. It can be identified by the following keys:  user_ID (user making the comment), entity_ID (entity it relates to), like, dislike reply1, reply1 like/dislikes, reply1 user_id etc (replies added on the fly to each document as they are added).
 
 ## UX - Skeleton
 ([back to top](#contents))
