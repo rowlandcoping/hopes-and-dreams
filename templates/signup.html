@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/style.css" type="text/css">
+</head>
+<body>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="row flashes">
+                <h4 class="light-blue lighten-4 center-align">{{ message }}</h4>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div id="signup-one">
+    <h1>Tell us who you are</h1>
+    <h3 class="red-text" id="form-alert"></h3>
+    <form action="{{ url_for('signup') }}" method="POST">
+        <label for="first_name">First Name</label><input type="text" id="first_name" name="first_name" required>
+    <label for="last_name">Last Name</label><input type="text" id="last_name" name="last_name" required>
+    <br>
+    <label for="email">e-mail address</label><input type="email" id="email" name="email" required>
+    <label for="password">Password</label><input type="password" id="password" name="password" required>
+    <br>
+        <button id="part-one">Let's Go!</button>
+</div>
+<div id="signup-two">
+    <h1>Well hello there <span id="sayMyName"></span></h1>
+        <input type="text" id="interests" name="interests" required>
+        <input type="text" id="skills" name="skills" required>
+        <input type="text" id="experiences" name="experiences" required>
+        <button id="part-two">Let's Go!</button>
+</div>
+<div id="signup-three">    
+    
+    <button type="submit">Say Cheese!</button>
+</form>
+</div>
+<a id="abandon" href="{{ url_for('abandon_signup') }}">Abandon signup</a>
+<script src="static/js/script.js"></script>
+</body>
+</html>

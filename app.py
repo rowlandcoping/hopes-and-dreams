@@ -25,14 +25,51 @@ cloudinary.config(
 mongo = PyMongo(app)
 
 @app.route("/")
-@app.route("/welcome")
-def welcome():
-    user_id = mongo.db.users.find_one(
-        {"user_id": session["user"]})["_id"]
-    if session["user"]:
-        return render_template("/feed.html", user_id=user_id)
+def home():    
     return render_template("welcome.html")
+
+# the next three routes encompass the signup process
+@app.route("/dare-to-dream", methods=["POST", "GET"])
+def signup():
+    if request.method == "POST":
+        existing_user = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
+        if existing_user:
+            flash("This e-mail address is already in use")
+            return redirect(url_for("signup"))
+        first_name=request.form.get("first_name").lower()
+        last_name=request.form.get("last_name").lower()
+        email= request.form.get("email").lower()
+        register = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": email,
+            "password": generate_password_hash(request.form.get("password"))
+        }
+        mongo.db.users.insert_one(register)
+        user_verify = mongo.db.users.find_one({"email": email})
+        if user_verify:
+            session["email"] = email
+            return render_template("signup.html", first_name=first_name, last_name=last_name)
+        else:
+            flash("Registration first step not successful, please try again.")
+        return render_template("signup.html")
+    return render_template("signup.html")
+
+
     
 
+@app.route("/be-confident")
+def signup_three():
+    return render_template("signup.html")
+
+@app.route("/abandon")
+def abandon_signup():
+    return redirect(url_for("home"))
+
+if __name__ == "__main__":
+    app.run(host=os.environ.get("IP"),
+            port=int(os.environ.get("PORT")),
+            debug=True)
 
 
