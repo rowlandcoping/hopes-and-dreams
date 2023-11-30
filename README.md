@@ -125,6 +125,7 @@ NB This MVP feature list represents this site as I currently envisage it, and wi
  ### Hopes and Dreams
 
  - Hopes and Dreams mobile app, with full site integration.
+ - Integration with other social APIs to enable users to add friends and share content.
 
 ## UX - Structure
 ([back to top](#contents))
@@ -215,7 +216,19 @@ Each comment will be linked to another entity and a user by ID. It can be identi
 
 ### Design Choices
 
-### Processes
+ - Landing page aside, I have kept the menu system consistently placed throughout the site according to the platform on which it is being viewed.
+ - Menu icons will be consistently placed, and where possible will include a description of what the icon does for clarity, in consideration of older or less 'web-savvy' users.
+ - On smaller screen sizes, to avoid clutter, I will move the search facility to a seperate page.  This is also an option for the desktop site, and may end up being the most desirable option in order to keep the user experience consistent across platforms.
+ - Search results pages will use the exact layout of the feed pages.
+ - Although the dreams menu icon is still available from the Dream Editor and can be clicked, I have chosen to include a button to return to the Dreamscape feed, for user clarity.
+ - All content is consistently sited in a central scrolling area.  Feeds MAY use an infinite scroll depending on time and technical constraints
+ - When clicking to expand a dream the user will be able to view all modular components.
+ - The dream editor is only available to the owner of a dream.  When one of the modular components is selected the user will be able to edit all the components of that section in a seperate page with form input.  If the plus sign is selected to add a component it will take the user on a new user journey though the build process.
+ - It is envisaged that the dream-builder button and the sign up button walk the user through a highly intuitive, staged sign-up / build process.  This will include walk-throughs explaining the data required and what it does, and with luck some really nice visuals.  During the initial build this will be a simple form in both cases; at a push these forms could also serve as a viable MVP.
+ - The profile page is divided into two distinct sections for user clarity - one to update their skills, interests and experiences, which influences the content they are exposed to, and one to update basic profile details and, eventually, more advanced privacy and notification settings.
+ - The site logo and branding will vary in prominence depending on the platform on which the site is viewed, to maximise the space available for content.
+ - The objective throughout the site is the user should be no more than two clicks from the information they require, that the locations of various site features should be obvious, and users aren't overwhelmed by scores of icons which do not have an obvious purpose.
+ - As I would expect there to be a fairly even split between mobile and desktop, the intention is to build the site using CSS Flexbox. The flow of the pages are designed accomodate the responsiveness that has been built into the site from the outset.
 
 ### Wireframes
 
