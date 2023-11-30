@@ -175,41 +175,53 @@ The Dream Builder icon initiates the user journey to create a dream, walking the
 
 The user will be faced with two options - it defaults to personal which allows them to update skills, interests, projects and experience to tailor what they see in their Dreamscape feed.  The user can also access Account Settings from this page to update their personal info and privacy/notification settings.
 
-### Data Structure
+### Core Data Structure
 
 Using Mongo DB and a modular approach to building key elements of the site means I have opted for an extremely flat structure, creating new collections where possible to make data easily accessible and speeding up the process of removing data.  This data structure has been put together with two major provisos - one is that this is my first MongoDB project and I do not yet know how this structure will evolve in practice.  It may well be that I need to merge, nest or separate various collections as the requirements of the platform become clearer.  My preference at this stage is to keep it as simple as possible!
 
+Here is an overview of my initial database design, followed by a breakdown of each collection:
+
+![image](static/images/data-model/data-overview.png)
+
 #### Users Collection
 
-This will include basic user data, including but not limited to the following keys:  Name, Base Theme, Profile Picture, e-mail, location, skills/experience/interests (some of all of these fields will be included/indexed to pair with similar dream fields for discovery purposes), projects, and also a setting which will enable a user to block others below a certain rating(ie users with very low feedback scores who are likely trolls).
+This will include basic user data, key settings for discovery of dreams and notification/privacy settings.
 
-#### Notifications / Privacy settings
-
-This collection will be created alongside a new user; each user will have their own collection of this type. It will relate to the individual user's privacy and discovery settings.  There is scope to expand this to include advanced notification settings, but his is beyond the MVP. It will include they keys user_ID (ie the user it relates to), user_followed, user_blocked, dream_followed, entities_liked/disliked (to prevent dupes).
+![image](static/images/data-model/users.png)
 
 #### Dream Collection
 
-This is the collection for base dream data.  It includes all the data to be included in feeds and discovery info in the following keys: user_ID (ie who created it), name, description, skills needed/categories (to be matched with profile settings for discovery purposes).  Comments will be enabled on dreams.
+This is the collection for base dream data.  It includes all the data to be included in feeds and discovery, and is linked to a user by the user's ID.  Comments will be enabled on dreams.
+
+![image](static/images/data-model/dreams.png)
+
+### Modular Components Data Structure
+
+The below represent modular components of dreams. The key concept among these components is the Diary Module, which will form part of the MVP - the rest may not all be included in the MVP depending on timescales and viability, however it is intended that they should be.
 
 #### Diary Collection
 
-Each document in the diary collection is linked to a dream by the dream's ID. They consist of the following keys: dream_ID(the related dream), diary entry (these will be numbered sequentially and created on the fly as they are added), no_entries (this will be incremented each time an entry is added, and used to iterate over the data). Comments will be enabled for diary entries
+The diary is a modular component of a dream, and is linked to a dream by the dream's ID. Comments will be enabled for diary entries.
+
+![image](static/images/data-model/diary.png)
 
 #### Goals Collection
 
-The Goals collection will be created on the same basis as diary entries and will have comments enabled.
+Goals are a modular component of a dream, and are linked to a dream by the dream ID. Comments will be enabled for goals.
+
+![image](static/images/data-model/goals.png)
 
 #### Planner Collection
 
-The Planner collection will be created on the same basis as diary entries and will have comments enabled.  Additionally, each plan added to the planner will have the option to create a seperate task entry linked.  I have chosen to use this rather than create nested entities.
+The Planner collection will be created on the same basis as other dream modules and will have comments enabled.  Each plan within the planner will have an associated task, which can include any number of steps.
+
+![image](static/images/data-model/planner.png)
 
 #### Requests Collection
 
-The Requests collection will be created on the same basis as diary entries and will have comments enabled.
+The requests module of a dream allows a user to request any number of specific skills or assistance within the skills required section. This can then be associated with users offering their services.
 
-#### Comments Collection
-
-Each comment will be linked to another entity and a user by ID. It can be identified by the following keys:  user_ID (user making the comment), entity_ID (entity it relates to), like, dislike reply1, reply1 like/dislikes, reply1 user_id etc (replies added on the fly to each document as they are added), no_replies (for iterating over the data).
+![image](static/images/data-model/requests.png)
 
 ## UX - Skeleton
 ([back to top](#contents))
