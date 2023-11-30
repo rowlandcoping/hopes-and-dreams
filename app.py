@@ -37,22 +37,21 @@ def signup():
         if existing_user:
             flash("This e-mail address is already in use")
             return redirect(url_for("signup"))
-        first_name=request.form.get("first_name").lower()
-        last_name=request.form.get("last_name").lower()
-        email= request.form.get("email").lower()
         register = {
-            "first_name": first_name,
-            "last_name": last_name,
-            "email": email,
-            "password": generate_password_hash(request.form.get("password"))
+            "first_name": request.form.get("first_name").lower(),
+            "last_name": request.form.get("last_name").lower(),
+            "email": request.form.get("email").lower(),
+            "password": generate_password_hash(request.form.get("password")),
+            "interests": request.form.get("interests"),
+            "skills": request.form.get("skills"),
+            "experiences": request.form.get("experiences")
         }
         mongo.db.users.insert_one(register)
-        user_verify = mongo.db.users.find_one({"email": email})
+        user_verify = mongo.db.users.find_one({"email": request.form.get("email").lower()})
         if user_verify:
-            session["email"] = email
-            return render_template("signup.html", first_name=first_name, last_name=last_name)
+            return render_template("profile-submit.html", email=request.form.get("email").lower())
         else:
-            flash("Registration first step not successful, please try again.")
+            flash("Registration not successful, please try again.")
         return render_template("signup.html")
     return render_template("signup.html")
 

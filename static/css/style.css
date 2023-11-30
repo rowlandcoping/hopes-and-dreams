@@ -7,7 +7,28 @@
 #form-alert {
     display:none;
 }
-
 .red-text {
     color:red;
+}
+#interests-section {
+    display:block;
+}
+#skills-section {
+    display:none;
+}
+#experiences-section {
+    display:none;
+}
+#submit-everything {
+    display:none;
+}
+#skills, #interests, #experiences {
+    display:none;
+}
+#end-interests {
+    display:none;
+}
+
+#interests, #skills, #experiences {
+    width:100%;
 }
