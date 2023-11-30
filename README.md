@@ -14,7 +14,6 @@ Hopes and Dreams is a social platform designed to help users collaborate, share 
 
 ### Testing and Deployment
 
-[Game Features](#game-features)\
 [Testing Documentation](#testing-documentation)\
 [Deployment](#deployment)
 
@@ -261,12 +260,7 @@ Please find the wireframes [HERE](WIREFRAMES.md).
 
 ### Navigation
   
-### Alerts
-
 ### Responsiveness
-
-## Game Features
-([back to top](#contents))
 
 ## Testing Documentation
 ([back to top](#contents))
@@ -292,6 +286,9 @@ Please find all testing documentation [HERE](TESTING.md).
 ### Content
 
 ### Acknowledgments
+
+https://cloudinary.com/blog/creating_an_api_with_python_flask_to_upload_files_to_cloudinary
+method used for uploading image files
 
 ## Technical Information
 ([back to top](#contents))
