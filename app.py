@@ -29,7 +29,7 @@ def home():
     return render_template("welcome.html")
 
 # the next three routes encompass the signup process
-@app.route("/dare-to-dream", methods=["POST", "GET"])
+@app.route("/dare-to-dream", methods=["GET","POST"])
 def signup():
     if request.method == "POST":
         existing_user = mongo.db.users.find_one(
@@ -49,7 +49,8 @@ def signup():
         mongo.db.users.insert_one(register)
         user_verify = mongo.db.users.find_one({"email": request.form.get("email").lower()})
         if user_verify:
-            return render_template("profile-submit.html", email=request.form.get("email").lower())
+            session["email"] = user_verify["email"]
+            return render_template("profile-submit.html", email=session["email"])
         else:
             flash("Registration not successful, please try again.")
         return render_template("signup.html")
@@ -59,12 +60,14 @@ def signup():
     
 
 @app.route("/be-confident")
-def signup_three():
-    return render_template("signup.html")
+def profile_upload():
+    return render_template("profile-submit.html")
 
 @app.route("/abandon")
 def abandon_signup():
     return redirect(url_for("home"))
+
+
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

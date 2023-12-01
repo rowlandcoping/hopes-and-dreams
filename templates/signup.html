@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="static/css/style.css" type="text/css">
+        <script src="https://kit.fontawesome.com/8c1ab874f9.js" crossorigin="anonymous"></script>
     </head>
     <body>
 
@@ -26,7 +27,7 @@
                 <label for="email">e-mail address</label><input type="email" id="email" name="email" required>
                 <label for="password">Password</label><input type="password" id="password" name="password" required>
                 <br>
-                <button id="part-one">Let's Go!</button>
+                <div class="signup-button" id="part-one">Let's Go!</div>
         </div>
         <div id="signup-two">
                 <h1>Well hello there! <span class="sayMyName"></span></h1>
@@ -38,9 +39,9 @@
                     <label for="interests"><span class="sayMyName"></span> is interested in...<input type="text" id="interests" name="interests" readonly>
                     <br>
                     <label for="interest-add">Add an interest</label><input type="text" id="interest-add" name="interest-add" width="100%">
-                    <button id="add-interest">+</button>
+                    <i id="add-interest" class="fa-solid fa-plus add-stuff"></i>
                     <br>
-                    <button id="end-interests">Finish Adding Interests</button>
+                    <div class="signup-button" id="end-interests">Finish Adding Interests</div>
                 </div>
                 <div id="skills-section">
                     <h3 id="skills-heading">
@@ -50,9 +51,9 @@
                     <label for="skills"><span class="sayMyName"></span> is skilled at...<input type="text" id="skills" name="skills" readonly>
                     <br>
                     <label for="skill-add">Add a skill</label><input type="text" id="skill-add" name="skill-add">
-                    <button id="add-skill">+</button>
+                    <i id="add-skill" class="fa-solid fa-plus add-stuff"></i>
                     <br>
-                    <button id="end-skills">Finish Adding Skills</button>
+                    <div class="signup-button" id="end-skills">Finish Adding Skills</div>
                 </div>
                 <div id="experiences-section">
                     <h3 id="experiences-heading">
@@ -62,7 +63,7 @@
                     <label for="experiences"><span class="sayMyName"></span> has experienced...<input type="text" id="experiences" name="experiences" readonly>
                     <br>
                     <label for="experience-add">Add a experience</label><input type="text" id="experience-add" name="experience-add">
-                    <button id="add-experience">+</button>
+                    <i id="add-experience" class="fa-solid fa-plus add-stuff"></i>
                     <br>
                     <button type="submit" id="submit-everything">Complete Signup</button>
                 </div>
