@@ -26,7 +26,7 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def home():    
-    return render_template("welcome.html")
+    return render_template("landing.html")
 
 # the next three routes encompass the signup process
 @app.route("/dare-to-dream", methods=["GET","POST"])
@@ -56,9 +56,6 @@ def signup():
         return render_template("signup.html")
     return render_template("signup.html")
 
-
-    
-
 @app.route("/be-confident")
 def profile_upload():
     return render_template("profile-submit.html")
@@ -67,6 +64,22 @@ def profile_upload():
 def abandon_signup():
     return redirect(url_for("home"))
 
+@app.route("/welcome", methods=["GET","POST"])
+def signin():
+    if request.method == "POST":
+        existing_user = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
+        if existing_user:
+            if check_password_hash(existing_user["password"], request.form.get("password")):
+                session["email"] = existing_user["email"]
+                return render_template("profile-submit.html", email=session["email"])
+            else:
+                flash("Username or Password not valid, please try again.")
+                return render_template("landing.html")
+        else:
+            flash("Username or Password not valid, please try again.")
+            return render_template("landing.html")
+    return render_template("landing.html")
 
 
 if __name__ == "__main__":

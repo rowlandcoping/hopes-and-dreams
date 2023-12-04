@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     //EVENT LISTNERS
     //event listner for 'enter' keyboard presses
@@ -6,13 +5,26 @@ document.addEventListener("DOMContentLoaded", function() {
         if (e.code == "Enter") {
             document.activeElement.click();
     }});
-                //move on from part one of sign up process
+    //activate sign-in form
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#singin-click");
+        if(target){
+            signInShow();
+        }
+    });
+    //show sign-in form
+    function signInShow() {
+        document.getElementById('signin-form').style.display = "block";
+    }
+
+    //move on from part one of sign up process
     document.addEventListener("click", function(e){
         const target = e.target.closest("#part-one");
         if(target){
             partOneHide();
         }
     });
+
     //activates function to add an interest to the interests array in the value field
     document.addEventListener("click", function(e){
         const target = e.target.closest("#add-interest");
@@ -155,5 +167,4 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('submit-everything').style.display = "block";
         }
     }
-
 });

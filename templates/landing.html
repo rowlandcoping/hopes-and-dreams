@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css" type="text/css">
+    <title>Hopes and Dreams</title>
+</head>
+<body>
+    <h1>Hopes and Dreams</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="row flashes">
+                    <h4>{{ message }}</h4>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <a href="{{ url_for('signup') }}">Sign Up</a>
+    
+    <div id="singin-click">Sign In</div>
+
+    <div id="signin-form">
+        <form action="{{ url_for('signin') }}" method="POST"> 
+            <label for="email">e-mail address</label><input type="email" id="email" name="email" required>
+            <label for="password">Password</label><input type="password" id="password" name="password" required>
+            <button type="submit" id="sign-in">Sign Me In</button>
+        </form>
+    </div>
+    <script src="static/js/script.js"></script>
+</body>
+</html>
