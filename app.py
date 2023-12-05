@@ -1,5 +1,7 @@
 import os
 import cloudinary
+import cloudinary.uploader
+from PIL import Image
 from flask import (
     Flask, flash, render_template, jsonify,
     redirect, request, session, url_for)
@@ -21,11 +23,15 @@ cloudinary.config(
     cloud_name = os.environ.get('CLOUD_NAME'), 
     api_key=os.environ.get('API_KEY'), 
     api_secret=os.environ.get('API_SECRET'))
+    
+base_url="https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/"
 
 mongo = PyMongo(app)
 
 @app.route("/")
-def home():    
+def home():
+    if session:
+        return redirect(url_for("profile_upload"))   
     return render_template("landing.html")
 
 # the next three routes encompass the signup process
@@ -50,15 +56,46 @@ def signup():
         user_verify = mongo.db.users.find_one({"email": request.form.get("email").lower()})
         if user_verify:
             session["email"] = user_verify["email"]
-            return render_template("profile-submit.html", email=session["email"])
+            return redirect(url_for("profile_upload"))
         else:
             flash("Registration not successful, please try again.")
         return render_template("signup.html")
     return render_template("signup.html")
 
-@app.route("/be-confident")
+@app.route("/be-confident", methods=["GET","POST"])
 def profile_upload():
-    return render_template("profile-submit.html")
+    app.logger.info('in upload route')
+    if session:
+        user_info = mongo.db.users.find_one({"email": session["email"]})
+        if request.method == "POST":
+            uploaded_image = request.files['profile_picture']
+            imgname= uploaded_image.filename.split(".", 1)[0]
+            filename= str(imgname + "-" + user_info["first_name"])
+            app.logger.info('%s file_to_upload', uploaded_image)
+            if uploaded_image:
+                upload_result = cloudinary.uploader.upload(uploaded_image, public_id=filename)
+                app.logger.info(upload_result)
+                profile_picture = {"$set": {
+                    "profile_picture": filename
+                }}
+                mongo.db.users.update_one({"_id": ObjectId(user_info["_id"])}, profile_picture)
+                # return jsonify(upload_result)
+                flash("Profile Picture Uploaded")
+                return redirect(url_for("profile_test"))
+        return render_template("profile-submit.html", user=user_info)
+    else:
+        flash("something broke")
+        return render_template("landing.html")
+
+#test code to ensure profile pic works (do delete this John)
+@app.route("/my-piccie")
+def profile_test():
+    if session:
+        user_info = mongo.db.users.find_one({"email": session["email"]})    
+        return render_template("profile-test.html", base_url=base_url, user=user_info)
+    return render_template("landing.html")
+    
+
 
 @app.route("/abandon")
 def abandon_signup():
@@ -72,7 +109,7 @@ def signin():
         if existing_user:
             if check_password_hash(existing_user["password"], request.form.get("password")):
                 session["email"] = existing_user["email"]
-                return render_template("profile-submit.html", email=session["email"])
+                return redirect(url_for("profile_upload"))
             else:
                 flash("Username or Password not valid, please try again.")
                 return render_template("landing.html")
@@ -86,5 +123,6 @@ if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
             debug=True)
+
 
 

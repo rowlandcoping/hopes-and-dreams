@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css" type="text/css">
     <title>Document</title>
 </head>
 <body>
-
-    <h1>Congratulations!</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="row flashes">
+                <h4>{{ message }}</h4>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <h1>Congratulations {{ user.first_name | capitalize }}!</h1>
     <h2>You have taken you first step into a brave new world</h2>
     <h3>But there is one more thing.</h3>
     <p>So friends can find you and to add that all-important human element, we recommend adding a profile picture</p>
@@ -15,7 +24,8 @@
     <p>So we recommend, you know, a picture of you..... wait, what's that?</p>
     <p>Oh sure you can, you look great! Very attractive in fact.</p>
     <p>Believe in you, otherwise nobody else will</p>
-    <form action="{{ url_for('profile_upload') }}" method="POST">
+    <form action="{{ url_for('profile_upload') }}" method="POST" enctype="multipart/form-data">
+        <img id="profile_preview" src="static/images/general/default-profile.jpg" width="300">
 
         <input type="file" id="profile_picture" name="profile_picture">
         <button type="submit">Submit Image</button>
