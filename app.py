@@ -1,4 +1,5 @@
 import os
+import io
 import cloudinary
 import cloudinary.uploader
 from PIL import Image
@@ -25,6 +26,15 @@ cloudinary.config(
     api_secret=os.environ.get('API_SECRET'))
     
 base_url="https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/"
+
+
+def imageConvert(image, quality, format):
+    img = Image.open(image)
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format, optimize=True, quality=quality)
+    img_byte_arr = img_byte_arr.getvalue()
+    return img_byte_arr
+
 
 mongo = PyMongo(app)
 
@@ -70,18 +80,19 @@ def profile_upload():
         if request.method == "POST":
             uploaded_image = request.files['profile_picture']
             imgname= uploaded_image.filename.split(".", 1)[0]
-            filename= str(imgname + "-" + user_info["first_name"])
-            app.logger.info('%s file_to_upload', uploaded_image)
+            filename= str(imgname + "-" + str(user_info["_id"]))
             if uploaded_image:
-                upload_result = cloudinary.uploader.upload(uploaded_image, public_id=filename)
-                app.logger.info(upload_result)
-                profile_picture = {"$set": {
-                    "profile_picture": filename
-                }}
-                mongo.db.users.update_one({"_id": ObjectId(user_info["_id"])}, profile_picture)
+                converted_image = imageConvert(uploaded_image, 70, "webp")
                 if user_info["profile_picture"]:
                     cloudinary.uploader.destroy(user_info["profile_picture"])
-                # return jsonify(upload_result)
+                app.logger.info('%s file_to_upload', converted_image)                
+                upload_result = cloudinary.uploader.upload(converted_image, public_id=filename)
+                app.logger.info(upload_result)   
+                profile_picture = {"$set": {
+                    "profile_picture": filename + ".webp"
+                }}
+                mongo.db.users.update_one({"_id": ObjectId(user_info["_id"])}, profile_picture)
+                #return jsonify(upload_result)
                 flash("Profile Picture Uploaded")
                 return redirect(url_for("profile_test"))
         return render_template("profile-submit.html", user=user_info)
@@ -97,7 +108,6 @@ def profile_test():
         return render_template("profile-test.html", base_url=base_url, user=user_info)
     return render_template("landing.html")
     
-
 
 @app.route("/abandon")
 def abandon_signup():
