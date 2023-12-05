@@ -2,6 +2,7 @@ import os
 import io
 import cloudinary
 import cloudinary.uploader
+import PIL
 from PIL import Image
 from flask import (
     Flask, flash, render_template, jsonify,
@@ -28,9 +29,12 @@ cloudinary.config(
 base_url="https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/"
 
 
-def imageConvert(image, quality, format):
+def imageConvert(image, width, quality, format):
     img = Image.open(image)
     img_byte_arr = io.BytesIO()
+    wpercent = (width/float(img.size[0]))
+    hsize = int((float(img.size[1])*float(wpercent)))
+    img = img.resize((width,hsize), PIL.Image.ANTIALIAS)
     img.save(img_byte_arr, format, optimize=True, quality=quality)
     img_byte_arr = img_byte_arr.getvalue()
     return img_byte_arr
@@ -82,14 +86,14 @@ def profile_upload():
             imgname= uploaded_image.filename.split(".", 1)[0]
             filename= str(imgname + "-" + str(user_info["_id"]))
             if uploaded_image:
-                converted_image = imageConvert(uploaded_image, 70, "webp")
+                converted_image = imageConvert(uploaded_image, 400, 75, "webp")
                 if user_info["profile_picture"]:
                     cloudinary.uploader.destroy(user_info["profile_picture"])
-                app.logger.info('%s file_to_upload', converted_image)                
-                upload_result = cloudinary.uploader.upload(converted_image, public_id=filename)
-                app.logger.info(upload_result)   
+                #app.logger.info('%s file_to_upload', converted_image)                
+                cloudinary.uploader.upload(converted_image, public_id=filename, folder = "profile")
+                #app.logger.info(upload_result)   
                 profile_picture = {"$set": {
-                    "profile_picture": filename + ".webp"
+                    "profile_picture": "profile/" + filename
                 }}
                 mongo.db.users.update_one({"_id": ObjectId(user_info["_id"])}, profile_picture)
                 #return jsonify(upload_result)
