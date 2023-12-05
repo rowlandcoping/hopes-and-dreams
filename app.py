@@ -79,6 +79,8 @@ def profile_upload():
                     "profile_picture": filename
                 }}
                 mongo.db.users.update_one({"_id": ObjectId(user_info["_id"])}, profile_picture)
+                if user_info["profile_picture"]:
+                    cloudinary.uploader.destroy(user_info["profile_picture"])
                 # return jsonify(upload_result)
                 flash("Profile Picture Uploaded")
                 return redirect(url_for("profile_test"))
