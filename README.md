@@ -298,6 +298,9 @@ https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18
 https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array
 https://gist.github.com/tomvon/ae288482869b495201a0
 
+session.get thing
+https://stackoverflow.com/questions/28925602/how-can-i-detect-whether-a-variable-exists-in-flask-session
+
 
 ## Technical Information
 ([back to top](#contents))

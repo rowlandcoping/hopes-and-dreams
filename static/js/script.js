@@ -4,15 +4,18 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("keydown", function(e) {
         if (e.code == "Enter") {
             document.activeElement.click();
-    }});
+    }});    
     //prevent implicit form submission on pressing enter
     const signupForm = document.querySelector('[name="signup-form"]');
-    signupForm.addEventListener("keydown", function(e) {
-        if (e.code == "Enter") {
-            e.preventDefault();
-        }
-    });
-    //activate sign-in form
+    if (signupForm) {
+            signupForm.addEventListener("keydown", function(e) {
+            if (e.code == "Enter") {
+                e.preventDefault();
+            }
+    
+        });
+    }
+   //activate sign-in form
     document.addEventListener("click", function(e){
         const target = e.target.closest("#singin-click");
         if(target){
@@ -23,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function signInShow() {
         document.getElementById('signin-form').style.display = "block";
     }
-
     //move on from part one of sign up process
     document.addEventListener("click", function(e){
         const target = e.target.closest("#part-one");
