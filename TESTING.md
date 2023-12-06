@@ -21,3 +21,8 @@ On testing with a user, I discoveered they preferred to tab and pres enter thoru
 I found out how to enable this for the divs, but then discovered a bug where pressing the enter key i the final stage of the form once the submit button had been enabled implicitly submitted the whole form regardless of where the focus was.  
 Disabling default submit behaviour for the entire form would have meant handling the whole thing in Javascript, which was not a favourable option.  
 I discivered that using an if statement and keydown with preventDefault() meant that I could prevent enter from triggering the default behaviour, whilst still enabling me to use that method to activate the submit method on focus.  I was please with this solution because I came up with it all by my very self. 
+
+key missing
+
+I discovered that if in flask I was checking if a key existed in the database or a session then it would throw an error when it didn't, stopping the application.
+I solved this using .get and is not None, referencing the key implicitly.  This also prevented the error where if session cookies were deleted and the site couldn't find them it brought the whole thing down, which I also noticed in the walkthrough project.  I recommend it!
