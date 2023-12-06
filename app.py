@@ -45,7 +45,7 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def home():
-    if session:
+    if session.get("email") is not None:
         return redirect(url_for("feed_dreamscape"))
     return render_template("landing.html")
 
@@ -80,7 +80,7 @@ def signup():
 @app.route("/be-confident", methods=["GET","POST"])
 def profile_upload():
     app.logger.info('in upload route')
-    if session:
+    if session.get("email") is not None:
         user_info = mongo.db.users.find_one({"email": session["email"]})
         if request.method == "POST":
             uploaded_image = request.files['profile_picture']
@@ -89,7 +89,7 @@ def profile_upload():
             image_alt = "Profile picture for " + user_info["first_name"].capitalize() + " " + user_info["last_name"].capitalize()
             if uploaded_image:
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if user_info["profile_picture"]:
+                if user_info.get("profile_picture") is not None:
                     cloudinary.uploader.destroy(user_info["profile_picture"])               
                 cloudinary.uploader.upload(converted_image, public_id=filename, folder = "profile")  
                 profile_picture = {"$set": {
@@ -107,7 +107,7 @@ def profile_upload():
 #welcome page (once profile complete)
 @app.route("/welcome")
 def welcome():
-    if session:
+    if session.get("email") is not None:
         user_info = mongo.db.users.find_one({"email": session["email"]})    
         return render_template("welcome.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
@@ -128,18 +128,18 @@ def signin():
                 return redirect(url_for("feed_dreamscape"))
             else:
                 flash("Username or Password not valid, please try again.")
-                return redirect(url_for("landing.html"))
+                return redirect(url_for("home"))
         else:
             flash("Username or Password not valid, please try again.")
-            return redirect(url_for("landing.html"))
+            return redirect(url_for("home"))
     return render_template("landing.html")
 
 @app.route("/dreamscape")
 def feed_dreamscape():
-    if session:
+    if session.get("email") is not None:
         user_info = mongo.db.users.find_one({"email": session["email"]})  
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
-    return redirect(url_for("landing.html"))
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
