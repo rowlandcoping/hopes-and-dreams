@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css" type="text/css">
+    <script src="https://kit.fontawesome.com/8c1ab874f9.js" crossorigin="anonymous"></script>
+    <title>Welcome to Hopes and Dreams</title>
+</head>
+<body>
+    <h1>Welcome {{ user.first_name | capitalize }}!</h1>
+    <div id="welcome-container">
+        <div id="explore">            
+            <h3>You are now ready to explore the Dreamscape</h3>
+            
+            <p>
+                If you want to change anything on your profile, you can do it any time.
+                <br>But why not take a moment to check it now.
+            </p>
+            <h4>All Good?</h4>
+            <p>The Dreamscape is where you will find hopes, dreams and aspirations.
+                <br>It is a thrilling and uplifting place.
+            </p>
+            <p>Each dream you see is special to someone.</p>
+                <p>Perhaps you can help
+                <br>Perhaps you can encourage
+                <br>Perhaps you just want to see how they get along
+            </p>
+            <p>Or perhaps you want to form your own Hopes and Dreams?</p>
+            <a href="{{url_for('feed_dreamscape')}}">Please... take me to this place</a>
+        </div>
+        <div id="profile-preview">
+            <p>First name: {{ user.first_name | capitalize }}<i class="fas fa-edit"></i></p>
+            <p>Last name: {{ user.last_name | capitalize }}<i class="fas fa-edit"></i></p>
+            <p>e-mail address: {{ user.email }}<i class="fas fa-edit"></i></p>
+            <p>interests: {{ user.interests }}<i class="fas fa-edit"></i></p>
+            <p>skills: {{ user.skills }}<i class="fas fa-edit"></i></p>
+            <p>experiences: {{ user.experiences }}<i class="fas fa-edit"></i></p>
+            <p>Profile Picture: <i class="fas fa-edit"></i><img id="profile_view" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="100"></p>
+        </div>
+    </div>
+    
+</body>
+</html>

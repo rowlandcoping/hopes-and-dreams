@@ -36,3 +36,18 @@
 #signin-form {
     display:none;
 }
+
+#welcome-container {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#explore, #profile-preview {
+    flex:1;
+}
+#profile-preview p{
+    display:flex;
+    align-items:center;
+    
+}
