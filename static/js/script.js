@@ -167,4 +167,19 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('submit-everything').style.display = "block";
         }
     }
+
+    //previews image during sign-in user journey
+    const imageUpload= document.getElementById('profile_picture');
+    const previewPhoto = () => {
+        const previewPic = imageUpload.files;
+        if (previewPic) {
+            const fileReader = new FileReader();
+            const preview = document.getElementById('profile_preview');
+            fileReader.onload = function (event) {
+                preview.setAttribute('src', event.target.result);
+            }
+            fileReader.readAsDataURL(previewPic[0]);
+        }
+    }
+    imageUpload.addEventListener("change", previewPhoto);
 });
