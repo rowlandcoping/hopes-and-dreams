@@ -290,5 +290,14 @@ Please find all testing documentation [HERE](TESTING.md).
 https://cloudinary.com/blog/creating_an_api_with_python_flask_to_upload_files_to_cloudinary
 method used for uploading image files
 
+https://medium.com/geekculture/how-to-preview-images-before-upload-with-javascript-3420e3cd2f1c
+code to preview images on various pages with JavaScript
+
+Various sources which helped me to build my image handling process:
+https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18
+https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array
+https://gist.github.com/tomvon/ae288482869b495201a0
+
+
 ## Technical Information
 ([back to top](#contents))
