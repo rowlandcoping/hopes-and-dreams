@@ -5,13 +5,11 @@ import cloudinary.uploader
 import PIL
 from PIL import Image
 from flask import (
-    Flask, flash, render_template, jsonify,
+    Flask, flash, render_template,
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
-from flask_restful import Resource, Api
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
-from werkzeug.datastructures import FileStorage
 if os.path.exists("env.py"):
     import env
 
@@ -30,7 +28,6 @@ cloudinary.config(
 base_url = { "profile": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/profile/",
             "dream": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dream/"
 }
-
 
 
 def imageConvert(image, width, quality, format):
@@ -141,7 +138,7 @@ def signin():
 def feed_dreamscape():
     if session:
         user_info = mongo.db.users.find_one({"email": session["email"]})  
-        return render_template("dreamscape.html")
+        return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("landing.html"))
 
 if __name__ == "__main__":

@@ -1,53 +1,58 @@
-#signup-two{
-    display:none;
-}
-#signup-three {
-    display:none;
-}
-#form-alert {
-    display:none;
+/*universal*/
+.not-displayed {
+    display:none
 }
 .red-text {
     color:red;
 }
-#interests-section {
-    display:block;
-}
-#skills-section {
-    display:none;
-}
-#experiences-section {
-    display:none;
-}
-#submit-everything {
-    display:none;
-}
-#skills, #interests, #experiences {
-    display:none;
-}
-#end-interests {
-    display:none;
-}
 
+/*sign-up user journey*/
 #interests, #skills, #experiences {
     width:100%;
 }
-
-#signin-form {
-    display:none;
-}
-
 #welcome-container {
     display:flex;
     justify-content: space-between;
     align-items: center;
 }
-
 #explore, #profile-preview {
     flex:1;
 }
 #profile-preview p{
     display:flex;
     align-items:center;
-    
 }
+
+/*general template*/
+
+#feed-container {
+    margin:30px 100px;
+}
+
+#title-section {
+    display: flex;
+    justify-content: space-between;
+}
+#main-section {
+    display:flex;
+    margin:50px 0;
+}
+#left-sidebar {
+    display:flex;
+    flex-flow:column;
+    flex:1;
+}
+
+#left-sidebar img {
+    margin: 10px 0;
+}
+#main-content{
+    flex:5;
+    border: 5px solid black;
+}
+
+#desktop-search {
+    display:flex;
+}
+
+

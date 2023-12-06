@@ -17,9 +17,9 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div id="signup-one">
-            <h1>Tell us who you are</h1>            
-            <form action="{{ url_for('signup') }}" method="POST">
+        <form action="{{ url_for('signup') }}" method="POST"></form>
+            <div id="signup-one">
+                <h1>Tell us who you are</h1>            
                 <label for="first_name">First Name</label><input type="text" id="first_name" name="first_name" required>
                 <label for="last_name">Last Name</label><input type="text" id="last_name" name="last_name" required>
                 <br>
@@ -27,52 +27,48 @@
                 <label for="password">Password</label><input type="password" id="password" name="password" required>
                 <br>
                 <div class="signup-button" id="part-one" tabindex=0>Let's Go!</div>
-        </div>
-        <div id="signup-two">
+            </div>
+            <div id="signup-two" class="not-displayed">
                 <h1>Well hello there <span class="sayMyName"></span>!</h1>
                 <div id="interests-section">
                     <h2 id="interests-heading">
                         First, tell us what you are interested in!  
                         <br>Use single words and press the plus button after each one - you can enter as many as you like.
                     </h2>
-                    <label for="interests"><span class="sayMyName"></span> is interested in...<input type="text" id="interests" name="interests" readonly>
+                    <label for="interests"><span class="sayMyName"></span> is interested in...<input type="text" id="interests" name="interests" class="not-displayed" readonly>
                     <br>
                     <label for="interest-add">Add an interest</label><input type="text" id="interest-add" name="interest-add" width="100%">
                     <i id="add-interest" class="fa-solid fa-plus add-stuff" tabindex=0></i>
                     <br>
-                    <div class="signup-button" id="end-interests" tabindex=0>Finish Adding Interests</div>
+                    <div class="signup-button not-displayed" id="end-interests" tabindex=0>Finish Adding Interests</div>
                 </div>
-                <div id="skills-section">
+                <div id="skills-section" class="not-displayed">
                     <h3 id="skills-heading">
                         Now, tell us what you're good at!  
                         <br>As before keep it simple - this is how we match you up to dreams!
                     </h3>
-                    <label for="skills"><span class="sayMyName"></span> is skilled at...<input type="text" id="skills" name="skills" readonly>
+                    <label for="skills"><span class="sayMyName"></span> is skilled at...<input type="text" id="skills" name="skills" class="not-displayed" readonly>
                     <br>
                     <label for="skill-add">Add a skill</label><input type="text" id="skill-add" name="skill-add">
                     <i id="add-skill" class="fa-solid fa-plus add-stuff" tabindex=0></i>
                     <br>
-                    <div class="signup-button" id="end-skills" tabindex=0>Finish Adding Skills</div>
+                    <div class="signup-button not-displayed" id="end-skills" tabindex=0>Finish Adding Skills</div>
                 </div>
-                <div id="experiences-section">
+                <div id="experiences-section" class="not-displayed">
                     <h3 id="experiences-heading">
                         Now, tell us a little about the things you've done! 
                         <br>This doesn't have to be work - it could be anything.
                     </h3>
-                    <label for="experiences"><span class="sayMyName"></span> has experienced...<input type="text" id="experiences" name="experiences" readonly>
+                    <label for="experiences"><span class="sayMyName"></span> has experienced...<input type="text" id="experiences" name="experiences" class="not-displayed" readonly>
                     <br>
                     <label for="experience-add">Add an experience</label><input type="text" id="experience-add" name="experience-add">
                     <i id="add-experience" class="fa-solid fa-plus add-stuff" tabindex=0></i>
                     <br>
-                    <button type="submit" id="submit-everything" disabled>Complete Signup</button>
-                </div>
-                
-            
-        </div>
-        <div id="signup-three">    
-                <button type="submit">Say Cheese!</button>
-        </div>
-        <h3 class="red-text" id="form-alert"></h3>
+                    <button type="submit" id="submit-everything" class="not-displayed" disabled>Complete Signup</button>
+                </div>          
+            </div>
+        </form>
+        <h3 class="red-text" id="form-alert" class="not-displayed"></h3>
         <a id="abandon" href="{{ url_for('abandon_signup') }}">Abandon signup</a>
         <script src="static/js/script.js"></script>
     </body>
