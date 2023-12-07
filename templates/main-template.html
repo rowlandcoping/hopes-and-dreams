@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/style.css" type="text/css">
-    <title>{% block title %}{% endblock title%}</title>
+    <script src="https://kit.fontawesome.com/8c1ab874f9.js" crossorigin="anonymous"></script>
+    <title>
+        {% block title %}
+        {% endblock title%}
+    </title>
 </head>
 <body>
     <div id="feed-container">
@@ -27,12 +31,18 @@
         </div>
         <div id="main-section">
             <div id="left-sidebar">
-                <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
-                <h3>Dreams</h3>
-                <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
-                <h3>Feed</h3>
-                <img src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
-                <h3>Profile</h3>
+                <a href="{{ url_for('dreams') }}">
+                    <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
+                    <h3>Dreams</h3>
+                </a>
+                <a href="{{ url_for('feed_dreamscape') }}">
+                    <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
+                    <h3>Feed</h3>
+                </a>
+                <a href="{{ url_for('profile_personal') }}">
+                    <img src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
+                    <h3>Profile</h3>
+                </a>
                 
             </div>
             <div id="main-content">
@@ -42,6 +52,6 @@
             </div>
         </div>
     </div>
-    
+    <script src="static/js/script.js"></script>
 </body>
 </html>

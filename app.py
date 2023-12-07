@@ -153,6 +153,20 @@ def feed_dreamscape():
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
+@app.route("/profile-personal")
+def profile_personal():
+    if session.get("user_slug") is not None:
+        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+        return render_template("profile-personal.html", base_url=base_url, user=user_info)
+    return redirect(url_for("home"))
+
+@app.route("/dreams")
+def dreams():
+    if session.get("user_slug") is not None:
+        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+        return render_template("dreams.html", base_url=base_url,  user=user_info)
+    return redirect(url_for("home"))
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
