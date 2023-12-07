@@ -1,13 +1,9 @@
 {% extends 'main-template.html' %}
 
 {% block title %}
-Dreamscape
+Profile Information - {{ (user.first_name + user.last_name) | capitalize }}
 {% endblock title %}
 
 {% block content %}
-    <div id="secondary-navigation">
-        <p>Some nav</p>
-    </div>
-    <div id="feed-area">
-    </div>
+    content
 {% endblock content %}

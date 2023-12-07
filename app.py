@@ -1,5 +1,6 @@
 import os
 import io
+import re
 import cloudinary
 import cloudinary.uploader
 import PIL
@@ -45,7 +46,7 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def home():
-    if session.get("email") is not None:
+    if session.get("user_slug") is not None:
         return redirect(url_for("feed_dreamscape"))
     return render_template("landing.html")
 
@@ -58,9 +59,20 @@ def signup():
         if existing_user:
             flash("This e-mail address is already in use")
             return redirect(url_for("signup"))
+        first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
+        last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
+        user_string = str(first_submitted + "-" + last_submitted)
+        check_slug = list(mongo.db.users.find({"user_string": user_string}))
+        if (check_slug):
+            user_number = str(len(check_slug)+1)
+            user_slug = str(user_string + "-" + user_number)
+        else: 
+            user_slug = user_string
         register = {
             "first_name": request.form.get("first_name").lower(),
             "last_name": request.form.get("last_name").lower(),
+            "user_string": user_string,
+            "user_slug": user_slug,            
             "email": request.form.get("email").lower(),
             "password": generate_password_hash(request.form.get("password")),
             "interests": request.form.get("interests"),
@@ -68,47 +80,47 @@ def signup():
             "experiences": request.form.get("experiences")
         }
         mongo.db.users.insert_one(register)
-        user_verify = mongo.db.users.find_one({"email": request.form.get("email").lower()})
+        user_verify = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
         if user_verify:
-            session["email"] = user_verify["email"]
-            return redirect(url_for("profile_upload"))
-        else:
-            flash("Registration not successful, please try again.")
+            session["user_slug"] = user_verify["user_slug"]
+            return redirect(url_for("profile_upload"))        
+        flash("Registration not successful, please try again.")
         return render_template("signup.html")
     return render_template("signup.html")
 
 @app.route("/be-confident", methods=["GET","POST"])
 def profile_upload():
-    app.logger.info('in upload route')
-    if session.get("email") is not None:
-        user_info = mongo.db.users.find_one({"email": session["email"]})
+    if session.get("user_slug") is not None:
+        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
         if request.method == "POST":
             uploaded_image = request.files['profile_picture']
             imgname= uploaded_image.filename.split(".", 1)[0]
             filename= str(imgname + "-" + str(user_info["_id"]))
-            image_alt = "Profile picture for " + user_info["first_name"].capitalize() + " " + user_info["last_name"].capitalize()
+            image_alt = (
+                "Profile picture for " + user_info["first_name"].capitalize() 
+                + " " + user_info["last_name"].capitalize())
             if uploaded_image:
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
                 if user_info.get("profile_picture") is not None:
                     cloudinary.uploader.destroy(user_info["profile_picture"])               
-                cloudinary.uploader.upload(converted_image, public_id=filename, folder = "profile")  
+                cloudinary.uploader.upload(
+                    converted_image, public_id=filename, folder = "profile")  
                 profile_picture = {"$set": {
                     "profile_picture": filename,
                     "profilepic_alt": image_alt
                 }}
-                mongo.db.users.update_one({"_id": ObjectId(user_info["_id"])}, profile_picture)
-                flash("Profile Picture Uploaded")
+                mongo.db.users.update_one(
+                    {"user_slug": user_info["user_slug"]}, profile_picture)
                 return redirect(url_for("welcome"))
         return render_template("profile-submit.html", user=user_info)
-    else:
-        flash("something broke")
-        return redirect(url_for("home"))
+    return redirect(url_for("home"))
 
 #welcome page (once profile complete)
 @app.route("/welcome")
 def welcome():
-    if session.get("email") is not None:
-        user_info = mongo.db.users.find_one({"email": session["email"]})    
+    if session.get("user_slug") is not None:
+        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})    
         return render_template("welcome.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
     
@@ -124,7 +136,7 @@ def signin():
             {"email": request.form.get("email").lower()})
         if existing_user:
             if check_password_hash(existing_user["password"], request.form.get("password")):
-                session["email"] = existing_user["email"]
+                session["user_slug"] = existing_user["user_slug"]
                 return redirect(url_for("feed_dreamscape"))
             else:
                 flash("Username or Password not valid, please try again.")
@@ -136,8 +148,8 @@ def signin():
 
 @app.route("/dreamscape")
 def feed_dreamscape():
-    if session.get("email") is not None:
-        user_info = mongo.db.users.find_one({"email": session["email"]})  
+    if session.get("user_slug") is not None:
+        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
