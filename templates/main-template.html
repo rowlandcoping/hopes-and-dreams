@@ -31,15 +31,15 @@
         </div>
         <div id="main-section">
             <div id="left-sidebar">
-                <a href="{{ url_for('dreams') }}">
+                <a href="{{ url_for('dreams') }}" class="{{ 'active-page' if request.path == url_for('dreams') }}">
                     <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
                     <h3>Dreams</h3>
                 </a>
-                <a href="{{ url_for('feed_dreamscape') }}">
+                <a href="{{ url_for('feed_dreamscape') }}" class="{{ 'active-page' if request.path == url_for('feed_dreamscape') }}">
                     <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
                     <h3>Feed</h3>
                 </a>
-                <a href="{{ url_for('profile_personal') }}">
+                <a href="{{ url_for('profile_personal') }}" class="{{ 'active-page' if request.path == url_for('profile_personal') }}">
                     <img src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
                     <h3>Profile</h3>
                 </a>
