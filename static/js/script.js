@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (interest.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
-        } else if (interest.match(/[^a-zA-Z\d]/)) {
+        } else if (interest.match(/[^a-z A-Z\d]/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
         } else {
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (skill.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Skill should not include numbers";
-        } else if (skill.match(/[^a-zA-Z\d]/)) {
+        } else if (skill.match(/[^a-z A-Z\d]/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Skill should not contain special characters";
         } else {
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (experience.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "experience should not include numbers";
-        } else if (experience.match(/[^a-zA-Z\d]/)) {
+        } else if (experience.match(/[^a-z A-Z\d]/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "experience should not contain special characters";
         } else {

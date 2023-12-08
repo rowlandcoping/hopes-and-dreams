@@ -77,7 +77,8 @@ def signup():
             "password": generate_password_hash(request.form.get("password")),
             "interests": request.form.get("interests"),
             "skills": request.form.get("skills"),
-            "experiences": request.form.get("experiences")
+            "experiences": request.form.get("experiences"),
+            "role": "user"
         }
         mongo.db.users.insert_one(register)
         user_verify = mongo.db.users.find_one(
@@ -153,6 +154,13 @@ def feed_dreamscape():
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
+@app.route("/dreams")
+def dreams():
+    if session.get("user_slug") is not None:
+        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+        return render_template("dreams.html", base_url=base_url,  user=user_info)
+    return redirect(url_for("home"))
+
 @app.route("/profile-personal")
 def profile_personal():
     if session.get("user_slug") is not None:
@@ -160,11 +168,18 @@ def profile_personal():
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
-@app.route("/dreams")
-def dreams():
+@app.route("/site-preferences")
+def site_preferences():
     if session.get("user_slug") is not None:
         user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
-        return render_template("dreams.html", base_url=base_url,  user=user_info)
+        return render_template("site-preferences.html", base_url=base_url, user=user_info)
+    return redirect(url_for("home"))
+
+@app.route("/logout")
+def log_out():
+    if session.get("user_slug") is not None:
+        flash("It's been fun, don't you be a stranger now.")
+        session.pop("user_slug")
     return redirect(url_for("home"))
 
 if __name__ == "__main__":

@@ -1,0 +1,23 @@
+{% extends 'main-template.html' %}
+
+{% block title %}
+Dreamscape
+{% endblock title %}
+
+{% block content %}
+<div class="page-menu">
+    <a href="{{ url_for('profile_personal') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('profile_personal') }}">
+        <h2>Personal Information</h2>
+    </a>
+    <a href="{{url_for('site_preferences') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('site_preferences') }}">
+        <h2>Site Preferences</h2>
+    </a>
+</div>
+<div id="profile-preview">
+    <p>interests: {{ user.interests }}<i class="fas fa-edit"></i></p>
+    <p>skills: {{ user.skills }}<i class="fas fa-edit"></i></p>
+    <p>experiences: {{ user.experiences }}<i class="fas fa-edit"></i></p>
+    <a href="{{ url_for('log_out') }}">Log Out</a>
+</div>
+
+{% endblock content %}
