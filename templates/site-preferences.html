@@ -1,7 +1,7 @@
 {% extends 'main-template.html' %}
 
 {% block title %}
-Dreamscape
+Site Preferences - {{ (user.first_name + " " + user.last_name) | title }}
 {% endblock title %}
 
 {% block content %}

@@ -13,11 +13,49 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
             <h2>Site Preferences</h2>
     </a>
 </div>
-<div id="profile-preview">
-    <p>First name: {{ user.first_name | capitalize }}<i class="fas fa-edit"></i></p>
-    <p>Last name: {{ user.last_name | capitalize }}<i class="fas fa-edit"></i></p>
-    <p>e-mail address: {{ user.email }}<i class="fas fa-edit"></i></p>
-    <p>Profile Picture: <i class="fas fa-edit"></i><img id="profile_view" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="100"></p>
-    <a href="{{ url_for('log_out') }}">Log Out</a>
+<div id="personal-info">
+    <form action="{{ url_for('signup') }}" method="POST" name="personal-update" enctype="multipart/form-data">
+        <div>
+            <div>
+                <div>
+                    <label for="first-name">First Name: </label>
+                    <input type="text" id="first-name" name="first-name" value="{{ user.first_name | capitalize }}" readonly required>
+                    <span id="first-name-edit"><i class="fas fa-edit"></i></span>
+                    <span id="first-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
+                    <span id="first-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+                <div>
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" name="last-name" value="{{ user.last_name | capitalize }}" required readonly>
+                    <span id="last-name-edit"><i class="fas fa-edit"></i></span>
+                    <span id="last-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
+                    <span id="last-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>                  
+                </div>
+                <div>
+                    <label for="email">e-mail address</label><input type="email" id="email" name="email" value="{{ user.email }}" required readonly>
+                    <span id="email-edit"><i class="fas fa-edit"></i></span>
+                    <span id="email-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
+                    <span id="email-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span> 
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="profile_picture">Profile Picture</label>
+                    {% if user.profile_picture %}
+                        <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
+                    {% else %}
+                        <img id="current-image" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
+                    {% endif %}
+                    <img id="profile_preview" class="not-displayed" src="" width="150">
+                    <input type="file" id="profile_picture" name="profile_picture" class="not-displayed">
+                    <i class="fas fa-edit" id="profile-pic-edit"></i>
+                    <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+
+            </div>
+        </div>
+        <button type="submit" id="personal-update" class="not-displayed">Save Changes</button>    
+    </form>
 </div>
+<a href="{{ url_for('log_out') }}">Log Out</a>
 {% endblock content %}

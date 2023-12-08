@@ -25,7 +25,11 @@
                     <input type="text" id="search_text" name="search_type">
                     <button type="submit">Search</button>
                 </form>
-                <img src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
+                {% if user.profile_picture %}
+                    <img id="profile_view" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
+                {% else %}
+                    <img id="profile_view" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
+                {% endif %}
             </div>
 
         </div>
@@ -40,7 +44,11 @@
                     <h3>Feed</h3>
                 </a>
                 <a href="{{ url_for('profile_personal') }}" class="{{ 'active-page' if (request.path == url_for('profile_personal') or request.path == url_for('site_preferences')) }}">
-                    <img src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
+                    {% if user.profile_picture %}
+                        <img id="profile_view" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
+                    {% else %}
+                        <img id="profile_view" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
+                    {% endif %}
                     <h3>Profile</h3>
                 </a>
                 

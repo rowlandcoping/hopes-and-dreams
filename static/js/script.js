@@ -1,5 +1,14 @@
+//------------OBJECTS-------------//
+const currentPersonal = {
+    firstName: "",
+    lastName: "",
+    email:""
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-    //EVENT LISTNERS
+    //-------------EVENT LISTNERS--------------//
+
+    //EVERYWHERE
     //event listner for 'enter' keyboard presses
     document.addEventListener("keydown", function(e) {
         if (e.code == "Enter") {
@@ -15,6 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
         });
     }
+
+   //SIGN-IN FORM
    //activate sign-in form
     document.addEventListener("click", function(e){
         const target = e.target.closest("#singin-click");
@@ -22,10 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
             signInShow();
         }
     });
-    //show sign-in form
-    function signInShow() {
-        document.getElementById('signin-form').style.display = "block";
-    }
+    
+    //SIGN-UP PROCESS
     //move on from part one of sign up process
     document.addEventListener("click", function(e){
         const target = e.target.closest("#part-one");
@@ -33,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
             partOneHide();
         }
     });
-
     //activates function to add an interest to the interests array in the value field
     document.addEventListener("click", function(e){
         const target = e.target.closest("#add-interest");
@@ -69,7 +77,99 @@ document.addEventListener("DOMContentLoaded", function() {
             addExperience();
         }
     });
+   
 
+    //EDIT PERSONAL INFO
+    //activate first name field + commit change button (use a tick / cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#first-name-edit"); 
+        if(target){
+            editFirst();
+        }
+    });
+    //commit first name change (on clicking tick)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#first-name-confirm"); 
+        if(target){
+            confirmFirst();
+        }
+    });
+    //cancel first name change (on clicking cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#first-name-cancel"); 
+        if(target){
+            cancelFirst();
+        }
+    });
+    //activate last name field + commit change button (use a tick / cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#last-name-edit"); 
+        if(target){
+            editLast();
+        }
+    });
+    //commit last name change (on clicking tick)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#last-name-confirm"); 
+        if(target){
+            confirmLast();
+        }
+    });
+    //cancel last name change (on clicking cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#last-name-cancel"); 
+        if(target){
+            cancelLast();
+        }
+    });
+
+    //activate email name field + commit change button (use a tick / cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#email-edit"); 
+        if(target){
+            editEmail();
+        }
+    });
+    //commit email name change (on clicking tick)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#email-confirm"); 
+        if(target){
+            confirmEmail();
+        }
+    });
+    //cancel email name change (on clicking cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#email-cancel"); 
+        if(target){
+            cancelEmail();
+        }
+    });
+
+    //activate image upload field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#profile-pic-edit"); 
+        if(target){
+            editProfilePic();
+        }
+    });
+    //cancel image edit(NB for edit using existing event listner)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#profile-pic-cancel"); 
+        if(target){
+            cancelProfilePic();
+        }
+    });
+    
+
+    //------------ACTIONS-------------//
+    
+    //SIGN IN
+    //show sign-in form
+    function signInShow() {
+        document.getElementById('signin-form').style.display = "block";
+    }
+
+    //SIGN-UP PROCESS
     //validates fields in part one of sign up, hides part one and shows part two.
     function partOneHide() {
         let firstName = document.getElementById('first_name').value;
@@ -110,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (interest.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
-        } else if (interest.match(/[^a-z A-Z\d]/)) {
+        } else if (interest.match(/[^a-z -A-Z]/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
         } else {
@@ -136,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (skill.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Skill should not include numbers";
-        } else if (skill.match(/[^a-z A-Z\d]/)) {
+        } else if (skill.match(/[^a-z -A-Z]/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Skill should not contain special characters";
         } else {
@@ -162,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (experience.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "experience should not include numbers";
-        } else if (experience.match(/[^a-z A-Z\d]/)) {
+        } else if (experience.match(/[^a-z -A-Z]/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "experience should not contain special characters";
         } else {
@@ -176,8 +276,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('submit-everything').style.display = "block";
         }
     }
-
-    //previews image during sign-in user journey
+    //previews image with id profile_preview
     const imageUpload= document.getElementById('profile_picture');
     const previewPhoto = () => {
         const previewPic = imageUpload.files;
@@ -188,9 +287,97 @@ document.addEventListener("DOMContentLoaded", function() {
                 preview.setAttribute('src', event.target.result);
             }
             fileReader.readAsDataURL(previewPic[0]);
+            document.getElementById('current-image').style.display="none";
+            document.getElementById('profile_preview').style.display="inline-block";
+            document.getElementById('personal-update').style.display = "block";
         }
     }
     if (imageUpload) {
         imageUpload.addEventListener("change", previewPhoto);
     }
+
+    //EDITING PROFILE INFO
+    //Editing first name
+    function editFirst() {        
+        document.getElementById('first-name').readOnly =false;
+        document.getElementById('first-name-confirm').style.display = "inline-block";
+        document.getElementById('first-name-cancel').style.display = "inline-block";
+        if (!currentPersonal.firstName) {
+            currentPersonal.firstName = document.getElementById('first-name').value;
+        }
+    }
+    //Committing first name to field
+    function confirmFirst() {        
+        document.getElementById('first-name').readOnly = true;
+        document.getElementById('first-name-confirm').style.display = "none";
+        document.getElementById('personal-update').style.display = "block";
+    }
+    //Cancelling first name update
+    function cancelFirst() {        
+        document.getElementById('first-name').readOnly = true;
+        document.getElementById('first-name-confirm').style.display = "none";
+        document.getElementById('first-name-cancel').style.display = "none";
+        document.getElementById('first-name').value = currentPersonal.firstName;
+    }
+    //Editing last name
+    function editLast() {        
+        document.getElementById('last-name').readOnly =false;
+        document.getElementById('last-name-confirm').style.display = "inline-block";
+        document.getElementById('last-name-cancel').style.display = "inline-block";
+        if (!currentPersonal.lastName) {
+            currentPersonal.lastName = document.getElementById('last-name').value;
+        }
+    }
+    //Committing last name to field
+    function confirmLast() {        
+        document.getElementById('last-name').readOnly = true;
+        document.getElementById('last-name-confirm').style.display = "none";
+        document.getElementById('personal-update').style.display = "block";
+    }
+    //Cancelling last name update
+    function cancelLast() {        
+        document.getElementById('last-name').readOnly = true;
+        document.getElementById('last-name-confirm').style.display = "none";
+        document.getElementById('last-name-cancel').style.display = "none";
+        document.getElementById('last-name').value = currentPersonal.lastName;
+    }
+    //Editing email name
+    function editEmail() {        
+        document.getElementById('email').readOnly =false;
+        document.getElementById('email-confirm').style.display = "inline-block";
+        document.getElementById('email-cancel').style.display = "inline-block";
+        if (!currentPersonal.email) {
+            currentPersonal.email = document.getElementById('email').value;
+        }
+    }
+    //Committing email name to field
+    function confirmEmail() {        
+        document.getElementById('email').readOnly = true;
+        document.getElementById('email-confirm').style.display = "none";
+        document.getElementById('personal-update').style.display = "block";
+    }
+    //Cancelling email name update
+    function cancelEmail() {        
+        document.getElementById('email').readOnly = true;
+        document.getElementById('email-confirm').style.display = "none";
+        document.getElementById('email-cancel').style.display = "none";
+        document.getElementById('email').value = currentPersonal.email;
+    }
+    //editing profile picture
+    function editProfilePic() {
+        document.getElementById('profile_picture').style.display = "inline-block";
+        document.getElementById('profile-pic-cancel').style.display = "inline-block";
+    }
+    //cancel profile pic change 
+    function cancelProfilePic() {
+        document.getElementById('current-image').style.display="inline-block";
+        document.getElementById('profile_preview').style.display="none"; profile_picture
+        document.getElementById('profile_picture').value = "";
+        document.getElementById('profile_picture').style.display = "none";
+        document.getElementById('profile-pic-cancel').style.display = "none";
+    }
+
+
+
+
 });
