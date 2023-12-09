@@ -1,4 +1,5 @@
 //------------OBJECTS-------------//
+
 const currentPersonal = {
     firstName: "",
     lastName: "",
@@ -6,6 +7,7 @@ const currentPersonal = {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+
     //-------------EVENT LISTNERS--------------//
 
     //EVERYWHERE
@@ -25,15 +27,15 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-   //SIGN-IN FORM
-   //activate sign-in form
+    //SIGN-IN FORM
+    //activate sign-in form
     document.addEventListener("click", function(e){
         const target = e.target.closest("#singin-click");
         if(target){
             signInShow();
         }
     });
-    
+
     //SIGN-UP PROCESS
     //move on from part one of sign up process
     document.addEventListener("click", function(e){
@@ -77,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function() {
             addExperience();
         }
     });
-   
 
     //EDIT PERSONAL INFO
     //activate first name field + commit change button (use a tick / cross)
@@ -122,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cancelLast();
         }
     });
-
     //activate email name field + commit change button (use a tick / cross)
     document.addEventListener("click", function(e){
         const target = e.target.closest("#email-edit"); 
@@ -144,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cancelEmail();
         }
     });
-
     //activate image upload field
     document.addEventListener("click", function(e){
         const target = e.target.closest("#profile-pic-edit"); 
@@ -158,6 +157,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if(target){
             cancelProfilePic();
         }
+    });
+    //check image remove box
+    const checkbox = document.querySelector("input[name=delete_image]");
+
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('info-update').style.display = "block";
+        } 
     });
     
 
@@ -276,30 +283,33 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('submit-everything').style.display = "block";
         }
     }
-    //previews image with id profile_preview
-    const imageUpload= document.getElementById('profile_picture');
+    //previews images due for upload
+    const imageUpload= document.getElementById('uploaded-image');
     const previewPhoto = () => {
         const previewPic = imageUpload.files;
         if (previewPic) {
             const fileReader = new FileReader();
-            const preview = document.getElementById('profile_preview');
+            const preview = document.getElementById('image-preview');
             fileReader.onload = function (event) {
                 preview.setAttribute('src', event.target.result);
             }
             fileReader.readAsDataURL(previewPic[0]);
             document.getElementById('current-image').style.display="none";
-            document.getElementById('profile_preview').style.display="inline-block";
-            document.getElementById('personal-update').style.display = "block";
+            document.getElementById('image-preview').style.display="inline-block";
+            document.getElementById('info-update').style.display = "block";
         }
     }
     if (imageUpload) {
         imageUpload.addEventListener("change", previewPhoto);
     }
 
-    //EDITING PROFILE INFO
+    //EDITING PROFILE INFO    
     //Editing first name
     function editFirst() {        
         document.getElementById('first-name').readOnly =false;
+        document.getElementById('first-name-edit').style.display = "none";
+        document.getElementById('last-name-edit').style.display = "none";
+        document.getElementById('email-edit').style.display = "none";
         document.getElementById('first-name-confirm').style.display = "inline-block";
         document.getElementById('first-name-cancel').style.display = "inline-block";
         if (!currentPersonal.firstName) {
@@ -309,19 +319,30 @@ document.addEventListener("DOMContentLoaded", function() {
     //Committing first name to field
     function confirmFirst() {        
         document.getElementById('first-name').readOnly = true;
+        document.getElementById('first-name-edit').style.display = "inline-block";
+        document.getElementById('last-name-edit').style.display = "inline-block";
+        document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('first-name-confirm').style.display = "none";
-        document.getElementById('personal-update').style.display = "block";
+        document.getElementById('info-update').style.display = "block";
     }
     //Cancelling first name update
     function cancelFirst() {        
         document.getElementById('first-name').readOnly = true;
+        document.getElementById('first-name-edit').style.display = "inline-block";
+        document.getElementById('last-name-edit').style.display = "inline-block";
+        document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('first-name-confirm').style.display = "none";
         document.getElementById('first-name-cancel').style.display = "none";
-        document.getElementById('first-name').value = currentPersonal.firstName;
+        if (currentPersonal.firstName) {
+            document.getElementById('first-name').value = currentPersonal.firstName;
+        }
     }
     //Editing last name
     function editLast() {        
         document.getElementById('last-name').readOnly =false;
+        document.getElementById('first-name-edit').style.display = "none";
+        document.getElementById('last-name-edit').style.display = "none";
+        document.getElementById('email-edit').style.display = "none";
         document.getElementById('last-name-confirm').style.display = "inline-block";
         document.getElementById('last-name-cancel').style.display = "inline-block";
         if (!currentPersonal.lastName) {
@@ -331,19 +352,30 @@ document.addEventListener("DOMContentLoaded", function() {
     //Committing last name to field
     function confirmLast() {        
         document.getElementById('last-name').readOnly = true;
+        document.getElementById('first-name-edit').style.display = "inline-block";
+        document.getElementById('last-name-edit').style.display = "inline-block";
+        document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('last-name-confirm').style.display = "none";
-        document.getElementById('personal-update').style.display = "block";
+        document.getElementById('info-update').style.display = "block";
     }
     //Cancelling last name update
     function cancelLast() {        
         document.getElementById('last-name').readOnly = true;
+        document.getElementById('first-name-edit').style.display = "inline-block";
+        document.getElementById('last-name-edit').style.display = "inline-block";
+        document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('last-name-confirm').style.display = "none";
         document.getElementById('last-name-cancel').style.display = "none";
-        document.getElementById('last-name').value = currentPersonal.lastName;
+        if (currentPersonal.lastName) {
+            document.getElementById('last-name').value = currentPersonal.lastName;
+        }
     }
     //Editing email name
     function editEmail() {        
         document.getElementById('email').readOnly =false;
+        document.getElementById('first-name-edit').style.display = "none";
+        document.getElementById('last-name-edit').style.display = "none";
+        document.getElementById('email-edit').style.display = "none";
         document.getElementById('email-confirm').style.display = "inline-block";
         document.getElementById('email-cancel').style.display = "inline-block";
         if (!currentPersonal.email) {
@@ -351,33 +383,48 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     //Committing email name to field
-    function confirmEmail() {        
-        document.getElementById('email').readOnly = true;
-        document.getElementById('email-confirm').style.display = "none";
-        document.getElementById('personal-update').style.display = "block";
+    function confirmEmail() { 
+        let validEmail= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (document.getElementById('email').value.match(validEmail)){
+            document.getElementById('email').readOnly = true;
+            document.getElementById('form-alert').style.display = "none";
+            document.getElementById('first-name-edit').style.display = "inline-block";
+            document.getElementById('last-name-edit').style.display = "inline-block";
+            document.getElementById('email-edit').style.display = "inline-block";
+            document.getElementById('email-confirm').style.display = "none";
+            document.getElementById('info-update').style.display = "block";
+        } else {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "This e-mail address is not valid";
+        }
     }
     //Cancelling email name update
     function cancelEmail() {        
         document.getElementById('email').readOnly = true;
+        document.getElementById('form-alert').style.display = "none";
+        document.getElementById('first-name-edit').style.display = "inline-block";
+        document.getElementById('last-name-edit').style.display = "inline-block";
+        document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('email-confirm').style.display = "none";
         document.getElementById('email-cancel').style.display = "none";
-        document.getElementById('email').value = currentPersonal.email;
+        if (currentPersonal.lastName) {
+            document.getElementById('email').value = currentPersonal.email;
+        }
+
     }
     //editing profile picture
     function editProfilePic() {
-        document.getElementById('profile_picture').style.display = "inline-block";
+        document.getElementById('uploaded-image').style.display = "inline-block";
+        document.getElementById('profile-pic-edit').style.display = "none";
         document.getElementById('profile-pic-cancel').style.display = "inline-block";
     }
     //cancel profile pic change 
     function cancelProfilePic() {
+        document.getElementById('profile-pic-edit').style.display = "inline-block";
         document.getElementById('current-image').style.display="inline-block";
-        document.getElementById('profile_preview').style.display="none"; profile_picture
-        document.getElementById('profile_picture').value = "";
-        document.getElementById('profile_picture').style.display = "none";
+        document.getElementById('image-preview').style.display="none";
+        document.getElementById('uploaded-image').value = "";
+        document.getElementById('uploaded-image').style.display = "none";
         document.getElementById('profile-pic-cancel').style.display = "none";
     }
-
-
-
-
 });

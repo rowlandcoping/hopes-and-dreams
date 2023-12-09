@@ -46,13 +46,16 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def home():
-    if session.get("user_slug") is not None:
+    if session.get("user_id") is not None:
         return redirect(url_for("feed_dreamscape"))
     return render_template("landing.html")
 
 # the next three routes encompass the signup process
 @app.route("/dare-to-dream", methods=["GET","POST"])
 def signup():
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        return render_template("dreamscape.html", base_url=base_url, user=user_info)
     if request.method == "POST":
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
@@ -84,16 +87,17 @@ def signup():
         user_verify = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if user_verify:
-            session["user_slug"] = user_verify["user_slug"]
+            session["user_id"] = str(ObjectId(existing_user["_id"]))
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
         return render_template("signup.html")
     return render_template("signup.html")
+    
 
 @app.route("/be-confident", methods=["GET","POST"])
 def profile_upload():
-    if session.get("user_slug") is not None:
-        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         if request.method == "POST":
             uploaded_image = request.files['profile_picture']
             imgname= uploaded_image.filename.split(".", 1)[0]
@@ -112,7 +116,7 @@ def profile_upload():
                     "profilepic_alt": image_alt
                 }}
                 mongo.db.users.update_one(
-                    {"user_slug": user_info["user_slug"]}, profile_picture)
+                    {"_id": ObjectId(user_info["_id"])}, profile_picture)
                 return redirect(url_for("welcome"))
         return render_template("profile-submit.html", user=user_info)
     return redirect(url_for("home"))
@@ -120,8 +124,8 @@ def profile_upload():
 #welcome page (once profile complete)
 @app.route("/welcome")
 def welcome():
-    if session.get("user_slug") is not None:
-        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})    
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"user_id": ObjectId(session["user_id"])})    
         return render_template("welcome.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
     
@@ -137,7 +141,7 @@ def signin():
             {"email": request.form.get("email").lower()})
         if existing_user:
             if check_password_hash(existing_user["password"], request.form.get("password")):
-                session["user_slug"] = existing_user["user_slug"]
+                session["user_id"] = str(ObjectId(existing_user["_id"]))
                 return redirect(url_for("feed_dreamscape"))
             else:
                 flash("Username or Password not valid, please try again.")
@@ -149,39 +153,104 @@ def signin():
 
 @app.route("/dreamscape")
 def feed_dreamscape():
-    if session.get("user_slug") is not None:
-        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
 @app.route("/dreams")
 def dreams():
-    if session.get("user_slug") is not None:
-        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         return render_template("dreams.html", base_url=base_url,  user=user_info)
     return redirect(url_for("home"))
 
 @app.route("/profile-personal")
 def profile_personal():
-    if session.get("user_slug") is not None:
-        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
 @app.route("/site-preferences")
 def site_preferences():
-    if session.get("user_slug") is not None:
-        user_info = mongo.db.users.find_one({"user_slug": session["user_slug"]})  
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         return render_template("site-preferences.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
 @app.route("/logout")
 def log_out():
-    if session.get("user_slug") is not None:
+    if session.get("user_id") is not None:
         flash("It's been fun, don't you be a stranger now.")
-        session.pop("user_slug")
+        session.pop("user_id")
     return redirect(url_for("home"))
 
+@app.route("/edit_profile", methods=["GET", "POST"])
+def edit_profile():
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        if request.method == "POST":
+            first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
+            last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
+            user_string = str(first_submitted + "-" + last_submitted)
+            image_alt = (
+                    "Profile picture for " + request.form.get("first_name").capitalize() 
+                    + " " + request.form.get("last_name").capitalize())
+            if (user_string != user_info["user_string"]):
+                check_slug = list(mongo.db.users.find({"user_string": user_string}))
+                if (check_slug):
+                    user_number = str(len(check_slug)+1)
+                    user_slug = str(user_string + "-" + user_number)
+                else: 
+                    user_slug = user_string
+            else:
+                user_slug = user_string            
+            if request.files['profile_picture']:
+                uploaded_image = request.files['profile_picture']
+                imgname= uploaded_image.filename.split(".", 1)[0]
+                filename= str(imgname + "-" + str(user_info["_id"]))
+                converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                if (user_info.get("profile_picture") is not None) and (user_info.get("profile_picture")!=""):
+                    cloudinary.uploader.destroy(user_info["profile_picture"])               
+                cloudinary.uploader.upload(
+                    converted_image, public_id=filename, folder = "profile")  
+                profile_update = {"$set": {
+                    "first_name": request.form.get("first_name"),
+                    "last_name": request.form.get("last_name"),
+                    "user_string": user_string,
+                    "user_slug": user_slug,
+                    "email": request.form.get("email"),
+                    "profile_picture": filename,
+                    "profilepic_alt": image_alt
+                }}
+            elif request.form.get("delete_image"):
+                profile_update = {"$set": {
+                    "first_name": request.form.get("first_name"),
+                    "last_name": request.form.get("last_name"),
+                    "user_string": user_string,
+                    "user_slug": user_slug,
+                    "email": request.form.get("email"),
+                    "profile_picture": "",
+                    "profilepic_alt": ""
+            }}
+            else:
+                profile_update = {"$set": {
+                    "first_name": request.form.get("first_name"),
+                    "last_name": request.form.get("last_name"),
+                    "user_string": user_string,
+                    "user_slug": user_slug,
+                    "email": request.form.get("email"),
+                    "profilepic_alt": image_alt
+            }}
+            mongo.db.users.update_one(
+                    {"_id": ObjectId(user_info["_id"])}, profile_update)
+            user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+            flash("Profile Updated")
+        return render_template("profile-personal.html", base_url=base_url, user=user_info)
+    return redirect(url_for("home"))
+            
+            
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
