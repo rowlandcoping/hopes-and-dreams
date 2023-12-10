@@ -1,0 +1,42 @@
+{% extends 'main-template.html' %}
+
+{% block title %}
+Site Preferences - {{ (user.first_name + " " + user.last_name) | title }}
+{% endblock title %}
+
+{% block content %}
+<div class="page-menu">
+    <a href="{{ url_for('profile_personal') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('profile_personal') }}">
+        <h2>Personal Information</h2>
+    </a>
+    <a href="{{url_for('site_preferences') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('site_preferences') 
+    or url_for('interests_edit') or url_for('skills_edit') or url_for('experiences_edit')}}">
+        <h2>Site Preferences</h2>
+    </a>
+</div>
+<div class="not-displayed">
+    <label for="experiences">experiences: </label>
+    <input type="text"  id="initial-experiences" name="initial-experiences" value="{{ user.experiences }}" readonly required>
+    <input type="text" id="experiences" name="experiences" value="{{ user.experiences }}" readonly required>
+</div>
+<div id="individual-experiences">
+    {% with experiences = user.experiences.split(",") %}
+        {% if experiences %}                
+                {% for i in range(experiences|length) %}
+                    {% with id = "experiences" + "-" + i|string %}
+                        <div>                            
+                            <label for="experiences">Skill {{ i+1 }}</label>
+                            <input type="text" id="{{ id }}" name="{{ id }}" value="{{ experiences[i] }}" readonly required>
+                            <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                            <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                            <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                        <div>
+                    {% endwith %}
+                {% endfor %}
+        {% endif %}
+    {% endwith %}
+                        
+    <button type="submit" id="save-interests">Save Changes</button>
+    <a href="{{ url_for('site_preferences')}}">Clear Changes</span>
+</div>
+{% endblock content %}

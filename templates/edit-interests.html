@@ -1,0 +1,41 @@
+{% extends 'main-template.html' %}
+
+{% block title %}
+Site Preferences - {{ (user.first_name + " " + user.last_name) | title }}
+{% endblock title %}
+
+{% block content %}
+<div class="page-menu">
+    <a href="{{ url_for('profile_personal') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('profile_personal')  }}">
+        <h2>Personal Information</h2>
+    </a>
+    <a href="{{url_for('site_preferences') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('site_preferences') 
+    or url_for('interests_edit') or url_for('skills_edit') or url_for('experiences_edit')}}">
+        <h2>Site Preferences</h2>
+    </a>
+</div>
+<div class="not-displayed">
+    <input type="text" class="not-displayed" id="initial-interests" name="initial-interests" value="{{ user.interests }}" readonly required>
+    <label for="interests">Interests: </label>
+    <input type="text" id="interests" name="interests" value="{{ user.interests }}" readonly required>
+</div>
+<div id="individual-interests">
+    {% with interests = user.interests.split(",") %}
+        {% if interests %}                
+                {% for i in range(interests|length) %}
+                    {% with id = "interests" + "-" + i|string %}
+                        <div>                            
+                        <label for="interest">Interest {{ i+1 }}</label>
+                        <input type="text" id="{{ id }}" name="{{ id }}" value="{{ interests[i] }}" readonly required>
+                        <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                        <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                        <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                        <div>
+                    {% endwith %}
+                {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <button type="submit" id="save-interests">Save Changes</button>
+    <a href="{{ url_for('site_preferences')}}">Clear Changes</span>
+</div>
+{% endblock content %}

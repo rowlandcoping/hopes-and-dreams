@@ -11,6 +11,7 @@ from flask import (
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+
 if os.path.exists("env.py"):
     import env
 
@@ -54,7 +55,7 @@ def home():
 @app.route("/dare-to-dream", methods=["GET","POST"])
 def signup():
     if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        user_info = list(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     if request.method == "POST":
         existing_user = mongo.db.users.find_one(
@@ -125,7 +126,7 @@ def profile_upload():
 @app.route("/welcome")
 def welcome():
     if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"user_id": ObjectId(session["user_id"])})    
+        user_info = list(mongo.db.users.find_one({"user_id": ObjectId(session["user_id"])}))
         return render_template("welcome.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
     
@@ -154,7 +155,7 @@ def signin():
 @app.route("/dreamscape")
 def feed_dreamscape():
     if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}) )
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
@@ -165,31 +166,10 @@ def dreams():
         return render_template("dreams.html", base_url=base_url,  user=user_info)
     return redirect(url_for("home"))
 
-@app.route("/profile-personal")
+@app.route("/profile-personal", methods=["GET", "POST"])
 def profile_personal():
     if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
-        return render_template("profile-personal.html", base_url=base_url, user=user_info)
-    return redirect(url_for("home"))
-
-@app.route("/site-preferences")
-def site_preferences():
-    if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
-        return render_template("site-preferences.html", base_url=base_url, user=user_info)
-    return redirect(url_for("home"))
-
-@app.route("/logout")
-def log_out():
-    if session.get("user_id") is not None:
-        flash("It's been fun, don't you be a stranger now.")
-        session.pop("user_id")
-    return redirect(url_for("home"))
-
-@app.route("/edit_profile", methods=["GET", "POST"])
-def edit_profile():
-    if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        user_info = user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         if request.method == "POST":
             first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
             last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
@@ -249,7 +229,48 @@ def edit_profile():
             flash("Profile Updated")
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
-            
+
+@app.route("/site-preferences")
+def site_preferences():
+    if session.get("user_id") is not None:
+        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        return render_template("site-preferences.html", base_url=base_url, user=user_info)    
+    return redirect(url_for("home"))
+
+@app.route("/edit-interests", methods=["GET", "POST"])
+def interests_edit():
+    if session.get("user_id") is not None:
+        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        return render_template("edit-interests.html", base_url=base_url, user=user_info)    
+    return redirect(url_for("home"))
+
+@app.route("/edit-skills", methods=["GET", "POST"])
+def skills_edit():
+    if session.get("user_id") is not None:
+        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        return render_template("edit-skills.html", base_url=base_url, user=user_info)    
+    return redirect(url_for("home"))
+
+@app.route("/edit-experiences", methods=["GET", "POST"])
+def experiences_edit():
+    if session.get("user_id") is not None:
+        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        return render_template("edit-experiences.html", base_url=base_url, user=user_info)    
+    return redirect(url_for("home"))
+
+def users_edit():
+    if session.get("user_id") is not None:
+        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        return render_template("edit-preferences.html", base_url=base_url, user=user_info)    
+    return redirect(url_for("home"))
+
+@app.route("/logout")
+def log_out():
+    if session.get("user_id") is not None:
+        flash("It's been fun, don't you be a stranger now.")
+        session.pop("user_id")
+    return redirect(url_for("home"))
+
             
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

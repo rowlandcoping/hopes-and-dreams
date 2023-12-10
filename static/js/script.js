@@ -6,6 +6,12 @@ const currentPersonal = {
     email:""
 }
 
+const currentInfo = {
+    interests:"",
+    skills:"",
+    experiences:""
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
     //-------------EVENT LISTNERS--------------//
@@ -160,12 +166,32 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     //check image remove box
     const checkbox = document.querySelector("input[name=delete_image]");
+    if (checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('info-update').style.display = "block";
+            }
+        });
+    }
 
-    checkbox.addEventListener('change', function() {
-        if (this.checked) {
-            document.getElementById('info-update').style.display = "block";
-        } 
+    //Edit Preferences
+    /*
+    //select edit interests to reveal the fields for different interests
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#interests-edit"); 
+        if(target){
+            editInterests();
+        }
     });
+    //select edit skills to reveal the fields for different skills
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#skills-edit"); 
+        if(target){
+            editSkills();
+        }
+    });
+    */
+
     
 
     //------------ACTIONS-------------//
@@ -426,5 +452,75 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('uploaded-image').value = "";
         document.getElementById('uploaded-image').style.display = "none";
         document.getElementById('profile-pic-cancel').style.display = "none";
+    }
+
+    //Edit site preferences
+
+    //cancels changes and reverts to overview
+    /*
+    function cancelInterests() {
+        document.getElementById('individual-interests').style.display="none";
+        document.getElementById('select-edit-section').style.display="block";
+        document.getElementById('interests').value = document.getElementById("initial-interests").value;
+    }
+    //reveal list of interests to edit, and create all the functionality actually
+    
+    function editInterests() {
+        //prepare DOM
+        document.getElementById('individual-interests').style.display="block";
+        document.getElementById('select-edit-section').style.display="none";
+        //Create Array of values
+        const interests = document.getElementById('initial-interests').value.split(',');
+        //save current interests value to object
+        currentInfo.interests = interests;
+        //create event listners for each interests element, pull ID and pass it to the function        
+        const attachInterests= Array.from(document.getElementsByClassName('an-interest'));
+        attachInterests.forEach(item => {
+            item.addEventListener('click', function handleClick(event) {
+                const itemId = item.getAttribute('id');                
+                updateSection(itemId);
+            });
+        });        
+    }
+    */
+    const attachPreferenceListners= Array.from(document.getElementsByClassName('a-preference'));
+    attachPreferenceListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            updateSection(itemId);
+        });
+    });
+
+    //handle the click
+    function updateSection(itemId) {
+        const selectedSection = itemId.split('-')[0];
+        const selectedIndex = Number(itemId.split('-')[1]);        
+        const selectedOption = itemId.split('-')[2];
+        const selectedElement = selectedSection + "-" + selectedIndex;
+        const initialArray = document.getElementById("initial-" + selectedSection).value.split(',');       
+        currentInfo.selectedSection = initialArray;
+        if (selectedOption == "edit") {
+            document.getElementById(selectedElement).readOnly =false;
+            document.getElementById(itemId).style.display = "none";
+            document.getElementById(selectedElement + '-confirm').style.display = "inline-block";
+            document.getElementById(selectedElement + '-cancel').style.display = "inline-block";
+        }
+        if (selectedOption == "confirm") {
+            document.getElementById(selectedElement).readOnly = true;
+            document.getElementById(selectedElement + '-edit').style.display = "inline-block";
+            document.getElementById(itemId).style.display = "none";
+            const preferenceArray = currentInfo.selectedSection;
+            preferenceArray[selectedIndex] = document.getElementById(selectedElement).value;
+            document.getElementById(selectedSection).value = preferenceArray;
+        }
+        if (selectedOption == "cancel") {
+            document.getElementById(selectedElement).readOnly = true;
+            document.getElementById(selectedElement + '-edit').style.display = "inline-block";
+            document.getElementById(itemId).style.display = "none";
+            document.getElementById(selectedElement + '-confirm').style.display = "none";
+            currentInfo.selectedSection = document.getElementById("initial-" + selectedSection).value.split(',');
+            document.getElementById(selectedElement).value = currentInfo.selectedSection[selectedIndex];
+            document.getElementById(selectedSection).value = currentInfo.selectedSection;
+        }
     }
 });
