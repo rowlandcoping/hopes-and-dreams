@@ -169,7 +169,7 @@ def dreams():
 @app.route("/profile-personal", methods=["GET", "POST"])
 def profile_personal():
     if session.get("user_id") is not None:
-        user_info = user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         if request.method == "POST":
             first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
             last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
@@ -233,34 +233,13 @@ def profile_personal():
 @app.route("/site-preferences")
 def site_preferences():
     if session.get("user_id") is not None:
-        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         return render_template("site-preferences.html", base_url=base_url, user=user_info)    
-    return redirect(url_for("home"))
-
-@app.route("/edit-interests", methods=["GET", "POST"])
-def interests_edit():
-    if session.get("user_id") is not None:
-        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
-        return render_template("edit-interests.html", base_url=base_url, user=user_info)    
-    return redirect(url_for("home"))
-
-@app.route("/edit-skills", methods=["GET", "POST"])
-def skills_edit():
-    if session.get("user_id") is not None:
-        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
-        return render_template("edit-skills.html", base_url=base_url, user=user_info)    
-    return redirect(url_for("home"))
-
-@app.route("/edit-experiences", methods=["GET", "POST"])
-def experiences_edit():
-    if session.get("user_id") is not None:
-        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
-        return render_template("edit-experiences.html", base_url=base_url, user=user_info)    
     return redirect(url_for("home"))
 
 def users_edit():
     if session.get("user_id") is not None:
-        user_info = user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
         return render_template("edit-preferences.html", base_url=base_url, user=user_info)    
     return redirect(url_for("home"))
 

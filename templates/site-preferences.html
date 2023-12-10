@@ -5,59 +5,92 @@ Site Preferences - {{ (user.first_name + " " + user.last_name) | title }}
 {% endblock title %}
 
 {% block content %}
-<div class="page-menu">
-    <a href="{{ url_for('profile_personal') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('profile_personal') }}">
-        <h2>Personal Information</h2>
-    </a>
-    <a href="{{url_for('site_preferences') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('site_preferences') }}">
-        <h2>Site Preferences</h2>
-    </a>
-</div>
-<div>
-    <div id="select-edit-section">
-        <div>
-            <input type="text" class="not-displayed" id="initial-interests" name="initial-interests" value="{{ user.interests }}" readonly required>
-            <label for="interests">Interests: </label>
-            <input type="text" id="interests" name="interests" value="{{ user.interests }}" readonly required>
-            <a href="{{ url_for('interests_edit') }}"><i class="fas fa-edit"></i></a>
+    <div class="page-menu">
+        <a href="{{ url_for('profile_personal') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('profile_personal') }}">
+            <h2>Personal Information</h2>
+        </a>
+        <a href="{{url_for('site_preferences') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('site_preferences') }}">
+            <h2>Site Preferences</h2>
+        </a>
+    </div>
+    <div>
+        <div id="select-edit-section">
+            <div>
+                <input type="text" class="not-displayed" id="initial-interests" name="initial-interests" value="{{ user.interests }}" readonly required>
+                <label for="interests">Interests: </label>
+                <input type="text" id="interests" name="interests" value="{{ user.interests }}" readonly required>
+                <span id="interests-edit"><i class="fas fa-edit"></i></span>
+            </div>
+            <div>
+                <label for="skills">Skills: </label>
+                <input type="text" class="not-displayed" id="initial-skills" name="initial-skills" value="{{ user.skills }}" readonly required>
+                <input type="text" id="skills" name="skills" value="{{ user.skills }}" readonly required>
+                <span id="skills-edit"><i class="fas fa-edit"></i></span>
+            </div>
+            <div>
+                <label for="experiences">Experiences: </label>
+                <input type="text"  class="not-displayed" id="initial-experiences" name="initial-experiences" value="{{ user.experiences }}" readonly required>
+                <input type="text" id="experiences" name="experiences" value="{{ user.experiences }}" readonly required>
+                <span id="experiences-edit"><i class="fas fa-edit"></i></span>
+            </div>
+            <h3 class="red-text not-displayed" id="form-alert"></h3>
         </div>
-        <div>
-            <label for="skills">Skills: </label>
-            <input type="text" class="not-displayed" id="initial-skills" name="initial-skills" value="{{ user.skills }}" readonly required>
-            <input type="text" id="skills" name="skills" value="{{ user.skills }}" readonly required>
-            <a href="{{ url_for('skills_edit') }}"><i class="fas fa-edit"></i></a>
+        <div id="individual-interests" class="not-displayed">
+            {% with interests = user.interests.split(",") %}
+                {% if interests %}                
+                        {% for i in range(interests|length) %}
+                            {% with id = "interests" + "-" + i|string %}
+                                <div>                            
+                                <label for="interest">Interest {{ i+1 }}</label>
+                                <input type="text" id="{{ id }}" name="{{ id }}" value="{{ interests[i] }}" readonly required>
+                                <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                {% endif %}
+            {% endwith %}
         </div>
-        <div>
-            <label for="experiences">Experiences: </label>
-            <input type="text" id="experiences" name="experiences" value="{{ user.experiences }}" readonly required>
-            <a href="{{ url_for('experiences_edit') }}"><i class="fas fa-edit"></i></a>
+        <div id="individual-skills" class="not-displayed">
+            {% with skills = user.skills.split(",") %}
+                {% if skills %}                
+                        {% for i in range(skills|length) %}
+                            {% with id = "skills" + "-" + i|string %}
+                                <div>                            
+                                    <label for="skills">Skill {{ i+1 }}</label>
+                                    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ skills[i] }}" readonly required>
+                                    <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                    <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                    <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                {% endif %}
+            {% endwith %}
         </div>
-        <h3 class="red-text not-displayed" id="form-alert"></h3>
+        <div id="individual-experiences" class="not-displayed">
+            {% with experiences = user.experiences.split(",") %}
+                {% if experiences %}                
+                        {% for i in range(experiences|length) %}
+                            {% with id = "experiences" + "-" + i|string %}
+                                <div>                            
+                                    <label for="experiences">Skill {{ i+1 }}</label>
+                                    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ experiences[i] }}" readonly required>
+                                    <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                    <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                    <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        <div id="preference-options" class="not-displayed">
+            <button type="submit">Save Changes</button>
+            <a href="{{ url_for('site_preferences')}}">Clear Changes</span></a>
+        </div>
+        <a href="{{ url_for('log_out') }}">Log Out</a>
     </div>
     
-    <div id="individual-skills" class="not-displayed">
-        {% with skills = user.skills.split(",") %}
-            {% if skills %}                
-                    {% for i in range(skills|length) %}
-                        {% with id = "skills" + "-" + i|string %}
-                            <div>                            
-                                <label for="skills">Skill {{ i+1 }}</label>
-                                <input type="text" id="{{ id }}" name="{{ id }}" value="{{ skills[i] }}" readonly required>
-                                <span id="{{ id }}-edit" class="a-skill"><i class="fas fa-edit "></i></span>
-                                <span id="{{ id }}-confirm" class="not-displayed a-skill"><i class="fa-solid fa-check"></i></span>
-                                <span id="{{ id }}-cancel" class="not-displayed a-skill"><i class="fa-solid fa-xmark"></i></span>
-                            <div>
-                        {% endwith %}
-                    {% endfor %}
-            {% endif %}
-        {% endwith %}
-                            
-        <button type="submit" id="save-skills">Save Changes</button>
-        <span id="cancel-skills">Clear Changes</span>
-    </div>
-</div>
-<a href="{{ url_for('log_out') }}">Log Out</a>
-
-
-
 {% endblock content %}

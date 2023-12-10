@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     //Edit Preferences
-    /*
+    
     //select edit interests to reveal the fields for different interests
     document.addEventListener("click", function(e){
         const target = e.target.closest("#interests-edit"); 
@@ -190,7 +190,19 @@ document.addEventListener("DOMContentLoaded", function() {
             editSkills();
         }
     });
-    */
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#skills-edit"); 
+        if(target){
+            editSkills();
+        }
+    });
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#experiences-edit"); 
+        if(target){
+            editExperiences();
+        }
+    });
+  
 
     
 
@@ -454,35 +466,27 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('profile-pic-cancel').style.display = "none";
     }
 
-    //Edit site preferences
-
-    //cancels changes and reverts to overview
-    /*
-    function cancelInterests() {
-        document.getElementById('individual-interests').style.display="none";
-        document.getElementById('select-edit-section').style.display="block";
-        document.getElementById('interests').value = document.getElementById("initial-interests").value;
-    }
-    //reveal list of interests to edit, and create all the functionality actually
-    
+    //EDIT SITE PREFERENCES
+    //reveal list of skills to edit    
     function editInterests() {
         //prepare DOM
+        document.getElementById('preference-options').style.display="block";
         document.getElementById('individual-interests').style.display="block";
-        document.getElementById('select-edit-section').style.display="none";
-        //Create Array of values
-        const interests = document.getElementById('initial-interests').value.split(',');
-        //save current interests value to object
-        currentInfo.interests = interests;
-        //create event listners for each interests element, pull ID and pass it to the function        
-        const attachInterests= Array.from(document.getElementsByClassName('an-interest'));
-        attachInterests.forEach(item => {
-            item.addEventListener('click', function handleClick(event) {
-                const itemId = item.getAttribute('id');                
-                updateSection(itemId);
-            });
-        });        
+        document.getElementById('select-edit-section').style.display="none";     
     }
-    */
+    function editSkills() {
+        //prepare DOM
+        document.getElementById('preference-options').style.display="block";
+        document.getElementById('individual-skills').style.display="block";
+        document.getElementById('select-edit-section').style.display="none";     
+    }
+    function editExperiences() {
+        //prepare DOM
+        document.getElementById('preference-options').style.display="block";
+        document.getElementById('individual-experiences').style.display="block";
+        document.getElementById('select-edit-section').style.display="none";     
+    }
+    //attach event listners to all the edit buttons
     const attachPreferenceListners= Array.from(document.getElementsByClassName('a-preference'));
     attachPreferenceListners.forEach(item => {
         item.addEventListener('click', function handleClick(event) {
