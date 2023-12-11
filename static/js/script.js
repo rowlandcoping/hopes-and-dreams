@@ -176,6 +176,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //Edit Preferences
     
+    //attach event listners to all the edit buttons
+    const attachPreferenceListners= Array.from(document.getElementsByClassName('a-preference'));
+    attachPreferenceListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            updateSection(itemId);
+        });
+    });
     //select edit interests to reveal the fields for different interests
     document.addEventListener("click", function(e){
         const target = e.target.closest("#interests-edit"); 
@@ -191,20 +199,53 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     document.addEventListener("click", function(e){
-        const target = e.target.closest("#skills-edit"); 
-        if(target){
-            editSkills();
-        }
-    });
-    document.addEventListener("click", function(e){
         const target = e.target.closest("#experiences-edit"); 
         if(target){
             editExperiences();
         }
     });
-  
-
-    
+    //view add interest field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-new-interest"); 
+        if(target){
+            document.getElementById('add-interest-field').style.display = "inline-block";
+        }
+    });
+    //add another interest
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-this-interest"); 
+        if(target){
+            addAnInterest();
+        }
+    });
+    //view add skill field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-new-skill"); 
+        if(target){
+            document.getElementById('add-skill-field').style.display = "inline-block";
+        }
+    });
+    //add another skill
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-this-skill"); 
+        if(target){
+            addNewSkill();
+        }
+    });
+     //view add experience field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-new-experience"); 
+        if(target){
+            document.getElementById('add-experience-field').style.display = "inline-block";
+        }
+    });
+    //add another experience
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-this-experience"); 
+        if(target){
+            addNewExperience();
+        }
+    });
 
     //------------ACTIONS-------------//
     
@@ -445,10 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('email-confirm').style.display = "none";
         document.getElementById('email-cancel').style.display = "none";
-        if (currentPersonal.lastName) {
-            document.getElementById('email').value = currentPersonal.email;
-        }
-
+        document.getElementById('email').value = currentPersonal.email;
     }
     //editing profile picture
     function editProfilePic() {
@@ -486,22 +524,13 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('individual-experiences').style.display="block";
         document.getElementById('select-edit-section').style.display="none";     
     }
-    //attach event listners to all the edit buttons
-    const attachPreferenceListners= Array.from(document.getElementsByClassName('a-preference'));
-    attachPreferenceListners.forEach(item => {
-        item.addEventListener('click', function handleClick(event) {
-            const itemId = item.getAttribute('id');                
-            updateSection(itemId);
-        });
-    });
-
-    //handle the click
+    //handle the click to update the selected section.
     function updateSection(itemId) {
         const selectedSection = itemId.split('-')[0];
         const selectedIndex = Number(itemId.split('-')[1]);        
         const selectedOption = itemId.split('-')[2];
         const selectedElement = selectedSection + "-" + selectedIndex;
-        const initialArray = document.getElementById("initial-" + selectedSection).value.split(',');       
+        const initialArray = document.getElementById("initial-" + selectedSection).value.split(',');
         currentInfo.selectedSection = initialArray;
         if (selectedOption == "edit") {
             document.getElementById(selectedElement).readOnly =false;
@@ -510,21 +539,124 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(selectedElement + '-cancel').style.display = "inline-block";
         }
         if (selectedOption == "confirm") {
-            document.getElementById(selectedElement).readOnly = true;
-            document.getElementById(selectedElement + '-edit').style.display = "inline-block";
-            document.getElementById(itemId).style.display = "none";
-            const preferenceArray = currentInfo.selectedSection;
-            preferenceArray[selectedIndex] = document.getElementById(selectedElement).value;
-            document.getElementById(selectedSection).value = preferenceArray;
+            let newPreference = document.getElementById(selectedElement).value.toLowerCase();
+            if (newPreference.match(/\d/)) {
+                document.getElementById('form-alert').style.display = "block";
+                document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
+            } else if (newPreference.match(/[.!#$%;@&'*+/=?^_`{|}~]/)) {
+                document.getElementById('form-alert').style.display = "block";
+                document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
+            } else {
+                document.getElementById(selectedElement).readOnly = true;
+                document.getElementById(selectedElement + '-edit').style.display = "inline-block";
+                document.getElementById(itemId).style.display = "none";
+                document.getElementById('form-alert').style.display = "none";
+                arrayUpdate = document.getElementById(selectedSection).value.split(',')
+                arrayUpdate[selectedIndex] = document.getElementById(selectedElement).value;
+                document.getElementById(selectedSection).value = arrayUpdate;
+            }
         }
         if (selectedOption == "cancel") {
             document.getElementById(selectedElement).readOnly = true;
             document.getElementById(selectedElement + '-edit').style.display = "inline-block";
+            document.getElementById(selectedElement + '-delete').style.display = "inline-block";
             document.getElementById(itemId).style.display = "none";
             document.getElementById(selectedElement + '-confirm').style.display = "none";
-            currentInfo.selectedSection = document.getElementById("initial-" + selectedSection).value.split(',');
-            document.getElementById(selectedElement).value = currentInfo.selectedSection[selectedIndex];
-            document.getElementById(selectedSection).value = currentInfo.selectedSection;
+            document.getElementById(selectedElement).value = initialArray[selectedIndex];
+            document.getElementById(selectedSection).value = initialArray;
+            document.getElementById('form-alert').style.display = "none";
+        }
+        if (selectedOption == "delete") {
+            document.getElementById(selectedElement).readOnly = true;            
+            if (document.getElementById(selectedElement).style.textDecoration == "") {
+                document.getElementById(selectedElement).style.textDecoration = "line-through";
+            } else if (document.getElementById(selectedElement).style.textDecoration == "line-through") {
+                document.getElementById(selectedElement).style.textDecoration = "";
+            } 
         }
     }
+    //Add an interest
+
+    function addAnInterest() {
+        let newInterest = document.getElementById('new-interest-add').value.toLowerCase();
+        let currentInterests= document.getElementById("interests").value.split(',');
+        if (newInterest.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
+        } else if (newInterest.match(/[.!#$%;@&'*+/=?^_`{|}~]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
+        } else if (newInterest == "") {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
+        } else {
+            currentInterests.push(newInterest);
+            document.getElementById("interests").value = currentInterests;
+            let newDiv = document.createElement("div");
+            newDiv.className="new-interest";
+            newDiv.innerHTML=newInterest;
+            document.getElementById("new-interests").append(newDiv);
+            document.getElementById('new-interest-add').value = "";
+            document.getElementById('new-interests-title').style.display="block";
+            const addLine = document.getElementsByClassName('profile-update');
+            for (let i = 0; i < addLine.length; i++) {
+                addLine[i].style.display = "block";
+            }
+        }
+    }
+    function addNewSkill() {
+        let newSkill = document.getElementById('new-skill-add').value.toLowerCase();
+        let currentSkills= document.getElementById("skills").value.split(',');
+        if (newSkill.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Skill should not include numbers";
+        } else if (newSkill.match(/[^a-z -A-Z]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Skill should not contain special characters";
+        } else if (newSkill == "") {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
+        } else {
+            currentSkills.push(newSkill);
+            document.getElementById("skills").value = currentSkills;
+            let newDiv = document.createElement("div");
+            newDiv.className="new-skill";
+            newDiv.innerHTML=newSkill;
+            document.getElementById("new-skills").append(newDiv);
+            document.getElementById('new-skill-add').value = "";
+            document.getElementById('new-skills-title').style.display="block";
+            const addLine = document.getElementsByClassName('profile-update');
+            for (let i = 0; i < addLine.length; i++) {
+                addLine[i].style.display = "block";
+            }
+        }
+    }
+    function addNewExperience() {
+        let newExperience = document.getElementById('new-experience-add').value.toLowerCase();
+        let currentExperiences= document.getElementById("experiences").value.split(',');
+        if (newExperience.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Experience should not include numbers";
+        } else if (newExperience.match(/[^a-z -A-Z]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Experience should not contain special characters";
+        } else if (newExperience == "") {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
+        } else {
+            currentExperiences.push(newExperience);
+            document.getElementById("experiences").value = currentExperiences;
+            let newDiv = document.createElement("div");
+            newDiv.className="new-experience";
+            newDiv.innerHTML=newExperience;
+            document.getElementById("new-experiences").append(newDiv);
+            document.getElementById('new-experience-add').value = "";
+            document.getElementById('new-experiences-title').style.display="block";
+            const addLine = document.getElementsByClassName('profile-update');
+            for (let i = 0; i < addLine.length; i++) {
+                addLine[i].style.display = "block";
+            }       
+        }
+    }
+    
 });

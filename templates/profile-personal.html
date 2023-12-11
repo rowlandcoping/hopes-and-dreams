@@ -59,7 +59,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
         </div>
         <span id="info-update" class="not-displayed">
             <button type="submit" id="save-button">Save Changes</button>
-            <span id="cancel-button">Clear Changes</span>        
+            <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
         </span>
             
     </form>
