@@ -225,16 +225,58 @@ def profile_personal():
             }}
             mongo.db.users.update_one(
                     {"_id": ObjectId(user_info["_id"])}, profile_update)
-            user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
             flash("Profile Updated")
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
-@app.route("/site-preferences")
+@app.route("/site-preferences", methods=["GET", "POST"])
 def site_preferences():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        return render_template("site-preferences.html", base_url=base_url, user=user_info)    
+        if request.method == "POST":
+            interests = request.form.get("interests")
+            skills = request.form.get("skills")
+            experiences = request.form.get("experiences")
+            interests = interests.split(",")
+            delete_interests = []
+            for i in range(len(interests)):                
+                if request.form.get("interests-"+ str(i) +"-delete"):
+                    delete_interests.append(i)
+            interest_deletions=sorted(delete_interests, reverse=True)
+            for i in interest_deletions:
+                if i < len(interests):
+                    interests.pop(i)
+            skills = skills.split(",")
+            delete_skills = []
+            for i in range(len(skills)):                
+                if request.form.get("skills-"+ str(i) +"-delete"):
+                    delete_skills.append(i)
+            skill_deletions=sorted(delete_skills, reverse=True)
+            for i in skill_deletions:
+                if i < len(skills):
+                    skills.pop(i)
+            experiences = experiences.split(",")
+            delete_experiences = []
+            for i in range(len(experiences)):                
+                if request.form.get("experiences-"+ str(i) +"-delete"):
+                    delete_experiences.append(i)
+            experience_deletions=sorted(delete_experiences, reverse=True)
+            for i in experience_deletions:
+                if i < len(experiences):
+                    experiences.pop(i)
+            interests = ','.join(interests)
+            skills = ','.join(skills)
+            experiences = ','.join(experiences)
+            preferences_update = {"$set": {
+                    "interests": interests,
+                    "skills": skills,
+                    "experiences": experiences
+            }}
+            mongo.db.users.update_one(
+                    {"_id": ObjectId(user_info["_id"])}, preferences_update)
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            return render_template("site-preferences.html", base_url=base_url, user=user_info)
+        return render_template("site-preferences.html", base_url=base_url, user=user_info)  
     return redirect(url_for("home"))
 
 def users_edit():

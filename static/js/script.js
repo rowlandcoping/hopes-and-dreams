@@ -296,9 +296,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (interest.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
-        } else if (interest.match(/[^a-z -A-Z]/)) {
+        } else if (interest.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
             document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
+            document.getElementById('form-alert').innerHTML = "Interest should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
         } else {
             interests.push(interest)
         }
@@ -322,9 +322,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (skill.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Skill should not include numbers";
-        } else if (skill.match(/[^a-z -A-Z]/)) {
+        } else if (skill.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
             document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Skill should not contain special characters";
+            document.getElementById('form-alert').innerHTML = "Skill should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
         } else {
             skills.push(skill)
         }
@@ -348,9 +348,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (experience.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "experience should not include numbers";
-        } else if (experience.match(/[^a-z -A-Z]/)) {
+        } else if (experience.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
             document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "experience should not contain special characters";
+            document.getElementById('form-alert').innerHTML = "experience should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
         } else {
             experiences.push(experience)
         }
@@ -543,9 +543,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (newPreference.match(/\d/)) {
                 document.getElementById('form-alert').style.display = "block";
                 document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
-            } else if (newPreference.match(/[.!#$%;@&'*+/=?^_`{|}~]/)) {
+            } else if (newPreference.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
                 document.getElementById('form-alert').style.display = "block";
-                document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
+                document.getElementById('form-alert').innerHTML = "Interest should not contain special characters<br>Use a hyphen instead of spaces!";
             } else {
                 document.getElementById(selectedElement).readOnly = true;
                 document.getElementById(selectedElement + '-edit').style.display = "inline-block";
@@ -576,16 +576,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     //Add an interest
-
     function addAnInterest() {
         let newInterest = document.getElementById('new-interest-add').value.toLowerCase();
         let currentInterests= document.getElementById("interests").value.split(',');
         if (newInterest.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
-        } else if (newInterest.match(/[.!#$%;@&'*+/=?^_`{|}~]/)) {
+        } else if (newInterest.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
             document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Interest should not contain special characters";
+            document.getElementById('form-alert').innerHTML = "Interest should not contain special characters.<br>Use a hyphen instead of spaces!";
         } else if (newInterest == "") {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
@@ -610,9 +609,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (newSkill.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Skill should not include numbers";
-        } else if (newSkill.match(/[^a-z -A-Z]/)) {
+        } else if (newSkill.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
             document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Skill should not contain special characters";
+            document.getElementById('form-alert').innerHTML = "Skill should not contain special characters. <br>Use a hyphen instead of spaces!";
         } else if (newSkill == "") {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
@@ -637,9 +636,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (newExperience.match(/\d/)) {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "Experience should not include numbers";
-        } else if (newExperience.match(/[^a-z -A-Z]/)) {
+        } else if (newExperience.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
             document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Experience should not contain special characters";
+            document.getElementById('form-alert').innerHTML = "Experience should not contain special characters. <br>Use a hyphen instead of spaces!";
         } else if (newExperience == "") {
             document.getElementById('form-alert').style.display = "block";
             document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";

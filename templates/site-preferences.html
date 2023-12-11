@@ -14,146 +14,149 @@ Site Preferences - {{ (user.first_name + " " + user.last_name) | title }}
         </a>
     </div>
     <div>
-        <div id="select-edit-section">
-            <div>
-                <input type="text" class="not-displayed" id="initial-interests" name="initial-interests" value="{{ user.interests }}" readonly required>
-                <label for="interests">Interests: </label>
-                <input type="text" id="interests" name="interests" value="{{ user.interests }}" readonly required>
-                <span id="interests-edit"><i class="fas fa-edit"></i></span>
+        <form action="{{ url_for('site_preferences') }}" method="POST" name="preferences-update" enctype="multipart/form-data">
+            <div id="select-edit-section">
+                <div>
+                    <input type="text" class="not-displayed" id="initial-interests" name="initial-interests" value="{{ user.interests }}" readonly required>
+                    <label for="interests">Interests: </label>
+                    <input type="text" id="interests" name="interests" value="{{ user.interests }}" readonly required>
+                    <span id="interests-edit"><i class="fas fa-edit"></i></span>
+                </div>
+                <div>
+                    <label for="skills">Skills: </label>
+                    <input type="text" class="not-displayed" id="initial-skills" name="initial-skills" value="{{ user.skills }}" readonly required>
+                    <input type="text" id="skills" name="skills" value="{{ user.skills }}" readonly required>
+                    <span id="skills-edit"><i class="fas fa-edit"></i></span>
+                </div>
+                <div>
+                    <label for="experiences">Experiences: </label>
+                    <input type="text"  class="not-displayed" id="initial-experiences" name="initial-experiences" value="{{ user.experiences }}" readonly required>
+                    <input type="text" id="experiences" name="experiences" value="{{ user.experiences }}" readonly required>
+                    <span id="experiences-edit"><i class="fas fa-edit"></i></span>
+                </div>
             </div>
-            <div>
-                <label for="skills">Skills: </label>
-                <input type="text" class="not-displayed" id="initial-skills" name="initial-skills" value="{{ user.skills }}" readonly required>
-                <input type="text" id="skills" name="skills" value="{{ user.skills }}" readonly required>
-                <span id="skills-edit"><i class="fas fa-edit"></i></span>
+        
+
+
+            <h3 class="red-text not-displayed preferences-section" id="form-alert"></h3>
+
+            <div id="individual-interests" class="not-displayed preferences-section">
+                <span id="add-new-interest">
+                    <h3>Add New Interest <i class="fas fa-plus "></i></h3>
+                </span>
+                <span id="add-interest-field" class="not-displayed">
+                    <label for="new-interest-add">Add an interest: </label><input type="text" id="new-interest-add" name="new-interest-add" width="40%">
+                    <i id="add-this-interest" class="fa-solid fa-plus add-stuff" tabindex=0></i>
+                </span>
+                <hr class="profile-update not-displayed">
+                <div id="new-interests">
+                    <h4 id="new-interests-title" class="not-displayed">New interests to be added:</h4>
+
+
+                </div>
+
+                <hr class="profile-update not-displayed">
+                <h3>Edit or Delete Interests</h3>
+                
+                {% with interests = user.interests.split(",") %}
+                    {% if interests %}                
+                            {% for i in range(interests|length) %}
+                                {% with id = "interests" + "-" + i|string %}
+                                    <div>                            
+                                        <label for="interest">Interest {{ i+1 }}</label>
+                                        <input type="text" id="{{ id }}" name="{{ id }}" value="{{ interests[i] }}" readonly required>
+                                        <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                        <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                        <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                        <span id="{{ id}}-show-delete" class="a-preference">
+                                            <label for="delete_interest"><i class="fa-solid fa-trash-can"></i></label>
+                                            <input type="checkbox" id="{{ id }}-delete" name="{{ id }}-delete" class="a-preference">
+                                        </span>
+                                    
+                                    </div>
+                                {% endwith %}
+                            {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
-            <div>
-                <label for="experiences">Experiences: </label>
-                <input type="text"  class="not-displayed" id="initial-experiences" name="initial-experiences" value="{{ user.experiences }}" readonly required>
-                <input type="text" id="experiences" name="experiences" value="{{ user.experiences }}" readonly required>
-                <span id="experiences-edit"><i class="fas fa-edit"></i></span>
+            <div id="individual-skills" class="not-displayed preferences-section">
+                <span id="add-new-skill">
+                    <h3>Add New skill <i class="fas fa-plus "></i></h3>
+                </span>
+                <span id="add-skill-field" class="not-displayed">
+                    <label for="new-skill-add">Add a skill: </label><input type="text" id="new-skill-add" name="new-skill-add" width="40%">
+                    <i id="add-this-skill" class="fa-solid fa-plus add-stuff" tabindex=0></i>
+                </span>
+                <hr class="profile-update not-displayed">
+                <div id="new-skills">
+                    <h4 id="new-skills-title" class="not-displayed">New skills to be added:</h4>
+
+
+                </div>
+                <hr class="profile-update not-displayed">
+                <h3>Edit or Delete Skills</h3>
+
+                {% with skills = user.skills.split(",") %}
+                    {% if skills %}                
+                            {% for i in range(skills|length) %}
+                                {% with id = "skills" + "-" + i|string %}
+                                    <div>                            
+                                        <label for="skills">Skill {{ i+1 }}</label>
+                                        <input type="text" id="{{ id }}" name="{{ id }}" value="{{ skills[i] }}" readonly required>
+                                        <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                        <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                        <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                        <span id="{{ id}}-show-delete" class="a-preference">
+                                            <label for="delete_skill"><i class="fa-solid fa-trash-can"></i></label>
+                                            <input type="checkbox" id="{{ id }}-delete" name="{{ id }}-delete" class="a-preference">
+                                        </span>
+                                    </div>
+                                {% endwith %}
+                            {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
-        </div>
+            <div id="individual-experiences" class="not-displayed preferences-section">
+                <span id="add-new-experience">
+                    <h3>Add New Experience <i class="fas fa-plus "></i></h3>
+                </span>
+                <span id="add-experience-field" class="not-displayed">
+                    <label for="new-experience-add">Add an Experience: </label><input type="text" id="new-experience-add" name="new-experience-add" width="40%">
+                    <i id="add-this-experience" class="fa-solid fa-plus add-stuff" tabindex=0></i>
+                </span>
+                <hr class="profile-update not-displayed">
+                <div id="new-experiences">
+                    <h4 id="new-experiences-title" class="not-displayed">New experiences to be added:</h4>
 
 
-        <h3 class="red-text not-displayed preferences-section" id="form-alert"></h3>
-
-        <div id="individual-interests" class="not-displayed preferences-section">
-            <span id="add-new-interest">
-                <h3>Add New Interest <i class="fas fa-plus "></i></h3>
-            </span>
-            <span id="add-interest-field" class="not-displayed">
-                <label for="new-interest-add">Add an interest: </label><input type="text" id="new-interest-add" name="new-interest-add" width="40%">
-                <i id="add-this-interest" class="fa-solid fa-plus add-stuff" tabindex=0></i>
-            </span>
-            <hr class="profile-update not-displayed">
-            <div id="new-interests">
-                <h4 id="new-interests-title" class="not-displayed">New interests to be added:</h4>
-
-
+                </div>
+                <hr class="profile-update not-displayed">
+                {% with experiences = user.experiences.split(",") %}
+                    {% if experiences %}                
+                            {% for i in range(experiences|length) %}
+                                {% with id = "experiences" + "-" + i|string %}
+                                    <div>                            
+                                        <label for="experiences">Skill {{ i+1 }}</label>
+                                        <input type="text" id="{{ id }}" name="{{ id }}" value="{{ experiences[i] }}" readonly required>
+                                        <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                        <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                        <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                        <span id="{{ id}}-show-delete">
+                                            <label for="delete_experience"><i class="fa-solid fa-trash-can"></i></label>
+                                            <input type="checkbox" id="{{ id }}-delete" class="a-preference" name="{{ id }}-delete">
+                                        </span>
+                                    </div>
+                                {% endwith %}
+                            {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
-
-            <hr class="profile-update not-displayed">
-            <h3>Edit or Delete Interests</h3>
-            
-            {% with interests = user.interests.split(",") %}
-                {% if interests %}                
-                        {% for i in range(interests|length) %}
-                            {% with id = "interests" + "-" + i|string %}
-                                <div>                            
-                                    <label for="interest">Interest {{ i+1 }}</label>
-                                    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ interests[i] }}" readonly required>
-                                    <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
-                                    <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
-                                    <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
-                                    <span id="{{ id}}-show-delete" class="a-preference">
-                                        <label for="delete_interest"><i class="fa-solid fa-trash-can"></i></label>
-                                        <input type="checkbox" id="{{ id }}-delete" name="delete_interest" class="a-preference">
-                                    </span>
-                                
-                                </div>
-                            {% endwith %}
-                        {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-        <div id="individual-skills" class="not-displayed preferences-section">
-            <span id="add-new-skill">
-                <h3>Add New skill <i class="fas fa-plus "></i></h3>
-            </span>
-            <span id="add-skill-field" class="not-displayed">
-                <label for="new-skill-add">Add a skill: </label><input type="text" id="new-skill-add" name="new-skill-add" width="40%">
-                <i id="add-this-skill" class="fa-solid fa-plus add-stuff" tabindex=0></i>
-            </span>
-            <hr class="profile-update not-displayed">
-            <div id="new-skills">
-                <h4 id="new-skills-title" class="not-displayed">New skills to be added:</h4>
-
-
+            <div id="preference-options" class="not-displayed preferences-section">
+                <button type="submit">Save Changes</button>
+                <a href="{{ url_for('site_preferences')}}">Clear Changes</span></a>
             </div>
-            <hr class="profile-update not-displayed">
-            <h3>Edit or Delete Skills</h3>
-
-            {% with skills = user.skills.split(",") %}
-                {% if skills %}                
-                        {% for i in range(skills|length) %}
-                            {% with id = "skills" + "-" + i|string %}
-                                <div>                            
-                                    <label for="skills">Skill {{ i+1 }}</label>
-                                    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ skills[i] }}" readonly required>
-                                    <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
-                                    <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
-                                    <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
-                                    <span id="{{ id}}-show-delete" class="a-preference">
-                                        <label for="delete_skill"><i class="fa-solid fa-trash-can"></i></label>
-                                        <input type="checkbox" id="{{ id }}-delete" name="delete_skill" class="a-preference">
-                                    </span>
-                                </div>
-                            {% endwith %}
-                        {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-        <div id="individual-experiences" class="not-displayed preferences-section">
-            <span id="add-new-experience">
-                <h3>Add New Experience <i class="fas fa-plus "></i></h3>
-            </span>
-            <span id="add-experience-field" class="not-displayed">
-                <label for="new-experience-add">Add an Experience: </label><input type="text" id="new-experience-add" name="new-experience-add" width="40%">
-                <i id="add-this-experience" class="fa-solid fa-plus add-stuff" tabindex=0></i>
-            </span>
-            <hr class="profile-update not-displayed">
-            <div id="new-experiences">
-                <h4 id="new-experiences-title" class="not-displayed">New experiences to be added:</h4>
-
-
-            </div>
-            <hr class="profile-update not-displayed">
-            {% with experiences = user.experiences.split(",") %}
-                {% if experiences %}                
-                        {% for i in range(experiences|length) %}
-                            {% with id = "experiences" + "-" + i|string %}
-                                <div>                            
-                                    <label for="experiences">Skill {{ i+1 }}</label>
-                                    <input type="text" id="{{ id }}" name="{{ id }}" value="{{ experiences[i] }}" readonly required>
-                                    <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
-                                    <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
-                                    <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
-                                    <span id="{{ id}}-show-delete">
-                                        <label for="delete_experience"><i class="fa-solid fa-trash-can"></i></label>
-                                        <input type="checkbox" id="{{ id }}-delete" class="a-preference" name="delete_experience">
-                                    </span>
-                                </div>
-                            {% endwith %}
-                        {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-        <div id="preference-options" class="not-displayed preferences-section">
-            <button type="submit">Save Changes</button>
-            <a href="{{ url_for('site_preferences')}}">Clear Changes</span></a>
-        </div>
-        <a class= "preferences-section" href="{{ url_for('log_out') }}">Log Out</a>
+        </form>
+        <div class= "preferences-section"><a href="{{ url_for('log_out') }}">Log Out</a></div>
     </div>
     
 {% endblock content %}
