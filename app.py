@@ -3,6 +3,7 @@ import io
 import re
 import smtplib
 import jwt
+
 from time import time
 from flask_mail import Mail, Message
 import cloudinary
@@ -24,6 +25,7 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = "smtp.gmail.com"
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 mail = Mail(app)
@@ -139,7 +141,7 @@ def profile_upload():
                 + " " + user_info["last_name"].capitalize())
             if uploaded_image:
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if user_info.get("profile_picture") is not None:
+                if (user_info.get("profile_picture") is not None) or (user_info["profile_picture"]  != ""):
                     cloudinary.uploader.destroy(user_info["profile_picture"])               
                 cloudinary.uploader.upload(
                     converted_image, public_id=filename, folder = "profile")  
@@ -222,8 +224,8 @@ def profile_personal():
                 imgname= uploaded_image.filename.split(".", 1)[0]
                 filename= str(imgname + "-" + str(user_info["_id"]))
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if (user_info.get("profile_picture") is not None) and (user_info.get("profile_picture")!=""):
-                    cloudinary.uploader.destroy(user_info["profile_picture"])               
+                if (user_info["profile_picture"] is not None) or (user_info["profile_picture"] != ""):
+                    cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
                 cloudinary.uploader.upload(
                     converted_image, public_id=filename, folder = "profile")  
                 profile_update = {"$set": {
@@ -236,6 +238,8 @@ def profile_personal():
                     "profilepic_alt": image_alt
                 }}
             elif request.form.get("delete_image"):
+                if (user_info["profile_picture"] is not None) or (user_info["profile_picture"]  != ""):
+                    cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])
                 profile_update = {"$set": {
                     "first_name": request.form.get("first_name"),
                     "last_name": request.form.get("last_name"),
@@ -257,6 +261,7 @@ def profile_personal():
             mongo.db.users.update_one(
                     {"_id": ObjectId(user_info["_id"])}, profile_update)
             flash("Profile Updated")
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
@@ -320,7 +325,7 @@ def users_edit():
 def log_out():
     if session.get("user_id") is not None:
         flash("It's been fun, don't you be a stranger now.")
-        session.pop("user_id")
+        session.clear()
     return redirect(url_for("home"))
 
 @app.route("/password-reset", methods=["GET", "POST"])
