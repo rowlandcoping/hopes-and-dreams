@@ -46,3 +46,7 @@ This posed a number of challenges, mainly, again that there is little available 
 Session cookie issue
 
 I noticed that when I logged out of a session using session.pop() as instructed on the course I was getting a warning message about SameSite cookies.  presumably there was some trace left behind which the browser was detecting as a secutiry risk. I solved this issue by using session.clear() instead
+
+Image delete issue
+
+I noticed that images were not being deleted from cloudinary when replaced or removed as the code intended. It turned out I needed to add an additional condition to ensure an emptry field was treated the same as a null value - this is important as the server returns an error if it tries to return soimething tha tis not there but an empty string is treated as something being there, so it wasn't deleting the image if the database field had previously been populated.
