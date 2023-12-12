@@ -1,6 +1,10 @@
 import os
 import io
 import re
+import smtplib
+import jwt
+from time import time
+from flask_mail import Mail, Message
 import cloudinary
 import cloudinary.uploader
 import PIL
@@ -17,6 +21,13 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
+app.config['MAIL_SERVER'] = "smtp.gmail.com"
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
+mail = Mail(app)
+
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
@@ -26,12 +37,32 @@ cloudinary.config(
     api_key=os.environ.get('API_KEY'), 
     api_secret=os.environ.get('API_SECRET'))
 
+mailHost = os.environ.get('HOST')
+mailPort = os.environ.get('PORT')
+smtpObj = smtplib.SMTP( mailHost, mailPort, "localhost" )
+
 #base url for Cloudinary image directories
 base_url = { "profile": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/profile/",
             "dream": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dream/"
 }
+#password reset function (creates token for e-mail)
+def get_reset_token(self, expires):       
+        return jwt.encode({'reset_password': self["email"],
+                           'exp':    time() + expires},
+                           key=os.getenv('SECRET_KEY'), algorithm='HS256')
+#verifies token to retrieve user e-mail
+def verify_reset_token(token):
+        try:
+            email = jwt.decode(token,
+            key=os.getenv('SECRET_KEY'), algorithms=['HS256'])['reset_password']
+            return email
+        except Exception as e:
+            print(e)
+            return
 
 
+            
+#function converts images to appropriate format and size
 def imageConvert(image, width, quality, format):
     img = Image.open(image)
     img_byte_arr = io.BytesIO()
@@ -291,6 +322,55 @@ def log_out():
         flash("It's been fun, don't you be a stranger now.")
         session.pop("user_id")
     return redirect(url_for("home"))
+
+@app.route("/password-reset", methods=["GET", "POST"])
+def password_reset():
+    if request.method == "POST":
+        existing_user = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
+        if existing_user:
+            token = get_reset_token(existing_user, 1000)
+            messageOne= "<h3>Hi " + existing_user['first_name'] +"!</h3>"
+            messageTwo= "<p>Please find below a link to reset your password - please note this link will expire in 15 minutes."
+            messageThree="<br>If you did not request this the security of your account may be compromised.</p>"
+            messageFour="<h4>Your reset link:</h4>"
+            messageFive="127.0.0.1:5000/reset-password/" + token            
+            msg = Message()
+            msg.subject = "Password Reset"
+            msg.recipients = ['rowlandcoping@gmail.com']
+            msg.sender = 'noreply@hopesanddreams.com'
+            msg.html = messageOne + messageTwo + messageThree + messageFour + messageFive
+            try:
+                mail.send(msg)
+                flash("Password update link sent, please check your e-mail")
+            except:
+                flash("Password update link not sent, please contact support if issues continute")
+            return redirect(url_for("home"))        
+    return render_template("password-reset.html")
+
+@app.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    existing_user = verify_reset_token(token)
+    if request.method == "POST":
+            new_password = {"$set": {
+                "password": generate_password_hash(request.form.get("password"))
+            }}
+            mongo.db.users.update_one(
+                        {"email": existing_user}, new_password)
+            flash('Password Updated')
+            return redirect(url_for("home"))
+    return render_template('reset-password.html', existing_user=existing_user, token=token)
+    
+
+    
+
+        
+
+# me == the sender's email address
+# you == the recipient's email address
+
+
+# Send the message via our own SMTP server.
 
             
 if __name__ == "__main__":

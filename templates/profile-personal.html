@@ -54,6 +54,9 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                     <br><label for="profile_picture">Remove Profile Picture</label><input type="checkbox" id="delete_image" name="delete_image">
 
                 </div>
+                <div>
+                    <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
+                </div>
 
             </div>
         </div>
