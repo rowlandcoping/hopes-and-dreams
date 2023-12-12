@@ -26,3 +26,19 @@ key missing
 
 I discovered that if in flask I was checking if a key existed in the database or a session then it would throw an error when it didn't, stopping the application.
 I solved this using .get and is not None, referencing the key implicitly.  This also prevented the error where if session cookies were deleted and the site couldn't find them it brought the whole thing down, which I also noticed in the walkthrough project.  I recommend it!
+
+user slug
+
+I decided to build unique readable user IDs that I could pass to the site urls and use as session cookies based on first and last names.  On building the process to edit user data I discovered that I had to update this if a user's name changed.  Unfortunately this would also invalidate their session cookie and crash the website. As such I changed back to storing the user's _id as the session data as it is the only immutable part of the dataset.
+
+converting cursor objects
+
+During the course we were taught that converting database queries to list objects meant we were able to iterate over data multiple times using Jinja2.  When I ran into this problem naturally this was the first thing I did.  unfortunately this led to the site crashing.  The reason was some data queries from the database aren't suitable for being converted to a list, and therefore when my query was converted it ended up returning an empty dataset - the list was only being populated by the keys. It took me a long time to realise this. I tried multiple solutions and eventually realised that instead of a list the cursor object is converted to a dictionary then it returned an equivalent object that I was able to pass to Jinja.
+
+A sidenote to this discovery is that I originally hit on this solution a long time before I implemented - once I initially tried it I saw no difference because of an html error, where a hidden div remained open due to missing forward slash,  hiding all the content I was trying to view.  It was working, but I didn't see it on the page.  As a result I hastily refactored all my code into seperate pages to solve the issue, before realising my mistake the next day and equally hastily re-building it how it was in the first place!
+
+A further sidenote is that neither this problem nor this solution seems to be reported anywhere on the internet (that I could see!).  I really had to work it out through trial and error.
+
+Creating a password reset.
+
+This posed a number of challenges, mainly, again that there is little available documentation.  Eventually after several hours I solved it useing this blog: https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968 although it doesn't bear massive resemblance to my final code on behalf of it being created with SQLAlchemy and using a very different file structure.  I still consider it a mysetery exactly how the token was extracted from the site url.  My assumption is it pulled everything after the backslash into the token varialbe, so after manually creating the url more in hope than expectaion you can imagine my surprise when it worked.  The final thing I did not know and which the blog did not include was that the jwt method needed an algorithm/algorithms assigned to tell it how to encode/decode it.  I consider it a christmas miracle that this produced the desired result, and it took a couple of hours to come to the solution. Generally speaking it seems using Python with flask, PyMongo and MongoDB is not a popular choice, and I'm having to find solutions by piecing things together from multiple sources.  As an aside given this is the case it might be useful if this sort of thing were included in the course!  
