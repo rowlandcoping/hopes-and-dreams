@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css">
+    <script src="https://kit.fontawesome.com/8c1ab874f9.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="row flashes">
+                <h4>{{ message }}</h4>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <h1>So, you dream of {{ dream.dream_name }}</h1>
+    <h3>That's great - if you don't have a dream, how you gonna make a dream come true?</h3>
+    <p>Even better, is if you can visualise a dream.  Is there an image that evokes it?</p>
+    <p>One that will catch the attention of others, motivate and inspire them.</p>
+    <p>Don't worry if not.  It can always be a tomorrow thing.</p>
+    <form action="{{ url_for('image_upload', dream_slug=dream_slug) }}" method="POST" enctype="multipart/form-data">
+        <label for="image_upload">Dream Image</label>
+                    {% if dream.image %}
+                        <img id="current-image" src="{{ base_url.profile + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                    {% else %}
+                        <img id="current-image" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
+                    {% endif %}
+                    <img id="image-preview" class="not-displayed" src="" width="150">
+        <input type="file" id="uploaded-image" class="not-displayed" name="image_upload">
+        <i class="fas fa-edit" id="profile-pic-edit"></i>
+        <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+        <p>
+        <button type="submit">Submit Image</button>
+        
+        <a href="{{ url_for('dreams') }}">I'll do this later</a>
+        <p>
+    <script src="../static/js/script.js"></script>
+</body>
+</html>

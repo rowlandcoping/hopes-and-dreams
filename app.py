@@ -141,8 +141,9 @@ def profile_upload():
                 + " " + user_info["last_name"].capitalize())
             if uploaded_image:
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if (user_info.get("profile_picture") is not None) or (user_info["profile_picture"]  != ""):
-                    cloudinary.uploader.destroy(user_info["profile_picture"])               
+                if user_info.get("profile_picture") is not None: 
+                    if user_info["profile_picture"]  != "":
+                        cloudinary.uploader.destroy(user_info["profile_picture"])               
                 cloudinary.uploader.upload(
                     converted_image, public_id=filename, folder = "profile")  
                 profile_picture = {"$set": {
@@ -224,8 +225,9 @@ def profile_personal():
                 imgname= uploaded_image.filename.split(".", 1)[0]
                 filename= str(imgname + "-" + str(user_info["_id"]))
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if (user_info["profile_picture"] is not None) or (user_info["profile_picture"] != ""):
-                    cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
+                if user_info["profile_picture"] is not None:
+                    if user_info["profile_picture"] != "":
+                        cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
                 cloudinary.uploader.upload(
                     converted_image, public_id=filename, folder = "profile")  
                 profile_update = {"$set": {
@@ -349,7 +351,7 @@ def password_reset():
                 mail.send(msg)
                 flash("Password update link sent, please check your e-mail")
             except:
-                flash("Password update link not sent, please contact support if issues continute")
+                flash("Password update link not sent, please contact support if issues continue.")
             return redirect(url_for("home"))        
     return render_template("password-reset.html")
 
@@ -365,6 +367,70 @@ def reset_password(token):
             flash('Password Updated')
             return redirect(url_for("home"))
     return render_template('reset-password.html', existing_user=existing_user, token=token)
+
+@app.route("/dreambuilder", methods=["GET", "POST"])
+def dreambuilder():
+    if session.get("user_id") is not None:
+        if request.method == "POST":
+            dream_string = str(re.sub(" ", "-", request.form.get("dream_name").lower()))
+            check_slug = list(mongo.db.dreams.find({"dream_string": dream_string}))
+            if (check_slug):
+                user_number = str(len(check_slug)+1)
+                dream_slug = str(dream_string + "-" + user_number)
+            else: 
+                dream_slug = dream_string
+            dream_create = {
+                "user_id": session.get("user_id"),
+                "dream_name": request.form.get("dream_name"),
+                "dream_string": dream_string,
+                "dream_slug": dream_slug,
+                "dream_description": request.form.get("dream_description"),            
+                "categories": request.form.get("categories"),
+                "skills_required": request.form.get("skills_required")
+            }
+            mongo.db.dreams.insert_one(dream_create)
+            dream_verify = mongo.db.dreams.find_one(
+                {"dream_slug": dream_slug})
+            if dream_verify:
+                return redirect(url_for("image_upload", dream_slug=dream_slug))        
+            flash("Dream creation not successful, please try again.")
+            return render_template('dreambuilder.html')
+        return render_template('dreambuilder.html')
+    
+@app.route("/image-upload/<dream_slug>", methods=["GET","POST"])
+def image_upload(dream_slug):
+    if session.get("user_id") is not None:
+        dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
+        if dream['user_id'] == session["user_id"]:
+            if request.method == "POST":
+                uploaded_image = request.files['image_upload']
+                imgname= uploaded_image.filename.split(".", 1)[0]
+                filename= str(imgname + "-" + str(dream["_id"]))
+                image_alt = (
+                    "This image represents " + dream["dream_name"])
+                if uploaded_image:
+                    converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                    if dream.get("image") is not None:
+                        if dream["image"]  != "":
+                            cloudinary.uploader.destroy(dream["image"])               
+                    cloudinary.uploader.upload(
+                        converted_image, public_id=filename, folder = "dreams")  
+                    image = {"$set": {
+                        "image": filename,
+                        "image_alt": image_alt
+                    }}
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, image)
+                    flash("Dream Image Uploaded")
+                    return redirect(url_for("dreams"))
+                flash("Image Upload Failed")
+            return render_template("image-upload.html", dream_slug=dream_slug, dream=dream)
+        return redirect(url_for("home"))
+    return redirect(url_for("home"))
+
+
+
+
     
 
     

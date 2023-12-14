@@ -86,6 +86,37 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    //DREAMBUILDER DREAM CREATION PROCESS
+    //move on from part one of dream-building process
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-one");
+        if(target){
+            dreambuilderOneComplete();
+        }
+    });
+    //activates function to add acategory to the categories array in the value field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-category");
+        if(target){
+            addCategory();
+        }
+    });
+    //moves on to the skills required section
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#end-categories"); 
+        if(target){
+            document.getElementById('category-section').style.display = "none";
+            document.getElementById('skills-required').style.display = "block";
+        }
+    });
+    //activates function to add a skill to the skills array in the value field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-required-skill"); 
+        if(target){
+            addRequiredSkill();
+        }
+    });
+
     //EDIT PERSONAL INFO
     //activate first name field + commit change button (use a tick / cross)
     document.addEventListener("click", function(e){
@@ -314,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('interests-section').style.display = "none";
         document.getElementById('skills-section').style.display = "block";
     }
-    //adds skillss to an array and populates the value field of the form
+    //adds skills to an array and populates the value field of the form
     const skills = [];
     function addSkill() {
         document.getElementById('form-alert').style.display = "none";
@@ -381,6 +412,69 @@ document.addEventListener("DOMContentLoaded", function() {
     if (imageUpload) {
         imageUpload.addEventListener("change", previewPhoto);
     }
+
+    //DREAMBUILDER DREAM CREATION PROCESS
+
+
+    function dreambuilderOneComplete() {
+        let dreamName = document.getElementById('dream_name').value;
+        let dreamDescription = document.getElementById('dream_description').value;
+        let invalidDreamText = /[.!#$%;@&'*+/=?^_`{|}~]/
+        let invalidDescriptionText= /[#@&^_`{|}~]/;
+        if (dreamName.match(invalidDreamText)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Please don't use special characters in your Dream Name.  <br>Perhaps your next dream could be to one day be able to do this";
+        } else if (dreamDescription.match(invalidDescriptionText)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Please don't use the following characters in the description: {},[],#,@,&,^,_,`,~, or |.  <br>Perhaps your next dream could be to one day be able to do this";
+        } else {
+            document.getElementById('form-alert').style.display = "none";
+            const setDream = document.getElementsByClassName('sayMyDream');
+            for (let i = 0; i < setDream.length; i++) {
+                setDream[i].innerHTML = dreamName;
+            }
+            document.getElementById('dreambuilder-two').style.display = "block";
+            document.getElementById('dreambuilder-one').style.display = "none";
+        }
+    }
+    const categories = [];
+    function addCategory() {
+        document.getElementById('form-alert').style.display = "none";
+        let category= document.getElementById('category-add').value.toLowerCase();
+        if (category.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Category should not include numbers";
+        } else if (category.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Category should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
+        } else {
+            categories.push(category)
+        }
+        document.getElementById('category-add').value = "";
+        document.getElementById('categories').style.display = "block";
+        document.getElementById('categories').value = categories;
+        if (categories.length > 0) {
+            document.getElementById('end-categories').style.display = "block";
+        }
+    }
+    const requiredSkills = [];
+    function addRequiredSkill() {
+        document.getElementById('form-alert').style.display = "none";
+        let skillRequired = document.getElementById('required-skill-add').value.toLowerCase();
+        if (skillRequired.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Skill Required should not include numbers";
+        } else if (skillRequired.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "Skill Required should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
+        } else {
+            requiredSkills.push(skillRequired)
+        }
+        document.getElementById('required-skill-add').value = "";
+        document.getElementById('skills_required').style.display = "block";
+        document.getElementById('skills_required').value = requiredSkills;
+    }
+
 
     //EDITING PROFILE INFO    
     //Editing first name
