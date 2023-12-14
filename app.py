@@ -3,7 +3,6 @@ import io
 import re
 import smtplib
 import jwt
-
 from time import time
 from flask_mail import Mail, Message
 import cloudinary
@@ -45,8 +44,9 @@ smtpObj = smtplib.SMTP( mailHost, mailPort, "localhost" )
 
 #base url for Cloudinary image directories
 base_url = { "profile": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/profile/",
-            "dream": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dream/"
+            "dreams": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dreams/"
 }
+home_url = os.getenv("BASE_URL")
 #password reset function (creates token for e-mail)
 def get_reset_token(self, expires):       
         return jwt.encode({'reset_password': self["email"],
@@ -63,7 +63,6 @@ def verify_reset_token(token):
             return
 
 
-            
 #function converts images to appropriate format and size
 def imageConvert(image, width, quality, format):
     img = Image.open(image)
@@ -341,7 +340,7 @@ def password_reset():
             messageTwo= "<p>Please find below a link to reset your password - please note this link will expire in 15 minutes."
             messageThree="<br>If you did not request this the security of your account may be compromised.</p>"
             messageFour="<h4>Your reset link:</h4>"
-            messageFive="127.0.0.1:5000/reset-password/" + token            
+            messageFive= str(home_url) + "reset-password/" + token            
             msg = Message()
             msg.subject = "Password Reset"
             msg.recipients = ['rowlandcoping@gmail.com']
@@ -392,7 +391,7 @@ def dreambuilder():
             dream_verify = mongo.db.dreams.find_one(
                 {"dream_slug": dream_slug})
             if dream_verify:
-                return redirect(url_for("image_upload", dream_slug=dream_slug))        
+                return redirect(url_for("image_upload", dream_slug=dream_slug, dream=dream_verify, base_url=base_url))        
             flash("Dream creation not successful, please try again.")
             return render_template('dreambuilder.html')
         return render_template('dreambuilder.html')
@@ -424,7 +423,7 @@ def image_upload(dream_slug):
                     flash("Dream Image Uploaded")
                     return redirect(url_for("dreams"))
                 flash("Image Upload Failed")
-            return render_template("image-upload.html", dream_slug=dream_slug, dream=dream)
+            return render_template("image-upload.html", dream_slug=dream_slug, dream=dream, base_url=base_url)
         return redirect(url_for("home"))
     return redirect(url_for("home"))
 

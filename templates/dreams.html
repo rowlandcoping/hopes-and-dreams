@@ -5,9 +5,19 @@ Dreams
 {% endblock title %}
 
 {% block content %}
+
 <div id="dreambuilder">
     <a href="{{ url_for('dreambuilder') }}"><h1>DreamBuilder</h1></a>
 </div>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="row flashes">
+                <h4>{{ message }}</h4>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 <div id="personal-info">
     <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
         <div>

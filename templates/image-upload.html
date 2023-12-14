@@ -25,7 +25,7 @@
     <form action="{{ url_for('image_upload', dream_slug=dream_slug) }}" method="POST" enctype="multipart/form-data">
         <label for="image_upload">Dream Image</label>
                     {% if dream.image %}
-                        <img id="current-image" src="{{ base_url.profile + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                        <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
                     {% else %}
                         <img id="current-image" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
                     {% endif %}
