@@ -1,0 +1,122 @@
+{% extends 'main-template.html' %}
+
+{% block title %}
+General Information - {{ dream.dream_name }}
+{% endblock title %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="row flashes">
+                    <h4>{{ message }}</h4>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div id = "edit-general" class="dream-edit-general">
+        <h1>{{ dream.dream_name }}</h1>
+        <form action="{{ url_for('edit_dream_general', dream_slug=dream.dream_slug) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+            <h3 class="red-text not-displayed" id="form-alert"></h3>
+            <div>
+                <div>
+                    <div>
+                        <label for="dream-name">Dream: </label>
+                        <input type="text" id="dream-name" name="dream_name" value="{{ dream.dream_name | title }}" readonly required>
+                        <span id="dream-name-edit"><i class="fas fa-edit"></i></span>
+                        <span id="dream-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
+                        <span id="dream-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+                    <div>
+                        <label for="dream-description">Dream Description: </label>
+                        <textarea id="dream-description" name="last_name" required readonly>{{ dream.dream_description}}</textarea>
+                        <span id="dream-description-edit"><i class="fas fa-edit"></i></span>
+                        <span id="dream-description-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
+                        <span id="dream-description-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>                  
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="profile_picture">Dream Image</label>
+                        {% if dream.image %}
+                            <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                        {% else %}
+                            <h3>No Image Uploaded</h3>
+                        {% endif %}
+                        <img id="image-preview" class="not-displayed" src="" width="150">
+                        <input type="file" id="uploaded-image" name="image" class="not-displayed">
+                        <i class="fas fa-edit" id="profile-pic-edit"></i>
+                        <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+                        <br><label for="profile_picture">Remove Image</label><input type="checkbox" id="delete_image" name="delete_image">
+                    </div>    
+                </div>
+            </div>
+
+            <div id="select-edit-section">
+                <div>
+                    <input type="text" class="not-displayed" id="initial-categories" name="initial-categories" value="{{ dream.categories }}" readonly required>
+                    <label for="categories">Categories: </label>
+                    <input type="text" id="categories" name="categoriess" value="{{ dream.categories }}" readonly required>
+                    <span id="categories-edit"><i class="fas fa-edit"></i></span>
+                </div>
+                <div>
+                    <label for="skills">Skills Required: </label>
+                    <input type="text" class="not-displayed" id="initial-skills" name="initial-skills" value="{{ dream.skills_required }}" readonly required>
+                    <input type="text" id="skills" name="skills" value="{{ dream.skills_required }}" readonly required>
+                    <span id="skills-edit"><i class="fas fa-edit"></i></span>
+                </div>
+                
+            </div>
+
+
+            <div id="individual-categories" class="not-displayed preferences-section">
+                <span id="add-new-category">
+                    <h3>Add New Category <i class="fas fa-plus "></i></h3>
+                </span>
+                <span id="add-category-field" class="not-displayed">
+                    <label for="new-category-add">Add a category: </label><input type="text" id="new-category-add" name="new-category-add" width="40%">
+                    <i id="add-this-category" class="fa-solid fa-plus add-stuff" tabindex=0></i>
+                </span>
+                <hr class="profile-update not-displayed">
+                <div id="new-categorys">
+                    <h4 id="new-categorys-title" class="not-displayed">New categories to be added:</h4>
+
+
+                </div>
+                <hr class="profile-update not-displayed">
+                <h3>Edit or Delete categories</h3>
+
+                {% with categories = dream.categories.split(",") %}
+                    {% if categories %}                
+                            {% for i in range(categories|length) %}
+                                {% with id = "categories" + "-" + i|string %}
+                                    <div>                            
+                                        <label for="categories">category {{ i+1 }}</label>
+                                        <input type="text" id="{{ id }}" name="{{ id }}" value="{{ categories[i] }}" readonly required>
+                                        <span id="{{ id }}-edit" class="a-preference"><i class="fas fa-edit "></i></span>
+                                        <span id="{{ id }}-confirm" class="not-displayed a-preference"><i class="fa-solid fa-check"></i></span>
+                                        <span id="{{ id }}-cancel" class="not-displayed a-preference"><i class="fa-solid fa-xmark"></i></span>
+                                        <span id="{{ id}}-show-delete" class="a-preference">
+                                            <label for="delete_category"><i class="fa-solid fa-trash-can"></i></label>
+                                            <input type="checkbox" id="{{ id }}-delete" name="{{ id }}-delete" class="a-preference">
+                                        </span>
+                                    </div>
+                                {% endwith %}
+                            {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <span id="info-update" class="not-displayed">
+                <button type="submit" id="save-button">Save Changes</button>
+                <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
+            </span>
+                
+        </form>
+
+
+
+
+
+
+    </div>
+{% endblock content %}

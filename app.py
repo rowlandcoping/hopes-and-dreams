@@ -20,8 +20,12 @@ if os.path.exists("env.py"):
     import env
 
 app = Flask(__name__)
+
+#call session cookie environment variables
 app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get("SESSION_COOKIE_SAMESITE")
 app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
+
+#call mail environment variables
 app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
 app.config["MAIL_PORT"] = os.environ.get("MAIL_PORT")
 app.config["MAIL_USE_SSL"] = os.environ.get("MAIL_USE_SSL")
@@ -29,20 +33,23 @@ app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
 app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
 mail = Mail(app)
 
+#call MongoDB environment variables
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
+#call Cloudinary environment variables
 cloudinary.config(
     cloud_name = os.environ.get('CLOUD_NAME'), 
     api_key=os.environ.get('API_KEY'), 
     api_secret=os.environ.get('API_SECRET'))
 
-#base url for Cloudinary image directories
+#base urls for images and passoword reset
 base_url = { "profile": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/profile/",
             "dreams": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dreams/",
             "reset": os.getenv("BASE_URL")
 }
+
 
 #password reset function (creates token for e-mail)
 def get_reset_token(self, expires):       
@@ -51,7 +58,7 @@ def get_reset_token(self, expires):
                            key=os.getenv('SECRET_KEY'), algorithm='HS256')
 
 
-#verifies token to retrieve user e-mail
+#verifies password reset token to retrieve user e-mail
 def verify_reset_token(token):
         try:
             email = jwt.decode(token,
@@ -62,7 +69,7 @@ def verify_reset_token(token):
             return
 
 
-#function converts images to appropriate format and size
+#converts images to appropriate format and size
 def imageConvert(image, width, quality, format):
     img = Image.open(image)
     img_byte_arr = io.BytesIO()
@@ -76,6 +83,7 @@ def imageConvert(image, width, quality, format):
 
 mongo = PyMongo(app)
 
+#route for landing page
 @app.route("/")
 def home():
     if session.get("user_id") is not None:
@@ -83,7 +91,7 @@ def home():
     return render_template("landing.html")
 
 
-# the next three routes encompass the signup process
+# route for signup user journey
 @app.route("/dare-to-dream", methods=["GET","POST"])
 def signup():
     if session.get("user_id") is not None:
@@ -125,8 +133,9 @@ def signup():
         flash("Registration not successful, please try again.")
         return render_template("signup.html")
     return render_template("signup.html")
-    
 
+
+# route for user to upload an image on signup
 @app.route("/be-confident", methods=["GET","POST"])
 def profile_upload():
     if session.get("user_id") is not None:
@@ -156,7 +165,7 @@ def profile_upload():
     return redirect(url_for("home"))
 
 
-#welcome page (once profile complete)
+#welcome page (once user has completed sign-up process)
 @app.route("/welcome")
 def welcome():
     if session.get("user_id") is not None:
@@ -165,11 +174,13 @@ def welcome():
     return redirect(url_for("home"))
     
 
+#route to abandon signup
 @app.route("/abandon")
 def abandon_signup():
     return redirect(url_for("home"))
 
 
+#route to log in to site
 @app.route("/signin", methods=["GET","POST"])
 def signin():
     if request.method == "POST":
@@ -188,6 +199,7 @@ def signin():
     return render_template("landing.html")
 
 
+#route to the default dreamscape feed
 @app.route("/dreamscape")
 def feed_dreamscape():
     if session.get("user_id") is not None:
@@ -196,14 +208,17 @@ def feed_dreamscape():
     return redirect(url_for("home"))
 
 
+#route to view, create and edit user dreams
 @app.route("/dreams")
 def dreams():
     if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
-        return render_template("dreams.html", base_url=base_url,  user=user_info)
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
+        user_dreams = list(mongo.db.dreams.find({"user_id": session["user_id"]}))      
+        return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
     return redirect(url_for("home"))
 
 
+#route for personal information section of profile
 @app.route("/profile-personal", methods=["GET", "POST"])
 def profile_personal():
     if session.get("user_id") is not None:
@@ -272,6 +287,7 @@ def profile_personal():
     return redirect(url_for("home"))
 
 
+#route for site preferences section of profile
 @app.route("/site-preferences", methods=["GET", "POST"])
 def site_preferences():
     if session.get("user_id") is not None:
@@ -323,13 +339,7 @@ def site_preferences():
     return redirect(url_for("home"))
 
 
-def users_edit():
-    if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
-        return render_template("edit-preferences.html", base_url=base_url, user=user_info)    
-    return redirect(url_for("home"))
-
-
+#route to log out of site
 @app.route("/logout")
 def log_out():
     if session.get("user_id") is not None:
@@ -338,6 +348,7 @@ def log_out():
     return redirect(url_for("home"))
 
 
+#route to request a password reset link
 @app.route("/password-reset", methods=["GET", "POST"])
 def password_reset():
     if request.method == "POST":
@@ -365,6 +376,7 @@ def password_reset():
     return render_template("password-reset.html")
 
 
+#route to access password reset page and reset password
 @app.route("/reset-password/<token>", methods=["GET", "POST"])
 def reset_password(token):
     existing_user = verify_reset_token(token)
@@ -382,6 +394,7 @@ def reset_password(token):
     return redirect(url_for("password_reset"))
 
 
+#route for the dream creation process
 @app.route("/dreambuilder", methods=["GET", "POST"])
 def dreambuilder():
     if session.get("user_id") is not None:
@@ -411,7 +424,9 @@ def dreambuilder():
             flash("Dream creation not successful, please try again.")
             return render_template('dreambuilder.html')
         return render_template('dreambuilder.html')
-    
+
+
+#route to add an image to a newly-created dream
 @app.route("/image-upload/<dream_slug>", methods=["GET","POST"])
 def image_upload(dream_slug):
     if session.get("user_id") is not None:
@@ -443,30 +458,38 @@ def image_upload(dream_slug):
         return redirect(url_for("home"))
     return redirect(url_for("home"))
 
+
+#route to abandon the dream creation process
 @app.route("/abandon-dream")
 def abandon_dream ():
     return redirect(url_for("dreams"))
 
 
+#route to select various dream modules in order to edit them.
+@app.route("/edit-dream/<dream_slug>")
+def edit_dream(dream_slug):
+    if session.get("user_id") is not None:
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        if dream["user_id"] == session.get("user_id"):
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+    return redirect(url_for("home"))
+
+@app.route("/general-information/<dream_slug>")
+def edit_dream_general(dream_slug):
+    if session.get("user_id") is not None:
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        if dream["user_id"] == session.get("user_id"):
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            return render_template("general-information.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+    return redirect(url_for("home"))
 
 
-    
-
-    
-
-        
-
-# me == the sender's email address
-# you == the recipient's email address
-
-
-# Send the message via our own SMTP server.
-
-            
+#launches Hopes and Dreams, calls app environment variables         
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=True)
+            debug=bool(os.environ.get("DEBUG")))
 
 
 

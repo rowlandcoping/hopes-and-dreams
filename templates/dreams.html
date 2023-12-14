@@ -7,7 +7,7 @@ Dreams
 {% block content %}
 
 <div id="dreambuilder">
-    <a href="{{ url_for('dreambuilder') }}"><h1>DreamBuilder</h1></a>
+    <a href="{{ url_for('dreambuilder') }}"><h1>Launch DreamBuilder</h1></a>
 </div>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -18,58 +18,36 @@ Dreams
         {% endfor %}
     {% endif %}
 {% endwith %}
-<div id="personal-info">
-    <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
-        <div>
-            <div>
-                <div>
-                    <label for="first-name">First Name: </label>
-                    <input type="text" id="first-name" name="first_name" value="{{ user.first_name | capitalize }}" readonly required>
-                    <span id="first-name-edit"><i class="fas fa-edit"></i></span>
-                    <span id="first-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
-                    <span id="first-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+<div id="dream-list">
+    {% with dreams = user_dreams %}
+        {% if dreams %}
+            {% for dream in dreams %}
+                <div class="dream-list">
+                    <div class="general-bar">
+                        <a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
+                    </div>
+                    <div class="dream-general">
+                        <div class="dream-image">
+                            {% if dream.image %}
+                                <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                            {% endif %}
+                        </div>
+                        <div class="dream-info">
+                            <div class="dream-name">
+                                <h3>{{ dream.dream_name}}</h3>
+                            </div>
+                            <div class="dream-description">
+                                {{ dream.dream_description }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" value="{{ user.last_name | capitalize }}" required readonly>
-                    <span id="last-name-edit"><i class="fas fa-edit"></i></span>
-                    <span id="last-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
-                    <span id="last-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>                  
-                </div>
-                <h3 class="red-text not-displayed" id="form-alert"></h3>
-                <div>
-                    <label for="email">e-mail address</label><input type="email" id="email" name="email" value="{{ user.email }}" required readonly>
-                    <span id="email-edit"><i class="fas fa-edit"></i></span>
-                    <span id="email-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
-                    <span id="email-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span> 
-                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-dreams">
+                <h3>You have no Hopes or Dreams</h3>
             </div>
-            <div>
-                <div>
-                    <label for="profile_picture">Profile Picture</label>
-                    {% if user.profile_picture %}
-                        <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
-                    {% else %}
-                        <img id="current-image" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
-                    {% endif %}
-                    <img id="image-preview" class="not-displayed" src="" width="150">
-                    <input type="file" id="uploaded-image" name="profile_picture" class="not-displayed">
-                    <i class="fas fa-edit" id="profile-pic-edit"></i>
-                    <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
-                    <br><label for="profile_picture">Remove Profile Picture</label><input type="checkbox" id="delete_image" name="delete_image">
-
-                </div>
-                <div>
-                    <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
-                </div>
-
-            </div>
-        </div>
-        <span id="info-update" class="not-displayed">
-            <button type="submit" id="save-button">Save Changes</button>
-            <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
-        </span>
-            
-    </form>
+        {% endif %}
+    {% endwith %}        
 </div>
 {% endblock content %}

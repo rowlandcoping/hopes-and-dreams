@@ -1,0 +1,49 @@
+{% extends 'main-template.html' %}
+
+{% block title %}
+Edit {{ dream.dream_name }}
+{% endblock title %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="row flashes">
+                    <h4>{{ message }}</h4>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="dream-edit">
+        <h1>{{ dream.dream_name }}</h1>
+        <div id="dream-general" class="dream-section">
+            <h4>Edit General Information</h4>
+            <a href="{{ url_for('edit_dream_general', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
+        </div>
+        <div id="dream-diary" class="dream-section">
+            <h4>Add Dream Diary</h4>
+            <i class="fas fa-plus"></i>
+        </div>
+        <div id="dream-goals" class="dream-section">
+            <h4>Add Dream Goals</h4>
+            <i class="fas fa-plus"></i>
+            <p><em>Coming Soon.....</em></p>            
+        </div>
+        <div id="dream-planner" class="dream-section">
+            <h4>Add Dream Planner</h4>
+            <i class="fas fa-plus"></i>
+            <p><em>Coming Soon.....</em></p> 
+        </div>
+        <div id="dream-requests" class="dream-section">
+            <h4>Add Dream Requests</h4>
+            <i class="fas fa-plus"></i>
+            <p><em>Coming Soon.....</em></p> 
+        </div>
+
+
+
+
+
+
+    </div>
+{% endblock content %}
