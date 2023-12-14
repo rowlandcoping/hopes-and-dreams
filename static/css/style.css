@@ -15,8 +15,9 @@ a, a:visited, a:link, a:active, a:hover  {
 }
 #welcome-container {
     display:flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    margin: 0 200px;
 }
 #explore, #profile-preview {
     flex:1;

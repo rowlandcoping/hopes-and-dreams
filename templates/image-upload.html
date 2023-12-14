@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/style.css" type="text/css">
-    <script src="https://kit.fontawesome.com/8c1ab874f9.js" crossorigin="anonymous"></script>
-    <title>Document</title>
-</head>
-<body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="row flashes">
-                <h4>{{ message }}</h4>
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+{% extends 'plain-template.html' %}
+
+{% block title %}
+    Image Upload - {{ dream.dream_name }}
+{% endblock title%}
+    
+{% block content %}
     <h1>So, you dream of {{ dream.dream_name }}</h1>
     <h3>That's great - if you don't have a dream, how you gonna make a dream come true?</h3>
     <p>Even better, is if you can visualise a dream.  Is there an image that evokes it?</p>
@@ -37,7 +25,6 @@
         <button type="submit">Submit Image</button>
         
         <a href="{{ url_for('dreams') }}">I'll do this later</a>
-        <p>
-    <script src="../static/js/script.js"></script>
-</body>
-</html>
+        </p>
+    </form>
+{% endblock content %}

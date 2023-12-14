@@ -20,13 +20,13 @@ if os.path.exists("env.py"):
     import env
 
 app = Flask(__name__)
-
-app.config['MAIL_SERVER'] = "smtp.gmail.com"
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config["SESSION_COOKIE_SAMESITE"] = "None"
-app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
-app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
+app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get("SESSION_COOKIE_SAMESITE")
+app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
+app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
+app.config["MAIL_PORT"] = os.environ.get("MAIL_PORT")
+app.config["MAIL_USE_SSL"] = os.environ.get("MAIL_USE_SSL")
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
 mail = Mail(app)
 
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
@@ -38,20 +38,19 @@ cloudinary.config(
     api_key=os.environ.get('API_KEY'), 
     api_secret=os.environ.get('API_SECRET'))
 
-mailHost = os.environ.get('HOST')
-mailPort = os.environ.get('PORT')
-smtpObj = smtplib.SMTP( mailHost, mailPort, "localhost" )
-
 #base url for Cloudinary image directories
 base_url = { "profile": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/profile/",
-            "dreams": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dreams/"
+            "dreams": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dreams/",
+            "reset": os.getenv("BASE_URL")
 }
-home_url = os.getenv("BASE_URL")
+
 #password reset function (creates token for e-mail)
 def get_reset_token(self, expires):       
         return jwt.encode({'reset_password': self["email"],
                            'exp':    time() + expires},
                            key=os.getenv('SECRET_KEY'), algorithm='HS256')
+
+
 #verifies token to retrieve user e-mail
 def verify_reset_token(token):
         try:
@@ -82,6 +81,7 @@ def home():
     if session.get("user_id") is not None:
         return redirect(url_for("feed_dreamscape"))
     return render_template("landing.html")
+
 
 # the next three routes encompass the signup process
 @app.route("/dare-to-dream", methods=["GET","POST"])
@@ -155,11 +155,12 @@ def profile_upload():
         return render_template("profile-submit.html", user=user_info)
     return redirect(url_for("home"))
 
+
 #welcome page (once profile complete)
 @app.route("/welcome")
 def welcome():
     if session.get("user_id") is not None:
-        user_info = list(mongo.db.users.find_one({"user_id": ObjectId(session["user_id"])}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         return render_template("welcome.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
     
@@ -167,6 +168,7 @@ def welcome():
 @app.route("/abandon")
 def abandon_signup():
     return redirect(url_for("home"))
+
 
 @app.route("/signin", methods=["GET","POST"])
 def signin():
@@ -185,6 +187,7 @@ def signin():
             return redirect(url_for("home"))
     return render_template("landing.html")
 
+
 @app.route("/dreamscape")
 def feed_dreamscape():
     if session.get("user_id") is not None:
@@ -192,12 +195,14 @@ def feed_dreamscape():
         return render_template("dreamscape.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
+
 @app.route("/dreams")
 def dreams():
     if session.get("user_id") is not None:
         user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         return render_template("dreams.html", base_url=base_url,  user=user_info)
     return redirect(url_for("home"))
+
 
 @app.route("/profile-personal", methods=["GET", "POST"])
 def profile_personal():
@@ -266,6 +271,7 @@ def profile_personal():
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
+
 @app.route("/site-preferences", methods=["GET", "POST"])
 def site_preferences():
     if session.get("user_id") is not None:
@@ -316,11 +322,13 @@ def site_preferences():
         return render_template("site-preferences.html", base_url=base_url, user=user_info)  
     return redirect(url_for("home"))
 
+
 def users_edit():
     if session.get("user_id") is not None:
         user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
         return render_template("edit-preferences.html", base_url=base_url, user=user_info)    
     return redirect(url_for("home"))
+
 
 @app.route("/logout")
 def log_out():
@@ -328,6 +336,7 @@ def log_out():
         flash("It's been fun, don't you be a stranger now.")
         session.clear()
     return redirect(url_for("home"))
+
 
 @app.route("/password-reset", methods=["GET", "POST"])
 def password_reset():
@@ -340,7 +349,7 @@ def password_reset():
             messageTwo= "<p>Please find below a link to reset your password - please note this link will expire in 15 minutes."
             messageThree="<br>If you did not request this the security of your account may be compromised.</p>"
             messageFour="<h4>Your reset link:</h4>"
-            messageFive= str(home_url) + "reset-password/" + token            
+            messageFive= base_url["reset"] + "reset-password/" + token            
             msg = Message()
             msg.subject = "Password Reset"
             msg.recipients = ['rowlandcoping@gmail.com']
@@ -351,27 +360,34 @@ def password_reset():
                 flash("Password update link sent, please check your e-mail")
             except:
                 flash("Password update link not sent, please contact support if issues continue.")
-            return redirect(url_for("home"))        
+            return redirect(url_for("home"))
+        flash('Please enter a registered e-mail address')       
     return render_template("password-reset.html")
+
 
 @app.route("/reset-password/<token>", methods=["GET", "POST"])
 def reset_password(token):
     existing_user = verify_reset_token(token)
-    if request.method == "POST":
-            new_password = {"$set": {
-                "password": generate_password_hash(request.form.get("password"))
-            }}
-            mongo.db.users.update_one(
-                        {"email": existing_user}, new_password)
-            flash('Password Updated')
-            return redirect(url_for("home"))
-    return render_template('reset-password.html', existing_user=existing_user, token=token)
+    if existing_user:
+        if request.method == "POST":
+                new_password = {"$set": {
+                    "password": generate_password_hash(request.form.get("password"))
+                }}
+                mongo.db.users.update_one(
+                            {"email": existing_user}, new_password)
+                flash('Password Updated')
+                return redirect(url_for("home"))
+        return render_template('reset-password.html', existing_user=existing_user, token=token)
+    flash('Your password reset token is no longer valid, please try again.')
+    return redirect(url_for("password_reset"))
+
 
 @app.route("/dreambuilder", methods=["GET", "POST"])
 def dreambuilder():
     if session.get("user_id") is not None:
         if request.method == "POST":
-            dream_string = str(re.sub(" ", "-", request.form.get("dream_name").lower()))
+            dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
+            dream_string = str(re.sub(" ", "-", dream_string))
             check_slug = list(mongo.db.dreams.find({"dream_string": dream_string}))
             if (check_slug):
                 user_number = str(len(check_slug)+1)
@@ -426,6 +442,10 @@ def image_upload(dream_slug):
             return render_template("image-upload.html", dream_slug=dream_slug, dream=dream, base_url=base_url)
         return redirect(url_for("home"))
     return redirect(url_for("home"))
+
+@app.route("/abandon-dream")
+def abandon_dream ():
+    return redirect(url_for("dreams"))
 
 
 

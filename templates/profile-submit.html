@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css" type="text/css">
-    <title>Document</title>
-</head>
-<body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="row flashes">
-                <h4>{{ message }}</h4>
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+{% extends 'plain-template.html' %}
+
+{% block title %}
+    Image Upload - {{ user.first_name | capitalize + user.last_name | capitalize }}
+{% endblock title%}
+    
+{% block content %}
     <h1>Congratulations {{ user.first_name | capitalize }}!</h1>
     <h2>You have taken you first step into a brave new world</h2>
     <h3>But there is one more thing.</h3>
@@ -30,6 +19,4 @@
         <input type="file" id="uploaded-image" name="profile_picture">
         <button type="submit">Submit Image</button>
     </form>
-    <script src="static/js/script.js"></script>
-</body>
-</html>
+{% endblock content %}
