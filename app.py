@@ -22,8 +22,8 @@ if os.path.exists("env.py"):
 app = Flask(__name__)
 
 #call session cookie environment variables
-app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get("SESSION_COOKIE_SAMESITE")
-app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
+#app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get("SESSION_COOKIE_SAMESITE")
+#app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
 
 #call mail environment variables
 app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
@@ -363,7 +363,7 @@ def password_reset():
             messageFive= base_url["reset"] + "reset-password/" + token            
             msg = Message()
             msg.subject = "Password Reset"
-            msg.recipients = ['rowlandcoping@gmail.com']
+            msg.recipients = [existing_user["email"]]
             msg.sender = 'noreply@hopesanddreams.com'
             msg.html = messageOne + messageTwo + messageThree + messageFour + messageFive
             try:
