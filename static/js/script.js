@@ -1,9 +1,11 @@
 //------------OBJECTS-------------//
 
-const currentPersonal = {
+const currentValues = {
     firstName: "",
     lastName: "",
-    email:""
+    email:"",
+    dreamName:"",
+    dreamDescription:""
 }
 
 const currentInfo = {
@@ -278,6 +280,93 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    //Edit dream (general info)
+
+    //activate dream name field + commit change button (use a tick / cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-name-edit"); 
+        if(target){
+            editDreamName();
+        }
+    });
+    //commit dream name change (on clicking tick)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-name-confirm"); 
+        if(target){
+            confirmDreamName();
+        }
+    });
+    //cancel dream name change (on clicking cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-name-cancel"); 
+        if(target){
+            cancelDreamName();
+        }
+    });
+    //activate dream description field + commit change button (use a tick / cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-description-edit"); 
+        if(target){
+            editDreamDescription();
+        }
+    });
+    //commit dream description change (on clicking tick)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-description-confirm"); 
+        if(target){
+            confirmDreamDescription();
+        }
+    });
+    //cancel dream description change (on clicking cross)
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream-description-cancel"); 
+        if(target){
+            cancelDreamDescription();
+        }
+    });
+    //display edit category section
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#categories-edit"); 
+        if(target){
+            editCategories();
+        }
+    });
+    //display edit required skills section
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#required-edit"); 
+        if(target){
+            editSkillsRequired();
+        }
+    });
+    //view add category field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-new-category"); 
+        if(target){
+            document.getElementById('add-category-field').style.display = "inline-block";
+        }
+    });
+    //add another category
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-this-category"); 
+        if(target){
+            addNewCategory();
+        }
+    });
+    //view add skill required field
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-new-required"); 
+        if(target){
+            document.getElementById('add-required-field').style.display = "inline-block";
+        }
+    });
+    //add another required skill
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#add-this-required"); 
+        if(target){
+            addNewSkillRequired();
+        }
+    });
+
     //------------ACTIONS-------------//
     
     //SIGN IN
@@ -415,7 +504,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //DREAMBUILDER DREAM CREATION PROCESS
 
-
     function dreambuilderOneComplete() {
         let dreamName = document.getElementById('dream_name').value;
         let dreamDescription = document.getElementById('dream_description').value;
@@ -485,8 +573,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "none";
         document.getElementById('first-name-confirm').style.display = "inline-block";
         document.getElementById('first-name-cancel').style.display = "inline-block";
-        if (!currentPersonal.firstName) {
-            currentPersonal.firstName = document.getElementById('first-name').value;
+        if (!currentValues.firstName) {
+            currentValues.firstName = document.getElementById('first-name').value;
         }
     }
     //Committing first name to field
@@ -506,8 +594,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('first-name-confirm').style.display = "none";
         document.getElementById('first-name-cancel').style.display = "none";
-        if (currentPersonal.firstName) {
-            document.getElementById('first-name').value = currentPersonal.firstName;
+        if (currentValues.firstName) {
+            document.getElementById('first-name').value = currentValues.firstName;
         }
     }
     //Editing last name
@@ -518,8 +606,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "none";
         document.getElementById('last-name-confirm').style.display = "inline-block";
         document.getElementById('last-name-cancel').style.display = "inline-block";
-        if (!currentPersonal.lastName) {
-            currentPersonal.lastName = document.getElementById('last-name').value;
+        if (!currentValues.lastName) {
+            currentValues.lastName = document.getElementById('last-name').value;
         }
     }
     //Committing last name to field
@@ -539,8 +627,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('last-name-confirm').style.display = "none";
         document.getElementById('last-name-cancel').style.display = "none";
-        if (currentPersonal.lastName) {
-            document.getElementById('last-name').value = currentPersonal.lastName;
+        if (currentValues.lastName) {
+            document.getElementById('last-name').value = currentValues.lastName;
         }
     }
     //Editing email name
@@ -551,8 +639,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "none";
         document.getElementById('email-confirm').style.display = "inline-block";
         document.getElementById('email-cancel').style.display = "inline-block";
-        if (!currentPersonal.email) {
-            currentPersonal.email = document.getElementById('email').value;
+        if (!currentValues.email) {
+            currentValues.email = document.getElementById('email').value;
         }
     }
     //Committing email name to field
@@ -580,7 +668,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('email-edit').style.display = "inline-block";
         document.getElementById('email-confirm').style.display = "none";
         document.getElementById('email-cancel').style.display = "none";
-        document.getElementById('email').value = currentPersonal.email;
+        document.getElementById('email').value = currentValues.email;
     }
     //editing profile picture
     function editProfilePic() {
@@ -751,5 +839,135 @@ document.addEventListener("DOMContentLoaded", function() {
             }       
         }
     }
-    
+
+    //EDIT DREAM GENERAL
+    //edit dream name
+    function editDreamName() {        
+        document.getElementById('dream-name').readOnly =false;
+        document.getElementById('dream-name-edit').style.display = "none";
+        document.getElementById('dream-description-edit').style.display = "none";
+        document.getElementById('dream-name-confirm').style.display = "inline-block";
+        document.getElementById('dream-name-cancel').style.display = "inline-block";
+        if (!currentValues.dreamName) {
+            currentValues.dreamName = document.getElementById('dream-name').value;
+        }
+    }
+    //Committing dream name amends to field
+    function confirmDreamName() {        
+        document.getElementById('dream-name').readOnly =true;
+        document.getElementById('dream-name-edit').style.display = "inline-block";
+        document.getElementById('dream-description-edit').style.display = "inline-block";
+        document.getElementById('dream-name-confirm').style.display = "none";
+        document.getElementById('dream-name-cancel').style.display = "inline-block";
+    }
+    //cancelling any changes
+    function cancelDreamName() {        
+        document.getElementById('dream-name').readOnly =true;
+        document.getElementById('dream-name-edit').style.display = "inline-block";
+        document.getElementById('dream-description-edit').style.display = "inline-block";
+        document.getElementById('dream-name-confirm').style.display = "none";
+        document.getElementById('dream-name-cancel').style.display = "none";
+        if (currentValues.dreamName) {
+            document.getElementById('dream-name').value = currentValues.dreamName;
+        }
+    }
+    //Editing last name
+    function editDreamDescription() {        
+        document.getElementById('dream-description').readOnly =false;
+        document.getElementById('dream-name-edit').style.display = "none";
+        document.getElementById('dream-description-edit').style.display = "none";
+        document.getElementById('dream-description-confirm').style.display = "inline-block";
+        document.getElementById('dream-description-cancel').style.display = "inline-block";
+        if (!currentValues.dreamDescription) {
+            currentValues.dreamDescription = document.getElementById('dream-description').value;
+        }
+    }
+    //Committing dream description amends to field
+    function confirmDreamDescription() {        
+        document.getElementById('dream-description').readOnly =true;
+        document.getElementById('dream-name-edit').style.display = "inline-block";
+        document.getElementById('dream-description-edit').style.display = "inline-block";
+        document.getElementById('dream-description-confirm').style.display = "none";
+        document.getElementById('dream-description-cancel').style.display = "inline-block";
+    }
+    //Cancelling dream description update
+    function cancelDreamDescription() {        
+        document.getElementById('dream-description').readOnly =true;
+        document.getElementById('dream-name-edit').style.display = "inline-block";
+        document.getElementById('dream-description-edit').style.display = "inline-block";
+        document.getElementById('dream-description-confirm').style.display = "none";
+        document.getElementById('dream-description-cancel').style.display = "none";
+        if (currentValues.dreamDescription) {
+            document.getElementById('dream-description').value = currentValues.dreamDescription;
+        }
+    }
+
+    //EDIT DREAM KEYWORDS
+    function editCategories() {
+        //prepare DOM
+        document.getElementById('preference-options').style.display="block";
+        document.getElementById('individual-categories').style.display="block";
+        document.getElementById('select-edit-section').style.display="none";
+    }
+    function editSkillsRequired() {
+        //prepare DOM
+        document.getElementById('preference-options').style.display="block";
+        document.getElementById('individual-required').style.display="block";
+        document.getElementById('select-edit-section').style.display="none";     
+    }
+    function addNewCategory() {
+        let newCategory = document.getElementById('new-category-add').value.toLowerCase();
+        let currentCategories= document.getElementById("categories").value.split(',');
+        if (newCategory.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "category should not include numbers";
+        } else if (newCategory.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "category should not contain special characters.<br>Use a hyphen instead of spaces!";
+        } else if (newCategory == "") {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
+        } else {
+            currentCategories.push(newCategory);
+            document.getElementById("categories").value = currentCategories;
+            let newDiv = document.createElement("div");
+            newDiv.className="new-category";
+            newDiv.innerHTML=newCategory;
+            document.getElementById("new-categories").append(newDiv);
+            document.getElementById('new-category-add').value = "";
+            document.getElementById('new-categories-title').style.display="block";
+            const addLine = document.getElementsByClassName('profile-update');
+            for (let i = 0; i < addLine.length; i++) {
+                addLine[i].style.display = "block";
+            }
+        }
+    }
+    function addNewSkillRequired() {
+        let newRequired = document.getElementById('new-required-add').value.toLowerCase();
+        let currentRequired= document.getElementById("required").value.split(',');
+        if (newRequired.match(/\d/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "skill required should not include numbers";
+        } else if (newRequired.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "skill required should not contain special characters. <br>Use a hyphen instead of spaces!";
+        } else if (newRequired == "") {
+            document.getElementById('form-alert').style.display = "block";
+            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
+        } else {
+            currentRequired.push(newRequired);
+            document.getElementById("required").value = currentRequired;
+            let newDiv = document.createElement("div");
+            newDiv.className="new-required";
+            newDiv.innerHTML=newRequired;
+            document.getElementById("new-required").append(newDiv);
+            document.getElementById('new-required-add').value = "";
+            document.getElementById('new-required-title').style.display="block";
+            const addLine = document.getElementsByClassName('profile-update');
+            for (let i = 0; i < addLine.length; i++) {
+                addLine[i].style.display = "block";
+            }
+        }
+    }
+
 });

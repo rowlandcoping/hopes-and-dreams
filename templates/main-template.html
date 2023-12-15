@@ -35,7 +35,14 @@
         </div>
         <div id="main-section">
             <div id="left-sidebar">
+                {% if dream is defined %}
+                <a href="{{ url_for('dreams') }}" class="{{ 'active-page' 
+                    if request.path == url_for('edit_dream', dream_slug=dream.dream_slug ) or
+                    request.path == url_for('edit_dream_general', dream_slug=dream.dream_slug ) or
+                    request.path == url_for('edit_dream_preferences', dream_slug=dream.dream_slug ) }}">
+                {% else %}
                 <a href="{{ url_for('dreams') }}" class="{{ 'active-page' if request.path == url_for('dreams') }}">
+                {% endif %}
                     <img src="{{ url_for('static', filename='images/general/friendsimg.bmp') }}" alt="" width = "150">
                     <h3>Dreams</h3>
                 </a>

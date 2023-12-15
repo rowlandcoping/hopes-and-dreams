@@ -1,9 +1,9 @@
 import os
 import io
 import re
-import smtplib
 import jwt
 from time import time
+from datetime import datetime
 from flask_mail import Mail, Message
 import cloudinary
 import cloudinary.uploader
@@ -401,6 +401,8 @@ def dreambuilder():
         if request.method == "POST":
             dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
             dream_string = str(re.sub(" ", "-", dream_string))
+            timestamp=time()
+            date_time=datetime.fromtimestamp(timestamp)
             check_slug = list(mongo.db.dreams.find({"dream_string": dream_string}))
             if (check_slug):
                 user_number = str(len(check_slug)+1)
@@ -409,6 +411,8 @@ def dreambuilder():
                 dream_slug = dream_string
             dream_create = {
                 "user_id": session.get("user_id"),
+                "timestamp_created": timestamp,
+                "datetime_created": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
                 "dream_name": request.form.get("dream_name"),
                 "dream_string": dream_string,
                 "dream_slug": dream_slug,
@@ -475,13 +479,122 @@ def edit_dream(dream_slug):
             return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
 
-@app.route("/general-information/<dream_slug>")
+@app.route("/general-information/<dream_slug>", methods=["GET","POST"])
 def edit_dream_general(dream_slug):
     if session.get("user_id") is not None:
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         if dream["user_id"] == session.get("user_id"):
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            if request.method == "POST":
+                if (request.form.get("dream_name").lower() != dream["dream_name"].lower()):
+                    dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
+                    dream_string = str(re.sub(" ", "-", dream_string))
+                    check_slug = list(mongo.db.dreams.find({"dream_string": dream_string}))
+                    if (check_slug):
+                        user_number = str(len(check_slug)+1)
+                        dream_slug = str(dream_string + "-" + user_number)
+                    else: 
+                        dream_slug = dream_string
+                else:
+                    dream_slug= dream["dream_slug"]
+                    dream_string=dream["dream_string"]                    
+                timestamp=time()
+                date_time=datetime.fromtimestamp(timestamp)
+                image_alt = ("This image represents " + request.form.get("dream_name"))
+                if request.files['image']:
+                    uploaded_image = request.files['image']
+                    imgname= uploaded_image.filename.split(".", 1)[0]
+                    filename= str(imgname + "-" + str(user_info["_id"]))
+                    converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                    if dream["image"] is not None:
+                        if dream["image"] != "":
+                            cloudinary.uploader.destroy("dreams/" + dream["image"])              
+                    cloudinary.uploader.upload(
+                        converted_image, public_id=filename, folder = "dreams")  
+                    dream_update = {"$set": {
+                        "timestamp_updated": timestamp,
+                        "datetime_updated": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                        "dream_name": request.form.get("dream_name"),
+                        "dream_string": dream_string,
+                        "dream_slug": dream_slug,
+                        "dream_description": request.form.get("dream_description"),
+                        "image": filename,
+                        "image_alt": image_alt
+                    }}
+                elif request.form.get("delete_image"):
+                    if (dream["image"] is not None):
+                        if (dream["image"]  != ""):
+                            cloudinary.uploader.destroy("dreams/" + dream["image"])
+                    dream_update = {"$set": {
+                        "timestamp_updated": timestamp,
+                        "datetime_updated": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                        "dream_name": request.form.get("dream_name"),
+                        "dream_string": dream_string,
+                        "dream_slug": dream_slug,
+                        "dream_description": request.form.get("dream_description"),
+                        "image": "",
+                    }}
+                else:
+                    dream_update = {"$set": {
+                        "timestamp_updated": timestamp,
+                        "datetime_updated": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                        "dream_name": request.form.get("dream_name"),
+                        "dream_string": dream_string,
+                        "dream_slug": dream_slug,
+                        "dream_description": request.form.get("dream_description"),
+                        "image_alt": image_alt
+                    }}
+                mongo.db.dreams.update_one(
+                        {"_id": ObjectId(dream["_id"])}, dream_update)
+                dream = dict(mongo.db.dreams.find_one({"_id": ObjectId(dream["_id"])}))
+                flash("Dream Updated") 
             return render_template("general-information.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+        return render_template("general-information.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+    return redirect(url_for("home"))
+
+
+@app.route("/dream-preferences/<dream_slug>", methods=["GET","POST"])
+def edit_dream_preferences(dream_slug):
+    if session.get("user_id") is not None:
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        if dream["user_id"] == session.get("user_id"):
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            if request.method == "POST":
+                categories = request.form.get("categories")
+                required = request.form.get("required")
+                
+                categories = categories.split(",")
+                delete_categories = []
+                for i in range(len(categories)):                
+                    if request.form.get("categories-"+ str(i) +"-delete"):
+                        delete_categories.append(i)
+                category_deletions=sorted(delete_categories, reverse=True)
+                for i in category_deletions:
+                    if i < len(categories):
+                        categories.pop(i)
+                        
+                required = required.split(",")
+                delete_required = []
+                for i in range(len(required)):                
+                    if request.form.get("required-"+ str(i) +"-delete"):
+                        delete_required.append(i)
+                required_deletions=sorted(delete_required, reverse=True)
+                for i in required_deletions:
+                    if i < len(required):
+                        required.pop(i)
+                        
+                categories = ','.join(categories)
+                required = ','.join(required)
+                preferences_update = {"$set": {
+                        "categories": categories,
+                        "skills_required": required
+                }}
+                mongo.db.dreams.update_one(
+                        {"dream_slug": dream["dream_slug"]}, preferences_update)
+                flash('Dream preferences updated')
+                dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+            return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+        return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
 
 
