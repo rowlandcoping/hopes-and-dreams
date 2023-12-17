@@ -14,7 +14,7 @@ Dreamscape - {{ user.first_name }}
     </a>
 </div>
 <form action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
-    <label for="filter">Filter Results</label>
+    <label for="filter">Filter Results: </label>
     <select name="filter" id="dreamscape-filter">
         {% if selected == "trending" %}
         <option value="most_recent" selected>Most Recent</option>
@@ -30,7 +30,16 @@ Dreamscape - {{ user.first_name }}
         <option value="personalized">Personalized</option>
         {% endif %}
     </select>
-    <button type="submit">Show Dreams</button>
+    <br>
+    <button type="submit" id="filter_button">Show Dreams</button>
+    {% if checked %}
+    <input type="checkbox" id="show_own" name="show_own" value="Car" checked>
+    {% else %}
+    <input type="checkbox" id="show_own" name="show_own" value="Car">
+    {% endif %}
+    <label for="show_own"> Show Own Dreams</label><br>
+    
+
 </form>
 {% with dreams = dream %}
 {% if dreams %}

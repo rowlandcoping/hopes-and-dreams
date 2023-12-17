@@ -204,10 +204,25 @@ def dreamscape():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        dream_array = []
+        for x in dream:
+            if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+                    dream_array.append(x)
+        dream=dream_array
         selected = "most_recent"
+        checked=False
         if request.method == "POST":
+            if request.form.get("show_own"):
+                checked=True
+            else:
+                checked=False
             if request.form.get("filter") == "trending":
-                dream = list(mongo.db.dreams.find().sort("timestamp_created", 1))
+                dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+                dream_array = []
+                for x in dream:
+                    if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+                            dream_array.append(x)
+                dream=dream_array
                 selected = "trending"
             elif request.form.get("filter") == "personalized":
                 dream_array = []
@@ -216,14 +231,20 @@ def dreamscape():
                 for x in dream:
                     dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                     if any(y in user_keywords for y in dream_keywords):
-                        if x["user_id"] != session.get("user_id"):
+                        if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
                             dream_array.append(x)
                 selected = "personalized"
                 print(dream_array)
                 dream=list(dream_array)
             else:
-                return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected)
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected)
+                dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+                dream_array = []
+                for x in dream:
+                    if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+                            dream_array.append(x)
+                dream=dream_array
+                return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, checked=checked)
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, checked=checked)
     return redirect(url_for("home"))
 
 @app.route("/perosnal-feed")
