@@ -22,8 +22,8 @@ if os.path.exists("env.py"):
 app = Flask(__name__)
 
 #call session cookie environment variables
-#app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get("SESSION_COOKIE_SAMESITE")
-#app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
+app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get("SESSION_COOKIE_SAMESITE")
+app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
 
 #call mail environment variables
 app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
@@ -87,7 +87,7 @@ mongo = PyMongo(app)
 @app.route("/")
 def home():
     if session.get("user_id") is not None:
-        return redirect(url_for("feed_dreamscape"))
+        return redirect(url_for("dreamscape"))
     return render_template("landing.html")
 
 
@@ -95,8 +95,7 @@ def home():
 @app.route("/dare-to-dream", methods=["GET","POST"])
 def signup():
     if session.get("user_id") is not None:
-        user_info = list(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        return render_template("dreamscape.html", base_url=base_url, user=user_info)
+        return redirect(url_for("dreamscape"))
     if request.method == "POST":
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
@@ -189,7 +188,7 @@ def signin():
         if existing_user:
             if check_password_hash(existing_user["password"], request.form.get("password")):
                 session["user_id"] = str(ObjectId(existing_user["_id"]))
-                return redirect(url_for("feed_dreamscape"))
+                return redirect(url_for("dreamscape"))
             else:
                 flash("Username or Password not valid, please try again.")
                 return redirect(url_for("home"))
@@ -200,11 +199,39 @@ def signin():
 
 
 #route to the default dreamscape feed
-@app.route("/dreamscape")
-def feed_dreamscape():
+@app.route("/dreamscape", methods=["GET","POST"])
+def dreamscape():
+    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        selected = "most_recent"
+        if request.method == "POST":
+            if request.form.get("filter") == "trending":
+                dream = list(mongo.db.dreams.find().sort("timestamp_created", 1))
+                selected = "trending"
+            elif request.form.get("filter") == "personalized":
+                dream_array = []
+                user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")
+                print(user_keywords)                
+                for x in dream:
+                    dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
+                    if any(y in user_keywords for y in dream_keywords):
+                        if x["user_id"] != session.get("user_id"):
+                            dream_array.append(x)
+                selected = "personalized"
+                print(dream_array)
+                dream=list(dream_array)
+            else:
+                return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected)
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected)
+    return redirect(url_for("home"))
+
+@app.route("/perosnal-feed")
+def personal_feed():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}) )
-        return render_template("dreamscape.html", base_url=base_url, user=user_info)
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream)
     return redirect(url_for("home"))
 
 

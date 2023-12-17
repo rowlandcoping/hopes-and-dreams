@@ -5,9 +5,61 @@ Dreamscape - {{ user.first_name }}
 {% endblock title %}
 
 {% block content %}
-    <div id="secondary-navigation">
-        <p>Some nav</p>
+<div class="page-menu">
+    <a href="{{ url_for('dreamscape', base_url=base_url, user=user_info, dream=dream, selected=selected) }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('dreamscape') }}">
+        <h2>Dreamscape</h2>
+    </a>
+    <a href="{{ url_for('personal_feed', base_url=base_url, user=user_info) }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('personal_feed') }}">
+        <h2>Personal Feed</h2>
+    </a>
+</div>
+<form action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
+    <label for="filter">Filter Results</label>
+    <select name="filter" id="dreamscape-filter">
+        {% if selected == "trending" %}
+        <option value="most_recent" selected>Most Recent</option>
+        <option value="trending" selected>Trending</option>
+        <option value="personalized">Personalized</option>
+        {% elif selected == "personalized" %}
+        <option value="most_recent">Most Recent</option>
+        <option value="trending">Trending</option>
+        <option value="personalized" selected>Personalized</option>
+        {% else %}
+        <option value="most_recent" selected>Most Recent</option>
+        <option value="trending">Trending</option>
+        <option value="personalized">Personalized</option>
+        {% endif %}
+    </select>
+    <button type="submit">Show Dreams</button>
+</form>
+{% with dreams = dream %}
+{% if dreams %}
+    {% for dream in dreams %}
+        <div class="dream-list">
+            <div class="general-bar">
+                <a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
+            </div>
+            <div class="dream-general">
+                <div class="dream-image">
+                    {% if dream.image %}
+                        <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                    {% endif %}
+                </div>
+                <div class="dream-info">
+                    <div class="dream-name">
+                        <h3>{{ dream.dream_name}}</h3>
+                    </div>
+                    <div class="dream-description">
+                        {{ dream.dream_description }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="no-dreams">
+        <h3>No Results Found</h3>
     </div>
-    <div id="feed-area">
-    </div>
+{% endif %}
+{% endwith %}
 {% endblock content %}
