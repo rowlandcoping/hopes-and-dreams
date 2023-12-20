@@ -6,7 +6,7 @@ Dreamscape - {{ user.first_name }}
 
 {% block content %}
 <div class="page-menu">
-    <a href="{{ url_for('dreamscape', base_url=base_url, user=user_info, dream=dream, selected=selected) }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('dreamscape') }}">
+    <a href="{{ url_for('dreamscape', base_url=base_url, user=user_info, dream=dream) }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('dreamscape') }}">
         <h2>Dreamscape</h2>
     </a>
     <a href="{{ url_for('personal_feed', base_url=base_url, user=user_info) }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('personal_feed') }}">
@@ -17,7 +17,7 @@ Dreamscape - {{ user.first_name }}
     <label for="filter">Filter Results: </label>
     <select name="filter" id="dreamscape-filter">
         {% if selected == "trending" %}
-        <option value="most_recent" selected>Most Recent</option>
+        <option value="most_recent">Most Recent</option>
         <option value="trending" selected>Trending</option>
         <option value="personalized">Personalized</option>
         {% elif selected == "personalized" %}
@@ -32,14 +32,6 @@ Dreamscape - {{ user.first_name }}
     </select>
     <br>
     <button type="submit" id="filter_button">Show Dreams</button>
-    {% if checked %}
-    <input type="checkbox" id="show_own" name="show_own" value="Car" checked>
-    {% else %}
-    <input type="checkbox" id="show_own" name="show_own" value="Car">
-    {% endif %}
-    <label for="show_own"> Show Own Dreams</label><br>
-    
-
 </form>
 {% with dreams = dream %}
 {% if dreams %}
@@ -63,21 +55,25 @@ Dreamscape - {{ user.first_name }}
                         {{ dream.dream_description }}
                     </div>
                     <div class="dream-options">
-                        
-                        {% if dream._id in user.dreams_followed %}
-                            <a href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug) }}">Unfollow Dream</a>
-                        {% else %}
-                            <a href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug) }}">Follow Dream</a>
+                        {% if dream.user_id != session['user_id'] %}
+                            {% if dream._id in user.dreams_followed %}
+                                <a href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug, selected=selected, checked=checked) }}">Unfollow Dream</a>
+                            {% else %}
+                                <a href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug, selected=selected, checked=checked) }}">Follow Dream</a>
+                            {% endif %}
                         {% endif %}
 
-                        {% if dream.user_id in user.users_followed %}
-                            <a href="{{ url_for('dreamscape_unfollow_creator', user_id=dream.user_id) }}">Unfollow Creator</a>
-                        {% else %}
-                            <a href="{{ url_for('dreamscape_follow_creator', user_id=dream.user_id) }}">Follow Creator</a>
+                        {% if dream.user_id != session['user_id'] %}
+                            {% if dream.user_id in user.users_followed %}
+                                <a href="{{ url_for('dreamscape_unfollow_creator', user_id=dream.user_id, selected=selected, checked=checked) }}">Unfollow Creator</a>
+                            {% else %}
+                                <a href="{{ url_for('dreamscape_follow_creator', user_id=dream.user_id, selected=selected, checked=checked) }}">Follow Creator</a>
+                            {% endif %}
                         {% endif %}
                         
                         <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
                         <a href="">View Comments</a>
+                        <p>Following: {{ dream.users_following | length }} </p>
                     </div>
                 </div>                
             </div>

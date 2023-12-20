@@ -50,3 +50,13 @@ I noticed that when I logged out of a session using session.pop() as instructed 
 Image delete issue
 
 I noticed that images were not being deleted from cloudinary when replaced or removed as the code intended. It turned out I needed to add an additional condition to ensure an emptry field was treated the same as a null value - this is important as the server returns an error if it tries to return soimething tha tis not there but an empty string is treated as something being there, so it wasn't deleting the image if the database field had previously been populated.
+
+Following / unfollowing dreams and retaining page state
+
+I spent a considerable amount of time trying to ensure the current page state is retained when reloading the dreamscape template after following or unfollowing a dream.  This will also apply to liking or unliking comments, so I thought it was worth spending time on.  I tried a number of methods, but struggled to properly affect the 'show own dreams' checkbox, which meant I eventually gave up on it.
+
+I also forsee a need to return the focus of the page to the dream which has just been clicked on.  
+
+My main method was passing parameters to the URL using the get method, but it wasn't clear how this would work with multiple parameters. Most examples online use a different method to that which I have been taught on the course, which would require learning an entirely new methodology and re-writing a bunch of code.
+
+My end decision has been get rid of a checkbox which enables a user to videw their own dreams in the feed

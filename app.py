@@ -87,7 +87,7 @@ mongo = PyMongo(app)
 @app.route("/")
 def home():
     if session.get("user_id") is not None:
-        return redirect(url_for("dreamscape"))
+        return redirect(url_for("dreamscape", selected="most_recent", checked=False))
     return render_template("landing.html")
 
 
@@ -206,7 +206,7 @@ def dreamscape():
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         dream_array = []
         for x in dream:
-            if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+            if x["user_id"] != session.get("user_id"):
                     dream_array.append(x)
         dream=dream_array
         selected = "most_recent"
@@ -220,7 +220,7 @@ def dreamscape():
                 dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
                 dream_array = []
                 for x in dream:
-                    if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+                    if x["user_id"] != session.get("user_id"):
                             dream_array.append(x)
                 dream=dream_array
                 selected = "trending"
@@ -231,7 +231,7 @@ def dreamscape():
                 for x in dream:
                     dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                     if any(y in user_keywords for y in dream_keywords):
-                        if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+                        if x["user_id"] != session.get("user_id"):
                             dream_array.append(x)
                 selected = "personalized"
                 print(dream_array)
@@ -240,19 +240,19 @@ def dreamscape():
                 dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
                 dream_array = []
                 for x in dream:
-                    if x["user_id"] != session.get("user_id") or request.form.get("show_own"):
+                    if x["user_id"] != session.get("user_id"):
                             dream_array.append(x)
                 dream=dream_array
                 return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, checked=checked)
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, checked=checked)
     return redirect(url_for("home"))
 
-@app.route("/perosnal-feed")
+@app.route("/personal-feed")
 def personal_feed():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}) )
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream)
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected="most_recent", checked=False)
     return redirect(url_for("home"))
 
 
@@ -650,7 +650,7 @@ def edit_dream_preferences(dream_slug):
                 flash('Dream preferences updated')
                 dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
             return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
-        return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+        return render_template("dream-preferences.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
 
 @app.route("/follow-dream/<dream_slug>", methods=["GET","POST"])
@@ -687,8 +687,8 @@ def dreamscape_unfollow_dream(dream_slug):
     return redirect(url_for("home"))
         
         
-@app.route("/follow-creator/<user_id>", methods=["GET","POST"])
-def dreamscape_follow_creator(user_id):
+@app.route("/follow-creator/<user_id>,<selected>,<checked>", methods=["GET","POST"])
+def dreamscape_follow_creator(user_id, selected, checked):
     if session.get("user_id") is not None:
         add_user = {"$push":{
             "users_following" : session["user_id"]
