@@ -466,7 +466,7 @@ def dreambuilder():
                 dream_slug = dream_string
             dream_create = {
                 "user_id": session.get("user_id"),
-                "user_name": str(user_info("first_name") + " " + user_info("last_name")),
+                "user_name": str(user_info["first_name"] + " " + user_info["last_name"]),
                 "timestamp_created": timestamp,
                 "datetime_created": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
                 "dream_name": request.form.get("dream_name"),
@@ -668,6 +668,23 @@ def dreamscape_follow_dream(dream_slug):
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
         return redirect(url_for("dreamscape"))
     return redirect(url_for("home"))
+
+@app.route("/unfollow-dream/<dream_slug>", methods=["GET","POST"])
+def dreamscape_unfollow_dream(dream_slug):
+    if session.get("user_id") is not None:
+        dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
+        #remove from dreams followed list in users
+        remove_dream = {"$pull": {
+            "dreams_followed" : dream["_id"]
+        }}
+        mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, remove_dream)
+        #remove from users following list in dreams
+        remove_user = {"$pull":{
+            "users_following" : session["user_id"]
+        }}
+        mongo.db.dreams.update_one({"dream_slug":dream_slug}, remove_user)        
+        return redirect(url_for("dreamscape"))
+    return redirect(url_for("home"))
         
         
 @app.route("/follow-creator/<user_id>", methods=["GET","POST"])
@@ -681,6 +698,20 @@ def dreamscape_follow_creator(user_id):
         }}
         mongo.db.users.update_one({"_id":  ObjectId(user_id)}, add_user)
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)       
+        return redirect(url_for("dreamscape"))
+    return redirect(url_for("home"))
+
+@app.route("/unfollow-creator/<user_id>", methods=["GET","POST"])
+def dreamscape_unfollow_creator(user_id):
+    if session.get("user_id") is not None:
+        remove_user = {"$pull":{
+            "users_following" : session["user_id"]
+        }}
+        unfollow_user = {"$pull":{
+            "users_followed" : user_id
+        }}
+        mongo.db.users.update_one({"_id":  ObjectId(user_id)}, remove_user)
+        mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, unfollow_user)        
         return redirect(url_for("dreamscape"))
     return redirect(url_for("home"))
         

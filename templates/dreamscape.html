@@ -63,13 +63,23 @@ Dreamscape - {{ user.first_name }}
                         {{ dream.dream_description }}
                     </div>
                     <div class="dream-options">
-                        <a href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug) }}">Follow Dream</a>
-                        <a href="{{ url_for('dreamscape_follow_creator', user_id=dream.user_id) }}">Follow Creator</a>
+                        
+                        {% if dream._id in user.dreams_followed %}
+                            <a href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug) }}">Unfollow Dream</a>
+                        {% else %}
+                            <a href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug) }}">Follow Dream</a>
+                        {% endif %}
+
+                        {% if dream.user_id in user.users_followed %}
+                            <a href="{{ url_for('dreamscape_unfollow_creator', user_id=dream.user_id) }}">Unfollow Creator</a>
+                        {% else %}
+                            <a href="{{ url_for('dreamscape_follow_creator', user_id=dream.user_id) }}">Follow Creator</a>
+                        {% endif %}
+                        
                         <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
                         <a href="">View Comments</a>
                     </div>
-                </div>
-                
+                </div>                
             </div>
         </div>
     {% endfor %}
