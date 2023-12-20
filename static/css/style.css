@@ -90,6 +90,16 @@ a, a:visited, a:link, a:active, a:hover  {
 
 
 /*Dreamscape*/
-#filter_button {
-    display:inline-block;
+
+.dream-general {
+    display:flex;
+}
+
+.dream-info {
+    display:flex;
+    flex-direction: column;
+}
+
+.dream-image.img{
+    width:400px;
 }

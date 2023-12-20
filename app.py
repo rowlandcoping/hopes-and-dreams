@@ -329,6 +329,12 @@ def profile_personal():
             }}
             mongo.db.users.update_one(
                     {"_id": ObjectId(user_info["_id"])}, profile_update)
+            user_dreams = list(mongo.db.dreams.find({"user_id": session["user_id"]}))
+            for dream in user_dreams:
+                dream_update={"$set": {
+                    "user_name": str(request.form.get("first_name") + " " + request.form.get("last_name"))
+                }}
+                mongo.db.dreams.update_one({"_id": ObjectId(dream["_id"])}, dream_update)
             flash("Profile Updated")
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         return render_template("profile-personal.html", base_url=base_url, user=user_info)
@@ -447,6 +453,7 @@ def reset_password(token):
 def dreambuilder():
     if session.get("user_id") is not None:
         if request.method == "POST":
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
             dream_string = str(re.sub(" ", "-", dream_string))
             timestamp=time()
@@ -459,6 +466,7 @@ def dreambuilder():
                 dream_slug = dream_string
             dream_create = {
                 "user_id": session.get("user_id"),
+                "user_name": str(user_info("first_name") + " " + user_info("last_name")),
                 "timestamp_created": timestamp,
                 "datetime_created": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
                 "dream_name": request.form.get("dream_name"),
@@ -644,6 +652,44 @@ def edit_dream_preferences(dream_slug):
             return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
         return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
+
+@app.route("/follow-dream/<dream_slug>", methods=["GET","POST"])
+def dreamscape_follow_dream(dream_slug):
+    if session.get("user_id") is not None:
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        add_dream = {"$push": {
+            "dreams_followed" : dream["_id"]
+        }}
+        add_user = {"$push":{
+            "users_following" : session["user_id"]
+        }}
+        mongo.db.dreams.update_one(
+                        {"dream_slug":dream_slug}, add_user)
+        mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
+        return redirect(url_for("dreamscape"))
+    return redirect(url_for("home"))
+        
+        
+@app.route("/follow-creator/<user_id>", methods=["GET","POST"])
+def dreamscape_follow_creator(user_id):
+    if session.get("user_id") is not None:
+        add_user = {"$push":{
+            "users_following" : session["user_id"]
+        }}
+        follow_user = {"$push":{
+            "users_followed" : user_id
+        }}
+        mongo.db.users.update_one({"_id":  ObjectId(user_id)}, add_user)
+        mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)       
+        return redirect(url_for("dreamscape"))
+    return redirect(url_for("home"))
+        
+        
+@app.route("/dream/<dream_slug>", methods=["GET","POST"])
+def view_dream(dream_slug):
+    if session.get("user_id") is not None:
+        return redirect(url_for("dreamscape"))
+        
 
 
 #launches Hopes and Dreams, calls app environment variables         

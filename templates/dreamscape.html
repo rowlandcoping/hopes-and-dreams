@@ -46,22 +46,30 @@ Dreamscape - {{ user.first_name }}
     {% for dream in dreams %}
         <div class="dream-list">
             <div class="general-bar">
-                <a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
+                <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
             </div>
             <div class="dream-general">
+                
                 <div class="dream-image">
                     {% if dream.image %}
-                        <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                        <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                     {% endif %}
                 </div>
                 <div class="dream-info">
                     <div class="dream-name">
-                        <h3>{{ dream.dream_name}}</h3>
+                        <h2>{{ dream.dream_name}}</h2>
                     </div>
                     <div class="dream-description">
                         {{ dream.dream_description }}
                     </div>
+                    <div class="dream-options">
+                        <a href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug) }}">Follow Dream</a>
+                        <a href="{{ url_for('dreamscape_follow_creator', user_id=dream.user_id) }}">Follow Creator</a>
+                        <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
+                        <a href="">View Comments</a>
+                    </div>
                 </div>
+                
             </div>
         </div>
     {% endfor %}
