@@ -103,3 +103,7 @@ a, a:visited, a:link, a:active, a:hover  {
 .dream-image.img{
     width:400px;
 }
+
+#focussed-dream:focus {
+    outline: none;
+}

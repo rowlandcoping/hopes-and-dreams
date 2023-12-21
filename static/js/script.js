@@ -367,6 +367,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    
+
     //------------ACTIONS-------------//
     
     //SIGN IN
@@ -969,5 +971,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
+
+    //DREAMSCAPE
+    //ensure following or unfollowing returns to dream the user followed/unfollowed
+    document.getElementById('focussed-dream').focus(); 
 
 });
