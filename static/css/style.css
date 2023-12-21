@@ -107,3 +107,7 @@ a, a:visited, a:link, a:active, a:hover  {
 #focussed-dream:focus {
     outline: none;
 }
+
+.comment-box {
+    width: 70%;
+}

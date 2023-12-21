@@ -13,7 +13,7 @@ Dreamscape - {{ user.first_name }}
         <h2>Personal Feed</h2>
     </a>
 </div>
-<form action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
+<form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
     <label for="filter">Filter Results: </label>
     <select name="filter" id="dreamscape-filter">
         {% if selected == "trending" %}
@@ -31,7 +31,7 @@ Dreamscape - {{ user.first_name }}
         {% endif %}
     </select>
     <br>
-    <button type="submit" id="filter_button">Show Dreams</button>
+    <button type="submit" for="filter-dreamscape" id="filter_button">Show Dreams</button>
 </form>
 {% with dreams = dream %}
 {% if dreams %}
@@ -88,10 +88,17 @@ Dreamscape - {{ user.first_name }}
                         {% endif %}
                         
                         <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
-                        <a href="">View Comments</a>
                         <p>Following: {{ dream.users_following | length }} </p>
                     </div>
                 </div>                
+            </div>
+            <div class="dream-comments">
+                <a href="">View All Comments</a>
+                <div id = "{{ dream.dream_slug }}" class="add-comment">Add Comment</div>
+                <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                    <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
+                    <button type=submit for="{{ dream.dream_slug }}-comment">Submit Comment</button>
+                </form>                
             </div>
         </div>
     {% endfor %}

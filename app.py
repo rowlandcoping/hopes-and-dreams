@@ -653,7 +653,17 @@ def edit_dream_preferences(dream_slug):
 def dreamscape_follow_dream(dream_slug, selected):
     if session.get("user_id") is not None:
         dream_pick = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        if not dream_pick["users_following"].count(session["user_id"]):
+        if "users_following" in dream_pick:
+            if not dream_pick["users_following"].count(session["user_id"]):
+                add_dream = {"$push": {
+                    "dreams_followed" : dream_pick["_id"]
+                }}
+                add_user = {"$push":{
+                    "users_following" : session["user_id"]
+                }}
+                mongo.db.dreams.update_one({"dream_slug":dream_slug}, add_user)
+                mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
+        else:
             add_dream = {"$push": {
                 "dreams_followed" : dream_pick["_id"]
             }}
@@ -734,12 +744,22 @@ def dreamscape_unfollow_dream(dream_slug, selected):
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug)
         
         
-@app.route("/follow-creator/<dream_slug>,/<selected>", methods=["GET","POST"])
+@app.route("/follow-creator/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_follow_creator(dream_slug, selected):
     if session.get("user_id") is not None:
         this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        if not user_info["users_followed"].count(this_dream["user_id"]):       
+        if "users_followed" in user_info:
+            if not user_info["users_followed"].count(this_dream["user_id"]):      
+                add_user = {"$push":{
+                    "users_following" : session["user_id"]
+                }}
+                follow_user = {"$push":{
+                    "users_followed" : this_dream["user_id"]
+                }}
+                mongo.db.users.update_one({"_id":  ObjectId(this_dream["user_id"])}, add_user)
+                mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)
+        else:
             add_user = {"$push":{
                 "users_following" : session["user_id"]
             }}
@@ -817,8 +837,25 @@ def dreamscape_unfollow_creator(dream_slug, selected):
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug)
         
-        
-        
+@app.route("/add-comment/<dream_slug>/<selected>", methods=["GET","POST"])
+def add_comment(dream_slug, selected):
+    this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+    user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+    dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+    timestamp=time()
+    comment = {
+        "comment": request.form.get(dream_slug + "-text"),
+        "dream_id": this_dream["_id"],
+        "user_id": session["user_id"],
+        "user_name": user_info["first_name"] + " " + user_info["last_name"],           
+        "timestamp_created": timestamp,
+        "datetime_created": datetime.fromtimestamp(timestamp),
+    }
+    mongo.db.comments.insert_one(comment)
+    comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+    return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+
+
 @app.route("/dream/<dream_slug>", methods=["GET","POST"])
 def view_dream(dream_slug):
     if session.get("user_id") is not None:

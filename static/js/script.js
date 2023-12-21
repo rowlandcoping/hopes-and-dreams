@@ -367,6 +367,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    //DREAMSCAPE
+    //add event listners to all add comment buttons
+    const attachCommentListners= Array.from(document.getElementsByClassName('add-comment'));
+    attachCommentListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            addComment(itemId);
+        });
+    });
+
     
 
     //------------ACTIONS-------------//
@@ -974,6 +984,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //DREAMSCAPE
     //ensure following or unfollowing returns to dream the user followed/unfollowed
-    document.getElementById('focussed-dream').focus(); 
+    document.getElementById('focussed-dream').focus();
+    //enable add comment box
+    function addComment(itemId) {
+        form= itemId + "-comment"
+        document.getElementById(form).style.display="block";
+    }
 
 });
