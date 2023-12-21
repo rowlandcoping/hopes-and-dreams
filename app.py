@@ -204,6 +204,7 @@ def dreamscape():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         dream_array = []
         for x in dream:
             if x["user_id"] != session.get("user_id"):
@@ -239,16 +240,17 @@ def dreamscape():
                     if x["user_id"] != session.get("user_id"):
                             dream_array.append(x)
                 dream=dream_array
-            return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, checked=checked)
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, checked=checked)
+            return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
     return redirect(url_for("home"))
 
 @app.route("/personal-feed")
 def personal_feed():
     if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}) )
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected="latest", checked=False)
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected="latest", comments=comments)
     return redirect(url_for("home"))
 
 
@@ -674,6 +676,7 @@ def dreamscape_follow_dream(dream_slug, selected):
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         if request.form.get("filter") == "trending":
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
@@ -698,7 +701,7 @@ def dreamscape_follow_dream(dream_slug, selected):
                 if x["user_id"] != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug)
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
 @app.route("/unfollow-dream/<dream_slug>/<selected>", methods=["GET","POST"])
@@ -717,6 +720,7 @@ def dreamscape_unfollow_dream(dream_slug, selected):
         mongo.db.dreams.update_one({"dream_slug":dream_slug}, remove_user)        
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         if request.form.get("filter") == "trending":
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
@@ -741,8 +745,8 @@ def dreamscape_unfollow_dream(dream_slug, selected):
                 if x["user_id"] != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug)
-        
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))   
         
 @app.route("/follow-creator/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_follow_creator(dream_slug, selected):
@@ -770,6 +774,7 @@ def dreamscape_follow_creator(dream_slug, selected):
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))      
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         if request.form.get("filter") == "trending":
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
@@ -794,8 +799,8 @@ def dreamscape_follow_creator(dream_slug, selected):
                 if x["user_id"] != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug)
-        
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))       
 
 @app.route("/unfollow-creator/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_unfollow_creator(dream_slug, selected):
@@ -811,6 +816,7 @@ def dreamscape_unfollow_creator(dream_slug, selected):
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, unfollow_user)        
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         if request.form.get("filter") == "trending":
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
@@ -835,8 +841,10 @@ def dreamscape_unfollow_creator(dream_slug, selected):
                 if x["user_id"] != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug)
-        
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))
+
+    
 @app.route("/add-comment/<dream_slug>/<selected>", methods=["GET","POST"])
 def add_comment(dream_slug, selected):
     this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
@@ -854,6 +862,49 @@ def add_comment(dream_slug, selected):
     mongo.db.comments.insert_one(comment)
     comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
     return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+  
+
+@app.route("/like-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
+def like_dream_comment(dream_slug, selected):
+    if session.get("user_id") is not None:
+        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))
+
+
+@app.route("/unlike-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
+def unlike_dream_comment(dream_slug, selected):
+    if session.get("user_id") is not None:
+        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))
+
+
+@app.route("/dislike-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
+def dislike_dream_comment(dream_slug, selected):
+    if session.get("user_id") is not None:
+        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))
+
+@app.route("/undislike-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
+def undislike_dream_comment(dream_slug, selected):
+    if session.get("user_id") is not None:
+        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+    return redirect(url_for("home"))
 
 
 @app.route("/dream/<dream_slug>", methods=["GET","POST"])

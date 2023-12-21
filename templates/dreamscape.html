@@ -93,12 +93,49 @@ Dreamscape - {{ user.first_name }}
                 </div>                
             </div>
             <div class="dream-comments">
-                <a href="">View All Comments</a>
-                <div id = "{{ dream.dream_slug }}" class="add-comment">Add Comment</div>
-                <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
-                    <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
-                    <button type=submit for="{{ dream.dream_slug }}-comment">Submit Comment</button>
-                </form>                
+                <div class="comment-entry">
+                    <a href="">View All Comments</a>
+                    <div id = "{{ dream.dream_slug }}" class="add-comment">Add Comment</div>
+                    <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                        <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
+                        <button type=submit for="{{ dream.dream_slug }}-comment">Submit Comment</button>
+                    </form>
+                </div>
+                <div class="comments-small">
+                    {% with dream_comment = comments %}
+                        {% if dream_comment %}
+                            {% for comment in dream_comment %}
+                                {% if comment.dream_id == dream._id %}
+                            
+                        <div class="comment-header">
+                            {% if dream.user_id != session['user_id'] %}
+                                {% if comment._id in user.comments_liked %}
+                                    <a href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}">Unlike</a>
+                                {% else %}
+                                    <a href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}">Like</a>
+                                {% endif %}
+                                {% if comment._id in user.comments_disliked %}
+                                    <a href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}">UnDislike</a>
+                                {% else %}
+                                    <a href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}">Dislike</a>
+                                {% endif %}
+                            {% endif %}
+                            Posted by {{ comment.user_name }} at {{ comment.datetime_created}}
+                        </div>
+                        <div class="comment-comment">
+                            {{ comment.comment}}
+                        </div>
+                        
+                        {% endif %}
+                        {% endfor %}  
+                        {% endif %}
+                    {% endwith %}
+
+                </div>
+                <div class="comments-more">
+
+
+                </div>
             </div>
         </div>
     {% endfor %}
