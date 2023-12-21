@@ -207,17 +207,16 @@ def dreamscape():
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         dream_array = []
         for x in dream:
-            if x["user_id"] != session.get("user_id"):
+            if str(x["user_id"]) != session.get("user_id"):
                     dream_array.append(x)
         dream=dream_array
         selected = "latest"
-        checked=False
         if request.method == "POST":
             if request.form.get("filter") == "trending":
                 dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
                 dream_array = []
                 for x in dream:
-                    if x["user_id"] != session.get("user_id"):
+                    if str(x["user_id"]) != session.get("user_id"):
                             dream_array.append(x)
                 dream=dream_array
                 selected = "trending"
@@ -228,7 +227,7 @@ def dreamscape():
                 for x in dream:
                     dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                     if any(y in user_keywords for y in dream_keywords):
-                        if x["user_id"] != session.get("user_id"):
+                        if str(x["user_id"]) != session.get("user_id"):
                             dream_array.append(x)
                 selected = "personalized"
                 print(dream_array)
@@ -237,7 +236,7 @@ def dreamscape():
                 dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
                 dream_array = []
                 for x in dream:
-                    if x["user_id"] != session.get("user_id"):
+                    if str(x["user_id"]) != session.get("user_id"):
                             dream_array.append(x)
                 dream=dream_array
             return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
@@ -259,7 +258,7 @@ def personal_feed():
 def dreams():
     if session.get("user_id") is not None:
         user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
-        user_dreams = list(mongo.db.dreams.find({"user_id": session["user_id"]}))      
+        user_dreams = list(mongo.db.dreams.find({"user_id": ObjectId(session["user_id"])}))      
         return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
     return redirect(url_for("home"))
 
@@ -463,10 +462,10 @@ def dreambuilder():
             else: 
                 dream_slug = dream_string
             dream_create = {
-                "user_id": session.get("user_id"),
+                "user_id": ObjectId(session.get("user_id")),
                 "user_name": str(user_info["first_name"] + " " + user_info["last_name"]),
                 "timestamp_created": timestamp,
-                "datetime_created": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                "datetime_created": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
                 "dream_name": request.form.get("dream_name"),
                 "dream_string": dream_string,
                 "dream_slug": dream_slug,
@@ -474,6 +473,7 @@ def dreambuilder():
                 "categories": request.form.get("categories"),
                 "skills_required": request.form.get("skills_required")
             }
+            
             mongo.db.dreams.insert_one(dream_create)
             dream_verify = mongo.db.dreams.find_one(
                 {"dream_slug": dream_slug})
@@ -489,7 +489,7 @@ def dreambuilder():
 def image_upload(dream_slug):
     if session.get("user_id") is not None:
         dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        if dream['user_id'] == session["user_id"]:
+        if str(dream['user_id']) == str(session["user_id"]):
             if request.method == "POST":
                 uploaded_image = request.files['image_upload']
                 imgname= uploaded_image.filename.split(".", 1)[0]
@@ -498,7 +498,7 @@ def image_upload(dream_slug):
                     "This image represents " + dream["dream_name"])
                 if uploaded_image:
                     converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                    if dream.get("image") is not None:
+                    if dream["image"] is not None:
                         if dream["image"]  != "":
                             cloudinary.uploader.destroy(dream["image"])               
                     cloudinary.uploader.upload(
@@ -528,7 +528,7 @@ def abandon_dream ():
 def edit_dream(dream_slug):
     if session.get("user_id") is not None:
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        if dream["user_id"] == session.get("user_id"):
+        if str(dream["user_id"]) == str(session.get("user_id")):
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
@@ -537,7 +537,7 @@ def edit_dream(dream_slug):
 def edit_dream_general(dream_slug):
     if session.get("user_id") is not None:
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        if dream["user_id"] == session.get("user_id"):
+        if str(dream["user_id"]) == str(session.get("user_id")):
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             if request.method == "POST":
                 if (request.form.get("dream_name").lower() != dream["dream_name"].lower()):
@@ -560,14 +560,14 @@ def edit_dream_general(dream_slug):
                     imgname= uploaded_image.filename.split(".", 1)[0]
                     filename= str(imgname + "-" + str(user_info["_id"]))
                     converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                    if dream["image"] is not None:
+                    if "image" in dream:
                         if dream["image"] != "":
                             cloudinary.uploader.destroy("dreams/" + dream["image"])              
                     cloudinary.uploader.upload(
                         converted_image, public_id=filename, folder = "dreams")  
                     dream_update = {"$set": {
                         "timestamp_updated": timestamp,
-                        "datetime_updated": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                        "datetime_updated": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
                         "dream_name": request.form.get("dream_name"),
                         "dream_string": dream_string,
                         "dream_slug": dream_slug,
@@ -581,7 +581,7 @@ def edit_dream_general(dream_slug):
                             cloudinary.uploader.destroy("dreams/" + dream["image"])
                     dream_update = {"$set": {
                         "timestamp_updated": timestamp,
-                        "datetime_updated": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                        "datetime_updated": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
                         "dream_name": request.form.get("dream_name"),
                         "dream_string": dream_string,
                         "dream_slug": dream_slug,
@@ -591,7 +591,7 @@ def edit_dream_general(dream_slug):
                 else:
                     dream_update = {"$set": {
                         "timestamp_updated": timestamp,
-                        "datetime_updated": date_time.strftime("%d/%m/%Y, %H:%M:%S"),
+                        "datetime_updated": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
                         "dream_name": request.form.get("dream_name"),
                         "dream_string": dream_string,
                         "dream_slug": dream_slug,
@@ -610,9 +610,9 @@ def edit_dream_general(dream_slug):
 @app.route("/dream-preferences/<dream_slug>", methods=["GET","POST"])
 def edit_dream_preferences(dream_slug):
     if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         if dream["user_id"] == session.get("user_id"):
-            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             if request.method == "POST":
                 categories = request.form.get("categories")
                 required = request.form.get("required")
@@ -658,19 +658,19 @@ def dreamscape_follow_dream(dream_slug, selected):
         if "users_following" in dream_pick:
             if not dream_pick["users_following"].count(session["user_id"]):
                 add_dream = {"$push": {
-                    "dreams_followed" : dream_pick["_id"]
+                    "dreams_followed" : ObjectId(dream_pick["_id"])
                 }}
                 add_user = {"$push":{
-                    "users_following" : session["user_id"]
+                    "users_following" : ObjectId(session["user_id"])
                 }}
                 mongo.db.dreams.update_one({"dream_slug":dream_slug}, add_user)
                 mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
         else:
             add_dream = {"$push": {
-                "dreams_followed" : dream_pick["_id"]
+                "dreams_followed" : ObjectId(dream_pick["_id"])
             }}
             add_user = {"$push":{
-                "users_following" : session["user_id"]
+                "users_following" : ObjectId(session["user_id"])
             }}
             mongo.db.dreams.update_one({"dream_slug":dream_slug}, add_user)
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
@@ -681,7 +681,7 @@ def dreamscape_follow_dream(dream_slug, selected):
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         elif request.form.get("filter") == "personalized":
@@ -691,14 +691,14 @@ def dreamscape_follow_dream(dream_slug, selected):
             for x in dream:
                 dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                 if any(y in user_keywords for y in dream_keywords):
-                    if x["user_id"] != session.get("user_id"):
+                    if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=list(dream_array)
         else:
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
@@ -710,12 +710,12 @@ def dreamscape_unfollow_dream(dream_slug, selected):
         dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
         #remove from dreams followed list in users
         remove_dream = {"$pull": {
-            "dreams_followed" : dream["_id"]
+            "dreams_followed" : ObjectId(dream["_id"])
         }}
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, remove_dream)
         #remove from users following list in dreams
         remove_user = {"$pull":{
-            "users_following" : session["user_id"]
+            "users_following" : ObjectId(session["user_id"])
         }}
         mongo.db.dreams.update_one({"dream_slug":dream_slug}, remove_user)        
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
@@ -725,7 +725,7 @@ def dreamscape_unfollow_dream(dream_slug, selected):
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         elif request.form.get("filter") == "personalized":
@@ -735,14 +735,14 @@ def dreamscape_unfollow_dream(dream_slug, selected):
             for x in dream:
                 dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                 if any(y in user_keywords for y in dream_keywords):
-                    if x["user_id"] != session.get("user_id"):
+                    if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=list(dream_array)
         else:
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
@@ -756,10 +756,10 @@ def dreamscape_follow_creator(dream_slug, selected):
         if "users_followed" in user_info:
             if not user_info["users_followed"].count(this_dream["user_id"]):      
                 add_user = {"$push":{
-                    "users_following" : session["user_id"]
+                    "users_following" : ObjectId(session["user_id"])
                 }}
                 follow_user = {"$push":{
-                    "users_followed" : this_dream["user_id"]
+                    "users_followed" : ObjectId(this_dream["user_id"])
                 }}
                 mongo.db.users.update_one({"_id":  ObjectId(this_dream["user_id"])}, add_user)
                 mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)
@@ -772,14 +772,14 @@ def dreamscape_follow_creator(dream_slug, selected):
             }}
             mongo.db.users.update_one({"_id":  ObjectId(this_dream["user_id"])}, add_user)
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))      
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         if request.form.get("filter") == "trending":
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         elif request.form.get("filter") == "personalized":
@@ -789,14 +789,14 @@ def dreamscape_follow_creator(dream_slug, selected):
             for x in dream:
                 dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                 if any(y in user_keywords for y in dream_keywords):
-                    if x["user_id"] != session.get("user_id"):
+                    if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=list(dream_array)
         else:
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
@@ -821,7 +821,7 @@ def dreamscape_unfollow_creator(dream_slug, selected):
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         elif request.form.get("filter") == "personalized":
@@ -831,14 +831,14 @@ def dreamscape_unfollow_creator(dream_slug, selected):
             for x in dream:
                 dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                 if any(y in user_keywords for y in dream_keywords):
-                    if x["user_id"] != session.get("user_id"):
+                    if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=list(dream_array)
         else:
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
             dream_array = []
             for x in dream:
-                if x["user_id"] != session.get("user_id"):
+                if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
@@ -851,58 +851,222 @@ def add_comment(dream_slug, selected):
     user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
     dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
     timestamp=time()
-    comment = {
-        "comment": request.form.get(dream_slug + "-text"),
-        "dream_id": this_dream["_id"],
-        "user_id": session["user_id"],
-        "user_name": user_info["first_name"] + " " + user_info["last_name"],           
-        "timestamp_created": timestamp,
-        "datetime_created": datetime.fromtimestamp(timestamp),
-    }
-    mongo.db.comments.insert_one(comment)
+    date_time=datetime.fromtimestamp(timestamp)
+    existing_comment = mongo.db.comments.find_one(
+            {"comment": request.form.get(dream_slug + "-text")})
+    if existing_comment and ObjectId(existing_comment["user_id"])==ObjectId(session["user_id"]):
+        flash("You have already posted this comment.  Please write something different.")
+    else:
+        comment = {
+            "comment": request.form.get(dream_slug + "-text"),
+            "dream_id": ObjectId(this_dream["_id"]),
+            "user_id": ObjectId(session["user_id"]),
+            "user_name": user_info["first_name"] + " " + user_info["last_name"],           
+            "timestamp_created": timestamp,
+            "datetime_created": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
+        }
+        mongo.db.comments.insert_one(comment)
     comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
     return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
   
 
-@app.route("/like-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
-def like_dream_comment(dream_slug, selected):
+@app.route("/like-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
+def like_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        comment_pick = mongo.db.comments.find_one({"_id": ObjectId(comment_id)})
+        if "user_likes" in comment_pick:
+            if not comment_pick["user_likes"].count(session["user_id"]):
+                like_comment = {"$push": {
+                    "comments_liked" : comment_id
+                }}
+                user_likes = {"$push":{
+                    "user_likes" : session["user_id"]
+                }}
+                mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_likes)
+                mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, like_comment)
+        else:
+            like_comment = {"$push": {
+                "comments_liked" : comment_id
+            }}
+            user_likes = {"$push":{
+                "user_likes" : session["user_id"]
+            }}
+            mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_likes)
+            mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, like_comment)
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        if request.form.get("filter") == "trending":
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
+        elif request.form.get("filter") == "personalized":
+            dream_array = []
+            user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")
+            print(user_keywords)                
+            for x in dream:
+                dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
+                if any(y in user_keywords for y in dream_keywords):
+                    if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=list(dream_array)
+        else:
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
 
-@app.route("/unlike-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
-def unlike_dream_comment(dream_slug, selected):
+@app.route("/unlike-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
+def unlike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        like_comment = {"$pull": {
+            "comments_liked" : comment_id
+        }}
+        user_likes = {"$pull":{
+            "user_likes" : session["user_id"]
+        }}
+        mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_likes)
+        mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, like_comment)
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        if request.form.get("filter") == "trending":
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
+        elif request.form.get("filter") == "personalized":
+            dream_array = []
+            user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")
+            print(user_keywords)                
+            for x in dream:
+                dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
+                if any(y in user_keywords for y in dream_keywords):
+                    if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=list(dream_array)
+        else:
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
 
-@app.route("/dislike-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
-def dislike_dream_comment(dream_slug, selected):
+@app.route("/dislike-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
+def dislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        comment_pick = mongo.db.comments.find_one({"_id": ObjectId(comment_id)})
+        if "user_dislikes" in comment_pick:
+            if not comment_pick["user_dislikes"].count(session["user_id"]):
+                print(comment_id)
+                dislike_comment = {"$push": {
+                    "comments_disliked" : comment_id
+                }}
+                user_dislikes = {"$push":{
+                    "user_dislikes" : session["user_id"]
+                }}
+                mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, dislike_comment)
+                mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_dislikes)                
+        else:
+            dislike_comment = {"$push": {
+                "comments_disliked" : comment_id
+            }}
+            user_dislikes = {"$push":{
+                "user_dislikes" : session["user_id"]
+            }}
+            mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, dislike_comment)
+            mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_dislikes)            
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        if request.form.get("filter") == "trending":
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
+        elif request.form.get("filter") == "personalized":
+            dream_array = []
+            user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")
+            print(user_keywords)                
+            for x in dream:
+                dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
+                if any(y in user_keywords for y in dream_keywords):
+                    if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=list(dream_array)
+        else:
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
-@app.route("/undislike-dream-comment/<dream_slug>/<selected>", methods=["GET","POST"])
-def undislike_dream_comment(dream_slug, selected):
+@app.route("/undislike-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
+def undislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))        
+        undislike_comment = {"$pull": {
+            "comments_disliked" : comment_id
+        }}
+        user_undislikes = {"$pull":{
+            "user_dislikes" : session["user_id"]
+        }}
+        mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_undislikes)
+        mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, undislike_comment)    
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        if request.form.get("filter") == "trending":
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
+        elif request.form.get("filter") == "personalized":
+            dream_array = []
+            user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")
+            print(user_keywords)                
+            for x in dream:
+                dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
+                if any(y in user_keywords for y in dream_keywords):
+                    if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=list(dream_array)
+        else:
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            for x in dream:
+                if str(x["user_id"]) != session.get("user_id"):
+                        dream_array.append(x)
+            dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
