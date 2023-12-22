@@ -376,6 +376,22 @@ document.addEventListener("DOMContentLoaded", function() {
             addComment(itemId);
         });
     });
+    //add event listners to all edit comment buttons
+    const attachCommentEditListners= Array.from(document.getElementsByClassName('edit-comment'));
+    attachCommentEditListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            editComment(itemId);
+        });
+    });
+    //add event listners to all cancel comment buttons
+    const attachCommentCancelListners= Array.from(document.getElementsByClassName('cancel-comment'));
+    attachCommentCancelListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            editComment(itemId);
+        });
+    });
 
     
 
@@ -984,11 +1000,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //DREAMSCAPE
     //ensure following or unfollowing returns to dream the user followed/unfollowed
+    if (document.getElementById('focussed-dream')) {
     document.getElementById('focussed-dream').focus();
+    }
     //enable add comment box
     function addComment(itemId) {
         form= itemId + "-comment"
         document.getElementById(form).style.display="block";
+    }
+    //enable comment edit
+    function editComment(itemId) {
+        const selectedComment = itemId.split('-')[0];
+        const clickType = itemId.split('-')[1];
+        document.getElementById(selectedComment + "-cancel").style.display="inline-block";
+        commentTextarea = selectedComment + "-display"
+        document.getElementById(commentTextarea).readOnly =false;
+        document.getElementById(commentTextarea).focus();
+        document.getElementById(selectedComment + "-submit").style.display="block";
+        const hideEdit = document.getElementsByClassName('edit-comment');
+        for (let i = 0; i < hideEdit.length; i++) {
+            hideEdit[i].style.display = "none";
+        }
+        if (clickType=="cancel") {
+            for (let i = 0; i < hideEdit.length; i++) {
+                hideEdit[i].style.display = "inline-block";
+            }
+            document.getElementById(selectedComment + "-submit").style.display="none";
+            document.getElementById(commentTextarea).readOnly =true;
+            document.getElementById(commentTextarea).value = document.getElementById(selectedComment + "-original").value;
+            document.getElementById(selectedComment + "-cancel").style.display="none";
+        }
     }
 
 });

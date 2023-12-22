@@ -111,3 +111,12 @@ a, a:visited, a:link, a:active, a:hover  {
 .comment-box {
     width: 70%;
 }
+
+.comment-comment {
+    resize:none;
+    width:70%;
+}
+
+.edit-comment {
+    display:inline-block;
+}
