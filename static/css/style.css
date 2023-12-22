@@ -60,14 +60,14 @@ body {
 .label {
     text-align:right;
 }
-.landing-button {
+.landing-button, .signup-button {
     background-color: white;
     color: black;
     border: black 1px solid;
     width:100px;
     height:20px;
     text-align:center;
-    margin:2px 0;
+    margin:4px 0;
 }
 
 .button {
@@ -75,10 +75,14 @@ body {
     color: black;
     border: black 1px solid;
 }
-.landing-button:hover, .button:hover {
+.landing-button:hover, .button:hover, .signup-button:hover {
     background-color: black;
     color: white;
     border: white 1px solid;
+}
+
+.form-table {
+    border-spacing:5px;
 }
 
 
@@ -97,6 +101,24 @@ body {
 }
 #profile-preview p{
     display:flex;
+    align-items:center;
+}
+
+#signup-section {
+    display:flex;
+    flex-flow:column;
+    align-items:center;
+    justify-content:center;
+}
+
+#signup-section form {
+    margin-top: 20px;
+}
+
+#signup-one {
+    display:flex;
+    display:flex;
+    flex-flow:column;
     align-items:center;
 }
 
