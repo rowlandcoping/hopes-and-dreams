@@ -249,7 +249,7 @@ def personal_feed():
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected="latest", comments=comments)
+        return render_template("personal-feed.html", base_url=base_url, user=user_info, dream=dream, selected="latest", comments=comments)
     return redirect(url_for("home"))
 
 

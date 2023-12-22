@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //SIGN-IN FORM
     //activate sign-in form
     document.addEventListener("click", function(e){
-        const target = e.target.closest("#singin-click");
+        const target = e.target.closest("#signin-click");
         if(target){
             signInShow();
         }
@@ -401,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //show sign-in form
     function signInShow() {
         document.getElementById('signin-form').style.display = "block";
+        document.getElementById('signin-click').style.display = "none";
     }
 
     //SIGN-UP PROCESS

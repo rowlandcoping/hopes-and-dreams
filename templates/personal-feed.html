@@ -1,0 +1,17 @@
+{% extends 'main-template.html' %}
+
+{% block title %}
+Personal Feed - {{ user.first_name }}
+{% endblock title %}
+
+{% block content %}
+<div class="page-menu">
+    <a href="{{ url_for('dreamscape') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('dreamscape') }}">
+        <h2>Dreamscape</h2>
+    </a>
+    <a href="{{ url_for('personal_feed') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('personal_feed') }}">
+        <h2>Personal Feed</h2>
+    </a>
+</div>
+<h2>Coming soon...</h2>
+{% endblock content %}

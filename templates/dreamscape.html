@@ -45,6 +45,7 @@ Dreamscape - {{ user.first_name }}
 {% with dreams = dream %}
 {% if dreams %}
     {% for dream in dreams %}
+        <hr>
         <div class="dream-list">
             <!--this code sets the focus for the page if a dream or creator is followed/unfollowed-->
             {% if request.path == url_for('dreamscape_unfollow_dream',dream_slug=dream.dream_slug, selected=selected)
