@@ -147,7 +147,7 @@ def profile_upload():
                 "Profile picture for " + user_info["first_name"].capitalize() 
                 + " " + user_info["last_name"].capitalize())
             if uploaded_image:
-                converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                converted_image = imageConvert(uploaded_image, 400, 75, "jpg")
                 if user_info.get("profile_picture") is not None: 
                     if user_info["profile_picture"]  != "":
                         cloudinary.uploader.destroy(user_info["profile_picture"])               
@@ -288,7 +288,7 @@ def profile_personal():
                 uploaded_image = request.files['profile_picture']
                 imgname= uploaded_image.filename.split(".", 1)[0]
                 filename= str(imgname + "-" + str(user_info["_id"]))
-                converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                converted_image = imageConvert(uploaded_image, 400, 75, "jpg")
                 if user_info["profile_picture"] is not None:
                     if user_info["profile_picture"] != "":
                         cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
@@ -497,7 +497,7 @@ def image_upload(dream_slug):
                 image_alt = (
                     "This image represents " + dream["dream_name"])
                 if uploaded_image:
-                    converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                    converted_image = imageConvert(uploaded_image, 400, 75, "jpg")
                     if dream["image"] is not None:
                         if dream["image"]  != "":
                             cloudinary.uploader.destroy(dream["image"])               
@@ -559,7 +559,7 @@ def edit_dream_general(dream_slug):
                     uploaded_image = request.files['image']
                     imgname= uploaded_image.filename.split(".", 1)[0]
                     filename= str(imgname + "-" + str(user_info["_id"]))
-                    converted_image = imageConvert(uploaded_image, 400, 75, "webp")
+                    converted_image = imageConvert(uploaded_image, 400, 75, "jpg")
                     if "image" in dream:
                         if dream["image"] != "":
                             cloudinary.uploader.destroy("dreams/" + dream["image"])              
