@@ -14,6 +14,21 @@ body {
     color:white; 
 }
 
+#main-template-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/backgrounds/cloud-background-white.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-color: black;
+    width: 392px;
+    height: 135px;
+    color:black;
+    border: 10px solid black;
+}
+
 /*landing page */
 #landing-container {
     background-color: black;
