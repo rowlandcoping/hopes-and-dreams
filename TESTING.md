@@ -62,3 +62,13 @@ My main method was passing parameters to the URL using the get method, but it wa
 My end decision has been get rid of a checkbox which enables a user to videw their own dreams in the feed, as it seemed to be causing an issue (the checkbox was never marked correctly).  However on further revision the problem was solved by passing the entire dreamscape script to create a feed into the follow/unfollow functions, and calling the template directly with the parameters passed rather than redirecting.  hitting on this solution suggests to me that the show own dreams option may be viable, but if I'm honest now I've removed it I don't seem much point in having this option anyway!
 
 I was then able to assign an element of the followed dream the id of focussed if it was reached through onie of the follow app routes, and use javascript to focus the page on the selected dream.
+
+IMAGE FORMAT ISSUE - HEROKU
+
+When deploying to Heroku I discovered that the code to reformat images did not work.  After a bit of reading and research, it was discovered that this was an issue with the image module, which for some reason only supports the 'png' image format when deployed with Python 3.12.1.  When it comes to compressing images 'png' probably isn't the best option, so I opted to use an older version of Python (3.10.12) which appears to cause no conflicts with Pillow, and therefore works fine with the 'webp' image format which I want to use.
+
+Hopefully I'll eventually get to the bottom of what is causing the PIL Image module to have most of the image extensions removed on Heroku with the latest Python version - it seems to be a known issue and something to do with a dependency of another module: 
+
+https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/5603
+
+This could pretty much be anything that either I've used or that Heroku uses with Python or even something within Python itself over-writing the list of file extensions in the Image module - since my workaround causes no issues or conflicts I'll continue to use Python 3.10.12 for now and add finding and resolving the source of this problem as a future feature.
