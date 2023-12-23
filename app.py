@@ -128,7 +128,7 @@ def signup():
         user_verify = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if user_verify:
-            session["user_id"] = str(existing_user["_id"])
+            session["user_id"] = str(user_verify["_id"])
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
         return render_template("signup.html")
