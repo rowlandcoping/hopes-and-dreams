@@ -71,11 +71,12 @@ def verify_reset_token(token):
 
 #converts images to appropriate format and size
 def imageConvert(image, width, quality, format):
-    img = Image.open(image)
+    with Image.open(image) as img:
+        img = Image.open(image)
     img_byte_arr = io.BytesIO()
     wpercent = (width/float(img.size[0]))
     hsize = int((float(img.size[1])*float(wpercent)))
-    img = img.resize((width,hsize), PIL.Image.ANTIALIAS)
+    img = img.resize((width,hsize), PIL.Image.LANCZOS)
     img.save(img_byte_arr, format, optimize=True, quality=quality)
     img_byte_arr = img_byte_arr.getvalue()
     return img_byte_arr
@@ -127,7 +128,7 @@ def signup():
         user_verify = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if user_verify:
-            session["user_id"] = str(ObjectId(existing_user["_id"]))
+            str(session["user_id"]) == str(existing_user["_id"])
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
         return render_template("signup.html")
