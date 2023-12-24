@@ -1195,6 +1195,36 @@ def undislike_dream_comment(dream_slug, selected, comment_id):
 def view_dream(dream_slug):
     if session.get("user_id") is not None:
         return redirect(url_for("dreamscape"))
+    
+
+@app.route("/categories", methods=["GET","POST"])
+def categories():
+    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        if user_info["role"] == "administrator":
+            categories = list(mongo.db.categories.find())
+            if request.method == "POST":
+                new_categories = request.form.get("new_categories").split(",")
+                new_categories=[x.strip() for x in new_categories]
+                existing_categories=[x["category"] for x in categories]
+                #de-dupe new categories
+                categories_to_add = []
+                [categories_to_add.append(x) for x in new_categories if x not in categories_to_add]
+                #check they're not already added
+                for each_category in existing_categories:
+                    if each_category in categories_to_add:
+                            print(each_category)
+                            categories_to_add.remove(each_category)
+                for next_category in categories_to_add:
+                    new_category = {
+                        "category": next_category
+                    }
+                    mongo.db.categories.insert_one(new_category)
+                categories = list(mongo.db.categories.find())
+            categories = list(mongo.db.categories.find())
+            return render_template("categories.html", categories=categories)
+        return redirect("dreams")
+    return redirect("home")
         
 
 

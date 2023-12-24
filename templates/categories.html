@@ -1,0 +1,30 @@
+{% extends 'plain-template.html' %}
+
+{% block title %}
+    Category Management
+{% endblock title%}
+    
+{% block content %}
+<div id="headline-wrapper"><h1>Category Manager</h1></div>
+    <form action="{{ url_for('categories') }}" method="POST">
+        <label for ="new_category">Add New Categories (separated by commas if more than one)</label>
+        <br>
+        <input type="text" name="new_categories" id="admin-new-categories">
+        <hr>
+        <table class="form-table">
+    {% if categories %}                
+        {% for category in categories %}
+        <tr>
+            <td><label for="category">Edit "{{ category.category}}": </label></td>
+            <td><input type="text" name="{{ category._id }}" value="{{ category.category }}" required></td>
+            <td><label for="delete">Delete?: </label></td>
+            <td><input type="checkbox" name="{{ category._id }}"> </td>
+        </tr>                       
+        {% endfor %}
+    {% else %}
+    <h3>No existing categories found</h3>
+    {% endif %}
+        </table>
+        <button class="landing-button button-large" type="submit">Add and Update</button>
+</form>
+{% endblock content%}

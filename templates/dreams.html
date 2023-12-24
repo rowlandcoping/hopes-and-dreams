@@ -8,6 +8,9 @@ Dreams
 
 <div id="dreambuilder">
     <a href="{{ url_for('dreambuilder') }}"><h1>Launch DreamBuilder</h1></a>
+    {% if user.role=="administrator" %}
+    <a href="{{ url_for('categories') }}"><h3>Manage Categories</h3></a>
+    {% endif %}
 </div>
 {% with messages = get_flashed_messages() %}
     {% if messages %}

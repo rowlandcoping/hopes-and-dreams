@@ -14,6 +14,7 @@ body {
     color:white; 
 }
 
+
 #main-template-wrapper {
     display: flex;
     justify-content: center;
@@ -68,6 +69,8 @@ body {
     align-items: center;
 }
 
+
+
 #sign-in-form {
     text-align:center;
 }
@@ -83,6 +86,10 @@ body {
     height:20px;
     text-align:center;
     margin:4px 0;
+}
+
+.button-large {
+    width:400px;
 }
 
 .button {
@@ -229,4 +236,10 @@ body {
 
 .edit-comment {
     display:inline-block;
+}
+
+/*categories*/
+#admin-new-categories {
+    margin: 5px 0;
+    width:800px;
 }
