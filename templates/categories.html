@@ -15,10 +15,12 @@
     {% if categories %}                
         {% for category in categories %}
         <tr>
-            <td><label for="category">Edit "{{ category.category}}": </label></td>
-            <td><input type="text" name="{{ category._id }}" value="{{ category.category }}" required></td>
+            <td><label for="category">Current Category: </label></td>
+            <td><input type="text" name="{{ category._id }}-current" value="{{ category.category }}" readonly></td>
+            <td><label for="category">Change to: </label></td>
+            <td><input type="text" name="{{ category._id }}-new"></td>
             <td><label for="delete">Delete?: </label></td>
-            <td><input type="checkbox" name="{{ category._id }}"> </td>
+            <td><input type="checkbox" name="{{ category._id }}-delete"> </td>
         </tr>                       
         {% endfor %}
     {% else %}

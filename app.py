@@ -7,7 +7,7 @@ from datetime import datetime
 from flask_mail import Mail, Message
 import cloudinary
 import cloudinary.uploader
-import PIL
+import PIL 
 from PIL import Image
 from flask import (
     Flask, flash, render_template,
@@ -1204,23 +1204,37 @@ def categories():
         if user_info["role"] == "administrator":
             categories = list(mongo.db.categories.find())
             if request.method == "POST":
-                new_categories = request.form.get("new_categories").split(",")
-                new_categories=[x.strip() for x in new_categories]
-                existing_categories=[x["category"] for x in categories]
-                #de-dupe new categories
-                categories_to_add = []
-                [categories_to_add.append(x) for x in new_categories if x not in categories_to_add]
-                #check they're not already added
-                for each_category in existing_categories:
-                    if each_category in categories_to_add:
-                            print(each_category)
-                            categories_to_add.remove(each_category)
-                for next_category in categories_to_add:
-                    new_category = {
-                        "category": next_category
-                    }
-                    mongo.db.categories.insert_one(new_category)
-                categories = list(mongo.db.categories.find())
+                if request.form.get("new_categories").strip() is not "":
+                    new_categories = request.form.get("new_categories").split(",")
+                    new_categories=[x.strip() for x in new_categories]
+                    existing_categories=[x["category"] for x in categories]
+                    #de-dupe new categories
+                    categories_to_add = []
+                    [categories_to_add.append(x) for x in new_categories if x not in categories_to_add]
+                    #check they're not already added
+                    for each_category in existing_categories:
+                        if each_category in categories_to_add:
+                                print(each_category)
+                                categories_to_add.remove(each_category)
+                    #add them
+                    for next_category in categories_to_add:
+                        new_category = {
+                            "category": next_category
+                        }
+                        mongo.db.categories.insert_one(new_category)
+                #EDIT OR DELETE
+                for category in categories:
+                    print(request.form.get(str(category["_id"]) + "-new"))
+                    print(request.form.get(str(category["_id"]) + "-current"))
+
+                    if request.form.get(str(category["_id"]) + "-delete"):
+                        mongo.db.categories.delete_one({"category": request.form.get(str(category["_id"]) + "-current")})
+                    else:
+                        if request.form.get(str(category["_id"]) + "-new") is not "":
+                            update_category = {"$set":{
+                                "category": request.form.get(str(category["_id"]) + "-new")
+                            }}
+                            mongo.db.categories.update_one({"category": request.form.get(str(category["_id"]) + "-current")}, update_category)
             categories = list(mongo.db.categories.find())
             return render_template("categories.html", categories=categories)
         return redirect("dreams")
