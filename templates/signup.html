@@ -8,7 +8,7 @@
 <div id="signup-container"></div>
     <div id="signup-section">
         <div id="headline-wrapper"><h1>First tell us who you are!</h1></div>
-        <form action="{{ url_for('signup') }}" method="POST" name="signup-form">
+        <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
             <div id="signup-one">
                 <table class="form-table">
                     <tr>
@@ -27,47 +27,18 @@
                         <td class="label"><label for="password">Password: </label></td>
                         <td><input type="password" id="password" name="password" required></td>
                     </tr>                
-                </table>
-                <div class="signup-button" id="part-one" tabindex=0>Let's Go!</div>                
-            </div>
-            <div id="signup-two" class="not-displayed">
-                <h1>Well hello there <span class="sayMyName"></span>!</h1>
+                </table>               
                 <div id="interests-section">
                     <h2 id="interests-heading">
-                        First, tell us what you are interested in!  
-                        <br>Use single words and press the plus button after each one - you can enter as many as you like.
+                        If you like, you can tell us a bit about the things you want to see.
                     </h2>
-                    <label for="interests"><span class="sayMyName"></span> is interested in...<input type="text" id="interests" name="interests" class="not-displayed" readonly>
-                    <br>
-                    <label for="interest-add">Add an interest</label><input type="text" id="interest-add" name="interest-add" width="100%">
-                    <i id="add-interest" class="fa-solid fa-plus add-stuff add-button" tabindex=0></i>
-                    <br>
-                    <div class="signup-button not-displayed" id="end-interests" tabindex=0>Finish Adding Interests</div>
-                </div>
-                <div id="skills-section" class="not-displayed">
-                    <h3 id="skills-heading">
-                        Now, tell us what you're good at!  
-                        <br>As before keep it simple - this is how we match you up to dreams!
-                    </h3>
-                    <label for="skills"><span class="sayMyName"></span> is skilled at...<input type="text" id="skills" name="skills" class="not-displayed" readonly>
-                    <br>
-                    <label for="skill-add">Add a skill</label><input type="text" id="skill-add" name="skill-add">
-                    <i id="add-skill" class="fa-solid fa-plus add-stuff add-button" tabindex=0></i>
-                    <br>
-                    <div class="signup-button not-displayed" id="end-skills" tabindex=0>Finish Adding Skills</div>
-                </div>
-                <div id="experiences-section" class="not-displayed">
-                    <h3 id="experiences-heading">
-                        Now, tell us a little about the things you've done! 
-                        <br>This doesn't have to be work - it could be anything.
-                    </h3>
-                    <label for="experiences"><span class="sayMyName"></span> has experienced...<input type="text" id="experiences" name="experiences" class="not-displayed" readonly>
-                    <br>
-                    <label for="experience-add">Add an experience</label><input type="text" id="experience-add" name="experience-add">
-                    <i id="add-experience" class="fa-solid fa-plus add-stuff add-button" tabindex=0></i>
-                    <br>
-                    <button type="submit" id="submit-everything" class="not-displayed signup-button" disabled>Complete Signup</button>
-                </div>          
+                    <p>Just click what you are interested in, and then confirm.
+                    <br>Or if you prefer, don't click anything at all!</p>
+                    <div>
+                        CATEGORIES
+                    </div>
+                    <button type="submit" for="signup-form">Create User</button>
+                </div>         
             </div>
         </form>
         <div id="form-end"></div>

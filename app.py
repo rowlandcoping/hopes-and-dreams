@@ -1204,7 +1204,7 @@ def categories():
         if user_info["role"] == "administrator":
             categories = list(mongo.db.categories.find())
             if request.method == "POST":
-                if request.form.get("new_categories").strip() is not "":
+                if request.form.get("new_categories").strip() != "":
                     new_categories = request.form.get("new_categories").split(",")
                     new_categories=[x.strip() for x in new_categories]
                     existing_categories=[x["category"] for x in categories]
@@ -1219,18 +1219,16 @@ def categories():
                     #add them
                     for next_category in categories_to_add:
                         new_category = {
-                            "category": next_category
+                            "category": next_category,
+                            "created_by": "administrator"
                         }
                         mongo.db.categories.insert_one(new_category)
                 #EDIT OR DELETE
                 for category in categories:
-                    print(request.form.get(str(category["_id"]) + "-new"))
-                    print(request.form.get(str(category["_id"]) + "-current"))
-
                     if request.form.get(str(category["_id"]) + "-delete"):
                         mongo.db.categories.delete_one({"category": request.form.get(str(category["_id"]) + "-current")})
                     else:
-                        if request.form.get(str(category["_id"]) + "-new") is not "":
+                        if request.form.get(str(category["_id"]) + "-new") != "":
                             update_category = {"$set":{
                                 "category": request.form.get(str(category["_id"]) + "-new")
                             }}
