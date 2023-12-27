@@ -52,42 +52,15 @@ document.addEventListener("DOMContentLoaded", function() {
             partOneHide();
         }
     });
-    //activates function to add an interest to the interests array in the value field
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-interest");
-        if(target){
-            addInterest();
-        }
+    //add event listners to all category buttons
+    const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
+    attachCategoryListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            addSignupCategory(itemId);
+        });
     });
-    //moves on to the skills section
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#end-interests"); 
-        if(target){
-            endInterests();
-        }
-    });
-    //activates function to add a skill to the skills array in the value field
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-skill"); 
-        if(target){
-            addSkill();
-        }
-    });
-    //moves on to the experiences section
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#end-skills"); 
-        if(target){
-            endSkills();
-        }
-    });
-    //activates function to add an experience to the experiences array in the value field
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-experience"); 
-        if(target){
-            addExperience();
-        }
-    });
-
+    
     //DREAMBUILDER DREAM CREATION PROCESS
     //move on from part one of dream-building process
     document.addEventListener("click", function(e){
@@ -437,78 +410,22 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('signup-one').style.display = "none";
         }
     }
-    // adds interests to an array and populates the value field of the form
-    const interests = [];
-    function addInterest() {
-        document.getElementById('form-alert').style.display = "none";
-        let interest = document.getElementById('interest-add').value.toLowerCase();
-        if (interest.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Interest should not include numbers";
-        } else if (interest.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Interest should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
+    //if signup category clicked on
+    function addSignupCategory(itemId) {
+        if (document.getElementById(itemId).style.backgroundColor === "green") {
+            document.getElementById(itemId).style.backgroundColor = "grey";
+            document.getElementById(itemId).style.color = "black";
+            document.getElementById(itemId).style.borderColor = "grey";
+            oldText = document.getElementById("selected-categories").value;
+            newText = oldText.replace(itemId+ "," ,'');
+            document.getElementById("selected-categories").value = newText;
+            console.log(document.getElementById("selected-categories").value);        
         } else {
-            interests.push(interest)
-        }
-        document.getElementById('interest-add').value = "";
-        document.getElementById('interests').style.display = "block";
-        document.getElementById('interests').value = interests;
-        if (interests.length > 0) {
-            document.getElementById('end-interests').style.display = "block";
-        }
-    }
-    //adjusts the DOM to display skills section
-    function endInterests() {
-        document.getElementById('interests-section').style.display = "none";
-        document.getElementById('skills-section').style.display = "block";
-    }
-    //adds skills to an array and populates the value field of the form
-    const skills = [];
-    function addSkill() {
-        document.getElementById('form-alert').style.display = "none";
-        let skill = document.getElementById('skill-add').value.toLowerCase();
-        if (skill.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Skill should not include numbers";
-        } else if (skill.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Skill should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
-        } else {
-            skills.push(skill)
-        }
-        document.getElementById('skill-add').value = "";
-        document.getElementById('skills').style.display = "block";
-        document.getElementById('skills').value = skills;
-        if (skills.length > 0) {
-            document.getElementById('end-skills').style.display = "block";
-        }
-    }
-    //adjusts the DOM to display experiecnes section
-    function endSkills() {
-        document.getElementById('skills-section').style.display = "none";
-        document.getElementById('experiences-section').style.display = "block";
-    }
-    //adds experiences to an array and populates the value field of the form
-    const experiences = [];
-    function addExperience() {
-        document.getElementById('form-alert').style.display = "none";
-        let experience = document.getElementById('experience-add').value.toLowerCase();
-        if (experience.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "experience should not include numbers";
-        } else if (experience.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "experience should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
-        } else {
-            experiences.push(experience)
-        }
-        document.getElementById('experience-add').value = "";
-        document.getElementById('experiences').style.display = "block";
-        document.getElementById('experiences').value = experiences;
-        if (experiences.length > 0) {
-            document.getElementById('submit-everything').removeAttribute("disabled", "");
-            document.getElementById('submit-everything').style.display = "block";
+            document.getElementById(itemId).style.backgroundColor = "green";
+            document.getElementById(itemId).style.color = "white";
+            document.getElementById(itemId).style.borderColor = "white";
+            document.getElementById("selected-categories").value += itemId + ",";
+            console.log(document.getElementById("selected-categories").value);
         }
     }
     //previews images due for upload

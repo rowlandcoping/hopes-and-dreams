@@ -7,7 +7,7 @@
 {% block content %}
 <div id="signup-container"></div>
     <div id="signup-section">
-        <div id="headline-wrapper"><h1>First tell us who you are!</h1></div>
+        <div class="headline-wrapper" id="signup-title-wrapper"><h1>First tell us<br> who you are!</h1></div>
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
             <div id="signup-one">
                 <table class="form-table">
@@ -26,16 +26,25 @@
                     <tr>
                         <td class="label"><label for="password">Password: </label></td>
                         <td><input type="password" id="password" name="password" required></td>
-                    </tr>                
+                    </tr>
+                    <input type="text" id="selected-categories" name="selected-categories" hidden>
+                                 
                 </table>               
                 <div id="interests-section">
-                    <h2 id="interests-heading">
+                    <h3 id="interests-heading">
                         If you like, you can tell us a bit about the things you want to see.
-                    </h2>
-                    <p>Just click what you are interested in, and then confirm.
-                    <br>Or if you prefer, don't click anything at all!</p>
+                    </h3>
+                    <p>Just click what you are interested in from the top ten categories listed here.
+                        <br>If you prefer, don't click anything at all!  You can always do this later.</p>
                     <div>
-                        CATEGORIES
+
+                    {% with categories = categories %}
+                        {% if categories %}
+                            {% for category in categories %}
+                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     </div>
                     <button type="submit" for="signup-form">Create User</button>
                 </div>         

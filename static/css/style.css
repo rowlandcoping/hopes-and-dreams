@@ -51,7 +51,7 @@ body {
     margin:auto;
 }
 
-#headline-wrapper {
+.headline-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,11 +137,48 @@ body {
     margin-top: 20px;
 }
 
+#signup-title-wrapper {
+    width: 100%;
+    height: 120px;
+}
+
 #signup-one {
     display:flex;
     display:flex;
     flex-flow:column;
     align-items:center;
+}
+  
+#interests-section {
+    text-align: center;
+}
+
+#interests-section button {
+    font-size: 120%;
+    width: 200px;
+    padding: 7px;
+    margin: 7px;
+    text-align: center;
+}
+
+.category-selector, .category-deselector {
+    padding:5px;
+    display:inline-block;
+    margin: 5px;
+    width: 100px;
+    text-align: center;
+}
+
+.category-selector {
+    background-color: grey;
+    color: black;
+    border: 2px grey solid;
+}
+
+.category-deselector {
+    background-color: green;
+    color: white;
+    border: 2px white solid;
 }
 
 /*general template*/

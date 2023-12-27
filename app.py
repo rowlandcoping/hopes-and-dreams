@@ -97,6 +97,7 @@ def home():
 def signup():
     if session.get("user_id") is not None:
         return redirect(url_for("dreamscape"))
+    categories = list(mongo.db.categories.find().sort("total_dreams_selected", 1))
     if request.method == "POST":
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
@@ -131,8 +132,8 @@ def signup():
             session["user_id"] = str(user_verify["_id"])
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
-        return render_template("signup.html")
-    return render_template("signup.html")
+        return render_template("signup.html", categories=categories)
+    return render_template("signup.html", categories=categories)
 
 
 # route for user to upload an image on signup
@@ -1220,7 +1221,11 @@ def categories():
                     for next_category in categories_to_add:
                         new_category = {
                             "category": next_category,
-                            "created_by": "administrator"
+                            "created_by": "administrator",
+                            "dreams_selected": [],
+                            "total_dreams_selected": len(categories[0]["dreams_selected"]),
+                            "users_selected": [],
+                            "total_users_selected": len(categories[0]["users_selected"])
                         }
                         mongo.db.categories.insert_one(new_category)
                 #EDIT OR DELETE
