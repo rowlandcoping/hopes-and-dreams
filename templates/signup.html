@@ -9,7 +9,9 @@
     <div id="signup-section">
         <div class="headline-wrapper" id="signup-title-wrapper"><h1>First tell us<br> who you are!</h1></div>
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
+            <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             <div id="signup-one">
+                <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
                 <table class="form-table">
                     <tr>
                         <td class="label"><label for="first_name">First Name: </label></td>
@@ -25,11 +27,13 @@
                     </tr>
                     <tr>
                         <td class="label"><label for="password">Password: </label></td>
-                        <td><input type="password" id="password" name="password" required></td>
-                    </tr>
-                    <input type="text" id="selected-categories" name="selected-categories" hidden>
+                        <td><input type="password" id="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\S{8,}" name="password" required></td>
+                    </tr>                    
+                    
+                    
                                  
-                </table>               
+                </table>
+                <small>Passwords must contain a Capital, a number and be at least 8 characters in length</small>            
                 <div id="interests-section">
                     <h3 id="interests-heading">
                         If you like, you can tell us a bit about the things you want to see.
@@ -46,7 +50,7 @@
                         {% endif %}
                     {% endwith %}
                     </div>
-                    <button type="submit" for="signup-form">Create User</button>
+                    <button type="submit" for="signup-form">Create Profile</button>
                 </div>         
             </div>
         </form>

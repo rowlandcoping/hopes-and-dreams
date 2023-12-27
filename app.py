@@ -119,17 +119,20 @@ def signup():
             "user_string": user_string,
             "user_slug": user_slug,            
             "email": request.form.get("email").lower(),
-            "password": generate_password_hash(request.form.get("password")),
-            "interests": request.form.get("interests"),
-            "skills": request.form.get("skills"),
-            "experiences": request.form.get("experiences"),
+            "interests": request.form.get("selected-categories"),
             "role": "user"
         }
         mongo.db.users.insert_one(register)
         user_verify = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if user_verify:
-            session["user_id"] = str(user_verify["_id"])
+            user_categories = request.form.get("selected-categories").split(",")
+            user_categories=[x.strip() for x in user_categories]
+            for category in user_categories:
+                if category != "":
+                    mongo.db.categories.update_one({"category": category}, {"$push": {
+                    "users_selected" : user_verify["_id"] }})
+            session["user_id"] = str(ObjectId(user_verify["_id"]))        
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
         return render_template("signup.html", categories=categories)

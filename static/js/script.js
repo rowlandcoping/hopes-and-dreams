@@ -411,6 +411,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     //if signup category clicked on
+    if (document.getElementById("selected-categories")) {
+        document.getElementById("selected-categories").value="";
+    }
     function addSignupCategory(itemId) {
         if (document.getElementById(itemId).style.backgroundColor === "green") {
             document.getElementById(itemId).style.backgroundColor = "grey";
@@ -419,13 +422,18 @@ document.addEventListener("DOMContentLoaded", function() {
             oldText = document.getElementById("selected-categories").value;
             newText = oldText.replace(itemId+ "," ,'');
             document.getElementById("selected-categories").value = newText;
-            console.log(document.getElementById("selected-categories").value);        
+            /*if (!document.getElementById("selected-categories").value) {
+                document.getElementById("selected-categories").disabled = true;
+            }*/
+            console.log(document.getElementById("selected-categories").value)
         } else {
             document.getElementById(itemId).style.backgroundColor = "green";
             document.getElementById(itemId).style.color = "white";
             document.getElementById(itemId).style.borderColor = "white";
             document.getElementById("selected-categories").value += itemId + ",";
-            console.log(document.getElementById("selected-categories").value);
+            console.log(document.getElementById("selected-categories").value)
+            //document.getElementById("selected-categories").disabled = false;
+
         }
     }
     //previews images due for upload
