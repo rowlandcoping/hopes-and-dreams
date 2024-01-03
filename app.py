@@ -132,7 +132,7 @@ def signup():
                 if category != "":
                     mongo.db.categories.update_one({"category": category}, {"$push": {
                     "users_selected" : user_verify["_id"] }})
-            session["user_id"] = str(ObjectId(user_verify["_id"]))        
+            session["user_id"] = str(user_verify["_id"])       
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
         return render_template("signup.html", categories=categories)
@@ -192,7 +192,7 @@ def signin():
             {"email": request.form.get("email").lower()})
         if existing_user:
             if check_password_hash(existing_user["password"], request.form.get("password")):
-                session["user_id"] = str(ObjectId(existing_user["_id"]))
+                session["user_id"] = str(existing_user["_id"])
                 return redirect(url_for("dreamscape"))
             else:
                 flash("Username or Password not valid, please try again.")
@@ -227,15 +227,13 @@ def dreamscape():
                 selected = "trending"
             elif request.form.get("filter") == "personalized":
                 dream_array = []
-                user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")
-                print(user_keywords)                
+                user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")                
                 for x in dream:
                     dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
                     if any(y in user_keywords for y in dream_keywords):
                         if str(x["user_id"]) != session.get("user_id"):
                             dream_array.append(x)
                 selected = "personalized"
-                print(dream_array)
                 dream=list(dream_array)
             else:
                 dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
@@ -243,6 +241,7 @@ def dreamscape():
                 for x in dream:
                     if str(x["user_id"]) != session.get("user_id"):
                             dream_array.append(x)
+                selected = "latest"
                 dream=dream_array
             return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
@@ -454,6 +453,10 @@ def reset_password(token):
 @app.route("/dreambuilder", methods=["GET", "POST"])
 def dreambuilder():
     if session.get("user_id") is not None:
+        categories = list(mongo.db.categories.find().sort("total_dreams_selected", 1))
+        categories_one = categories[0:5]
+        categories_two = categories[0:10]
+        
         if request.method == "POST":
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
@@ -485,8 +488,8 @@ def dreambuilder():
             if dream_verify:
                 return redirect(url_for("image_upload", dream_slug=dream_slug, dream=dream_verify, base_url=base_url))        
             flash("Dream creation not successful, please try again.")
-            return render_template('dreambuilder.html')
-        return render_template('dreambuilder.html')
+            return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories=categories)
+        return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories=categories)
 
 
 #route to add an image to a newly-created dream

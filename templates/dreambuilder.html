@@ -5,59 +5,63 @@
 
 {% block content %}    
     <form action="{{ url_for('dreambuilder') }}" method="POST" name="signup-form">
+        <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
         <div id="dreambuilder-one">
             <h2>What is your dream?</h2>
             <p>Dreams are freeform and can be anything.  
             <br>They could represent a goal or a vision.
             <br>They could represent the unattainable or impossible.
             </p>
-            <p>What matters is that this dream is yours.  You own it.  
-            <br>You can just put it out there, or you could strive to attain it.  
-            </p>
             <p>It's up to you.</p>  
             <label for="dream_name">My Dream: </label><input type="text" id="dream_name" name="dream_name" required>
             <h4>Now describe your dream.</h4>
-            <p>You can be as specific or as vague as you like.  
-            <br>This section is for what your dream looks like when achieved.</p>
-            <label for="dream_description">Description</label>
+            <p>This section is for what your dream looks like when achieved.</p>
+            <label for="dream_description">Description: </label>
             <textarea id="dream_description" name="dream_description" required></textarea>
             <br>
-            <div class="signup-button" id="dream-one" tabindex=0>Create Dream</div>
-        </div>
-        <div id="dreambuilder-two" class="not-displayed">
-            <h1><span class="sayMyDream"></span></h1>
-            <div id="category-section">
-                <p>
-                    Before you can share your dream, you need to assign it categories so that other people can find it!
-                    <br>These can be searched, or simply matched with the interests and skills of others to form their unique Dreamscape.
-                </p>
-                <p>
-                    You can pick as many categories as you like!
-                </p>
-                <label for="categories">Categories<input type="text" id="categories" name="categories" class="not-displayed" readonly>
-                <br>
-                <label for="category-add">Add a category</label><input type="text" id="category-add" name="category-add" width="100%">
-                <i id="add-category" class="fa-solid fa-plus add-stuff" tabindex=0></i>
-                <br>
-                <div class="signup-button not-displayed" id="end-categories" tabindex=0>Finish Adding Categories</div>
-            </div>
-            <div id="skills-required" class="not-displayed">
-                <p>
-                    If you wish, here you can list the skills you think will be required to achieve your dream
-                <br>This is useful if you are looking for collaborators, mentors or just friendly advice.
-                <p>
-                    You don't have to add skills.  
-                    <br>Some dreams are just dreams and always will be.
-                </p>
-                <label for="skills_required">Skills Required<input type="text" id="skills_required" name="skills_required" class="not-displayed" readonly>
-                <br>
-                <label for="required-skill-add">Add required skill</label><input type="text" id="required-skill-add" name="required-skill-add">
-                <i id="add-required-skill" class="fa-solid fa-plus add-stuff" tabindex=0></i>
-                <br>
+            <div id="interests-section">
+                <h3 id="interests-heading">
+                    <p>To share your dream, you may add categories so that other people may find it.
+                    <br>Sharing a dream is the first step to making it real.</p>
+                </h3>
+                <p>Just click what you are interested in from the top ten categories listed here.
+                    <br>If you prefer, don't click anything at all!  You can always do this later.</p>
+                <div id = categories-one>
+
+                {% with categories = categories_one %}
+                    {% if categories %}
+                        {% for category in categories %}
+                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div id="show-more">Show more Categories</div>
+                </div>
+                <div id="categories-two" class="notdisplayed">
+                {% with categories = categories_two %}
+                    {% if categories %}
+                        {% for category in categories %}
+                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div id="show-all">Show All Categories</div>
+                <div id="show-much-fewer">Show Fewer Categories</div>
+                </div>
+                <div id="categories-all" class="notdisplayed">
+                    {% with categories = categories %}
+                        {% if categories %}
+                            {% for category in categories %}
+                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                <div id="show-fewer">Show Fewer Categories</div>
+                </div>
                 <button type="submit" id="submit-dream">Create Dream</button>
-            </div>         
+            </div>
         </div>
     </form>
     <h3 class="red-text not-displayed" id="form-alert"></h3>
     <a id="abandon" href="{{ url_for('abandon_dream') }}">Abandon Dream</a>
-{% endblock content %}
+{% endblock content %} 
