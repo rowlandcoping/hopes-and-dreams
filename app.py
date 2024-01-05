@@ -275,9 +275,9 @@ def profile_personal():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
-        categories_one = categories[0:3]
-        categories_two = categories[3:5]
-        categories_custom = categories[5:len(categories)] 
+        categories_one = categories[0:10]
+        categories_two = categories[10:20]
+        categories_custom = categories[20:len(categories)] 
         if request.method == "POST":
             first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
             last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))

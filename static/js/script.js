@@ -231,6 +231,11 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //ensures buttons on edit page have appropriate styling based on current interests
     if (document.getElementById("initial-interests").value) {
+        if (document.getElementById('show-all') || document.getElementById('show-more')) {
+            document.getElementById('show-fewer').style.display = "block";
+        } else {
+            document.getElementById('show-fewer').style.display = "none";
+        }
         buttonsArray = Array.from(document.getElementsByClassName('category-selector'));
         categoryButtons= buttonsArray.map(div => div.innerHTML);
         categorySelected = document.getElementById("initial-interests").value.split(",");
@@ -299,11 +304,17 @@ document.addEventListener("DOMContentLoaded", function() {
     //shows fewer categories
     function showFewer() {
         if (document.getElementById('categories-custom').style.display != "none") {
-            document.getElementById('show-all').style.display = "block";
-            document.getElementById('show-fewer').style.display = "block";
+            if (document.getElementById('show-all')) {
+                document.getElementById('show-all').style.display = "block";
+            }
+            if (document.getElementById('show-all') || document.getElementById('show-more')) {
+                document.getElementById('show-fewer').style.display = "block";
+            }
             document.getElementById('categories-custom').style.display = "none"
         } else {
-            document.getElementById('show-more').style.display = "block";
+            if (document.getElementById('show-more')) {
+                document.getElementById('show-more').style.display = "block";
+            }
             document.getElementById('show-fewer').style.display = "none";
             document.getElementById('categories-two').style.display = "none";
         }        
@@ -318,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('profile-pic-cancel').style.display = "none";
     }
 
-    
+
     //EDIT DREAM GENERAL
     //edit dream name
     function editDreamName() {        
