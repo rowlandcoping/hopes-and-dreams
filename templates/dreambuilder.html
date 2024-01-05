@@ -3,7 +3,8 @@
     Dreambuilder
 {% endblock title%}
 
-{% block content %}    
+{% block content %}
+<div id="dreambuild-container"> 
     <form action="{{ url_for('dreambuilder') }}" method="POST" name="signup-form">
         <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
         <div id="dreambuilder-one">
@@ -27,6 +28,17 @@
                 <p>Just click what you are interested in from the top ten categories listed here.
                     <br>If you prefer, don't click anything at all!  You can always do this later.</p>
                 <div id = categories-one>
+                {% with categories = categories_two %}
+                    {% if categories %}
+                    <div id="show-more">Show More Categories</div>
+                    {% endif %}
+                {% endwith %}
+                {% with categories = categories_custom %}
+                    {% if categories %}
+                    <div id="show-all">Show All Categories</div>
+                    {% endif %}
+                {% endwith %}
+                <div id="show-fewer" class="not-displayed">Show Fewer Categories</div>
 
                 {% with categories = categories_one %}
                     {% if categories %}
@@ -34,29 +46,25 @@
                         <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
                         {% endfor %}
                     {% endif %}
-                {% endwith %}
-                <div id="show-more">Show more Categories</div>
+                {% endwith %}                
                 </div>
-                <div id="categories-two" class="notdisplayed">
+                <div id="categories-two" class="not-displayed">
                 {% with categories = categories_two %}
                     {% if categories %}
                         {% for category in categories %}
                         <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                        {% endfor %}
+                        {% endfor %}                    
                     {% endif %}
-                {% endwith %}
-                <div id="show-all">Show All Categories</div>
-                <div id="show-much-fewer">Show Fewer Categories</div>
+                {% endwith %}                 
                 </div>
-                <div id="categories-all" class="notdisplayed">
-                    {% with categories = categories %}
+                <div id="categories-custom" class="not-displayed">
+                    {% with categories = categories_custom %}
                         {% if categories %}
                             {% for category in categories %}
                             <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                            {% endfor %}
+                            {% endfor %}                            
                         {% endif %}
-                    {% endwith %}
-                <div id="show-fewer">Show Fewer Categories</div>
+                    {% endwith %}                
                 </div>
                 <button type="submit" id="submit-dream">Create Dream</button>
             </div>
@@ -64,4 +72,5 @@
     </form>
     <h3 class="red-text not-displayed" id="form-alert"></h3>
     <a id="abandon" href="{{ url_for('abandon_dream') }}">Abandon Dream</a>
+</div>
 {% endblock content %} 

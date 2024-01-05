@@ -131,11 +131,12 @@ body {
     align-items:center;
 }
 
-#signup-section {
+#signup-section, #dreambuild-container {
     display:flex;
     flex-flow:column;
     align-items:center;
     justify-content:center;
+    text-align:center;
 }
 
 #signup-section form {

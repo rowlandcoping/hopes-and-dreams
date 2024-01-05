@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function() {
             signInShow();
         }
     });
-
     //SIGN-UP PROCESS
     //move on from part one of sign up process
     document.addEventListener("click", function(e){
@@ -60,35 +59,27 @@ document.addEventListener("DOMContentLoaded", function() {
             addSignupCategory(itemId);
         });
     });
-    
+
     //DREAMBUILDER DREAM CREATION PROCESS
-    //move on from part one of dream-building process
+    //show more categories
     document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-one");
+        const target = e.target.closest("#show-more");
         if(target){
-            dreambuilderOneComplete();
+            showMore();
         }
     });
-    //activates function to add acategory to the categories array in the value field
+    //show all categories
     document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-category");
+        const target = e.target.closest("#show-all");
         if(target){
-            addCategory();
+            showAll();
         }
     });
-    //moves on to the skills required section
+    //show fewer categories
     document.addEventListener("click", function(e){
-        const target = e.target.closest("#end-categories"); 
+        const target = e.target.closest("#show-fewer");
         if(target){
-            document.getElementById('category-section').style.display = "none";
-            document.getElementById('skills-required').style.display = "block";
-        }
-    });
-    //activates function to add a skill to the skills array in the value field
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-required-skill"); 
-        if(target){
-            addRequiredSkill();
+            showFewer();
         }
     });
 
@@ -377,43 +368,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('signin-click').style.display = "none";
     }
 
-    //SIGN-UP PROCESS
-    //validates fields in part one of sign up, hides part one and shows part two.
-    function partOneHide() {
-        let firstName = document.getElementById('first_name').value;
-        let lastName = document.getElementById('last_name').value;
-        let email = document.getElementById('email').value;
-        let password = document.getElementById('password').value;
-        let validEmail= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        if (!firstName || !lastName) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "You need to fill out your name";
-        } else if (!email.match(validEmail)){
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "You need to fill out a valid e-mail address";
-        } else if (password.length < 8) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Password must be at least 8 characters";
-        } else if (!password.match(/[a-z]/) || !password.match(/[A-Z]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Password must have both uppercase and lowercase letters";
-        } else if (!password.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Password must include at least one number";
-        } else {
-            document.getElementById('form-alert').style.display = "none";
-            const setName = document.getElementsByClassName('sayMyName');
-            for (let i = 0; i < setName.length; i++) {
-                setName[i].innerHTML = firstName + " " + lastName;
-            }
-            document.getElementById('signup-two').style.display = "block";
-            document.getElementById('signup-one').style.display = "none";
-        }
-    }
-    //if signup category clicked on
+    //SIGN-UP/DREAMBUILDER PROCESSES   
+    //clears categories on page refresh
     if (document.getElementById("selected-categories")) {
         document.getElementById("selected-categories").value="";
     }
+    //changes colour of category when clicked and adds the category to the selected categories field
     function addSignupCategory(itemId) {
         if (document.getElementById(itemId).style.backgroundColor === "green") {
             document.getElementById(itemId).style.backgroundColor = "grey";
@@ -422,9 +382,6 @@ document.addEventListener("DOMContentLoaded", function() {
             oldText = document.getElementById("selected-categories").value;
             newText = oldText.replace(itemId+ "," ,'');
             document.getElementById("selected-categories").value = newText;
-            /*if (!document.getElementById("selected-categories").value) {
-                document.getElementById("selected-categories").disabled = true;
-            }*/
             console.log(document.getElementById("selected-categories").value)
         } else {
             document.getElementById(itemId).style.backgroundColor = "green";
@@ -432,8 +389,6 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.borderColor = "white";
             document.getElementById("selected-categories").value += itemId + ",";
             console.log(document.getElementById("selected-categories").value)
-            //document.getElementById("selected-categories").disabled = false;
-
         }
     }
     //previews images due for upload
@@ -455,68 +410,31 @@ document.addEventListener("DOMContentLoaded", function() {
     if (imageUpload) {
         imageUpload.addEventListener("change", previewPhoto);
     }
-
-    //DREAMBUILDER DREAM CREATION PROCESS
-
-    function dreambuilderOneComplete() {
-        let dreamName = document.getElementById('dream_name').value;
-        let dreamDescription = document.getElementById('dream_description').value;
-        let invalidDreamText = /[.!#$%;@&'*+/=?^_`{|}~]/
-        let invalidDescriptionText= /[#@&^_`{|}~]/;
-        if (dreamName.match(invalidDreamText)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Please don't use special characters in your Dream Name.  <br>Perhaps your next dream could be to one day be able to do this";
-        } else if (dreamDescription.match(invalidDescriptionText)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Please don't use the following characters in the description: {},[],#,@,&,^,_,`,~, or |.  <br>Perhaps your next dream could be to one day be able to do this";
-        } else {
-            document.getElementById('form-alert').style.display = "none";
-            const setDream = document.getElementsByClassName('sayMyDream');
-            for (let i = 0; i < setDream.length; i++) {
-                setDream[i].innerHTML = dreamName;
-            }
-            document.getElementById('dreambuilder-two').style.display = "block";
-            document.getElementById('dreambuilder-one').style.display = "none";
-        }
+    //shows more categories
+    function showMore() {
+        document.getElementById('show-fewer').style.display = "block";
+        document.getElementById('categories-two').style.display = "block";
+        document.getElementById('show-more').style.display = "none";
     }
-    const categories = [];
-    function addCategory() {
-        document.getElementById('form-alert').style.display = "none";
-        let category= document.getElementById('category-add').value.toLowerCase();
-        if (category.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Category should not include numbers";
-        } else if (category.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Category should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
-        } else {
-            categories.push(category)
-        }
-        document.getElementById('category-add').value = "";
-        document.getElementById('categories').style.display = "block";
-        document.getElementById('categories').value = categories;
-        if (categories.length > 0) {
-            document.getElementById('end-categories').style.display = "block";
-        }
+    //shows all categories
+    function showAll() {
+        document.getElementById('show-fewer').style.display = "block";
+        document.getElementById('categories-two').style.display = "block";
+        document.getElementById('categories-custom').style.display = "block";
+        document.getElementById('show-more').style.display = "none";
+        document.getElementById('show-all').style.display = "none";
     }
-    const requiredSkills = [];
-    function addRequiredSkill() {
-        document.getElementById('form-alert').style.display = "none";
-        let skillRequired = document.getElementById('required-skill-add').value.toLowerCase();
-        if (skillRequired.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Skill Required should not include numbers";
-        } else if (skillRequired.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "Skill Required should not contain should not contain spaces or special characters<br>Use a hyphen instead of spaces!";
+    //shows fewer categories
+    function showFewer() {
+        if (document.getElementById('categories-custom').style.display === "block") {
+            document.getElementById('show-all').style.display = "block";
+            document.getElementById('categories-custom').style.display = "none"
         } else {
-            requiredSkills.push(skillRequired)
-        }
-        document.getElementById('required-skill-add').value = "";
-        document.getElementById('skills_required').style.display = "block";
-        document.getElementById('skills_required').value = requiredSkills;
-    }
-
+            document.getElementById('show-more').style.display = "block";
+            document.getElementById('show-fewer').style.display = "none";
+            document.getElementById('categories-two').style.display = "none";
+        }        
+    }    
 
     //EDITING PROFILE INFO    
     //Editing first name

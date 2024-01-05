@@ -97,7 +97,7 @@ def home():
 def signup():
     if session.get("user_id") is not None:
         return redirect(url_for("dreamscape"))
-    categories = list(mongo.db.categories.find().sort("total_dreams_selected", 1))
+    categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
     if request.method == "POST":
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
@@ -132,6 +132,8 @@ def signup():
                 if category != "":
                     mongo.db.categories.update_one({"category": category}, {"$push": {
                     "users_selected" : user_verify["_id"] }})
+                    mongo.db.categories.update_one({"category": category}, {"$inc": {
+                    "total_users_selected" : 1 }})
             session["user_id"] = str(user_verify["_id"])       
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
@@ -453,10 +455,10 @@ def reset_password(token):
 @app.route("/dreambuilder", methods=["GET", "POST"])
 def dreambuilder():
     if session.get("user_id") is not None:
-        categories = list(mongo.db.categories.find().sort("total_dreams_selected", 1))
-        categories_one = categories[0:5]
-        categories_two = categories[0:10]
-        
+        categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
+        categories_one = categories[0:10]
+        categories_two = categories[10:20]
+        categories_custom = categories[20:len(categories)]        
         if request.method == "POST":
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
@@ -478,18 +480,24 @@ def dreambuilder():
                 "dream_string": dream_string,
                 "dream_slug": dream_slug,
                 "dream_description": request.form.get("dream_description"),            
-                "categories": request.form.get("categories"),
-                "skills_required": request.form.get("skills_required")
+                "categories": request.form.get("selected-categories")
             }
-            
             mongo.db.dreams.insert_one(dream_create)
             dream_verify = mongo.db.dreams.find_one(
                 {"dream_slug": dream_slug})
             if dream_verify:
+                dream_categories = request.form.get("selected-categories").split(",")
+                dream_categories=[x.strip() for x in dream_categories]
+                for category in dream_categories:
+                    if category != "":
+                        mongo.db.categories.update_one({"category": category}, {"$push": {
+                        "dreams_selected" : dream_verify["_id"] }})
+                        mongo.db.categories.update_one({"category": category}, {"$inc": {
+                        "total_dreams_selected" : 1 }})
                 return redirect(url_for("image_upload", dream_slug=dream_slug, dream=dream_verify, base_url=base_url))        
             flash("Dream creation not successful, please try again.")
-            return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories=categories)
-        return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories=categories)
+            return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
+        return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
 
 
 #route to add an image to a newly-created dream
