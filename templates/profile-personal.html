@@ -5,39 +5,19 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 {% endblock title %}
 
 {% block content %}
-<div class="page-menu">
-    <a href="{{ url_for('profile_personal') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('profile_personal') }}">
-        <h2>Personal Information</h2>
-    </a>
-    <a href="{{ url_for('site_preferences') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('site_preferences') }}">
-            <h2>Site Preferences</h2>
-    </a>
-</div>
-<div id="personal-info">
-    <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
-        <div>
-            <div>
+<form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data"></form>
+    <div id="edit-personal-container">
+        <div id="personal-info">
+            <div>          
                 <div>
                     <label for="first-name">First Name: </label>
-                    <input type="text" id="first-name" name="first_name" value="{{ user.first_name | capitalize }}" readonly required>
-                    <span id="first-name-edit"><i class="fas fa-edit"></i></span>
-                    <span id="first-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
-                    <span id="first-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+                    <input type="text" id="first-name" name="first_name" value="{{ user.first_name | capitalize }}" required>
                 </div>
                 <div>
                     <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" value="{{ user.last_name | capitalize }}" required readonly>
-                    <span id="last-name-edit"><i class="fas fa-edit"></i></span>
-                    <span id="last-name-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
-                    <span id="last-name-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>                  
+                    <input type="text" id="last-name" name="last_name" value="{{ user.last_name | capitalize }}" required>                  
                 </div>
                 <h3 class="red-text not-displayed" id="form-alert"></h3>
-                <div>
-                    <label for="email">e-mail address</label><input type="email" id="email" name="email" value="{{ user.email }}" required readonly>
-                    <span id="email-edit"><i class="fas fa-edit"></i></span>
-                    <span id="email-confirm" class="not-displayed"><i class="fa-solid fa-check"></i></span>
-                    <span id="email-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span> 
-                </div>
             </div>
             <div>
                 <div>
@@ -48,24 +28,64 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                         <img id="current-image" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
                     {% endif %}
                     <img id="image-preview" class="not-displayed" src="" width="150">
-                    <input type="file" id="uploaded-image" name="profile_picture" class="not-displayed">
-                    <i class="fas fa-edit" id="profile-pic-edit"></i>
+                    <input type="file" id="uploaded-image" name="profile_picture">
                     <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
                     <br><label for="profile_picture">Remove Profile Picture</label><input type="checkbox" id="delete_image" name="delete_image">
 
                 </div>
-                <div>
-                    <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
-                </div>
-
+            <div>
+            <div>
+                <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
             </div>
         </div>
-        <span id="info-update" class="not-displayed">
-            <button type="submit" id="save-button">Save Changes</button>
-            <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
-        </span>
-            
-    </form>
-</div>
+        <div>
+            <h2>Interests</h2>
+            <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ user.interests }}" readonly required>
+            <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
+            {% with categories = categories_two %}
+                {% if categories %}
+                <div id="show-more" class="not-displayed">Show More Categories</div>
+                {% endif %}
+            {% endwith %}
+            {% with categories = categories_custom %}
+                {% if categories %}
+                <div id="show-all" class="not-displayed">Show All Categories</div>
+                {% endif %}
+            {% endwith %}
+            <div id="show-fewer">Show Fewer Categories</div>
+
+            {% with categories = categories_one %}
+                {% if categories %}
+                    {% for category in categories %}
+                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}                
+            </div>
+            <div id="categories-two">
+            {% with categories = categories_two %}
+                {% if categories %}
+                    {% for category in categories %}
+                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                    {% endfor %}                    
+                {% endif %}
+            {% endwith %}                 
+            </div>
+            <div id="categories-custom">
+                {% with categories = categories_custom %}
+                    {% if categories %}
+                        {% for category in categories %}
+                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                        {% endfor %}                            
+                    {% endif %}
+                {% endwith %}                
+            </div>
+        </div>
+    </div>
+    <span id="info-update">
+        <button type="submit" id="save-button">Save Changes</button>
+        <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
+    </span>
+</form>
 <a href="{{ url_for('log_out') }}">Log Out</a>
 {% endblock content %}

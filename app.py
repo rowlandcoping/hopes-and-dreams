@@ -274,6 +274,10 @@ def dreams():
 def profile_personal():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
+        categories_one = categories[0:3]
+        categories_two = categories[3:5]
+        categories_custom = categories[5:len(categories)] 
         if request.method == "POST":
             first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
             last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
@@ -340,7 +344,7 @@ def profile_personal():
                 mongo.db.dreams.update_one({"_id": ObjectId(dream["_id"])}, dream_update)
             flash("Profile Updated")
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        return render_template("profile-personal.html", base_url=base_url, user=user_info)
+        return render_template("profile-personal.html", base_url=base_url, user=user_info, categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))
 
 
