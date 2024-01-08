@@ -378,59 +378,6 @@ def profile_personal():
         return render_template("profile-personal.html", base_url=base_url, user=user_info, categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))
 
-
-#route for site preferences section of profile
-@app.route("/site-preferences", methods=["GET", "POST"])
-def site_preferences():
-    if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        if request.method == "POST":
-            interests = request.form.get("interests")
-            skills = request.form.get("skills")
-            experiences = request.form.get("experiences")
-            interests = interests.split(",")
-            delete_interests = []
-            for i in range(len(interests)):                
-                if request.form.get("interests-"+ str(i) +"-delete"):
-                    delete_interests.append(i)
-            interest_deletions=sorted(delete_interests, reverse=True)
-            for i in interest_deletions:
-                if i < len(interests):
-                    interests.pop(i)
-            skills = skills.split(",")
-            delete_skills = []
-            for i in range(len(skills)):                
-                if request.form.get("skills-"+ str(i) +"-delete"):
-                    delete_skills.append(i)
-            skill_deletions=sorted(delete_skills, reverse=True)
-            for i in skill_deletions:
-                if i < len(skills):
-                    skills.pop(i)
-            experiences = experiences.split(",")
-            delete_experiences = []
-            for i in range(len(experiences)):                
-                if request.form.get("experiences-"+ str(i) +"-delete"):
-                    delete_experiences.append(i)
-            experience_deletions=sorted(delete_experiences, reverse=True)
-            for i in experience_deletions:
-                if i < len(experiences):
-                    experiences.pop(i)
-            interests = ','.join(interests)
-            skills = ','.join(skills)
-            experiences = ','.join(experiences)
-            preferences_update = {"$set": {
-                    "interests": interests,
-                    "skills": skills,
-                    "experiences": experiences
-            }}
-            mongo.db.users.update_one(
-                    {"_id": ObjectId(user_info["_id"])}, preferences_update)
-            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-            return render_template("site-preferences.html", base_url=base_url, user=user_info)
-        return render_template("site-preferences.html", base_url=base_url, user=user_info)  
-    return redirect(url_for("home"))
-
-
 #route to log out of site
 @app.route("/logout")
 def log_out():
@@ -578,15 +525,11 @@ def abandon_dream ():
 @app.route("/edit-dream/<dream_slug>")
 def edit_dream(dream_slug):
     if session.get("user_id") is not None:
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        if str(dream["user_id"]) == str(session.get("user_id")):
-            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-            return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
-    return redirect(url_for("home"))
-
-@app.route("/general-information/<dream_slug>", methods=["GET","POST"])
-def edit_dream_general(dream_slug):
-    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
+        categories_one = categories[0:10]
+        categories_two = categories[10:20]
+        categories_custom = categories[20:len(categories)] 
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         if str(dream["user_id"]) == str(session.get("user_id")):
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
@@ -653,8 +596,8 @@ def edit_dream_general(dream_slug):
                         {"_id": ObjectId(dream["_id"])}, dream_update)
                 dream = dict(mongo.db.dreams.find_one({"_id": ObjectId(dream["_id"])}))
                 flash("Dream Updated") 
-            return render_template("general-information.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
-        return render_template("general-information.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
+            return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
+        return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))
 
 
@@ -701,6 +644,7 @@ def edit_dream_preferences(dream_slug):
             return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
         return render_template("dream-preferences.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
+
 
 @app.route("/follow-dream/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_follow_dream(dream_slug, selected):
@@ -755,6 +699,7 @@ def dreamscape_follow_dream(dream_slug, selected):
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
+
 @app.route("/unfollow-dream/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_unfollow_dream(dream_slug, selected):
     if session.get("user_id") is not None:
@@ -798,6 +743,7 @@ def dreamscape_unfollow_dream(dream_slug, selected):
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))   
+        
         
 @app.route("/follow-creator/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_follow_creator(dream_slug, selected):
@@ -852,6 +798,7 @@ def dreamscape_follow_creator(dream_slug, selected):
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))       
+
 
 @app.route("/unfollow-creator/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_unfollow_creator(dream_slug, selected):
@@ -985,7 +932,6 @@ def edit_comment(dream_slug, selected, comment_id):
             dream=dream_array
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
     return redirect(url_for("home"))
-
 
 
 @app.route("/delete-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
@@ -1196,6 +1142,7 @@ def dislike_dream_comment(dream_slug, selected, comment_id):
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
     return redirect(url_for("home"))
 
+
 @app.route("/undislike-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
 def undislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
@@ -1292,7 +1239,6 @@ def categories():
         return redirect("dreams")
     return redirect("home")
         
-
 
 #launches Hopes and Dreams, calls app environment variables         
 if __name__ == "__main__":

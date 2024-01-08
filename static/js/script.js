@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("selected-categories").value="";
     }
     //ensures buttons on edit page have appropriate styling based on current interests
-    if (document.getElementById("initial-interests").value) {
+    if (document.getElementById("initial-interests")) {
         if (document.getElementById('show-all') || document.getElementById('show-more')) {
             document.getElementById('show-fewer').style.display = "block";
         } else {
@@ -287,8 +287,12 @@ document.addEventListener("DOMContentLoaded", function() {
     function showMore() {
         document.getElementById('show-fewer').style.display = "block";
         document.getElementById('categories-two').style.display = "block";
-        document.getElementById('show-more').style.display = "none";
-        document.getElementById('show-all').style.display = "block";
+        if (document.getElementById('show-more')) {
+            document.getElementById('show-more').style.display = "none";
+        }
+        if (document.getElementById('show-all')) {
+            document.getElementById('show-all').style.display = "block";
+        }
     }
     //shows all categories
     function showAll() {
@@ -328,66 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     //EDIT DREAM GENERAL
-    //edit dream name
-    function editDreamName() {        
-        document.getElementById('dream-name').readOnly =false;
-        document.getElementById('dream-name-edit').style.display = "none";
-        document.getElementById('dream-description-edit').style.display = "none";
-        document.getElementById('dream-name-confirm').style.display = "inline-block";
-        document.getElementById('dream-name-cancel').style.display = "inline-block";
-        if (!currentValues.dreamName) {
-            currentValues.dreamName = document.getElementById('dream-name').value;
-        }
-    }
-    //Committing dream name amends to field
-    function confirmDreamName() {        
-        document.getElementById('dream-name').readOnly =true;
-        document.getElementById('dream-name-edit').style.display = "inline-block";
-        document.getElementById('dream-description-edit').style.display = "inline-block";
-        document.getElementById('dream-name-confirm').style.display = "none";
-        document.getElementById('dream-name-cancel').style.display = "inline-block";
-    }
-    //cancelling any changes
-    function cancelDreamName() {        
-        document.getElementById('dream-name').readOnly =true;
-        document.getElementById('dream-name-edit').style.display = "inline-block";
-        document.getElementById('dream-description-edit').style.display = "inline-block";
-        document.getElementById('dream-name-confirm').style.display = "none";
-        document.getElementById('dream-name-cancel').style.display = "none";
-        if (currentValues.dreamName) {
-            document.getElementById('dream-name').value = currentValues.dreamName;
-        }
-    }
-    //Editing last name
-    function editDreamDescription() {        
-        document.getElementById('dream-description').readOnly =false;
-        document.getElementById('dream-name-edit').style.display = "none";
-        document.getElementById('dream-description-edit').style.display = "none";
-        document.getElementById('dream-description-confirm').style.display = "inline-block";
-        document.getElementById('dream-description-cancel').style.display = "inline-block";
-        if (!currentValues.dreamDescription) {
-            currentValues.dreamDescription = document.getElementById('dream-description').value;
-        }
-    }
-    //Committing dream description amends to field
-    function confirmDreamDescription() {        
-        document.getElementById('dream-description').readOnly =true;
-        document.getElementById('dream-name-edit').style.display = "inline-block";
-        document.getElementById('dream-description-edit').style.display = "inline-block";
-        document.getElementById('dream-description-confirm').style.display = "none";
-        document.getElementById('dream-description-cancel').style.display = "inline-block";
-    }
-    //Cancelling dream description update
-    function cancelDreamDescription() {        
-        document.getElementById('dream-description').readOnly =true;
-        document.getElementById('dream-name-edit').style.display = "inline-block";
-        document.getElementById('dream-description-edit').style.display = "inline-block";
-        document.getElementById('dream-description-confirm').style.display = "none";
-        document.getElementById('dream-description-cancel').style.display = "none";
-        if (currentValues.dreamDescription) {
-            document.getElementById('dream-description').value = currentValues.dreamDescription;
-        }
-    }
+
 
     //EDIT DREAM KEYWORDS
     function editCategories() {

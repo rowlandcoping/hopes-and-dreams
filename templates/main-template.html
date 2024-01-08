@@ -41,9 +41,7 @@
             <div id="left-sidebar">
                 {% if dream is defined %}
                 <a href="{{ url_for('dreams') }}" class="{{ 'active-page' 
-                    if request.path == url_for('edit_dream', dream_slug=dream.dream_slug ) or
-                    request.path == url_for('edit_dream_general', dream_slug=dream.dream_slug ) or
-                    request.path == url_for('edit_dream_preferences', dream_slug=dream.dream_slug ) }}">
+                    if request.path == url_for('edit_dream', dream_slug=dream.dream_slug ) }}">
                 {% else %}
                 <a href="{{ url_for('dreams') }}" class="{{ 'active-page' if request.path == url_for('dreams') }}">
                 {% endif %}
@@ -54,7 +52,7 @@
                     <img src="{{ url_for('static', filename='images/general-assets/friendsimg.bmp') }}" alt="" width = "150">
                     <h3>Feed</h3>
                 </a>
-                <a href="{{ url_for('profile_personal') }}" class="{{ 'active-page' if (request.path == url_for('profile_personal') or request.path == url_for('site_preferences')) }}">
+                <a href="{{ url_for('profile_personal') }}" class="{{ 'active-page' if request.path == url_for('profile_personal') }}">
                     {% if user.profile_picture %}
                         <img id="profile_view" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
                     {% else %}

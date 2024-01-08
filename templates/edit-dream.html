@@ -1,7 +1,7 @@
 {% extends 'main-template.html' %}
 
 {% block title %}
-Edit {{ dream.dream_name }}
+Edit Dream - {{ dream.dream_name }}
 {% endblock title %}
 
 {% block content %}
@@ -14,31 +14,86 @@ Edit {{ dream.dream_name }}
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div class="dream-edit">
+    <div id = "edit-general" class="dream-edit-general">
         <h1>{{ dream.dream_name }}</h1>
-        <div id="dream-general" class="dream-section">
-            <h4>Edit General Information</h4>
-            <a href="{{ url_for('edit_dream_general', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
-        </div>
-        <div id="dream-diary" class="dream-section">
-            <h4>Add Dream Diary</h4>
-            <i class="fas fa-plus"></i>
-        </div>
-        <div id="dream-goals" class="dream-section">
-            <h4>Add Dream Goals</h4>
-            <i class="fas fa-plus"></i>
-            <p><em>Coming Soon.....</em></p>            
-        </div>
-        <div id="dream-planner" class="dream-section">
-            <h4>Add Dream Planner</h4>
-            <i class="fas fa-plus"></i>
-            <p><em>Coming Soon.....</em></p> 
-        </div>
-        <div id="dream-requests" class="dream-section">
-            <h4>Add Dream Requests</h4>
-            <i class="fas fa-plus"></i>
-            <p><em>Coming Soon.....</em></p> 
-        </div>
+        <a href="{{ url_for('dreams') }}"><h4>Edit another Dream</h4></a>
+        <form action="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}" method="POST" name="dream-update" enctype="multipart/form-data">
+            <h3 class="red-text not-displayed" id="form-alert"></h3>
+            <div>
+                <div>
+                    <div>
+                        <label for="dream-name">Dream: </label>
+                        <input type="text" id="dream-name" name="dream_name" value="{{ dream.dream_name | title }}" required>
+                    </div>
+                    <div>
+                        <label for="dream-description">Dream Description: </label>
+                        <textarea id="dream-description" name="dream_description" required>{{ dream.dream_description}}</textarea>                
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="profile_picture">Dream Image</label>
+                        {% if dream.image %}
+                            <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                        {% else %}
+                            <img id="current-image" src="{{ url_for('static', filename='images/general/bunny.jpg') }}" alt = "A crudely drawn bunny, which appears to be sitting on grass inside a cloud in the sky." width="150">
+                        {% endif %}
+                        <img id="image-preview" class="not-displayed" src="" width="150">
+                        <input type="file" id="uploaded-image" name="profile_picture">
+                        <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+                        <br><label for="profile_picture">Remove Picture</label><input type="checkbox" id="delete_image" name="delete_image">
+                    </div>    
+                </div>
+                <div>
+                    <h2>Interests</h2>
+                    <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories }}" readonly required>
+                    <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
+                    {% with categories = categories_two %}
+                        {% if categories %}
+                        <div id="show-more" class="not-displayed">Show More Categories</div>
+                        {% endif %}
+                    {% endwith %}
+                    {% with categories = categories_custom %}
+                        {% if categories %}
+                        <div id="show-all" class="not-displayed">Show All Categories</div>
+                        {% endif %}
+                    {% endwith %}
+                    <div id="show-fewer">Show Fewer Categories</div>
+        
+                    {% with categories = categories_one %}
+                        {% if categories %}
+                            {% for category in categories %}
+                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}                
+                    </div>
+                    <div id="categories-two">
+                    {% with categories = categories_two %}
+                        {% if categories %}
+                            {% for category in categories %}
+                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                            {% endfor %}                    
+                        {% endif %}
+                    {% endwith %}                 
+                    </div>
+                    <div id="categories-custom">
+                        {% with categories = categories_custom %}
+                            {% if categories %}
+                                {% for category in categories %}
+                                <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                                {% endfor %}                            
+                            {% endif %}
+                        {% endwith %}                
+                    </div>
+                </div>
+            </div>
+            <span id="info-update" class="">
+                <button type="submit" id="save-button">Save Changes</button>
+                <a href="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}">Clear Changes</a>        
+            </span>
+                
+        </form>
 
 
 
