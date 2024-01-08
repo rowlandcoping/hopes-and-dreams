@@ -36,17 +36,17 @@ Edit Dream - {{ dream.dream_name }}
                         {% if dream.image %}
                             <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
                         {% else %}
-                            <img id="current-image" src="{{ url_for('static', filename='images/general/bunny.jpg') }}" alt = "A crudely drawn bunny, which appears to be sitting on grass inside a cloud in the sky." width="150">
+                            <img id="current-image" src="{{ url_for('static', filename='images/general-assets/bunny.jpg') }}" alt = "A crudely drawn bunny, which appears to be sitting on grass inside a cloud in the sky." width="150">
                         {% endif %}
                         <img id="image-preview" class="not-displayed" src="" width="150">
-                        <input type="file" id="uploaded-image" name="profile_picture">
+                        <input type="file" id="uploaded-image" name="image">
                         <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
                         <br><label for="profile_picture">Remove Picture</label><input type="checkbox" id="delete_image" name="delete_image">
                     </div>    
                 </div>
                 <div>
                     <h2>Interests</h2>
-                    <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories }}" readonly required>
+                    <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories | join(',') }}" readonly required>
                     <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
                     {% with categories = categories_two %}
                         {% if categories %}

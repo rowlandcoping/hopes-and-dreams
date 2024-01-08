@@ -99,6 +99,8 @@ def signup():
         return redirect(url_for("dreamscape"))
     categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
     if request.method == "POST":
+        categories_selected=request.form.get("selected-categories").removesuffix(',')
+        categories_array=categories_selected.split(",")
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if existing_user:
@@ -119,7 +121,7 @@ def signup():
             "user_string": user_string,
             "user_slug": user_slug,            
             "email": request.form.get("email").lower(),
-            "interests": request.form.get("selected-categories"),
+            "interests": categories_array,
             "role": "user"
         }
         mongo.db.users.insert_one(register)
@@ -133,7 +135,7 @@ def signup():
                     mongo.db.categories.update_one({"category": category}, {"$push": {
                     "users_selected" : user_verify["_id"] }})
                     mongo.db.categories.update_one({"category": category}, {"$inc": {
-                    "total_users_selected" : 1 }})
+                    "total_users_selected" : 1, "total_times_selected": 1 }})
             session["user_id"] = str(user_verify["_id"])       
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
@@ -274,11 +276,13 @@ def dreams():
 def profile_personal():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
+        categories = list(mongo.db.categories.find().sort("total_times_selected", -1))
         categories_one = categories[0:10]
         categories_two = categories[10:20]
         categories_custom = categories[20:len(categories)] 
         if request.method == "POST":
+            categories_selected=request.form.get("selected-categories").removesuffix(',')
+            categories_array=categories_selected.split(",")
             first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
             last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
             user_string = str(first_submitted + "-" + last_submitted)
@@ -311,7 +315,7 @@ def profile_personal():
                     "user_slug": user_slug,
                     "profile_picture": filename,
                     "profilepic_alt": image_alt,
-                    "interests": request.form.get("selected-categories")
+                    "interests": categories_array
                 }}
             elif request.form.get("delete_image"):
                 if (user_info["profile_picture"] is not None) or (user_info["profile_picture"]  != ""):
@@ -323,7 +327,7 @@ def profile_personal():
                     "user_slug": user_slug,
                     "profile_picture": "",
                     "profilepic_alt": "",
-                    "interests": request.form.get("selected-categories")
+                    "interests": categories_array
             }}
             else:
                 profile_update = {"$set": {
@@ -332,7 +336,7 @@ def profile_personal():
                     "user_string": user_string,
                     "user_slug": user_slug,
                     "profilepic_alt": image_alt,
-                    "interests": request.form.get("selected-categories")
+                    "interests": categories_array
             }}
             mongo.db.users.update_one(
                    {"_id": ObjectId(user_info["_id"])}, profile_update) 
@@ -356,25 +360,25 @@ def profile_personal():
                     mongo.db.categories.update_one({"category": category}, {"$push": {
                     "users_selected" : user_info["_id"] }})
                     mongo.db.categories.update_one({"category": category}, {"$inc": {
-                    "total_users_selected" : 1 }})
+                    "total_users_selected" : 1, "total_times_selected": 1 }})
             for category in to_delete:
                 if category != "":
                     mongo.db.categories.update_one({"category": category}, {"$pull": {
                     "users_selected" : user_info["_id"] }})
                     mongo.db.categories.update_one({"category": category}, {"$inc": {
-                    "total_users_selected" : -1 }})
+                    "total_users_selected" : -1, "total_times_selected": -1 }})
             user_dreams = list(mongo.db.dreams.find({"user_id": session["user_id"]}))
             for dream in user_dreams:
                 dream_update={"$set": {
                     "user_name": str(request.form.get("first_name") + " " + request.form.get("last_name"))
                 }}
                 mongo.db.dreams.update_one({"_id": ObjectId(dream["_id"])}, dream_update)
-            flash("Profile Updated")
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-            categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
+            categories = list(mongo.db.categories.find().sort("total_times_selected", -1))
             categories_one = categories[0:10]
             categories_two = categories[10:20]
-            categories_custom = categories[20:len(categories)] 
+            categories_custom = categories[20:len(categories)]
+            flash("Profile Updated")
         return render_template("profile-personal.html", base_url=base_url, user=user_info, categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))
 
@@ -442,6 +446,8 @@ def dreambuilder():
         categories_two = categories[10:20]
         categories_custom = categories[20:len(categories)]        
         if request.method == "POST":
+            categories_selected=request.form.get("selected-categories").removesuffix(',')
+            categories_array=categories_selected.split(",")
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
             dream_string = str(re.sub(" ", "-", dream_string))
@@ -462,7 +468,7 @@ def dreambuilder():
                 "dream_string": dream_string,
                 "dream_slug": dream_slug,
                 "dream_description": request.form.get("dream_description"),            
-                "categories": request.form.get("selected-categories")
+                "categories": categories_array
             }
             mongo.db.dreams.insert_one(dream_create)
             dream_verify = mongo.db.dreams.find_one(
@@ -475,7 +481,7 @@ def dreambuilder():
                         mongo.db.categories.update_one({"category": category}, {"$push": {
                         "dreams_selected" : dream_verify["_id"] }})
                         mongo.db.categories.update_one({"category": category}, {"$inc": {
-                        "total_dreams_selected" : 1 }})
+                        "total_dreams_selected" : 1, "total_times_selected": 1 }})
                 return redirect(url_for("image_upload", dream_slug=dream_slug, dream=dream_verify, base_url=base_url))        
             flash("Dream creation not successful, please try again.")
             return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
@@ -522,11 +528,11 @@ def abandon_dream ():
 
 
 #route to select various dream modules in order to edit them.
-@app.route("/edit-dream/<dream_slug>")
+@app.route("/edit-dream/<dream_slug>", methods=["GET", "POST"])
 def edit_dream(dream_slug):
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
+        categories = list(mongo.db.categories.find().sort("total_times_selected", -1))
         categories_one = categories[0:10]
         categories_two = categories[10:20]
         categories_custom = categories[20:len(categories)] 
@@ -534,6 +540,8 @@ def edit_dream(dream_slug):
         if str(dream["user_id"]) == str(session.get("user_id")):
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             if request.method == "POST":
+                categories_selected=request.form.get("selected-categories").removesuffix(',')
+                categories_array=categories_selected.split(",")
                 if (request.form.get("dream_name").lower() != dream["dream_name"].lower()):
                     dream_string = str(re.sub("[.!#\"$%;@&'*+\\/=?^_`{|}~]", "", request.form.get("dream_name").lower()))
                     dream_string = str(re.sub(" ", "-", dream_string))
@@ -567,7 +575,8 @@ def edit_dream(dream_slug):
                         "dream_slug": dream_slug,
                         "dream_description": request.form.get("dream_description"),
                         "image": filename,
-                        "image_alt": image_alt
+                        "image_alt": image_alt,
+                        "categories": categories_array
                     }}
                 elif request.form.get("delete_image"):
                     if (dream["image"] is not None):
@@ -581,6 +590,8 @@ def edit_dream(dream_slug):
                         "dream_slug": dream_slug,
                         "dream_description": request.form.get("dream_description"),
                         "image": "",
+                        "image_alt": image_alt,
+                        "categories": categories_array
                     }}
                 else:
                     dream_update = {"$set": {
@@ -590,11 +601,43 @@ def edit_dream(dream_slug):
                         "dream_string": dream_string,
                         "dream_slug": dream_slug,
                         "dream_description": request.form.get("dream_description"),
-                        "image_alt": image_alt
+                        "image_alt": image_alt,
+                        "categories": categories_array
                     }}
                 mongo.db.dreams.update_one(
                         {"_id": ObjectId(dream["_id"])}, dream_update)
+                #update categories fields
+                new_categories = request.form.get("selected-categories").split(",")
+                new_categories=[x.strip() for x in new_categories]
+                initial_categories = request.form.get("initial-interests").split(",")
+                initial_categories=[x.strip() for x in initial_categories]
+                to_delete = []
+                to_add = []
+                for category in new_categories:
+                    present = initial_categories.count(category)
+                    if present==0:
+                        to_add.append(category)
+                for category in initial_categories:
+                    present = new_categories.count(category)
+                    if present==0:
+                        to_delete.append(category)       
+                for category in to_add:
+                    if category != "":
+                        mongo.db.categories.update_one({"category": category}, {"$push": {
+                        "dreams_selected" : dream["_id"] }})
+                        mongo.db.categories.update_one({"category": category}, {"$inc": {
+                        "total_dreams_selected" : 1, "total_times_selected": 1 }})
+                for category in to_delete:
+                    if category != "":
+                        mongo.db.categories.update_one({"category": category}, {"$pull": {
+                        "dreams_selected" : dream["_id"] }})
+                        mongo.db.categories.update_one({"category": category}, {"$inc": {
+                        "total_dreams_selected" : -1, "total_times_selected": -1 }})            
                 dream = dict(mongo.db.dreams.find_one({"_id": ObjectId(dream["_id"])}))
+                categories = list(mongo.db.categories.find().sort(("total_times_selected"), -1))
+                categories_one = categories[0:10]
+                categories_two = categories[10:20]
+                categories_custom = categories[20:len(categories)]
                 flash("Dream Updated") 
             return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
         return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
@@ -1219,15 +1262,32 @@ def categories():
                             "category": next_category,
                             "created_by": "administrator",
                             "dreams_selected": [],
-                            "total_dreams_selected": len(categories[0]["dreams_selected"]),
                             "users_selected": [],
-                            "total_users_selected": len(categories[0]["users_selected"])
                         }
                         mongo.db.categories.insert_one(new_category)
                 #EDIT OR DELETE
+                users = mongo.db.users.find()
+                dreams = mongo.db.dreams.find()
                 for category in categories:
                     if request.form.get(str(category["_id"]) + "-delete"):
-                        mongo.db.categories.delete_one({"category": request.form.get(str(category["_id"]) + "-current")})
+                        for user in users:
+                            print(user["first_name"])
+                            try:
+                                for interest in user["interests"]:
+                                    if interest == category["category"]:
+                                        mongo.db.users.update_one({"user_slug": user["user_slug"]}, {"$pull": {
+                                                                "interests" : category["category"] }})
+                            except KeyError:
+                                pass
+                        for dream in dreams:
+                            try:
+                                for interest in dream["categories"]:
+                                    if interest == category["category"]:
+                                        mongo.db.dreams.update_one({"_id": dream["_id"]}, {"$pull": {
+                                                                "categories" : category["category"] }})
+                            except KeyError:
+                                pass
+                        mongo.db.categories.delete_one({"category": request.form.get(str(category["_id"]) + "-current")})   
                     else:
                         if request.form.get(str(category["_id"]) + "-new") != "":
                             update_category = {"$set":{

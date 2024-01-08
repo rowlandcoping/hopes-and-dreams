@@ -25,7 +25,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                     {% if user.profile_picture %}
                         <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
                     {% else %}
-                        <img id="current-image" src="{{ url_for('static', filename='images/general/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
+                        <img id="current-image" src="{{ url_for('static', filename='images/general-assets/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
                     {% endif %}
                     <img id="image-preview" class="not-displayed" src="" width="150">
                     <input type="file" id="uploaded-image" name="profile_picture">
@@ -39,7 +39,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
         </div>
         <div>
             <h2>Interests</h2>
-            <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ user.interests }}" readonly required>
+            <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ user.interests | join(',') }}" readonly required>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             {% with categories = categories_two %}
                 {% if categories %}
