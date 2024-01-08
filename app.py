@@ -274,7 +274,7 @@ def dreams():
 def profile_personal():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
+        categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
         categories_one = categories[0:10]
         categories_two = categories[10:20]
         categories_custom = categories[20:len(categories)] 
@@ -363,7 +363,6 @@ def profile_personal():
                     "users_selected" : user_info["_id"] }})
                     mongo.db.categories.update_one({"category": category}, {"$inc": {
                     "total_users_selected" : -1 }})
-            
             user_dreams = list(mongo.db.dreams.find({"user_id": session["user_id"]}))
             for dream in user_dreams:
                 dream_update={"$set": {
@@ -372,6 +371,10 @@ def profile_personal():
                 mongo.db.dreams.update_one({"_id": ObjectId(dream["_id"])}, dream_update)
             flash("Profile Updated")
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
+            categories_one = categories[0:10]
+            categories_two = categories[10:20]
+            categories_custom = categories[20:len(categories)] 
         return render_template("profile-personal.html", base_url=base_url, user=user_info, categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))
 
@@ -674,7 +677,7 @@ def edit_dream_preferences(dream_slug):
                 for i in category_deletions:
                     if i < len(categories):
                         categories.pop(i)
-                        
+                                                
                 required = required.split(",")
                 delete_required = []
                 for i in range(len(required)):                
