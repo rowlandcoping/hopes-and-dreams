@@ -213,8 +213,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    
-
     //------------ACTIONS-------------//
     
     //SIGN IN
@@ -223,7 +221,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('signin-form').style.display = "block";
         document.getElementById('signin-click').style.display = "none";
     }
-
     //SIGN-UP/EDIT/DREAMBUILDER PROCESSES   
     //clears categories on page refresh
     if (document.getElementById("selected-categories")) {

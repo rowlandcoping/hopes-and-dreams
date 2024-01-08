@@ -293,7 +293,7 @@ def profile_personal():
                 else: 
                     user_slug = user_string
             else:
-                user_slug = user_string            
+                user_slug = user_string          
             if request.files['profile_picture']:
                 uploaded_image = request.files['profile_picture']
                 imgname= uploaded_image.filename.split(".", 1)[0]
@@ -309,9 +309,9 @@ def profile_personal():
                     "last_name": request.form.get("last_name"),
                     "user_string": user_string,
                     "user_slug": user_slug,
-                    "email": request.form.get("email"),
                     "profile_picture": filename,
-                    "profilepic_alt": image_alt
+                    "profilepic_alt": image_alt,
+                    "interests": request.form.get("selected-categories")
                 }}
             elif request.form.get("delete_image"):
                 if (user_info["profile_picture"] is not None) or (user_info["profile_picture"]  != ""):
@@ -321,9 +321,9 @@ def profile_personal():
                     "last_name": request.form.get("last_name"),
                     "user_string": user_string,
                     "user_slug": user_slug,
-                    "email": request.form.get("email"),
                     "profile_picture": "",
-                    "profilepic_alt": ""
+                    "profilepic_alt": "",
+                    "interests": request.form.get("selected-categories")
             }}
             else:
                 profile_update = {"$set": {
@@ -331,11 +331,39 @@ def profile_personal():
                     "last_name": request.form.get("last_name"),
                     "user_string": user_string,
                     "user_slug": user_slug,
-                    "email": request.form.get("email"),
-                    "profilepic_alt": image_alt
+                    "profilepic_alt": image_alt,
+                    "interests": request.form.get("selected-categories")
             }}
             mongo.db.users.update_one(
-                    {"_id": ObjectId(user_info["_id"])}, profile_update)
+                   {"_id": ObjectId(user_info["_id"])}, profile_update) 
+            #update category data
+            new_categories = request.form.get("selected-categories").split(",")
+            new_categories=[x.strip() for x in new_categories]
+            initial_categories = request.form.get("initial-interests").split(",")
+            initial_categories=[x.strip() for x in initial_categories]
+            to_delete = []
+            to_add = []
+            for category in new_categories:
+                present = initial_categories.count(category)
+                if present==0:
+                    to_add.append(category)
+            for category in initial_categories:
+                present = new_categories.count(category)
+                if present==0:
+                    to_delete.append(category)       
+            for category in to_add:
+                if category != "":
+                    mongo.db.categories.update_one({"category": category}, {"$push": {
+                    "users_selected" : user_info["_id"] }})
+                    mongo.db.categories.update_one({"category": category}, {"$inc": {
+                    "total_users_selected" : 1 }})
+            for category in to_delete:
+                if category != "":
+                    mongo.db.categories.update_one({"category": category}, {"$pull": {
+                    "users_selected" : user_info["_id"] }})
+                    mongo.db.categories.update_one({"category": category}, {"$inc": {
+                    "total_users_selected" : -1 }})
+            
             user_dreams = list(mongo.db.dreams.find({"user_id": session["user_id"]}))
             for dream in user_dreams:
                 dream_update={"$set": {
