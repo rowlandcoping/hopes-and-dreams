@@ -805,10 +805,10 @@ def dreamscape_follow_creator(dream_slug, selected):
                 mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)
         else:
             add_user = {"$push":{
-                "users_following" : session["user_id"]
+                "users_following" : ObjectId(session["user_id"])
             }}
             follow_user = {"$push":{
-                "users_followed" : this_dream["user_id"]
+                "users_followed" : ObjectId(this_dream["user_id"])
             }}
             mongo.db.users.update_one({"_id":  ObjectId(this_dream["user_id"])}, add_user)
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, follow_user)
@@ -848,10 +848,10 @@ def dreamscape_unfollow_creator(dream_slug, selected):
     if session.get("user_id") is not None:
         this_dream=dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         remove_user = {"$pull":{
-            "users_following" : session["user_id"]
+            "users_following" : ObjectId(session["user_id"])
         }}
         unfollow_user = {"$pull":{
-            "users_followed" : this_dream["user_id"]
+            "users_followed" : ObjectId(this_dream["user_id"])
         }}
         mongo.db.users.update_one({"_id":  ObjectId(this_dream["user_id"])}, remove_user)
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, unfollow_user)        
@@ -1039,19 +1039,19 @@ def like_dream_comment(dream_slug, selected, comment_id):
         if "user_likes" in comment_pick:
             if not comment_pick["user_likes"].count(session["user_id"]):
                 like_comment = {"$push": {
-                    "comments_liked" : comment_id
+                    "comments_liked" : ObjectId(comment_id)
                 }}
                 user_likes = {"$push":{
-                    "user_likes" : session["user_id"]
+                    "user_likes" : ObjectId(session["user_id"])
                 }}
                 mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_likes)
                 mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, like_comment)
         else:
             like_comment = {"$push": {
-                "comments_liked" : comment_id
+                "comments_liked" : ObjectId(comment_id)
             }}
             user_likes = {"$push":{
-                "user_likes" : session["user_id"]
+                "user_likes" : ObjectId(session["user_id"])
             }}
             mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_likes)
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, like_comment)
@@ -1093,10 +1093,10 @@ def unlike_dream_comment(dream_slug, selected, comment_id):
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         like_comment = {"$pull": {
-            "comments_liked" : comment_id
+            "comments_liked" : ObjectId(comment_id)
         }}
         user_likes = {"$pull":{
-            "user_likes" : session["user_id"]
+            "user_likes" : ObjectId(session["user_id"])
         }}
         mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_likes)
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, like_comment)
@@ -1139,19 +1139,19 @@ def dislike_dream_comment(dream_slug, selected, comment_id):
             if not comment_pick["user_dislikes"].count(session["user_id"]):
                 print(comment_id)
                 dislike_comment = {"$push": {
-                    "comments_disliked" : comment_id
+                    "comments_disliked" : ObjectId(comment_id)
                 }}
                 user_dislikes = {"$push":{
-                    "user_dislikes" : session["user_id"]
+                    "user_dislikes" : ObjectId(session["user_id"])
                 }}
                 mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, dislike_comment)
                 mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_dislikes)                
         else:
             dislike_comment = {"$push": {
-                "comments_disliked" : comment_id
+                "comments_disliked" : ObjectId(comment_id)
             }}
             user_dislikes = {"$push":{
-                "user_dislikes" : session["user_id"]
+                "user_dislikes" : ObjectId(session["user_id"])
             }}
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, dislike_comment)
             mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_dislikes)            
@@ -1193,10 +1193,10 @@ def undislike_dream_comment(dream_slug, selected, comment_id):
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))        
         undislike_comment = {"$pull": {
-            "comments_disliked" : comment_id
+            "comments_disliked" : ObjectId(comment_id)
         }}
         user_undislikes = {"$pull":{
-            "user_dislikes" : session["user_id"]
+            "user_dislikes" : ObjectId(session["user_id"])
         }}
         mongo.db.comments.update_one({"_id":ObjectId(comment_id)}, user_undislikes)
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, undislike_comment)    
