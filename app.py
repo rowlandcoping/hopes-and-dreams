@@ -149,7 +149,7 @@ def profile_upload():
     if session.get("user_id") is not None:
         user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
         if request.method == "POST":
-            uploaded_image = request.files['profile_picture']
+            uploaded_image = request.files['image_upload']
             imgname= uploaded_image.filename.split(".", 1)[0]
             filename= str(imgname + "-" + str(user_info["_id"]))
             image_alt = (
@@ -318,19 +318,19 @@ def profile_personal():
                     "interests": categories_array
                 }}
             elif request.form.get("delete_image"):
-                try:
+                if "profile_picture" in user_info:
                     if user_info["profile_picture"]  != "":
                         cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])
-                        profile_update = {"$set": {
-                            "first_name": request.form.get("first_name"),
-                            "last_name": request.form.get("last_name"),
-                            "user_string": user_string,
-                            "user_slug": user_slug,
-                            "profile_picture": "",
-                            "profilepic_alt": "",
-                            "interests": categories_array
-                        }}                
-                except KeyError:
+                    profile_update = {"$set": {
+                        "first_name": request.form.get("first_name"),
+                        "last_name": request.form.get("last_name"),
+                        "user_string": user_string,
+                        "user_slug": user_slug,
+                        "profile_picture": "",
+                        "profilepic_alt": "",
+                        "interests": categories_array
+                    }}                
+                else:
                     profile_update = {"$set": {
                             "first_name": request.form.get("first_name"),
                             "last_name": request.form.get("last_name"),
@@ -591,17 +591,27 @@ def edit_dream(dream_slug):
                     if "image" in dream:
                         if (dream["image"]  != ""):
                             cloudinary.uploader.destroy("dreams/" + dream["image"])
-                    dream_update = {"$set": {
-                        "timestamp_updated": timestamp,
-                        "datetime_updated": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
-                        "dream_name": request.form.get("dream_name"),
-                        "dream_string": dream_string,
-                        "dream_slug": dream_slug,
-                        "dream_description": request.form.get("dream_description"),
-                        "image": "",
-                        "image_alt": image_alt,
-                        "categories": categories_array
-                    }}
+                        dream_update = {"$set": {
+                            "timestamp_updated": timestamp,
+                            "datetime_updated": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
+                            "dream_name": request.form.get("dream_name"),
+                            "dream_string": dream_string,
+                            "dream_slug": dream_slug,
+                            "dream_description": request.form.get("dream_description"),
+                            "image": "",
+                            "image_alt": "",
+                            "categories": categories_array
+                        }}
+                    else:
+                        dream_update = {"$set": {
+                            "timestamp_updated": timestamp,
+                            "datetime_updated": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
+                            "dream_name": request.form.get("dream_name"),
+                            "dream_string": dream_string,
+                            "dream_slug": dream_slug,
+                            "dream_description": request.form.get("dream_description"),
+                            "categories": categories_array
+                        }}                        
                 else:
                     dream_update = {"$set": {
                         "timestamp_updated": timestamp,
