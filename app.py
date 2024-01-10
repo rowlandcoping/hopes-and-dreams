@@ -157,7 +157,7 @@ def profile_upload():
                 + " " + user_info["last_name"].capitalize())
             if uploaded_image:
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if user_info.get("profile_picture") is not None: 
+                if "profile_picture" in user_info: 
                     if user_info["profile_picture"]  != "":
                         cloudinary.uploader.destroy(user_info["profile_picture"])               
                 cloudinary.uploader.upload(
@@ -303,7 +303,7 @@ def profile_personal():
                 imgname= uploaded_image.filename.split(".", 1)[0]
                 filename= str(imgname + "-" + str(user_info["_id"]))
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if user_info["profile_picture"] is not None:
+                if "profile_picture" in user_info:
                     if user_info["profile_picture"] != "":
                         cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
                 cloudinary.uploader.upload(
@@ -318,17 +318,26 @@ def profile_personal():
                     "interests": categories_array
                 }}
             elif request.form.get("delete_image"):
-                if (user_info["profile_picture"] is not None) or (user_info["profile_picture"]  != ""):
-                    cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])
-                profile_update = {"$set": {
-                    "first_name": request.form.get("first_name"),
-                    "last_name": request.form.get("last_name"),
-                    "user_string": user_string,
-                    "user_slug": user_slug,
-                    "profile_picture": "",
-                    "profilepic_alt": "",
-                    "interests": categories_array
-            }}
+                try:
+                    if user_info["profile_picture"]  != "":
+                        cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])
+                        profile_update = {"$set": {
+                            "first_name": request.form.get("first_name"),
+                            "last_name": request.form.get("last_name"),
+                            "user_string": user_string,
+                            "user_slug": user_slug,
+                            "profile_picture": "",
+                            "profilepic_alt": "",
+                            "interests": categories_array
+                        }}                
+                except KeyError:
+                    profile_update = {"$set": {
+                            "first_name": request.form.get("first_name"),
+                            "last_name": request.form.get("last_name"),
+                            "user_string": user_string,
+                            "user_slug": user_slug,
+                            "interests": categories_array
+                        }}
             else:
                 profile_update = {"$set": {
                     "first_name": request.form.get("first_name"),
@@ -502,9 +511,9 @@ def image_upload(dream_slug):
                     "This image represents " + dream["dream_name"])
                 if uploaded_image:
                     converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                    if dream["image"] is not None:
+                    if "image" in dream:
                         if dream["image"]  != "":
-                            cloudinary.uploader.destroy(dream["image"])               
+                            cloudinary.uploader.destroy(dream["image"])             
                     cloudinary.uploader.upload(
                         converted_image, public_id=filename, folder = "dreams")  
                     image = {"$set": {
@@ -579,7 +588,7 @@ def edit_dream(dream_slug):
                         "categories": categories_array
                     }}
                 elif request.form.get("delete_image"):
-                    if (dream["image"] is not None):
+                    if "image" in dream:
                         if (dream["image"]  != ""):
                             cloudinary.uploader.destroy("dreams/" + dream["image"])
                     dream_update = {"$set": {
@@ -641,51 +650,6 @@ def edit_dream(dream_slug):
                 flash("Dream Updated") 
             return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
         return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
-    return redirect(url_for("home"))
-
-
-@app.route("/dream-preferences/<dream_slug>", methods=["GET","POST"])
-def edit_dream_preferences(dream_slug):
-    if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        if dream["user_id"] == session.get("user_id"):
-            if request.method == "POST":
-                categories = request.form.get("categories")
-                required = request.form.get("required")
-                
-                categories = categories.split(",")
-                delete_categories = []
-                for i in range(len(categories)):                
-                    if request.form.get("categories-"+ str(i) +"-delete"):
-                        delete_categories.append(i)
-                category_deletions=sorted(delete_categories, reverse=True)
-                for i in category_deletions:
-                    if i < len(categories):
-                        categories.pop(i)
-                                                
-                required = required.split(",")
-                delete_required = []
-                for i in range(len(required)):                
-                    if request.form.get("required-"+ str(i) +"-delete"):
-                        delete_required.append(i)
-                required_deletions=sorted(delete_required, reverse=True)
-                for i in required_deletions:
-                    if i < len(required):
-                        required.pop(i)
-                        
-                categories = ','.join(categories)
-                required = ','.join(required)
-                preferences_update = {"$set": {
-                        "categories": categories,
-                        "skills_required": required
-                }}
-                mongo.db.dreams.update_one(
-                        {"dream_slug": dream["dream_slug"]}, preferences_update)
-                flash('Dream preferences updated')
-                dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-            return render_template("dream-preferences.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"])
-        return render_template("dream-preferences.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream["dream_slug"])
     return redirect(url_for("home"))
 
 
@@ -1227,6 +1191,7 @@ def undislike_dream_comment(dream_slug, selected, comment_id):
                 if str(x["user_id"]) != session.get("user_id"):
                         dream_array.append(x)
             dream=dream_array
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
     return redirect(url_for("home"))
 
@@ -1272,21 +1237,17 @@ def categories():
                     if request.form.get(str(category["_id"]) + "-delete"):
                         for user in users:
                             print(user["first_name"])
-                            try:
+                            if "interests" in user:
                                 for interest in user["interests"]:
                                     if interest == category["category"]:
                                         mongo.db.users.update_one({"user_slug": user["user_slug"]}, {"$pull": {
                                                                 "interests" : category["category"] }})
-                            except KeyError:
-                                pass
                         for dream in dreams:
-                            try:
+                            if "categories" in dream:
                                 for interest in dream["categories"]:
                                     if interest == category["category"]:
                                         mongo.db.dreams.update_one({"_id": dream["_id"]}, {"$pull": {
                                                                 "categories" : category["category"] }})
-                            except KeyError:
-                                pass
                         mongo.db.categories.delete_one({"category": request.form.get(str(category["_id"]) + "-current")})   
                     else:
                         if request.form.get(str(category["_id"]) + "-new") != "":

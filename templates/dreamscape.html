@@ -13,15 +13,6 @@ Dreamscape - {{ user.first_name }}
         <h2>Personal Feed</h2>
     </a>
 </div>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="row flashes red-text">
-                <h4>{{ message }}</h4>
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 <form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
     <label for="filter">Filter Results: </label>
     <select name="filter" id="dreamscape-filter">

@@ -18,8 +18,7 @@
                         <img id="current-image" src="{{ url_for('static', filename='images/general-assets/bunny.jpg') }}" alt = "A crudely drawn bunny, which appears to be sitting on grass inside a cloud in the sky. Here this indicates the user has yet to upload an image specific to this dream." width="150">
                     {% endif %}
                     <img id="image-preview" class="not-displayed" src="" width="150">
-        <input type="file" id="uploaded-image" class="not-displayed" name="image_upload">
-        <i class="fas fa-edit" id="profile-pic-edit"></i>
+        <input type="file" id="uploaded-image" name="image_upload">
         <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
         <p>
         <button type="submit">Submit Image</button>

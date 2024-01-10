@@ -5,6 +5,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 {% endblock title %}
 
 {% block content %}
+
 <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
     <div id="edit-personal-container">
         <div id="personal-info">

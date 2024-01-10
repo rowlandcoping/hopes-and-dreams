@@ -276,7 +276,9 @@ document.addEventListener("DOMContentLoaded", function() {
             fileReader.readAsDataURL(previewPic[0]);
             document.getElementById('current-image').style.display="none";
             document.getElementById('image-preview').style.display="inline-block";
-            document.getElementById('info-update').style.display = "block";
+            if (document.getElementById('info-update')) {
+                document.getElementById('info-update').style.display = "block";
+            }
             document.getElementById('profile-pic-cancel').style.display = "inline-block";
         }
     }
