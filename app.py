@@ -81,6 +81,37 @@ def imageConvert(image, width, quality, format):
     img_byte_arr = img_byte_arr.getvalue()
     return img_byte_arr
 
+#function to return view to the item the user was last on, feed
+
+def return_view():
+    if request.form.get("filter") == "trending":
+        dream = list(mongo.db.dreams.find().sort("total_followers", -1))
+        dream_array = []
+        for x in dream:
+            if str(x["user_id"]) != session.get("user_id"):
+                    dream_array.append(x)             
+        dream=dream_array
+        selected = "trending"
+    elif request.form.get("filter") == "personalized":
+        dream_array = []
+        user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")                
+        for x in dream:
+            dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
+            if any(y in user_keywords for y in dream_keywords):
+                if str(x["user_id"]) != session.get("user_id"):
+                    dream_array.append(x)
+        selected = "personalized"
+        dream=list(dream_array)
+    else:
+        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+        dream_array = []
+        for x in dream:
+            if str(x["user_id"]) != session.get("user_id"):
+                    dream_array.append(x)
+        selected = "latest"
+        dream=dream_array
+    return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
+
 
 mongo = PyMongo(app)
 
@@ -221,33 +252,7 @@ def dreamscape():
         dream=dream_array
         selected = "latest"
         if request.method == "POST":
-            if request.form.get("filter") == "trending":
-                dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
-                dream_array = []
-                for x in dream:
-                    if str(x["user_id"]) != session.get("user_id"):
-                            dream_array.append(x)
-                dream=dream_array
-                selected = "trending"
-            elif request.form.get("filter") == "personalized":
-                dream_array = []
-                user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")                
-                for x in dream:
-                    dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
-                    if any(y in user_keywords for y in dream_keywords):
-                        if str(x["user_id"]) != session.get("user_id"):
-                            dream_array.append(x)
-                selected = "personalized"
-                dream=list(dream_array)
-            else:
-                dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
-                dream_array = []
-                for x in dream:
-                    if str(x["user_id"]) != session.get("user_id"):
-                            dream_array.append(x)
-                selected = "latest"
-                dream=dream_array
-            return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
+            return_view()
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
     return redirect(url_for("home"))
 
@@ -676,6 +681,8 @@ def dreamscape_follow_dream(dream_slug, selected):
                     "users_following" : ObjectId(session["user_id"])
                 }}
                 mongo.db.dreams.update_one({"dream_slug":dream_slug}, add_user)
+                mongo.db.dreams.update_one({"dream_slug":dream_slug}, {"$inc": {
+                        "total_followers" : 1 }})
                 mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
         else:
             add_dream = {"$push": {
@@ -685,9 +692,10 @@ def dreamscape_follow_dream(dream_slug, selected):
                 "users_following" : ObjectId(session["user_id"])
             }}
             mongo.db.dreams.update_one({"dream_slug":dream_slug}, add_user)
+            mongo.db.dreams.update_one({"dream_slug":dream_slug}, {"$inc": {
+                        "total_followers" : 1 }})
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         if request.form.get("filter") == "trending":
             dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
@@ -730,7 +738,9 @@ def dreamscape_unfollow_dream(dream_slug, selected):
         remove_user = {"$pull":{
             "users_following" : ObjectId(session["user_id"])
         }}
-        mongo.db.dreams.update_one({"dream_slug":dream_slug}, remove_user)        
+        mongo.db.dreams.update_one({"dream_slug":dream_slug}, remove_user)
+        mongo.db.dreams.update_one({"dream_slug":dream_slug}, {"$inc": {
+                        "total_followers" : -1 }})        
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
@@ -1270,6 +1280,21 @@ def categories():
         return redirect("dreams")
     return redirect("home")
         
+@app.route("/counting", methods=["GET","POST"])
+def count_followers():
+    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        if user_info["role"] == "administrator":
+            dreams = mongo.db.dreams.find()
+            for dream in dreams:
+                if "users_following" in dream:
+                    followers = len(dream["users_following"])
+                    print(followers)
+                    mongo.db.dreams.update_one({"_id": dream["_id"]}, {"$set": {
+                        "total_followers" : int(followers) }})
+            return redirect(url_for("dreams"))
+        return redirect(url_for("dreams"))
+    return redirect(url_for("home"))
 
 #launches Hopes and Dreams, calls app environment variables         
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ Dreams
     <a href="{{ url_for('dreambuilder') }}"><h1>Launch DreamBuilder</h1></a>
     {% if user.role=="administrator" %}
     <a href="{{ url_for('categories') }}"><h3>Manage Categories</h3></a>
+    <a href="{{ url_for('count_followers') }}">Count followers (one off activity!)</a>
     {% endif %}
 </div>
 {% with messages = get_flashed_messages() %}

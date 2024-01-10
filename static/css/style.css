@@ -43,16 +43,17 @@ body {
     height:100%;
      padding:0;
      margin :0;
+     text-align:center
 }
 
 #landing-image {
     display:flex;
     align-items: center;
-    margin:20px 0 ;
+    margin:20px 0;
 }
 
 #landing-image img {
-    width:400px;
+    width:300px;
     margin:auto;
 }
 
