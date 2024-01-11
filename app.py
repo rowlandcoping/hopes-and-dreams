@@ -714,7 +714,6 @@ def dreamscape_follow_dream(dream_slug, selected):
             mongo.db.dreams.update_one({"dream_slug":dream_slug}, {"$inc": {
                         "total_followers" : 1 }})
             mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, add_dream)
-        dream_pick = mongo.db.dreams.find_one({"dream_slug": dream_slug})
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         dream = return_view(selected)
@@ -738,7 +737,6 @@ def dreamscape_unfollow_dream(dream_slug, selected):
         mongo.db.dreams.update_one({"dream_slug":dream_slug}, {"$inc": {
                         "total_followers" : -1 }})        
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         dream = return_view(selected)
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
@@ -789,7 +787,6 @@ def dreamscape_unfollow_creator(dream_slug, selected):
         mongo.db.users.update_one({"_id":  ObjectId(this_dream["user_id"])}, remove_user)
         mongo.db.users.update_one({"_id": ObjectId(session["user_id"])}, unfollow_user)        
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         dream = return_view(selected)
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
@@ -834,7 +831,6 @@ def edit_comment(dream_slug, selected, comment_id):
             mongo.db.comments.update_one({"_id": ObjectId(comment_id)}, new_comment)
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         dream = return_view(selected)
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
     return redirect(url_for("home"))
@@ -871,8 +867,6 @@ def delete_comment(dream_slug, selected, comment_id):
 @app.route("/like-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
 def like_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         comment_pick = mongo.db.comments.find_one({"_id": ObjectId(comment_id)})
         if "user_likes" in comment_pick:
@@ -904,8 +898,6 @@ def like_dream_comment(dream_slug, selected, comment_id):
 @app.route("/unlike-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
 def unlike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         like_comment = {"$pull": {
             "comments_liked" : ObjectId(comment_id)
@@ -956,8 +948,6 @@ def dislike_dream_comment(dream_slug, selected, comment_id):
 @app.route("/undislike-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
 def undislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))        
         undislike_comment = {"$pull": {
             "comments_disliked" : ObjectId(comment_id)
