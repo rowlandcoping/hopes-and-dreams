@@ -5,13 +5,9 @@ Dreamscape - {{ user.first_name }}
 {% endblock title %}
 
 {% block content %}
-<div class="page-menu">
-    <a href="{{ url_for('dreamscape') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('dreamscape') }}">
-        <h2>Dreamscape</h2>
-    </a>
-    <a href="{{ url_for('personal_feed') }}" class="page-menu-option {{ 'page-menu-selected' if request.path == url_for('personal_feed') }}">
-        <h2>Personal Feed</h2>
-    </a>
+<div>
+    <h1>Dreamscape</h1>
+    <hr>
 </div>
 <form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
     <label for="filter">Filter Results: </label>
@@ -20,14 +16,22 @@ Dreamscape - {{ user.first_name }}
         <option value="latest">Latest</option>
         <option value="trending" selected>Trending</option>
         <option value="personalized">Personalized</option>
+        <option value="followed">Followed</option>
         {% elif selected == "personalized" %}
         <option value="latest">Latest</option>
         <option value="trending">Trending</option>
         <option value="personalized" selected>Personalized</option>
+        <option value="followed">Followed</option>
+        {% elif selected == "followed" %}
+        <option value="latest">Latest</option>
+        <option value="trending">Trending</option>
+        <option value="personalized">Personalized</option>
+        <option value="followed" selected>Followed</option>
         {% else %}
         <option value="latest" selected>Latest</option>
         <option value="trending">Trending</option>
         <option value="personalized">Personalized</option>
+        <option value="followed">Followed</option>
         {% endif %}
     </select>
     <br>
@@ -107,65 +111,78 @@ Dreamscape - {{ user.first_name }}
                 <div class="comments-small">
                     {% with dream_comment = comments %}
                         {% if dream_comment %}
-                            {% for comment in dream_comment %}
-                                {% if comment.dream_id | string == dream._id | string %}
-                                    {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) 
-                                        or request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)  
-                                        or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
-                                        or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
-                                        or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
-                                            %}
-                                    {% if comment._id | string == comment_id | string %}
-                                    <div class="comment-header" id="focussed-dream" tabindex=0>
-                                    {% else %}
-                                    <div class="comment-header">
+                            {% set selected_comments=[] %}
+                                {% for comment in dream_comment %}                                
+                                    {% if comment.dream_id | string == dream._id | string %}
+                                        {{ selected_comments.append(comment) }}
                                     {% endif %}
-                                    {% else %}
-                                    <div class="comment-header">
-                                    {% endif %}
-                                    {% if comment.user_id | string != session['user_id'] | string %}
-                                        {% if comment._id | string in user.comments_liked | string %}
-                                            <a href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">Unlike</a>
-                                        {% else %}
-                                            <a href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">Like</a>
-                                        {% endif %}
-                                        {% if comment._id | string in user.comments_disliked | string %}
-                                            <a href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">UnDislike</a>
-                                        {% else %}
-                                            <a href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">Dislike</a>
-                                        {% endif %}
-                                    {% endif %}
-                                        Posted by {{ comment.user_name }} on {{ comment.datetime_created}}
-                                    </div>
-                                    <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
-                                        <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment}}" readonly hidden>
-                                        <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment}}</textarea>
-                                        {% if comment.user_id | string == session['user_id'] | string %}
-                                        <div class="comment-actions" >
-                                            <div id = "{{ comment._id }}-edit" class="edit-comment"><i class="fas fa-edit"></i></div>
-                                            <div id="{{ comment._id }}-cancel" class="cancel-comment not-displayed"><i class="fa-solid fa-xmark"></i></div>
-                                            <a href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
-                                            <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>    
-                                        </div>
-                                        {% endif %}                                 
-                                    </form>                    
+                                {% endfor %}
+                            {% for comment in selected_comments[:3]: %}
+                                {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) 
+                                    or request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)  
+                                    or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
+                                    or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
+                                    or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
+                                        %}
+                                {% if comment._id | string == comment_id | string %}
+                                <div class="comment-header" id="focussed-dream" tabindex=0>
+                                {% else %}
+                                <div class="comment-header">
                                 {% endif %}
+                                {% else %}
+                                <div class="comment-header">
+                                {% endif %}
+                                {% if comment.user_id | string != session['user_id'] | string %}
+                                    {% if comment._id | string in user.comments_liked | string %}
+                                        <a href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">Unlike</a>
+                                    {% else %}
+                                        <a href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">Like</a>
+                                    {% endif %}
+                                    {% if comment._id | string in user.comments_disliked | string %}
+                                        <a href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">UnDislike</a>
+                                    {% else %}
+                                        <a href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}">Dislike</a>
+                                    {% endif %}
+                                {% endif %}
+                                    Posted by {{ comment.user_name }} on {{ comment.datetime_created}}
+                                </div>
+                                <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                                    <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment}}" readonly hidden>
+                                    <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment}}</textarea>
+                                    {% if comment.user_id | string == session['user_id'] | string %}
+                                    <div class="comment-actions" >
+                                        <div id = "{{ comment._id }}-edit" class="edit-comment"><i class="fas fa-edit"></i></div>
+                                        <div id="{{ comment._id }}-cancel" class="cancel-comment not-displayed"><i class="fa-solid fa-xmark"></i></div>
+                                        <a href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
+                                        <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>    
+                                    </div>
+                                    {% endif %}                                 
+                                </form>
                             {% endfor %}  
                         {% endif %}
                     {% endwith %}
-
-                </div>
-                <div class="comments-more">
-
-
                 </div>
             </div>
         </div>
     {% endfor %}
 {% else %}
+    {% if selected == "personalized" %}
     <div class="no-dreams">
+        <hr>
         <h3>No Results Found</h3>
+        <p>This is likely because you have not yet selected your interests.
+        <br>We match these with dreams to personalize your feed!</p>
+        <p>Select some interests <a href="{{ url_for('profile_personal') }}">here</a>.</p>
+        <hr>
     </div>
+    {% else %}
+    <div class="no-dreams">
+        <hr>
+        <h3>No Dreams Followed Yet.</h3>
+        <p>Follow some dreams then you can view them here!</p>
+        <hr>
+    </div>
+    {% endif %}
 {% endif %}
 {% endwith %}
 {% endblock content %}

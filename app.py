@@ -81,11 +81,10 @@ def imageConvert(image, width, quality, format):
     img_byte_arr = img_byte_arr.getvalue()
     return img_byte_arr
 
-#function to return view to the item the user was last on, feed
 
+#function to return the filter selection
 def return_view(selected):
     user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-    dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
     if selected == "trending":
         dream = list(mongo.db.dreams.find().sort("total_followers", -1))
         dream_array = []
@@ -94,14 +93,33 @@ def return_view(selected):
                     dream_array.append(x)             
         dream=dream_array
     elif selected == "personalized":
-        dream_array = []
-        user_keywords = ','.join([user_info["interests"], user_info["skills"], user_info["experiences"]]).split(",")                
-        for x in dream:
-            dream_keywords = ','.join([x["categories"], x["skills_required"]]).split(",")                   
-            if any(y in user_keywords for y in dream_keywords):
-                if str(x["user_id"]) != session.get("user_id"):
-                    dream_array.append(x)
-        dream=list(dream_array)
+        if "interests" in user_info:
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_array = []
+            user_keywords = user_info["interests"]
+            print(user_keywords)              
+            for x in dream:
+                if "categories" in x:
+                    dream_keywords = x["categories"]
+                    print(dream_keywords)                  
+                    if any(y in user_keywords for y in dream_keywords):
+                        if str(x["user_id"]) != session.get("user_id"):
+                            dream_array.append(x)
+            dream=list(dream_array)
+    elif selected == "followed":
+        if "dreams_followed" in user_info:
+            dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
+            dream_all = []
+            for x in dream:
+                if "dreams_followed" in user_info:
+                    if x["_id"] in user_info["dreams_followed"]:
+                        dream_all.append(x)
+                if "users_followed" in user_info:
+                    if x["user_id"] in user_info["users_followed"]:
+                        dream_all.append(x)
+            dream_array = []
+            [dream_array.append(x) for x in dream_all if x not in dream_array]
+            dream=list(dream_array)
     else:
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         dream_array = []
