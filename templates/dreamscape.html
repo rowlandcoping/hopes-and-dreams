@@ -47,8 +47,7 @@ Dreamscape - {{ user.first_name }}
                 or  request.path == url_for('dreamscape_follow_dream',dream_slug=dream.dream_slug, selected=selected)
                 or request.path == url_for('dreamscape_follow_creator',dream_slug=dream.dream_slug, selected=selected)
                 or request.path == url_for('dreamscape_unfollow_creator',dream_slug=dream.dream_slug, selected=selected)
-                or request.path == url_for('add_comment',dream_slug=dream.dream_slug, selected=selected) 
-                or request.path == url_for('delete_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=session['user_id']) %}
+                or request.path == url_for('add_comment',dream_slug=dream.dream_slug, selected=selected) %}
                 {% if dream.dream_slug == dream_slug %}
                 <div class="general-bar" id="focussed-dream" tabindex=0>
                     <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
@@ -103,7 +102,7 @@ Dreamscape - {{ user.first_name }}
                 <div class="comment-entry">
                     <a href="">Expand Comments</a>
                     <div id = "{{ dream.dream_slug }}" class="add-comment">Add Comment</div>
-                    <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                    <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                         <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
                         <button type="submit" for="{{ dream.dream_slug }}-comment">Submit Comment</button>
                     </form>
@@ -118,12 +117,12 @@ Dreamscape - {{ user.first_name }}
                                     {% endif %}
                                 {% endfor %}
                             {% for comment in selected_comments[:3]: %}
-                                {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) 
+                                {% if request.path == url_for('edit_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) 
                                     or request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)  
                                     or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
                                     or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
                                     or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
-                                        %}
+                                    or request.path == url_for('delete_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=session['user_id']) %}
                                 {% if comment._id | string == comment_id | string %}
                                 <div class="comment-header" id="focussed-dream" tabindex=0>
                                 {% else %}
@@ -146,14 +145,14 @@ Dreamscape - {{ user.first_name }}
                                 {% endif %}
                                     Posted by {{ comment.user_name }} on {{ comment.datetime_created}}
                                 </div>
-                                <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                                <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                     <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment}}" readonly hidden>
                                     <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment}}</textarea>
                                     {% if comment.user_id | string == session['user_id'] | string %}
                                     <div class="comment-actions" >
                                         <div id = "{{ comment._id }}-edit" class="edit-comment"><i class="fas fa-edit"></i></div>
                                         <div id="{{ comment._id }}-cancel" class="cancel-comment not-displayed"><i class="fa-solid fa-xmark"></i></div>
-                                        <a href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
                                         <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>    
                                     </div>
                                     {% endif %}                                 
