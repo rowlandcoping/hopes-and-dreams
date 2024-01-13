@@ -145,7 +145,10 @@ def home():
 def signup():
     if session.get("user_id") is not None:
         return redirect(url_for("dreamscape"))
-    categories = list(mongo.db.categories.find().sort("total_users_selected", -1))
+    categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
+    categories_one = categories[0:10]
+    categories_two = categories[10:20]
+    categories_custom = categories[20:len(categories)]
     if request.method == "POST":
         categories_selected=request.form.get("selected-categories").removesuffix(',')
         categories_array=categories_selected.split(",")
@@ -187,8 +190,8 @@ def signup():
             session["user_id"] = str(user_verify["_id"])       
             return redirect(url_for("profile_upload"))        
         flash("Registration not successful, please try again.")
-        return render_template("signup.html", categories=categories)
-    return render_template("signup.html", categories=categories)
+        return render_template("signup.html", categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
+    return render_template("signup.html", categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
 
 
 # route for user to upload an image on signup

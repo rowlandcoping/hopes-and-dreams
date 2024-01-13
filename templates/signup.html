@@ -39,16 +39,45 @@
                     </h3>
                     <p>Just click what you are interested in from the top ten categories listed here.
                         <br>If you prefer, don't click anything at all!  You can always do this later.</p>
-                    <div>
-
-                    {% with categories = categories %}
-                        {% if categories %}
-                            {% for category in categories %}
-                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                    </div>
+                    <div id = categories-one>
+                        {% with categories = categories_two %}
+                            {% if categories %}
+                            <div id="show-more">Show More Categories</div>
+                            {% endif %}
+                        {% endwith %}
+                        {% with categories = categories_custom %}
+                            {% if categories %}
+                            <div id="show-all">Show All Categories</div>
+                            {% endif %}
+                        {% endwith %}
+                        <div id="show-fewer" class="not-displayed">Show Fewer Categories</div>
+        
+                        {% with categories = categories_one %}
+                            {% if categories %}
+                                {% for category in categories %}
+                                <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}                
+                        </div>
+                        <div id="categories-two" class="not-displayed">
+                        {% with categories = categories_two %}
+                            {% if categories %}
+                                {% for category in categories %}
+                                <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                                {% endfor %}                    
+                            {% endif %}
+                        {% endwith %}                 
+                        </div>
+                        <div id="categories-custom" class="not-displayed">
+                            {% with categories = categories_custom %}
+                                {% if categories %}
+                                    {% for category in categories %}
+                                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                                    {% endfor %}                            
+                                {% endif %}
+                            {% endwith %}                
+                        </div>
                     <button type="submit" for="signup-form">Create Profile</button>
                 </div>         
             </div>
