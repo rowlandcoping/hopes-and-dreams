@@ -12,6 +12,7 @@ Edit Dream - {{ dream.dream_name }}
             <h3 class="red-text not-displayed" id="form-alert"></h3>
             <div>
                 <div>
+                    <h2>Details</h2>
                     <div>
                         <label for="dream-name">Dream: </label>
                         <input type="text" id="dream-name" name="dream_name" value="{{ dream.dream_name | title }}" required>
@@ -77,6 +78,14 @@ Edit Dream - {{ dream.dream_name }}
                             {% endif %}
                         {% endwith %}                
                     </div>
+                </div>
+                <div>
+                    <h2>Settings</h2>
+                    {% if dream.comments_enabled %}
+                    <label for="profile_picture">Disable Comments</label><input type="checkbox" id="disable_comments" name="disable_comments">
+                    {% else %}
+                    <label for="profile_picture">Disable Comments</label><input type="checkbox" id="disable_comments" name="disable_comments" checked>
+                    {% endif %}
                 </div>
             </div>
             <span id="info-update" class="">

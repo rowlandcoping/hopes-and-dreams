@@ -275,6 +275,7 @@ def dreamscape():
         return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, comments=comments)
     return redirect(url_for("home"))
 
+
 @app.route("/personal-feed")
 def personal_feed():
     if session.get("user_id") is not None:
@@ -477,7 +478,11 @@ def dreambuilder():
         categories = list(mongo.db.categories.find().sort("total_dreams_selected", -1))
         categories_one = categories[0:10]
         categories_two = categories[10:20]
-        categories_custom = categories[20:len(categories)]        
+        categories_custom = categories[20:len(categories)]
+        if request.form.get("disable_comments"):
+            comments_enabled=False
+        else:
+            comments_enabled=True        
         if request.method == "POST":
             categories_selected=request.form.get("selected-categories").removesuffix(',')
             categories_array=categories_selected.split(",")
@@ -501,7 +506,8 @@ def dreambuilder():
                 "dream_string": dream_string,
                 "dream_slug": dream_slug,
                 "dream_description": request.form.get("dream_description"),            
-                "categories": categories_array
+                "categories": categories_array,
+                "comments_enabled": comments_enabled
             }
             mongo.db.dreams.insert_one(dream_create)
             dream_verify = mongo.db.dreams.find_one(
@@ -568,11 +574,15 @@ def edit_dream(dream_slug):
         categories = list(mongo.db.categories.find().sort("total_times_selected", -1))
         categories_one = categories[0:10]
         categories_two = categories[10:20]
-        categories_custom = categories[20:len(categories)] 
+        categories_custom = categories[20:len(categories)]
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         if str(dream["user_id"]) == str(session.get("user_id")):
             user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             if request.method == "POST":
+                if request.form.get("disable_comments"):
+                    comments_enabled=False
+                else:
+                    comments_enabled=True
                 categories_selected=request.form.get("selected-categories").removesuffix(',')
                 categories_array=categories_selected.split(",")
                 if (request.form.get("dream_name").lower() != dream["dream_name"].lower()):
@@ -609,7 +619,8 @@ def edit_dream(dream_slug):
                         "dream_description": request.form.get("dream_description"),
                         "image": filename,
                         "image_alt": image_alt,
-                        "categories": categories_array
+                        "categories": categories_array,
+                        "comments_enabled": comments_enabled
                     }}
                 elif request.form.get("delete_image"):
                     if "image" in dream:
@@ -624,7 +635,8 @@ def edit_dream(dream_slug):
                             "dream_description": request.form.get("dream_description"),
                             "image": "",
                             "image_alt": "",
-                            "categories": categories_array
+                            "categories": categories_array,
+                            "comments_enabled": comments_enabled
                         }}
                     else:
                         dream_update = {"$set": {
@@ -634,7 +646,8 @@ def edit_dream(dream_slug):
                             "dream_string": dream_string,
                             "dream_slug": dream_slug,
                             "dream_description": request.form.get("dream_description"),
-                            "categories": categories_array
+                            "categories": categories_array,
+                            "comments_enabled": comments_enabled
                         }}                        
                 else:
                     dream_update = {"$set": {
@@ -645,7 +658,8 @@ def edit_dream(dream_slug):
                         "dream_slug": dream_slug,
                         "dream_description": request.form.get("dream_description"),
                         "image_alt": image_alt,
-                        "categories": categories_array
+                        "categories": categories_array,
+                        "comments_enabled": comments_enabled
                     }}
                 mongo.db.dreams.update_one(
                         {"_id": ObjectId(dream["_id"])}, dream_update)
@@ -1241,7 +1255,7 @@ def dislike_comment(dream_slug, comment_id):
         user_info = False
     comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
     dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-    return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+    return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
 
 
 @app.route("/undislike-comment/<dream_slug>/<comment_id>", methods=["GET","POST"])
@@ -1261,7 +1275,8 @@ def undislike_comment(dream_slug, comment_id):
         user_info = False
     comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
     dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-    return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+    return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+
 
 @app.route("/categories", methods=["GET","POST"])
 def categories():
@@ -1320,13 +1335,14 @@ def categories():
             return render_template("categories.html", categories=categories)
         return redirect("dreams")
     return redirect("home")
+       
         
 @app.route("/counting", methods=["GET","POST"])
 def count_followers():
     if session.get("user_id") is not None:
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         if user_info["role"] == "administrator":
-            dreams = mongo.db.dreams.find()
+            dreams = list(mongo.db.dreams.find())
             for dream in dreams:
                 if "users_following" in dream:
                     followers = len(dream["users_following"])
@@ -1336,6 +1352,7 @@ def count_followers():
             return redirect(url_for("dreams"))
         return redirect(url_for("dreams"))
     return redirect(url_for("home"))
+
 
 #launches Hopes and Dreams, calls app environment variables         
 if __name__ == "__main__":

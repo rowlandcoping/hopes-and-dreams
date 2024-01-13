@@ -94,13 +94,16 @@ Dreamscape - {{ user.first_name }}
                         {% endif %}
                         
                         <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
-                        <p>Following: {{ dream.total_followers }} </p>
+                        {% if dream.total_followers %}
+                            <p>Following: {{ dream.total_followers }} </p>
+                        {% else %}
+                            <p>Following: 0</p>
+                        {% endif %}
                     </div>
                 </div>                
             </div>
             <div class="dream-comments">
                 <div class="comment-entry">
-                    <a href="">Expand Comments</a>
                     <div id = "{{ dream.dream_slug }}" class="add-comment">Add Comment</div>
                     <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                         <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
@@ -113,7 +116,7 @@ Dreamscape - {{ user.first_name }}
                             {% set selected_comments=[] %}
                                 {% for comment in dream_comment %}                                
                                     {% if comment.dream_id | string == dream._id | string %}
-                                        {{ selected_comments.append(comment) }}
+                                        {{ selected_comments.append(comment) or "" }}
                                     {% endif %}
                                 {% endfor %}
                             {% for comment in selected_comments[:3]: %}
@@ -148,13 +151,18 @@ Dreamscape - {{ user.first_name }}
                                 <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                     <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment}}" readonly hidden>
                                     <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment}}</textarea>
-                                    {% if comment.user_id | string == session['user_id'] | string %}
-                                    <div class="comment-actions" >
-                                        <div id = "{{ comment._id }}-edit" class="edit-comment"><i class="fas fa-edit"></i></div>
-                                        <div id="{{ comment._id }}-cancel" class="cancel-comment not-displayed"><i class="fa-solid fa-xmark"></i></div>
-                                        <a href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
-                                        <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>    
-                                    </div>
+                                    {% if user != False %}
+                                        {% if comment.user_id | string == session['user_id'] | string or user.role == "administrator" %}
+                                        <div class="comment-actions" >
+                                            <div id = "{{ comment._id }}-edit" class="edit-comment"><i class="fas fa-edit"></i></div>
+                                            <div id="{{ comment._id }}-cancel" class="cancel-comment not-displayed"><i class="fa-solid fa-xmark"></i></div>
+                                            <a href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
+                                            <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>    
+                                        </div>
+                                        {% elif user._id == dream.user_id %}
+                                            <br>
+                                            <a href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
+                                        {% endif %}
                                     {% endif %}                                 
                                 </form>
                             {% endfor %}  
