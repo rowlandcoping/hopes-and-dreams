@@ -701,6 +701,43 @@ def edit_dream(dream_slug):
     return redirect(url_for("home"))
 
 
+@app.route("/delete-dream/<dream_slug>", methods=["GET", "POST"])
+def delete_dream(dream_slug):
+    if session.get("user_id") is not None:
+        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})       
+        dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
+        if ObjectId(user_info["_id"]) == ObjectId(dream["_id"]) or user_info["role"] == "administrator":
+            mongo.db.dreams.delete_one({"_id": ObjectId(dream["_id"])})
+            categories = mongo.db.categories.find()
+            for category in categories:
+                if "dreams_selected" in category:
+                    if "categories" in dream:
+                        for x in dream["categories"]:
+                            if x == category["category"]:
+                                mongo.db.categories.update_one({"category": category["category"]}, {"$pull": {
+                                                        "dreams_selected" : ObjectId(dream["_id"]) }})
+                                mongo.db.categories.update_one({"category": category["category"]}, {"$inc": {
+                                "total_dreams_selected" : -1, "total_times_selected": -1 }})
+            users = mongo.db.users.find()
+            for user in users:
+                if "dreams_followed" in user:
+                    if "users_following" in dream:
+                        for x in dream["users_following"]:
+                            if ObjectId(x) == ObjectId(user["_id"]):
+                                mongo.db.users.update_one({"_id": ObjectId(x)}, {"$pull": {
+                                                        "dreams_followed" : ObjectId(dream["_id"]) }})
+            comments = mongo.db.comments.find()
+            for comment in comments:
+                if ObjectId(comment["dream_id"]) == ObjectId(dream["_id"]):
+                    mongo.db.comments.delete_one({"_id": ObjectId(comment["_id"])})
+            flash('Dream deleted.  How sad.')
+            user_dreams = list(mongo.db.dreams.find({"user_id": ObjectId(session["user_id"])}))      
+            return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
+        return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
+    return redirect(url_for("home"))
+        
+    
+
 @app.route("/dreamscape-follow-dream/<dream_slug>/<selected>", methods=["GET","POST"])
 def dreamscape_follow_dream(dream_slug, selected):
     if session.get("user_id") is not None:

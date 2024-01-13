@@ -155,9 +155,8 @@ View Dream - {{ dream.dream_name }}
                                         Posted by {{ comment.user_name }} on {{ comment.datetime_created}}
                                     </div>
                                     <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
-                                        <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment}}" readonly hidden>
-                                        <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment}}</textarea>
-                                            
+                                        <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment }}" readonly hidden>
+                                        <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment }}</textarea>  
                                         {% if user != False %}
                                             {% if comment.user_id | string == session['user_id'] | string or user.role == "administrator" %}
                                             <div class="comment-actions" >
