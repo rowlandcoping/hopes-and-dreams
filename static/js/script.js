@@ -44,13 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     //SIGN-UP PROCESS
-    //move on from part one of sign up process
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#part-one");
-        if(target){
-            partOneHide();
-        }
-    });
     //add event listners to all category buttons
     const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
     attachCategoryListners.forEach(item => {
@@ -101,91 +94,16 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    //EDIT DREAM (general info)
-    //activate dream name field + commit change button (use a tick / cross)
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-name-edit"); 
-        if(target){
-            editDreamName();
-        }
+    //DREAMS PAGE
+    //attach event listners to all delete alerts
+    const attachDeleteDreamListners= Array.from(document.getElementsByClassName('delete-dream'));
+    attachDeleteDreamListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            deleteDream(itemId);
+        });
     });
-    //commit dream name change (on clicking tick)
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-name-confirm"); 
-        if(target){
-            confirmDreamName();
-        }
-    });
-    //cancel dream name change (on clicking cross)
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-name-cancel"); 
-        if(target){
-            cancelDreamName();
-        }
-    });
-    //activate dream description field + commit change button (use a tick / cross)
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-description-edit"); 
-        if(target){
-            editDreamDescription();
-        }
-    });
-    //commit dream description change (on clicking tick)
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-description-confirm"); 
-        if(target){
-            confirmDreamDescription();
-        }
-    });
-    //cancel dream description change (on clicking cross)
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream-description-cancel"); 
-        if(target){
-            cancelDreamDescription();
-        }
-    });
-    //display edit category section
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#categories-edit"); 
-        if(target){
-            editCategories();
-        }
-    });
-    //display edit required skills section
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#required-edit"); 
-        if(target){
-            editSkillsRequired();
-        }
-    });
-    //view add category field
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-new-category"); 
-        if(target){
-            document.getElementById('add-category-field').style.display = "inline-block";
-        }
-    });
-    //add another category
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-this-category"); 
-        if(target){
-            addNewCategory();
-        }
-    });
-    //view add skill required field
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-new-required"); 
-        if(target){
-            document.getElementById('add-required-field').style.display = "inline-block";
-        }
-    });
-    //add another required skill
-    document.addEventListener("click", function(e){
-        const target = e.target.closest("#add-this-required"); 
-        if(target){
-            addNewSkillRequired();
-        }
-    });
+   
 
     //DREAMSCAPE
     //add event listners to all add comment buttons
@@ -332,77 +250,24 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('profile-pic-cancel').style.display = "none";
     }
 
-
-    //EDIT DREAM GENERAL
-
-
-    //EDIT DREAM KEYWORDS
-    function editCategories() {
-        //prepare DOM
-        document.getElementById('preference-options').style.display="block";
-        document.getElementById('individual-categories').style.display="block";
-        document.getElementById('select-edit-section').style.display="none";
-    }
-    function editSkillsRequired() {
-        //prepare DOM
-        document.getElementById('preference-options').style.display="block";
-        document.getElementById('individual-required').style.display="block";
-        document.getElementById('select-edit-section').style.display="none";     
-    }
-    function addNewCategory() {
-        let newCategory = document.getElementById('new-category-add').value.toLowerCase();
-        let currentCategories= document.getElementById("categories").value.split(',');
-        if (newCategory.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "category should not include numbers";
-        } else if (newCategory.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "category should not contain special characters.<br>Use a hyphen instead of spaces!";
-        } else if (newCategory == "") {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
-        } else {
-            currentCategories.push(newCategory);
-            document.getElementById("categories").value = currentCategories;
-            let newDiv = document.createElement("div");
-            newDiv.className="new-category";
-            newDiv.innerHTML=newCategory;
-            document.getElementById("new-categories").append(newDiv);
-            document.getElementById('new-category-add').value = "";
-            document.getElementById('new-categories-title').style.display="block";
-            const addLine = document.getElementsByClassName('profile-update');
-            for (let i = 0; i < addLine.length; i++) {
-                addLine[i].style.display = "block";
-            }
+    //DREAMS PAGE
+    //Open dream delete alert
+    function deleteDream(itemId) {
+        console.log(itemId);
+        console.log("alert-" + itemId);
+        document.getElementById("alert-" + itemId).style.display="block";
+        const removeElements = document.getElementsByClassName('general-bar');
+        for (let i = 0; i < removeElements.length; i++) {
+            removeElements[i].style.display="none";
         }
-    }
-    function addNewSkillRequired() {
-        let newRequired = document.getElementById('new-required-add').value.toLowerCase();
-        let currentRequired= document.getElementById("required").value.split(',');
-        if (newRequired.match(/\d/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "skill required should not include numbers";
-        } else if (newRequired.match(/[.!#$%;@&'*+/=?^_` {|}~]/)) {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "skill required should not contain special characters. <br>Use a hyphen instead of spaces!";
-        } else if (newRequired == "") {
-            document.getElementById('form-alert').style.display = "block";
-            document.getElementById('form-alert').innerHTML = "You must write something in the field. <br>Throw me a bone here.";
-        } else {
-            currentRequired.push(newRequired);
-            document.getElementById("required").value = currentRequired;
-            let newDiv = document.createElement("div");
-            newDiv.className="new-required";
-            newDiv.innerHTML=newRequired;
-            document.getElementById("new-required").append(newDiv);
-            document.getElementById('new-required-add').value = "";
-            document.getElementById('new-required-title').style.display="block";
-            const addLine = document.getElementsByClassName('profile-update');
-            for (let i = 0; i < addLine.length; i++) {
-                addLine[i].style.display = "block";
-            }
+        const disableMenu = document.getElementsByClassName('menu-item');
+        for (let i = 0; i < disableMenu.length; i++) {
+            disableMenu[i].style.pointerEvents = "none";
         }
-    }
+    };
+
+
+
 
     //DREAMSCAPE
     //ensure following or unfollowing returns to dream the user followed/unfollowed

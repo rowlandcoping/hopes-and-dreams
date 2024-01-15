@@ -35,6 +35,24 @@ body {
     border: 10px solid black;
 }
 
+.delete-alert {
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 600px;
+    height:265px;
+    z-index: 1000;
+    text-align:center;
+    background-color:#000000;
+    align-items:center;
+    border: ridge #5E3D00 3px;
+    padding:10px;
+    color: white;
+}
+
 /*landing page */
 #landing-container {
     background-color: black;
@@ -286,4 +304,14 @@ body {
 #admin-new-categories {
     margin: 5px 0;
     width:800px;
+}
+
+/* DREAMS PAGE */
+.delete-dream-alert {
+    display:none;
+}
+
+.delete-dream {
+    display:inline-block;
+
 }
