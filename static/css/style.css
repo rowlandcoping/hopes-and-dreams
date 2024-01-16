@@ -254,7 +254,7 @@ body {
     display:flex;
 }
 
-.active-page {
+#active-page {
     border: 5px solid black;
 }
 .profile-update {
@@ -300,6 +300,10 @@ body {
     display:inline-block;
 }
 
+.comment-header {
+    position:relative;
+}
+
 /*categories*/
 #admin-new-categories {
     margin: 5px 0;
@@ -307,11 +311,11 @@ body {
 }
 
 /* DREAMS PAGE */
-.delete-dream-alert {
+.delete-dream-alert, .delete-comment-alert {
     display:none;
 }
 
-.delete-dream {
+.delete-dream, .delete-comment {
     display:inline-block;
 
 }

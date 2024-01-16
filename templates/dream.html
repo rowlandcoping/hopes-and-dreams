@@ -11,9 +11,9 @@ View Dream - {{ dream.dream_name }}
 {% block content %}
 {% if user != false %}
     {% if dream.user_id | string != session['user_id'] | string %}
-        <a href="{{ url_for('dreamscape') }}">Return to Dreamscape</a>
+        <a class="clickable-item" href="{{ url_for('dreamscape') }}">Return to Dreamscape</a>
     {% else %}
-        <a href="{{ url_for('dreams') }}">Return to Dreams</a>
+        <a class="clickable-item" href="{{ url_for('dreams') }}">Return to Dreams</a>
     {% endif %}
 {% else %}
 <div id="dream-unsigned">
@@ -79,18 +79,18 @@ View Dream - {{ dream.dream_name }}
                         {% if user != false %}
                             {% if dream.user_id | string != session['user_id'] | string %}
                                 {% if dream._id | string in user.dreams_followed | string %}
-                                    <a href="{{ url_for('unfollow_dream', dream_slug=dream.dream_slug) }}">Unfollow Dream</a>
+                                    <a class="clickable-item" href="{{ url_for('unfollow_dream', dream_slug=dream.dream_slug) }}">Unfollow Dream</a>
                                 {% else %}
-                                    <a href="{{ url_for('follow_dream', dream_slug=dream.dream_slug) }}"> Follow Dream</a>
+                                    <a class="clickable-item" href="{{ url_for('follow_dream', dream_slug=dream.dream_slug) }}"> Follow Dream</a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}
                         {% if user != false %}
                             {% if dream.user_id | string != session['user_id'] | string %}
                                 {% if dream.user_id | string in user.users_followed | string%}
-                                    <a href="{{ url_for('unfollow_creator', dream_slug=dream.dream_slug) }}">Unfollow Creator</a>
+                                    <a class="clickable-item" href="{{ url_for('unfollow_creator', dream_slug=dream.dream_slug) }}">Unfollow Creator</a>
                                 {% else %}
-                                    <a href="{{ url_for('follow_creator', dream_slug=dream.dream_slug) }}">Follow Creator</a>
+                                    <a class="clickable-item" href="{{ url_for('follow_creator', dream_slug=dream.dream_slug) }}">Follow Creator</a>
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -105,8 +105,7 @@ View Dream - {{ dream.dream_name }}
             <div class="dream-comments">
                 {% if user != False %}
                 <div class="comment-entry">
-                    <a href="">Expand Comments</a>
-                    <div id = "{{ dream.dream_slug }}" class="add-comment">Add Comment</div>
+                    <div class="clickable-item add-comment" id = "{{ dream.dream_slug }}">Add Comment</div>
                     <form class="not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                         <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
                         <button type="submit" for="{{ dream.dream_slug }}-comment">Submit Comment</button>
@@ -137,21 +136,26 @@ View Dream - {{ dream.dream_name }}
                                     {% endif %}
                                     {% else %}
                                     <div class="comment-header">
-                                    {% endif %}
-                                    {% if user != False %}
-                                        {% if comment.user_id | string != session['user_id'] | string %}
-                                            {% if comment._id | string in user.comments_liked | string %}
-                                                <a href="{{ url_for('unlike_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">Unlike</a>
-                                            {% else %}
-                                                <a href="{{ url_for('like_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">Like</a>
-                                            {% endif %}
-                                            {% if comment._id | string in user.comments_disliked | string %}
-                                                <a href="{{ url_for('undislike_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">UnDislike</a>
-                                            {% else %}
-                                                <a href="{{ url_for('dislike_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">Dislike</a>
+                                        {% endif %}
+                                            <div class="delete-comment-alert delete-alert" id="alert-{{ comment._id | string }}">
+                                                <h3> Are you sure you want to delete this comment?</h3>
+                                                <a href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, comment_id=comment._id) }}">Yes Please</a>
+                                                <a href ="{{ url_for('view_dream', dream_slug = dream.dream_slug) }}">No Thank You</a>
+                                            </div>
+                                        {% if user != False %}
+                                            {% if comment.user_id | string != session['user_id'] | string %}
+                                                {% if comment._id | string in user.comments_liked | string %}
+                                                    <a class="clickable-item" href="{{ url_for('unlike_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">Unlike</a>
+                                                {% else %}
+                                                    <a class="clickable-item" href="{{ url_for('like_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">Like</a>
+                                                {% endif %}
+                                                {% if comment._id | string in user.comments_disliked | string %}
+                                                    <a class="clickable-item" href="{{ url_for('undislike_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">UnDislike</a>
+                                                {% else %}
+                                                    <a class="clickable-item" href="{{ url_for('dislike_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}">Dislike</a>
+                                                {% endif %}
                                             {% endif %}
                                         {% endif %}
-                                    {% endif %}
                                         Posted by {{ comment.user_name }} on {{ comment.datetime_created}}
                                     </div>
                                     <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
@@ -160,14 +164,14 @@ View Dream - {{ dream.dream_name }}
                                         {% if user != False %}
                                             {% if comment.user_id | string == session['user_id'] | string or user.role == "administrator" %}
                                             <div class="comment-actions" >
-                                                <div id = "{{ comment._id }}-edit" class="edit-comment"><i class="fas fa-edit"></i></div>
-                                                <div id="{{ comment._id }}-cancel" class="cancel-comment not-displayed"><i class="fa-solid fa-xmark"></i></div>
-                                                <a href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
+                                                <div class="clickable-item edit-comment" id = "{{ comment._id }}-edit"><i class="fas fa-edit"></i></div>
+                                                <div class="clickable-item cancel-comment not-displayed" id="{{ comment._id }}-cancel"><i class="fa-solid fa-xmark"></i></div>
+                                                <div class="delete-comment clickable-item" id="{{ comment._id | string }}"><i class="fas fa-trash"></i></a>
                                                 <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>    
                                             </div>
                                             {% elif user._id == dream.user_id %}
                                             <br>
-                                            <a href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, comment_id=comment._id) }}"><i class="fas fa-trash"></i></a>
+                                            <div class="delete-comment clickable-item" id="{{ comment._id | string }}"><i class="fas fa-trash"></i></a>
                                             {% endif %}
                                         {% endif %}                                
                                     </form>

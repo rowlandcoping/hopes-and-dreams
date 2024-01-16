@@ -898,7 +898,7 @@ def delete_dream_comment(dream_slug, selected, comment_id):
         dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         if mongo.db.comments.count_documents({"_id": ObjectId(comment_id)}, limit = 1) != 0:
             comment_info = dict(mongo.db.comments.find_one({"_id": ObjectId(comment_id)}))
-            if str(session.get("user_id"))==str(comment_info["user_id"]):
+            if str(session.get("user_id"))==str(comment_info["user_id"]) or user_info["role"] == "administrator":
                 mongo.db.comments.delete_one({"_id": ObjectId(comment_id)})
                 users= list(mongo.db.users.find())
                 for user in users:
@@ -1193,7 +1193,7 @@ def delete_comment(dream_slug, comment_id):
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         if mongo.db.comments.count_documents({"_id": ObjectId(comment_id)}, limit = 1) != 0:
             comment_info = dict(mongo.db.comments.find_one({"_id": ObjectId(comment_id)}))
-            if str(session.get("user_id"))==str(comment_info["user_id"]):
+            if str(session.get("user_id"))==str(comment_info["user_id"]) or user_info["role"] == "administrator":
                 mongo.db.comments.delete_one({"_id": ObjectId(comment_id)})
                 users= list(mongo.db.users.find())
                 for user in users:
