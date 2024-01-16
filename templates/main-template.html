@@ -20,22 +20,6 @@
     <div id="feed-container">
         <div id="title-section">
             <div class="clickable-item" id="main-template-wrapper"><h1>Hopes and Dreams</h1></div>
-            <div class="clickable-item" id="desktop-search">
-                <form action="" method="POST">
-                    <input type="radio" id="people" name="search_type" value="people">
-                    <label for="people">People</label>
-                    <input type="radio" id="dreams" name="search_type" value="dreams">
-                    <label for="dreams">Dreams</label><br>
-                    <input type="text" id="search_text" name="search_type">
-                    <button type="submit">Search</button>
-                </form>
-                {% if user.profile_picture %}
-                    <img id="profile_view" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
-                {% else %}
-                    <img id="profile_view" src="{{ url_for('static', filename='images/general-assets/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
-                {% endif %}
-            </div>
-
         </div>
         <div id="main-section">
             <div id="left-sidebar">
