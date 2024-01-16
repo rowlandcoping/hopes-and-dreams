@@ -6,38 +6,35 @@
     
 {% block content %}
 <div id="landing-container">
-
-    <div class="headline-wrapper"><h1>Hopes and Dreams</h1></div>
-    <div id="blurb-wrapper">
-        <p>Here you can share your dreams, and find out what others aspire to.</p>
-        <p>You can share your advice and experiences, and seek input from others.</p>
-        <p>It is a place for validation, inspiration and hope.</p>
-    </div>
-    <div id="landing-image">
-        <img src="{{ url_for('static', filename='images/general-assets/bunny.jpg') }}" alt = "A crudely drawn bunny, which appears to be sitting on grass inside a cloud in the sky.">
-    </div>
-    
-    <div id="landing-buttons">
-        <a class="landing-button" href="{{ url_for('signup') }}">Sign Up</a>
+    <div id="landing-main">
+        <div id="blurb-wrapper">
+            <p>Here at Hopes and Dreams you can share your dreams, and find out what others aspire to.</p>
+            <p>You can share your advice and experiences, and seek input from others.</p>
+            <p>It is a place for validation, inspiration and hope.</p>
+            <div id="landing-buttons">
+                <a class="landing-button" href="{{ url_for('signup') }}">Sign Up</a>
+                
+                <div class="landing-button" id="signin-click">Sign In</div>
         
-        <div class="landing-button" id="signin-click">Sign In</div>
-
-        <div id="signin-form" class ="not-displayed">
-            <form id="sign-in-form" action="{{ url_for('signin') }}" method="POST">
-                <table class="form-table">
-                    <tr>
-                        <td class="label"><label for="email">e-mail address: </label></td>
-                        <td><input type="email" id="email" name="email" required></td>
-                    </tr>
-                    <tr>
-                        <td class="label"><label for="password">Password: </label></td>
-                        <td><input type="password" id="password" name="password" required></td>
-                    </tr>
-                </table>
-                <button class="landing-button" type="submit" id="sign-in">Sign Me In</button>
-            </form>
+                <div id="signin-form" class ="not-displayed">
+                    <form id="sign-in-form" action="{{ url_for('signin') }}" method="POST">
+                        <table class="form-table">
+                            <tr>
+                                <td class="label"><label for="email">e-mail address: </label></td>
+                                <td><input type="email" id="email" name="email" required></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="password">Password: </label></td>
+                                <td><input type="password" id="password" name="password" required></td>
+                            </tr>
+                        </table>
+                        <button class="landing-button" type="submit" id="sign-in">Sign Me In</button>
+                    </form>
+                </div>
+                <a href="{{ url_for('password_reset')}}">Forgotten password?</a>
+            </div>
         </div>
-        <a href="{{ url_for('password_reset')}}">Forgotten password?</a>
+        
     </div>
 </div>
 {% endblock content%}
