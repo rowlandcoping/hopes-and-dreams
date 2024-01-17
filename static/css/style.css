@@ -228,7 +228,25 @@ body {
     background-color:rgb(131, 16, 121);
     margin-top:20px;
 }
-  
+
+.show-additional, .show-fewer-style {
+    border: 3px solid white;
+    border-radius: 6px;    
+    width: 40%;
+    margin:auto;
+    margin-bottom: 5px;
+}
+
+
+.show-additional:hover {
+    background-color:rgb(58, 73, 69);
+    cursor: pointer;
+}
+
+.show-fewer-style:hover {
+    background-color:rgb(59, 46, 52);
+    cursor: pointer;
+}
 #interests-section, #explore {
     text-align: center;
 }
@@ -245,25 +263,7 @@ body {
     text-align: center;
 }
 
-.category-selector, .category-deselector {
-    padding:5px;
-    display:inline-block;
-    margin: 5px;
-    width: 100px;
-    text-align: center;
-}
 
-.category-selector {
-    background-color: grey;
-    color: black;
-    border: 2px grey solid;
-}
-
-.category-deselector {
-    background-color: green;
-    color: white;
-    border: 2px white solid;
-}
 
 /*welcome page*/
 #congratulations {
@@ -414,6 +414,19 @@ body {
 #admin-new-categories {
     margin: 5px 0;
     width:800px;
+}
+
+.category-selector {
+    background-color:grey;
+    color:black;
+    border:rgb(53, 52, 52) 2px solid;
+    cursor: pointer;
+    padding:5px;
+    display:inline-block;
+    margin: 5px;
+    width: 100px;
+    text-align: center;
+    border-radius: 4px;
 }
 
 /* DREAMS PAGE */

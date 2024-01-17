@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     //SIGN-UP PROCESS
-    //add event listners to all category buttons
+    //add event listners to all category button clicks
     const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
     attachCategoryListners.forEach(item => {
         item.addEventListener('click', function handleClick(event) {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    //DREAMBUILDER DREAM CREATION PROCESS
+    //CATEGORY SELECTION PROCESSES
     //show more categories
     document.addEventListener("click", function(e){
         const target = e.target.closest("#show-more");
@@ -74,6 +74,22 @@ document.addEventListener("DOMContentLoaded", function() {
         if(target){
             showFewer();
         }
+    });
+    //add mouseover effects
+    const attachMouseoverListners= Array.from(document.getElementsByClassName('category-selector'));
+    attachMouseoverListners.forEach(item => {
+        item.addEventListener('mouseover', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            categoryMouseover(itemId);
+        });
+    });
+    //add mouseout effects
+    const attachMouseoutListners= Array.from(document.getElementsByClassName('category-selector'));
+    attachMouseoutListners.forEach(item => {
+        item.addEventListener('mouseout', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            categoryMouseout(itemId);
+        });
     });
 
     //EDIT PERSONAL INFO
@@ -175,17 +191,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //changes colour of category when clicked and adds the category to the selected categories field
     function addSignupCategory(itemId) {
-        if (document.getElementById(itemId).style.backgroundColor === "green") {
+        if (document.getElementById(itemId).style.color === "white") {
             document.getElementById(itemId).style.backgroundColor = "grey";
             document.getElementById(itemId).style.color = "black";
-            document.getElementById(itemId).style.borderColor = "grey";
+            document.getElementById(itemId).style.border = "2px solid rgb(53, 52, 52)";
             oldText = document.getElementById("selected-categories").value;
             newText = oldText.replace(itemId+ "," ,'');
             document.getElementById("selected-categories").value = newText;
         } else {
             document.getElementById(itemId).style.backgroundColor = "green";
             document.getElementById(itemId).style.color = "white";
-            document.getElementById(itemId).style.borderColor = "white";
+            document.getElementById(itemId).style.border = "2px solid white";
             document.getElementById("selected-categories").value += itemId + ",";
         }
     }
@@ -247,7 +263,30 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('show-fewer').style.display = "none";
             document.getElementById('categories-two').style.display = "none";
         }        
-    }    
+    }
+    //mouseover effects for categories
+    function categoryMouseover(itemId) {        
+        if (document.getElementById(itemId).style.backgroundColor === "green") {
+            document.getElementById(itemId).style.backgroundColor = "rgb(49, 68, 49)";
+            document.getElementById(itemId).style.color = "white";
+            document.getElementById(itemId).style.border = "2px solid white";
+        } else {
+            document.getElementById(itemId).style.backgroundColor = "rgb(49, 68, 49)";
+            document.getElementById(itemId).style.color = "black";
+            document.getElementById(itemId).style.border = "2px solid rgb(53, 52, 52)";
+        }
+    }
+    function categoryMouseout(itemId) {        
+        if (document.getElementById(itemId).style.color === "white") {
+            document.getElementById(itemId).style.backgroundColor = "green";
+            document.getElementById(itemId).style.color = "white";
+            document.getElementById(itemId).style.border = "2px solid white";
+        } else {
+            document.getElementById(itemId).style.backgroundColor = "grey";
+            document.getElementById(itemId).style.color = "black";
+            document.getElementById(itemId).style.border = "2px solid border:rgb(53, 52, 52)";
+        }
+    }
 
     //EDITING PROFILE INFO    
     //cancel profile pic change 

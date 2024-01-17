@@ -47,15 +47,15 @@
                 <div id = categories-one>
                     {% with categories = categories_two %}
                         {% if categories %}
-                        <div id="show-more">Show More Categories</div>
+                        <div class="show-additional" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
                         {% endif %}
                     {% endwith %}
                     {% with categories = categories_custom %}
                         {% if categories %}
-                        <div id="show-all">Show All Categories</div>
+                        <div class="show-additional" id="show-all"><i class="fa-solid fa-arrow-down"> </i>Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
                         {% endif %}
                     {% endwith %}
-                    <div id="show-fewer" class="not-displayed">Show Fewer Categories</div>
+                    <div id="show-fewer" class="show-fewer-style not-displayed"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>
     
                     {% with categories = categories_one %}
                         {% if categories %}
