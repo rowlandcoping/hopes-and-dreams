@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="79.486092mm"
+   height="75.614922mm"
+   viewBox="0 0 79.486092 75.614922"
+   version="1.1"
+   id="svg1628"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="star.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1630"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.74118967"
+     inkscape:cx="172.02075"
+     inkscape:cy="366.97759"
+     inkscape:window-width="1920"
+     inkscape:window-height="1048"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1625" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-59.494933,-51.435333)">
+    <path
+       sodipodi:type="star"
+       style="fill:none;stroke:#f3fc7c;stroke-width:20.4246;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1045"
+       inkscape:flatsided="false"
+       sodipodi:sides="5"
+       sodipodi:cx="-95.167694"
+       sodipodi:cy="-387.42667"
+       sodipodi:r1="189.58353"
+       sodipodi:r2="94.791763"
+       sodipodi:arg1="0.8845888"
+       sodipodi:arg2="1.5129073"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       transform="matrix(0.19616605,0.01152205,-0.01152205,0.19616605,113.43263,170.32013)"
+       inkscape:transform-center-x="-0.0089871034"
+       inkscape:transform-center-y="-3.5489017"
+       d="m 24.953885,-240.75452 -114.63724,-52.03917 -107.858235,64.93362 14.06734,-125.10748 -95.08557,-82.51369 123.33133,-25.2815 49.09212,-115.92988 62.155621,109.48265 125.426169,10.86508 -84.9170504,92.94551 z" />
+  </g>
+</svg>

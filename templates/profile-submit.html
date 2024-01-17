@@ -5,24 +5,42 @@
 {% endblock title%}
     
 {% block content %}
-    <h1>Congratulations {{ user.first_name | capitalize }}!</h1>
-    <h2>You have taken you first step into a brave new world</h2>
-    <h3>But there is one more thing.</h3>
-    <p>To add that all-important human element, we recommend adding a profile picture.</p>
-    <p>Wait..... what's that?</p>
-    <p>Oh sure you can, you look great!</p>
-    <form action="{{ url_for('profile_upload') }}" method="POST" enctype="multipart/form-data">
-        {% if user.profile_picture %}
-            <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
-        {% else %}
-            <img id="current-image" src="{{ url_for('static', filename='images/general-assets/default-profile.jpg') }}" alt = "A crudely drawn stick man, indicating that this user does not have a profile picture uploaded for now." width="150">
-        {% endif %}
-        <img id="image-preview" class="not-displayed" src="" width="150">
-        <input type="file" id="uploaded-image" name="image_upload">
-        <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
-        <p>
-        <button type="submit">Submit Image</button>
-        <a href="{{ url_for('dreamscape') }}">I'll do this later</a>
-        </p>
-    </form>
+<div id="explore">
+    <div class="headline-wrapper" id="signup-title-wrapper"><h1>Welcome {{ user.first_name | capitalize }}!</h1></div>       
+    <div id="congratulations">
+        <div id="star-left"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
+        <div id="congrats-text">
+            <h2>Congratulations!</h2>
+            <h4>You are ready to explore the Dreamscape.</h4>
+        </div>
+        <div id="star-right"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
+    </div>
+    
+    <div id="dreamscape-intro">
+        <div id="dreamscape-intro-left">
+            <img src="{{ url_for('static', filename='images/general-assets/bunny-right.svg') }}">
+        </div>
+        <div id="dreamscape-intro-text">
+            <p>The Dreamscape is where you will find hopes, dreams and aspirations.
+                <br>It is a thrilling and uplifting place.
+            </p>
+        </div>
+    </div>
+    <div class="grass-width"></div>
+    <div id="dream-intro">
+        <div id="dreamscape-intro-text">
+            <p>Each dream you see is special to someone.</p>
+                <p>Perhaps you can help.
+                    <br>Perhaps you can encourage.
+                    <br>Perhaps you just want to see how they get along.
+                </p>
+            </p>
+        </div>
+        <div id="dreamscape-intro-right">
+            <img src="{{ url_for('static', filename='images/general-assets/bunny-left.svg') }}">
+        </div>
+    </div>
+    <div class="grass-width"></div>
+    <p>Or perhaps you want to form your own Hopes and Dreams?</p>
+    <a id="dreamscape-button" class="landing-button" href="{{ url_for('dreamscape') }}">Take me to the Dreamscape</a>
 {% endblock content %}

@@ -211,12 +211,16 @@ body {
     flex:4;
 }
 
-#personal-headline, #interests-headline {
+#personal-headline, #interests-headline, #dreamscape-headline {
     color: white;
     border: 5px solid white;
     border-radius: 6px;
     margin-bottom: 20px;
-} 
+}
+#dreamscape-headline {
+    background-color:rgb(139, 13, 13);
+    margin-top:30px;
+}
 #personal-headline {
     background-color:rgb(45, 143, 122);
 }
@@ -225,8 +229,12 @@ body {
     margin-top:20px;
 }
   
-#interests-section {
+#interests-section, #explore {
     text-align: center;
+}
+
+#explore {
+    margin: 0 50px ;
 }
 
 #interests-section button {
@@ -256,6 +264,53 @@ body {
     color: white;
     border: 2px white solid;
 }
+
+/*welcome page*/
+#congratulations {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#congratulations img {
+    margin:0 20px;
+    width:80px;
+}
+
+#dreamscape-intro, #dream-intro {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#dreamscape-intro-left img, #dreamscape-intro-right img {
+    width:75px;
+}
+
+#dreamscape-intro-left {
+    margin-right: 50px;
+}
+#dreamscape-intro-right {
+    margin-left: 50px;
+}
+
+.grass-width {
+    background-image: url("../images/backgrounds/grass.svg");
+    background-size: auto 100%;
+    width:75%;
+    height:25px;
+    margin:0 auto 20px auto;
+}
+
+#dreamscape-button {
+    margin: 10px auto;
+    display:block;
+    width:40%;
+    font-size: 120%;
+    padding:10px;
+    font-weight:bold;
+}
+
+
 
 /*general template*/
 

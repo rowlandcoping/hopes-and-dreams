@@ -195,7 +195,7 @@ def signup():
 
 
 # route for user to upload an image on signup
-@app.route("/be-confident", methods=["GET","POST"])
+@app.route("/welcome", methods=["GET","POST"])
 def profile_upload():
     if session.get("user_id") is not None:
         user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
@@ -219,19 +219,10 @@ def profile_upload():
                 }}
                 mongo.db.users.update_one(
                     {"_id": ObjectId(user_info["_id"])}, profile_picture)
-                return redirect(url_for("welcome"))
-        return render_template("profile-submit.html", user=user_info)
+                return redirect(url_for("profile_upload"))
+        return render_template("profile-submit.html",  base_url=base_url, user=user_info)
     return redirect(url_for("home"))
 
-
-#welcome page (once user has completed sign-up process)
-@app.route("/welcome")
-def welcome():
-    if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        return render_template("welcome.html", base_url=base_url, user=user_info)
-    return redirect(url_for("home"))
-    
 
 #route to abandon signup
 @app.route("/abandon")
