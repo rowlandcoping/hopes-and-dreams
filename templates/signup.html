@@ -7,79 +7,83 @@
 {% block content %}
 <div id="signup-container"></div>
     <div id="signup-section">
-        <div class="headline-wrapper" id="signup-title-wrapper"><h1>First tell us<br> who you are!</h1></div>
+        <div class="headline-wrapper" id="signup-title-wrapper"><h1>Create Your Profile</h1></div>
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
+            <div id="personal-headline"><h2>Personal Information<h2></div>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             <div id="signup-one">
-                <table class="form-table">
-                    <tr>
-                        <td class="label"><label for="first_name">First Name: </label></td>
-                        <td><input type="text" id="first_name" name="first_name" required></td>
-                    </tr>
-                    <tr>
-                        <td class="label"><label for="last_name">Last Name: </label></td>
-                        <td><input type="text" id="last_name" name="last_name" required></td>
-                    </tr>
-                    <tr>
-                        <td class="label"><label for="email">e-mail address: </label></td>
-                        <td><input type="email" id="email" name="email" required></td>
-                    </tr>
-                    <tr>
-                        <td class="label"><label for="password">Password: </label></td>
-                        <td><input type="password" id="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\S{8,}" name="password" required></td>
-                    </tr>                    
-                    
-                    
-                                 
-                </table>
-                <small>Passwords must contain a Capital, a number and be at least 8 characters in length</small>            
-                <div id="interests-section">
-                    <h3 id="interests-heading">
-                        If you like, you can tell us a bit about the things you want to see.
-                    </h3>
-                    <p>Just click what you are interested in from the top ten categories listed here.
-                        <br>If you prefer, don't click anything at all!  You can always do this later.</p>
-                    <div id = categories-one>
-                        {% with categories = categories_two %}
-                            {% if categories %}
-                            <div id="show-more">Show More Categories</div>
-                            {% endif %}
-                        {% endwith %}
+                <div id="bunny-right">
+                    <img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}">
+                </div>
+                <div id="personal-section">
+                    <table class="form-table">
+                        <tr>
+                            <td class="label"><label for="first_name">First Name: </label></td>
+                            <td><input type="text" id="first_name" name="first_name" required></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="last_name">Last Name: </label></td>
+                            <td><input type="text" id="last_name" name="last_name" required></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="email">e-mail address: </label></td>
+                            <td><input type="email" id="email" name="email" required></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="password">Password: </label></td>
+                            <td><input type="password" id="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\S{8,}" name="password" required></td>
+                        </tr>                    
+                        
+                        
+                                    
+                    </table>
+                    <small>Passwords must contain a capital letter, a number and be at least 8 characters in length</small>
+                </div>
+            </div>   
+            <div id="interests-section">
+                <div id="interests-headline"><h2>Interests<h2></div>
+                <p>Just click what you are interested in from the top ten categories listed here.
+                    <br>If you prefer, don't click anything at all!  You can always do this later.</p>
+                <div id = categories-one>
+                    {% with categories = categories_two %}
+                        {% if categories %}
+                        <div id="show-more">Show More Categories</div>
+                        {% endif %}
+                    {% endwith %}
+                    {% with categories = categories_custom %}
+                        {% if categories %}
+                        <div id="show-all">Show All Categories</div>
+                        {% endif %}
+                    {% endwith %}
+                    <div id="show-fewer" class="not-displayed">Show Fewer Categories</div>
+    
+                    {% with categories = categories_one %}
+                        {% if categories %}
+                            {% for category in categories %}
+                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}                
+                    </div>
+                    <div id="categories-two" class="not-displayed">
+                    {% with categories = categories_two %}
+                        {% if categories %}
+                            {% for category in categories %}
+                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                            {% endfor %}                    
+                        {% endif %}
+                    {% endwith %}                 
+                    </div>
+                    <div id="categories-custom" class="not-displayed">
                         {% with categories = categories_custom %}
                             {% if categories %}
-                            <div id="show-all">Show All Categories</div>
-                            {% endif %}
-                        {% endwith %}
-                        <div id="show-fewer" class="not-displayed">Show Fewer Categories</div>
-        
-                        {% with categories = categories_one %}
-                            {% if categories %}
                                 {% for category in categories %}
                                 <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                                {% endfor %}
+                                {% endfor %}                            
                             {% endif %}
                         {% endwith %}                
-                        </div>
-                        <div id="categories-two" class="not-displayed">
-                        {% with categories = categories_two %}
-                            {% if categories %}
-                                {% for category in categories %}
-                                <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                                {% endfor %}                    
-                            {% endif %}
-                        {% endwith %}                 
-                        </div>
-                        <div id="categories-custom" class="not-displayed">
-                            {% with categories = categories_custom %}
-                                {% if categories %}
-                                    {% for category in categories %}
-                                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                                    {% endfor %}                            
-                                {% endif %}
-                            {% endwith %}                
-                        </div>
-                    <button type="submit" for="signup-form">Create Profile</button>
-                </div>         
+                    </div>
+                <button type="submit" for="signup-form">Create Profile</button>
             </div>
         </form>
         <div id="form-end"></div>

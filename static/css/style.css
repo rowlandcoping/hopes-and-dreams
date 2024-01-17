@@ -113,8 +113,6 @@ body {
     align-items: center;
 }
 
-
-
 #sign-in-form {
     text-align:center;
 }
@@ -190,8 +188,41 @@ body {
 #signup-one {
     position: relative;
     display:flex;
-    flex-flow:column;
+    flex-flow:row;
     align-items:center;
+    justify-content:center;
+    margin:auto;
+    width:70%;
+}
+
+#bunny-right {
+    display:flex;
+    justify-content: right;
+    flex:1;
+}
+#bunny-right img {
+    width:110px;
+}
+
+#personal-section {
+    display:flex;
+    flex-flow:column;
+    justify-content: center;
+    flex:4;
+}
+
+#personal-headline, #interests-headline {
+    color: white;
+    border: 5px solid white;
+    border-radius: 6px;
+    margin-bottom: 20px;
+} 
+#personal-headline {
+    background-color:rgb(45, 143, 122);
+}
+#interests-headline {
+    background-color:rgb(131, 16, 121);
+    margin-top:20px;
 }
   
 #interests-section {
