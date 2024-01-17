@@ -315,7 +315,7 @@ body {
 /*general template*/
 
 #feed-container {
-    margin:30px 100px;
+    margin:30px 200px;
 }
 
 #title-section {
@@ -326,15 +326,16 @@ body {
     display:flex;
     margin:50px 0;
 }
-#left-sidebar {
-    display:flex;
-    flex-flow:column;
-    flex:1;
+#nav-list li {
+    display: inline-block;
+    margin: 0 20px;
+}
+#nav-list img {
+    width: 100px;
+    margin:0;
+    padding:5px;
 }
 
-#left-sidebar img {
-    margin: 10px 0;
-}
 #main-content{
     flex:5;
     border: 5px solid black;
@@ -361,7 +362,7 @@ body {
 }
 
 #active-page {
-    border: 5px solid black;
+    background-color: white;
 }
 .profile-update {
     width: 75%;
