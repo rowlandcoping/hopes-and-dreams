@@ -154,21 +154,49 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteComment(itemId);
         });
     });
-    //mouseover event for dreams icon
+    //mouseover/out events for dreams icon
     document.addEventListener("mouseover", function(e){
         const target = e.target.closest("#dreams-icon"); 
         if(target){
             document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
+            document.getElementById("dreams-icon-container").style.color = "#0091ffff";
         }
     });
     document.addEventListener("mouseout", function(e){
         const target = e.target.closest("#dreams-icon"); 
+        if(target){            
+            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
+            document.getElementById("dreams-icon-container").style.color = "white";
+        }
+    });
+    //mouseover/out events for dreamscape icon
+    document.addEventListener("mouseover", function(e){
+        const target = e.target.closest("#dreamscape-icon"); 
         if(target){
-            if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
-                document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
-            } else {
-                document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
-            }
+            document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon-hover.svg";
+            document.getElementById("dreamscape-icon-container").style.color = "#e4ff00ff";
+        }
+    });
+    document.addEventListener("mouseout", function(e){
+        const target = e.target.closest("#dreamscape-icon"); 
+        if(target){
+            document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon.svg";
+            document.getElementById("dreamscape-icon-container").style.color = "white";    
+        }
+    });
+    //mouseover/out events for profile icon
+    document.addEventListener("mouseover", function(e){
+        const target = e.target.closest("#profile-icon"); 
+        if(target){
+            document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon-hover.svg";
+            document.getElementById("profile-icon-container").style.color = "#ff6866ff"
+        }
+    });
+    document.addEventListener("mouseout", function(e){
+        const target = e.target.closest("#profile-icon"); 
+        if(target){
+            document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon.svg";
+            document.getElementById("profile-icon-container").style.color = "white"
         }
     });
     //------------ACTIONS-------------//
@@ -403,12 +431,14 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
         document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
     }
-    //ensures selected element has active icon
+    //sets border color for active page based on icon
     if (document.getElementById("dreams-icon-container")) {
         if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
-            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
+            document.getElementById("dreams-icon-container").style.borderColor = "#0091ffff";
+        } else if (document.getElementById("dreamscape-icon-container").classList.contains("active-page")) {
+            document.getElementById("dreamscape-icon-container").style.borderColor = "#e4ff00ff";
         } else {
-            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
+            document.getElementById("profile-icon-container").style.borderColor = "#ff6866ff"
         }
     }
 });
