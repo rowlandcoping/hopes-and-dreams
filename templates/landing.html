@@ -6,6 +6,14 @@
     
 {% block content %}
 <div id="landing-container">
+    <div id="landing-top">
+        <div id="sun-left">
+            <img src="{{ url_for('static', filename='images/general-assets/sun.svg') }}">
+        </div>
+        <div id="title-right">
+            <div class="headline-wrapper" id="landing-wrapper"><h1>Hopes and Dreams</h1></div>
+        </div>
+    </div>
     <div id="landing-main">
         <div id="blurb-wrapper">
             <p>Here at Hopes and Dreams you can shape your dreams, and find out what others aspire to.</p>
@@ -34,7 +42,9 @@
                 <a href="{{ url_for('password_reset')}}">Forgotten password?</a>
             </div>
         </div>
-        
+        <div id="tree-right">
+            <img src="{{ url_for('static', filename='images/general-assets/tree-landing.svg') }}">
+        </div>        
     </div>
 </div>
 {% endblock content%}
