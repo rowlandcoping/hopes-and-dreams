@@ -154,49 +154,80 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteComment(itemId);
         });
     });
-    //mouseover/out events for dreams icon
+    //mouseover/out events for dreams icon & caption
     document.addEventListener("mouseover", function(e){
         const target = e.target.closest("#dreams-icon"); 
         if(target){
-            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
-            document.getElementById("dreams-icon-container").style.color = "#0091ffff";
+            mouseoverDreams();
+        }
+    });
+    document.addEventListener("mouseover", function(e){
+        const target = e.target.closest("#dreams-caption"); 
+        if(target){
+            mouseoverDreams();
         }
     });
     document.addEventListener("mouseout", function(e){
         const target = e.target.closest("#dreams-icon"); 
+        if(target){
+            mouseoutDreams();
+        }
+    });
+    document.addEventListener("mouseout", function(e){
+        const target = e.target.closest("#dreams-caption"); 
         if(target){            
-            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
-            document.getElementById("dreams-icon-container").style.color = "white";
+            mouseoutDreams();
         }
     });
-    //mouseover/out events for dreamscape icon
+    
+    //mouseover/out events for dreamscape icon & caption
     document.addEventListener("mouseover", function(e){
         const target = e.target.closest("#dreamscape-icon"); 
         if(target){
-            document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon-hover.svg";
-            document.getElementById("dreamscape-icon-container").style.color = "#e4ff00ff";
+            mouseoverDreamscape();
+        }
+    });
+    document.addEventListener("mouseover", function(e){
+        const target = e.target.closest("#dreamscape-caption"); 
+        if(target){
+            mouseoverDreamscape();
         }
     });
     document.addEventListener("mouseout", function(e){
         const target = e.target.closest("#dreamscape-icon"); 
         if(target){
-            document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon.svg";
-            document.getElementById("dreamscape-icon-container").style.color = "white";    
+            mouseoutDreamscape();
         }
     });
-    //mouseover/out events for profile icon
+    document.addEventListener("mouseout", function(e){
+        const target = e.target.closest("#dreamscape-caption"); 
+        if(target){
+            mouseoutDreamscape();
+        }
+    });
+    //mouseover/out events for profile icon & caption
     document.addEventListener("mouseover", function(e){
         const target = e.target.closest("#profile-icon"); 
         if(target){
-            document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon-hover.svg";
-            document.getElementById("profile-icon-container").style.color = "#ff6866ff"
+            mouseoverProfile();
+        }
+    });
+    document.addEventListener("mouseover", function(e){
+        const target = e.target.closest("#profile-caption"); 
+        if(target){
+            mouseoverProfile();
         }
     });
     document.addEventListener("mouseout", function(e){
         const target = e.target.closest("#profile-icon"); 
         if(target){
-            document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon.svg";
-            document.getElementById("profile-icon-container").style.color = "white"
+            mouseoutProfile();
+        }
+    });
+    document.addEventListener("mouseout", function(e){
+        const target = e.target.closest("#profile-caption"); 
+        if(target){
+            mouseoutProfile();
         }
     });
     //------------ACTIONS-------------//
@@ -431,7 +462,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
         document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
     }
-    //sets border color for active page based on icon
+    //sets border color for active page based on section
     if (document.getElementById("dreams-icon-container")) {
         if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
             document.getElementById("dreams-icon-container").style.borderColor = "#0091ffff";
@@ -440,5 +471,33 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             document.getElementById("profile-icon-container").style.borderColor = "#ff6866ff"
         }
+    }
+    //functions for mouseover/out for the dreams icon
+    function mouseoverDreams() {
+        document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
+        document.getElementById("dreams-icon-container").style.color = "#0091ffff";
+    }
+    function mouseoutDreams() {
+        document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
+        document.getElementById("dreams-icon-container").style.color = "white";
+    }
+    //functions for mouseover/out for the dreamscape icon
+    function mouseoverDreamscape() {
+        document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon-hover.svg";
+        document.getElementById("dreamscape-icon-container").style.color = "#e4ff00ff";
+    }
+    function mouseoutDreamscape() {
+        document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon.svg";
+        document.getElementById("dreamscape-icon-container").style.color = "white"; 
+    }
+    //functions for mouseover/out for the profile icon
+    function mouseoverProfile() {
+        document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon-hover.svg";
+        document.getElementById("profile-icon-container").style.color = "#ff6866ff";
+
+    }
+    function mouseoutProfile() {
+        document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon.svg";
+        document.getElementById("profile-icon-container").style.color = "white";
     }
 });

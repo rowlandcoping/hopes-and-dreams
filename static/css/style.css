@@ -41,6 +41,7 @@ body {
     height: 135px;
     color:black;
     border: 10px solid black;
+    font-family:title;
 }
 
 .delete-alert {
@@ -328,6 +329,7 @@ body {
 #title-section {
     display: flex;
     justify-content: space-between;
+    align-items:center;
 }
 #main-section {
     display:flex;
@@ -384,27 +386,28 @@ body {
     border-color:black;
     padding:5px;
     padding-bottom:2px;
+}
 
-}
-.active-page {
-}
 
 #dreams-caption {
     position:absolute;
     top:27px;
     left:45px;
+    cursor: pointer;
 }
 
 #dreamscape-caption {
     position:absolute;
     top:43px;
     left:53px;
+    cursor: pointer;
 }
 
 #profile-caption {
     position:absolute;
     top:18px;
     right:25px;
+    cursor: pointer;
 }
 
 /* Profile Pages */
