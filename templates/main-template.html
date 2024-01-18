@@ -28,24 +28,24 @@
                         {% endif %}
                             <a href="{{ url_for('dreams') }}">
                                 <img id ="dreams-icon" src="{{ url_for('static', filename='images/general-assets/dreams-icon.svg') }}" alt="A cloud which looks like a thought bubble, signifying an idea, or in this case an icon which will take you to your dreams">
+                                <div id="dreams-caption"><h3>Dreams</h3></div>
                             </a>
-                            <div id="dreams-caption"><h3>Dreams</h3></div>
                         </div>
                     </li>
                     <li>
                         <div id ="dreamscape-icon-container" class="menu-icon clickable-item {{ 'active-page' if request.path == url_for('dreamscape') }}">
                             <a href="{{ url_for('dreamscape') }}">
                                 <img id ="dreamscape-icon" src="{{ url_for('static', filename='images/general-assets/sun-icon.svg') }}" alt="A sun icon, evoking sunlight dappled plains and indicating the icon will take you to the dremscape">
+                                <div id="dreamscape-caption"><h3>Feed</h3></div>
                             </a>
-                            <div id="dreamscape-caption"><h3>Feed</h3></div>
                         </div>
                     </li>
                     <li>
                         <div id ="profile-icon-container" class="menu-icon clickable-item {{ 'active-page' if request.path == url_for('profile_personal') }}">
                             <a href="{{ url_for('profile_personal') }}">
                                 <img id ="profile-icon" src="{{ url_for('static', filename='images/general-assets/profile-icon.svg') }}" alt = "A cute bunny, evoking the signup process and indicating the icon will take you to your profile">
+                                <div id="profile-caption"><h3>Profile</h3></div>
                             </a>
-                            <div id="profile-caption"><h3>Profile</h3></div>
                         </div>
                     </li>                    
                 </ul>         
