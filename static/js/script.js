@@ -154,7 +154,23 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteComment(itemId);
         });
     });
-
+    //mouseover event for dreams icon
+    document.addEventListener("mouseover", function(e){
+        const target = e.target.closest("#dreams-icon"); 
+        if(target){
+            document.getElementById("dreams-icon").src = "static/images/general-assets/dreams-icon-hover.svg";
+        }
+    });
+    document.addEventListener("mouseout", function(e){
+        const target = e.target.closest("#dreams-icon"); 
+        if(target){
+            if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
+                document.getElementById("dreams-icon").src = "static/images/general-assets/dreams-icon-hover.svg";
+            } else {
+                document.getElementById("dreams-icon").src = "static/images/general-assets/dreams-icon.svg";
+            }
+        }
+    });
     //------------ACTIONS-------------//
     
     //SIGN IN

@@ -68,7 +68,7 @@ body {
     background-color: black;
     color:white; 
     padding:0;
-    margin: 100px auto;
+    margin: 50px auto;
     width: 900px;
     text-align:center;
 }
@@ -338,7 +338,7 @@ body {
     margin: 0 20px;
 }
 #nav-list img {
-    width: 100px;
+    width: 125px;
     margin:0;
     padding:5px;
 }
@@ -368,7 +368,7 @@ body {
     display:flex;
 }
 
-#active-page {
+.active-page {
     background-color: white;
 }
 .profile-update {
