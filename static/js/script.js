@@ -158,16 +158,16 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("mouseover", function(e){
         const target = e.target.closest("#dreams-icon"); 
         if(target){
-            document.getElementById("dreams-icon").src = "static/images/general-assets/dreams-icon-hover.svg";
+            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
         }
     });
     document.addEventListener("mouseout", function(e){
         const target = e.target.closest("#dreams-icon"); 
         if(target){
             if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
-                document.getElementById("dreams-icon").src = "static/images/general-assets/dreams-icon-hover.svg";
+                document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
             } else {
-                document.getElementById("dreams-icon").src = "static/images/general-assets/dreams-icon.svg";
+                document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
             }
         }
     });
@@ -402,5 +402,13 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('main-template-wrapper').style.opacity="0.4";
         document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
         document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
+    }
+    //ensures selected element has active icon
+    if (document.getElementById("dreams-icon-container")) {
+        if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
+            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
+        } else {
+            document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
+        }
     }
 });
