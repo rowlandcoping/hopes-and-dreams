@@ -7,9 +7,9 @@
 {% block content %}
 <div id="signup-container"></div>
     <div id="signup-section">
-        <div class="headline-wrapper" id="signup-title-wrapper"><h1>Create Your Profile</h1></div>
+        <div class="headline-wrapper"><h1>Create Your Profile</h1></div>
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
-            <div id="personal-headline"><h2>Personal Information<h2></div>
+            <div class="banner-headline" id="personal-headline"><h2>Personal Information<h2></div>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             <div id="signup-one">
                 <div id="bunny-right">
@@ -41,7 +41,7 @@
                 </div>
             </div>   
             <div id="interests-section">
-                <div id="interests-headline"><h2>Interests<h2></div>
+                <div class="banner-headline" id="interests-headline"><h2>Interests<h2></div>
                 <p>Just click what you are interested in from the top ten categories listed here.
                     <br>If you prefer, don't click anything at all!  You can always do this later.</p>
                 <div id = categories-one>

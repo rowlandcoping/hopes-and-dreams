@@ -7,29 +7,31 @@ Dreams
 {% block content %}
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-        <div class= "dreams-flash" id="flash-messages">
         {% for category, message in messages %}
-            <div class="{{ category }}" id="warning-left">
+        <div class= "{{ category }}" id="flash-messages">
+            <div id="warning-left">
                 <h2>!!!</h2>
             </div>
-            <div class="{{ category }}">
+            <div>
                 <h2>{{ message }}</h2>
             </div>
-            <div class="{{ category }}" id="warning-right">
+            <div id="warning-right">
                 <h2>!!!</h2>
             </div>
-        {% endfor %}
         </div>
+        {% endfor %}
+        
     {% endif %}
 {% endwith %}
-<div id="dreams-container">
-    <div id="dreambuilder">
-        <a class="clickable-item" href="{{ url_for('dreambuilder') }}"><h1>Launch DreamBuilder</h1></a>
-        {% if user.role=="administrator" %}
-        <a class="clickable-item" href="{{ url_for('categories') }}"><h3>Manage Categories</h3></a>
-        <a class="clickable-item" href="{{ url_for('count_followers') }}">Count followers (one off activity!)</a>
-        {% endif %}
+<div id="dreams-container-top">
+    <div id="section-title">
+        <h2>{{ user.first_name + " " + user.last_name }}'s Dreams</h2>
     </div>
+    <div id="dreambuilder">
+        <a class="clickable-item" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a>
+    </div>    
+</div>
+<div id="dreams-container-main">
     <div id="dream-list">
         {% with dreams = user_dreams %}
             {% if dreams %}
@@ -42,24 +44,24 @@ Dreams
                     </div>
                     <div class="dream-list">
                         <div class="general-bar">
-                            <a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
-                            <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></a></div>
-                            <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
+                            <div class="icons">
+                                <div class="edit-dream"><a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a></div>
+                                <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></a></div>
+                                <div class="view-dream"><a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}"><i class="fa-regular fa-eye"></i></a></div>
+                            </div>
+                            <div class="dream-name"><h3>{{ dream.dream_name}}</h3></div>
                         </div>
                         <div class="dream-general">
-                            <div class="dream-image">
-                                {% if dream.image %}
-                                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
-                                {% endif %}
-                            </div>
                             <div class="dream-info">
-                                <div class="dream-name">
-                                    <h3>{{ dream.dream_name}}</h3>
-                                </div>
                                 <div class="dream-description">
                                     {{ dream.dream_description }}
                                 </div>
                             </div>
+                            <div class="dream-image">
+                                {% if dream.image %}
+                                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                                {% endif %}
+                            </div>                            
                         </div>
                     </div>
                 {% endfor %}

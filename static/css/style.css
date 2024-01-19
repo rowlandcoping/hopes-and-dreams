@@ -12,12 +12,38 @@
     font-display: swap;
 }
 
-
+h1 {
+    font-size:250%;
+}
 .not-displayed {
     display:none
 }
-.red-text {
+
+#flash-messages {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    text-align:center;
+    padding:0;
+    margin:10px auto 20px auto;
+    line-height:60%;
+    width:60%;
+}
+#warning-left, #warning-right {
+    font-size:150%;
+    margin: 0 30px;
+}
+.red-flash {
     color:red;
+    border:5px dashed red;
+}
+.green-flash {
+    color:green;
+    border:5px dashed green;
+}
+.amber-flash {
+    color:orange;
+    border:5px dashed orange;
 }
 
 
@@ -27,18 +53,15 @@ a, a:visited, a:link, a:active, a:hover, a:focus  {
     outline: 0;
     cursor: auto;
 }
-
 body {
     background-color: black;
     color:white;
     font-family:main;
 }
-
 .absolutely-hidden {
     position:absolute;
     left:-2000000px
 }
-
 #main-template-wrapper {
     display: flex;
     justify-content: center;
@@ -54,7 +77,6 @@ body {
     border: 10px solid black;
     font-family:title;
 }
-
 .delete-alert {
     position:absolute;
     left: 0;
@@ -94,7 +116,6 @@ body {
     position:relative;
     margin: 0 50px;
 }
-
 #blurb-wrapper {
     margin-top: 25px;
     width:400px;
@@ -105,22 +126,20 @@ body {
 #tree-right img{
     width:250px;
 }
-
 #landing-image img {
     width:300px;
     margin:auto;
 }
-
 .headline-wrapper {
     display: flex;
     justify-content:center;
     align-items:center;
     background-image: url("../images/backgrounds/cloud-background-white.svg");
-    background-size: 300px auto;
+    background-size: 392px auto;
     background-repeat: no-repeat;
     background-position: center; 
-    width: 300px;
-    height: 103px;
+    width: 392px;
+    height: 135px;
     color:black;
     font-family: title;
 }
@@ -151,21 +170,17 @@ body {
     font-size: 100%;
     font-family:main;
 }
-
 #sign-in {   
     width:112px;
 }
-
 .button-large {
     width:400px;
 }
-
 .signin-link:hover, #sign-in:hover {
     background-color: black;
     color: white;
     border: white 1px solid;
 }
-
 .form-table {
     border-spacing:5px;
 }
@@ -188,7 +203,6 @@ body {
     display:flex;
     align-items:center;
 }
-
 #signup-section, #dreambuild-container {
     display:flex;
     flex-flow:column;
@@ -196,16 +210,13 @@ body {
     justify-content:center;
     text-align:center;
 }
-
 #signup-section form {
     margin-top: 20px;
 }
-
 #signup-title-wrapper {
     width: 100%;
     height: 120px;
 }
-
 #signup-one {
     position: relative;
     display:flex;
@@ -215,7 +226,6 @@ body {
     margin:auto;
     width:70%;
 }
-
 #bunny-right {
     display:flex;
     justify-content: right;
@@ -224,23 +234,20 @@ body {
 #bunny-right img {
     width:110px;
 }
-
 #personal-section {
     display:flex;
     flex-flow:column;
     justify-content: center;
     flex:4;
 }
-
-#personal-headline, #interests-headline, #dreamscape-headline {
+.banner-headline {
     color: white;
-    border: 5px solid white;
+    border: 4px solid white;
     border-radius: 6px;
     margin-bottom: 20px;
-}
-#dreamscape-headline {
-    background-color:rgb(139, 13, 13);
-    margin-top:30px;
+    margin:auto;
+    line-height:60%;
+    text-align:center;
 }
 #personal-headline {
     background-color:rgb(45, 143, 122);
@@ -249,7 +256,6 @@ body {
     background-color:rgb(131, 16, 121);
     margin-top:20px;
 }
-
 .show-additional, .show-fewer-style {
     border: 3px solid white;
     border-radius: 6px;    
@@ -257,13 +263,10 @@ body {
     margin:auto;
     margin-bottom: 5px;
 }
-
-
 .show-additional:hover {
     background-color:rgb(58, 73, 69);
     cursor: pointer;
 }
-
 .show-fewer-style:hover {
     background-color:rgb(59, 46, 52);
     cursor: pointer;
@@ -271,11 +274,9 @@ body {
 #interests-section, #explore {
     text-align: center;
 }
-
 #explore {
     margin: 0 50px ;
 }
-
 #interests-section button {
     font-size: 120%;
     width: 200px;
@@ -283,8 +284,6 @@ body {
     margin: 7px;
     text-align: center;
 }
-
-
 
 /*welcome page*/
 #congratulations {
@@ -296,24 +295,20 @@ body {
     margin:0 20px;
     width:80px;
 }
-
 #dreamscape-intro, #dream-intro {
     display:flex;
     justify-content:center;
     align-items:center;
 }
-
 #dreamscape-intro-left img, #dreamscape-intro-right img {
     width:75px;
 }
-
 #dreamscape-intro-left {
     margin-right: 50px;
 }
 #dreamscape-intro-right {
     margin-left: 50px;
 }
-
 .grass-width {
     background-image: url("../images/backgrounds/grass.svg");
     background-size: auto 100%;
@@ -321,7 +316,6 @@ body {
     height:25px;
     margin:0 auto 20px auto;
 }
-
 #dreamscape-button {
     margin: 10px auto;
     display:block;
@@ -338,7 +332,6 @@ body {
 #feed-container {
     margin:30px 200px;
 }
-
 #title-section {
     display: flex;
     justify-content: space-between;
@@ -357,55 +350,28 @@ body {
     margin:0;
     padding:5px;
 }
-
 #main-content{
     position:relative
 }
-
-#flash-messages {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    text-align:center;
-    padding:0;
-    margin:0;
-    line-height:60%;
-}
-
-#warning-left, #warning-right {
-    font-size:150%;
-    margin: 0 30px;
-}
-
-
 .page-menu {
     display:flex;    
     justify-content: space-around;
     text-align:center;
 }
-
 .page-menu-option {
     flex:1;
     color:black;
 }
-
 .page-menu-selected, .page-menu-option:hover {
     background-color:black;
     color:white;
 }
-
-#desktop-search {
-    display:flex;
-}
-
-
 .profile-update {
     width: 75%;
 }
 .preferences-section {
     text-align: center;
 }
-
 .menu-icon {
     position:relative;
     font-family:title;
@@ -414,42 +380,35 @@ body {
     border-color:black;
     padding:5px;
     padding-bottom:2px;
+
 }
 
+#dreams-caption, #dreamscape-caption, #profile-caption, #dreams-icon, #dreamscape-icon, #profile-icon {
+    cursor: pointer;
+}
 
 #dreams-caption {
     position:absolute;
     top:27px;
     left:45px;
-    cursor: pointer;
 }
 
 #dreamscape-caption {
     position:absolute;
     top:43px;
     left:53px;
-    cursor: pointer;
 }
 
 #profile-caption {
     position:absolute;
     top:18px;
     right:25px;
-    cursor: pointer;
-}
-
-/*Dreams Page*/
-.dreams-flash {    
-    border:5px dashed #0091ffff;
-}
-
-#dreams-container {
-    border-top:5px solid #0091ffff;
 }
 
 
-/* Profile Pages */
-/* General */
+
+
+
 
 
 /*Dreamscape*/
@@ -515,4 +474,111 @@ body {
 .delete-dream, .delete-comment {
     display:inline-block;
 
+}
+
+#section-title {
+    text-align:center;
+    border-top:5px solid #0091ffff;
+    border-bottom:5px solid #0091ffff;
+    background-color: rgb(6, 28, 46);
+    font-size:130%;
+}
+#dreambuilder {
+    text-align:center;
+    font-family: title;
+    width: 50%;
+    background-color:#0091ffff;
+    cursor: pointer;
+    font-size: 120%;
+    line-height: 75%;
+    margin:20px auto;
+    padding:5px;
+    border: 4px solid white;
+    border-radius: 6px;
+}
+#dreambuilder h2 {
+    cursor: pointer;
+}
+#dreambuilder:hover {
+    background-color: rgb(6, 28, 46);
+}
+.dream-list {
+    border-left:1px dotted #0091ffff;
+    border-right:1px dotted #0091ffff;    
+}
+
+.dream-list:last-child {
+    border-bottom:1px dotted #0091ffff; 
+}
+.general-bar {
+    border-top:2px solid #0091ffff;
+    border-bottom:2px solid #0091ffff;
+    display: flex;
+    background-color: rgb(6, 28, 46);
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    line-height: 10%;
+    font-size:150%;
+    font-family: title;
+}
+
+.icons {
+    display:flex;
+    justify-content:space-between;
+    flex:2; 
+}
+.icons i {
+    cursor: pointer;
+}
+.edit-dream, .delete-dream, .view-dream {
+    flex:1;
+}
+.edit-dream:hover {
+    color: #0091ffff;
+    cursor: pointer;
+}
+.delete-dream:hover {
+    color: #0091ffff;
+    cursor: pointer;
+}
+.view-dream:hover {
+    color: #0091ffff;
+    cursor: pointer;
+}
+.dream-name {
+    text-align:right;
+    flex:7;
+}
+.dream-general {
+    display:flex;
+    justify-content: space-between;
+}
+.dream-info {
+    margin:20px 50px;
+    font-size: 140%;
+}
+.dream-image {
+    margin:20px 0;
+    margin-right:50px;
+}
+
+
+
+/* PROFILE PAGE */
+
+#admin-options {
+    margin-top: 20px;
+    background-color:#5E3D00;
+}
+.admin-task {
+    margin: 10px auto;
+    width:40%;
+    text-align: center;
+    border:2px solid white;
+    line-height:40%;
+}
+.admin-task:hover {
+    color:black;
+    background-color:white;
 }

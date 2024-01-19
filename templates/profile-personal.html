@@ -5,7 +5,13 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 {% endblock title %}
 
 {% block content %}
-
+{% if user.role=="administrator" %}
+    <div  id="admin-functions" class="clickable-item">
+        <div class="banner-headline" id="admin-options"><h2>Admin Functions</h2></div>
+        <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
+        <div class="admin-task"><a href="{{ url_for('count_followers') }}"><h4>Count followers (one off activity!)</h4></a></div>
+    </div>
+    {% endif %} 
 <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
     <div id="edit-personal-container">
         <div id="personal-info">

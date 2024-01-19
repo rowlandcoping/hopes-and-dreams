@@ -724,10 +724,9 @@ def delete_dream(dream_slug):
             for comment in comments:
                 if ObjectId(comment["dream_id"]) == ObjectId(dream["_id"]):
                     mongo.db.comments.delete_one({"_id": ObjectId(comment["_id"])})
-            flash('Dream deleted.  How sad.', 'red-text')
-            user_dreams = list(mongo.db.dreams.find({"user_id": ObjectId(session["user_id"])}))      
-            return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
-        return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
+            flash('Dream deleted.  How sad.', 'red-flash')      
+            return redirect (url_for("dreams"))
+        return redirect (url_for("dreams"))
     return redirect(url_for("home"))
         
     
