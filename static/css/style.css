@@ -11,6 +11,11 @@
     src: url("../fonts/ClearSans-OP0p.ttf");
     font-display: swap;
 }
+
+textarea {
+    color:white;
+    background-color:black;
+}
 h1,h2,h3,h4 {
     margin: 0;
     padding:0;
@@ -143,6 +148,7 @@ body {
     background-position: center; 
     width: 392px;
     height: 135px;
+    margin:auto;
     color:black;
     font-family: title;
 }

@@ -6,7 +6,7 @@
     
 {% block content %}
 <div id="explore">
-    <div class="headline-wrapper" id="signup-title-wrapper"><h1>Welcome {{ user.first_name | capitalize }}!</h1></div>       
+    <div class="headline-wrapper"><h1>Welcome {{ user.first_name | capitalize }}!</h1></div>       
     <div id="congratulations">
         <div id="star-left"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
         <div id="congrats-text">
