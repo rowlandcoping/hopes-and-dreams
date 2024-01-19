@@ -27,7 +27,7 @@ Dreams
     <div id="section-title">
         <h2>{{ user.first_name + " " + user.last_name }}'s Dreams</h2>
     </div>
-    <div id="dreambuilder">
+    <div class="dream-button">
         <a class="clickable-item" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a>
     </div>    
 </div>
@@ -43,7 +43,7 @@ Dreams
                         <a href ="{{ url_for('dreams') }}"><div class="delete-cancel">No Thank You</div></a>
                     </div>
                     <div class="dream-list">
-                        <div class="general-bar">
+                        <div class="general-bar dream-bar">
                             <div class="icons">
                                 <div class="edit-dream"><a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a></div>
                                 <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></a></div>
