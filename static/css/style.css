@@ -5,12 +5,22 @@
     src: url("../fonts/CfDavesDreamPersonalRegular-WyAGn.ttf");
     font-display: swap;
 }
+
+@font-face {
+    font-family: main;
+    src: url("../fonts/ClearSans-OP0p.ttf");
+    font-display: swap;
+}
+
+
 .not-displayed {
     display:none
 }
 .red-text {
     color:red;
 }
+
+
 a, a:visited, a:link, a:active, a:hover, a:focus  {
     text-decoration: none;
     color: inherit;
@@ -20,16 +30,14 @@ a, a:visited, a:link, a:active, a:hover, a:focus  {
 
 body {
     background-color: black;
-    color:white; 
+    color:white;
+    font-family:main;
 }
 
 .absolutely-hidden {
     position:absolute;
     left:-2000000px
 }
-
-
-
 
 #main-template-wrapper {
     display: flex;
@@ -69,8 +77,6 @@ body {
 #landing-container {
     display:flex;
     flex-direction: column;
-    background-color: black;
-    color:white; 
     padding:0;
     margin: 50px auto;
     width: 900px;
@@ -122,6 +128,7 @@ body {
     display:flex;
     flex-flow:column;
     align-items: center;
+    color:black;
 }
 
 #sign-in-form {
@@ -130,27 +137,30 @@ body {
 
 .label {
     text-align:right;
+    color:white;
 }
-.landing-button, .signup-button {
+
+.signin-link {
     background-color: white;
-    color: black;
+    color:black;
     border: black 1px solid;
     width:100px;
-    height:20px;
     text-align:center;
     margin:4px 0;
+    padding:5px;
+    font-size: 100%;
+    font-family:main;
+}
+
+#sign-in {   
+    width:112px;
 }
 
 .button-large {
     width:400px;
 }
 
-.button {
-    background-color: white;
-    color: black;
-    border: black 1px solid;
-}
-.landing-button:hover, .button:hover, .signup-button:hover {
+.signin-link:hover, #sign-in:hover {
     background-color: black;
     color: white;
     border: white 1px solid;
@@ -349,9 +359,24 @@ body {
 }
 
 #main-content{
-    flex:5;
-    border: 5px solid black;
+    position:relative
 }
+
+#flash-messages {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    text-align:center;
+    padding:0;
+    margin:0;
+    line-height:60%;
+}
+
+#warning-left, #warning-right {
+    font-size:150%;
+    margin: 0 30px;
+}
+
 
 .page-menu {
     display:flex;    
@@ -412,6 +437,16 @@ body {
     right:25px;
     cursor: pointer;
 }
+
+/*Dreams Page*/
+.dreams-flash {    
+    border:5px dashed #0091ffff;
+}
+
+#dreams-container {
+    border-top:5px solid #0091ffff;
+}
+
 
 /* Profile Pages */
 /* General */

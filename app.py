@@ -703,14 +703,14 @@ def delete_dream(dream_slug):
         if ObjectId(user_info["_id"]) == ObjectId(dream["_id"]) or user_info["role"] == "administrator":
             mongo.db.dreams.delete_one({"_id": ObjectId(dream["_id"])})
             categories = mongo.db.categories.find()
-            for category in categories:
-                if "dreams_selected" in category:
+            for categ in categories:
+                if "dreams_selected" in categ:
                     if "categories" in dream:
                         for x in dream["categories"]:
-                            if x == category["category"]:
-                                mongo.db.categories.update_one({"category": category["category"]}, {"$pull": {
+                            if x == categ["category"]:
+                                mongo.db.categories.update_one({"category": categ["category"]}, {"$pull": {
                                                         "dreams_selected" : ObjectId(dream["_id"]) }})
-                                mongo.db.categories.update_one({"category": category["category"]}, {"$inc": {
+                                mongo.db.categories.update_one({"category": categ["category"]}, {"$inc": {
                                 "total_dreams_selected" : -1, "total_times_selected": -1 }})
             users = mongo.db.users.find()
             for user in users:
@@ -724,7 +724,7 @@ def delete_dream(dream_slug):
             for comment in comments:
                 if ObjectId(comment["dream_id"]) == ObjectId(dream["_id"]):
                     mongo.db.comments.delete_one({"_id": ObjectId(comment["_id"])})
-            flash('Dream deleted.  How sad.')
+            flash('Dream deleted.  How sad.', 'red-text')
             user_dreams = list(mongo.db.dreams.find({"user_id": ObjectId(session["user_id"])}))      
             return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)
         return render_template("dreams.html", base_url=base_url,  user=user_info, user_dreams=user_dreams)

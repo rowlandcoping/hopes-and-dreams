@@ -5,52 +5,70 @@ Dreams
 {% endblock title %}
 
 {% block content %}
-
-<div id="dreambuilder">
-    <a class="clickable-item" href="{{ url_for('dreambuilder') }}"><h1>Launch DreamBuilder</h1></a>
-    {% if user.role=="administrator" %}
-    <a class="clickable-item" href="{{ url_for('categories') }}"><h3>Manage Categories</h3></a>
-    <a class="clickable-item" href="{{ url_for('count_followers') }}">Count followers (one off activity!)</a>
-    {% endif %}
-</div>
-<div id="dream-list">
-    {% with dreams = user_dreams %}
-        {% if dreams %}
-            {% for dream in dreams %}
-                <div class="delete-dream-alert delete-alert" id="alert-{{ dream.dream_slug }}">
-                    <h3> Are you sure you want to delete this dream?</h3>
-                    <p>It will permanently remove the dream, plus all related comments and followers!</p>
-                    <a href ="{{ url_for('delete_dream', dream_slug = dream.dream_slug) }}"><div class="delete-confirm">Yes Please</div></a>
-                    <a href ="{{ url_for('dreams') }}"><div class="delete-cancel">No Thank You</div></a>
-                </div>
-                <div class="dream-list">
-                    <div class="general-bar">
-                        <a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
-                        <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></a></div>
-                        <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
-                    </div>
-                    <div class="dream-general">
-                        <div class="dream-image">
-                            {% if dream.image %}
-                                <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
-                            {% endif %}
-                        </div>
-                        <div class="dream-info">
-                            <div class="dream-name">
-                                <h3>{{ dream.dream_name}}</h3>
-                            </div>
-                            <div class="dream-description">
-                                {{ dream.dream_description }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <div class="no-dreams">
-                <h3>You have no Hopes or Dreams</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class= "dreams-flash" id="flash-messages">
+        {% for category, message in messages %}
+            <div class="{{ category }}" id="warning-left">
+                <h2>!!!</h2>
             </div>
+            <div class="{{ category }}">
+                <h2>{{ message }}</h2>
+            </div>
+            <div class="{{ category }}" id="warning-right">
+                <h2>!!!</h2>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+<div id="dreams-container">
+    <div id="dreambuilder">
+        <a class="clickable-item" href="{{ url_for('dreambuilder') }}"><h1>Launch DreamBuilder</h1></a>
+        {% if user.role=="administrator" %}
+        <a class="clickable-item" href="{{ url_for('categories') }}"><h3>Manage Categories</h3></a>
+        <a class="clickable-item" href="{{ url_for('count_followers') }}">Count followers (one off activity!)</a>
         {% endif %}
-    {% endwith %}        
+    </div>
+    <div id="dream-list">
+        {% with dreams = user_dreams %}
+            {% if dreams %}
+                {% for dream in dreams %}
+                    <div class="delete-dream-alert delete-alert" id="alert-{{ dream.dream_slug }}">
+                        <h3> Are you sure you want to delete this dream?</h3>
+                        <p>It will permanently remove the dream, plus all related comments and followers!</p>
+                        <a href ="{{ url_for('delete_dream', dream_slug = dream.dream_slug) }}"><div class="delete-confirm">Yes Please</div></a>
+                        <a href ="{{ url_for('dreams') }}"><div class="delete-cancel">No Thank You</div></a>
+                    </div>
+                    <div class="dream-list">
+                        <div class="general-bar">
+                            <a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a>
+                            <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></a></div>
+                            <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">View Dream</a>
+                        </div>
+                        <div class="dream-general">
+                            <div class="dream-image">
+                                {% if dream.image %}
+                                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
+                                {% endif %}
+                            </div>
+                            <div class="dream-info">
+                                <div class="dream-name">
+                                    <h3>{{ dream.dream_name}}</h3>
+                                </div>
+                                <div class="dream-description">
+                                    {{ dream.dream_description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-dreams">
+                    <h3>You have no Hopes or Dreams</h3>
+                </div>
+            {% endif %}
+        {% endwith %}        
+    </div>
 </div>
 {% endblock content %}
