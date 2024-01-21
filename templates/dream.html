@@ -108,19 +108,19 @@ View Dream - {{ dream.dream_name }}
                                 <div class="comments-container">
                                     <div class="comment-entry">
                                         <div class="comment-entry-buttons">
-                                        <div class="clickable-item add-comment" id = "{{ dream.dream_slug }}">Add Comment</div>
-                                        {% with messages = get_flashed_messages(with_categories=true) %}
-                                            {% if messages %}
-                                                {% for category, message in messages %}
-                                                    <div class= "{{ category }}" id="comment-flash">
-                                                        <div id="focussed-dream" tabindex="0">
-                                                            <h3>{{ message }}</h3>
+                                            <div class="clickable-item add-comment" id = "{{ dream.dream_slug }}">Add Comment</div>
+                                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                                {% if messages %}
+                                                    {% for category, message in messages %}
+                                                        <div class= "{{ category }}" id="comment-flash">
+                                                            <div id="focussed-dream" tabindex="0">
+                                                                <h3>{{ message }}</h3>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                {% endfor %}        
-                                            {% endif %}
-                                        {% endwith %}
-                                    </div>
+                                                    {% endfor %}        
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
                                         <form class="comment-form not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                             <textarea class="comment-box" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
                                             <div class="comment-buttons">
@@ -128,10 +128,11 @@ View Dream - {{ dream.dream_name }}
                                                 <div class="cancel-comment-button cancel-add-comment" id = "{{ dream.dream_slug }}-cancel">Cancel</div>
                                             </div>
                                         </form>
-                                    </div>                                      
+                                    </div>                                     
                                     {% for comment in selected_comments: %}
                                     <div class="comment-section">
-                                        {% if request.path == request.path == url_for('like_comment',dream_slug=dream.dream_slug, comment_id=comment._id)  
+                                        {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
+                                            or request.path == url_for('like_comment',dream_slug=dream.dream_slug, comment_id=comment._id)  
                                             or request.path == url_for('unlike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
                                             or request.path == url_for('dislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
                                             or request.path == url_for('undislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id) %}
@@ -191,8 +192,10 @@ View Dream - {{ dream.dream_name }}
                                                 <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                     <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment }}" readonly hidden>
                                                     <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="comment-comment" readonly>{{ comment.comment }}</textarea>
-                                                    <button type="submit" class="not-displayed" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm Changes</button>
-                                                    <div class="clickable-item cancel-comment not-displayed" id="{{ comment._id }}-cancel"><i class="fa-solid fa-xmark"></i></div>
+                                                    <div class="edit-comment-buttons">
+                                                        <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm</button>
+                                                        <div class="clickable-item cancel-comment-button cancel-comment not-displayed" id="{{ comment._id }}-cancel">Cancel</div>
+                                                    </div>
                                                 </form>
                                                 {% if user != False %}
                                                 {% if comment.user_id | string == session['user_id'] | string or user.role == "administrator" %}

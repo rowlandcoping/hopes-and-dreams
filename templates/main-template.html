@@ -21,8 +21,7 @@
                     <li>
                         {% if dream is defined %}
                         <div id ="dreams-icon-container" class="menu-icon clickable-item {{ 'active-page' 
-                            if request.path == url_for('edit_dream', dream_slug=dream.dream_slug ) 
-                            or request.path == url_for('view_dream', dream_slug=dream.dream_slug)
+                            if request.path == url_for('view_dream', dream_slug=dream.dream_slug)
                             or request.path == url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment_id)
                             or request.path == url_for('like_comment', dream_slug=dream.dream_slug, comment_id=comment_id)
                             or request.path == url_for('unlike_comment', dream_slug=dream.dream_slug, comment_id=comment_id)

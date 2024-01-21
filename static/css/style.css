@@ -628,10 +628,10 @@ body {
     background-color:green;
     cursor:pointer;
 }
-.dream-button-unfollow, .cancel-add-comment {
+.dream-button-unfollow, .cancel-comment-button {
     background-color:rgb(49, 7, 7);
 }
-.dream-button-unfollow:hover, .cancel-add-comment:hover {
+.dream-button-unfollow:hover, .cancel-comment-button:hover {
     background-color:rgb(172, 3, 3);
     cursor:pointer;
 }
@@ -652,7 +652,7 @@ body {
     margin:20px 50px;
 }
 
-.add-comment {
+.add-comment {    
     background-color: rgb(6, 28, 46);
     border:2px solid #0091ffff;
     width:150px;
@@ -663,8 +663,8 @@ body {
     margin-bottom:10px;
 }
 .comment-entry-buttons {
-    display:flex;
-    justify-content: space-between;
+    position:relative;
+    width:100%;
 }
 
 .comment-form {
@@ -690,7 +690,7 @@ body {
     margin-bottom: 10px;
 }
 
-.submit-comment-button, .cancel-comment-button {
+.submit-comment-button, .submit-comment, .cancel-comment-button {
     border:2px solid white;
     color:white;
 }
@@ -701,11 +701,23 @@ body {
     padding:3px 0 2px 0;
     margin-right:5px;
 }
-.cancel-comment-button {
+.edit-comment-buttons {
+    display:flex;
+    align-items:center;
+    margin-top:10px;
+}
+.cancel-comment {
     text-align:center;
-    width:75px;
-    font-size:100%;
-    padding-bottom:1px;
+    width:81px;
+    font-size:90%;
+    padding:0 0 2px 0;
+    margin-left:10px;
+}
+.submit-comment {
+    width: 85px;
+    font-size:90%;
+    padding:2px 0 3px 0;
+    margin:0;
 }
 
 .comment-header {

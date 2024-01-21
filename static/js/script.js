@@ -448,14 +448,28 @@ document.addEventListener("DOMContentLoaded", function() {
         commentTextarea = selectedComment + "-display"
         document.getElementById(commentTextarea).readOnly =false;
         document.getElementById(commentTextarea).focus();
-        document.getElementById(selectedComment + "-submit").style.display="block";
+        document.getElementById(selectedComment + "-submit").style.display="inline-block";
         const hideEdit = document.getElementsByClassName('edit-comment');
         for (let i = 0; i < hideEdit.length; i++) {
             hideEdit[i].style.display = "none";
         }
+        const hideAdd = document.getElementsByClassName('add-comment');
+        for (let i = 0; i < hideAdd.length; i++) {
+            hideAdd[i].style.display = "none";
+        }
+        const hideDelete = document.getElementsByClassName('delete-comment');
+        for (let i = 0; i < hideDelete.length; i++) {
+            hideDelete[i].style.display = "none";
+        }
         if (clickType==="cancel") {
             for (let i = 0; i < hideEdit.length; i++) {
                 hideEdit[i].style.display = "inline-block";
+            }
+            for (let i = 0; i < hideDelete.length; i++) {
+                hideDelete[i].style.display = "inline-block";
+            }
+            for (let i = 0; i < hideAdd.length; i++) {
+                hideAdd[i].style.display = "block";
             }
             document.getElementById(selectedComment + "-submit").style.display="none";
             document.getElementById(commentTextarea).readOnly =true;
