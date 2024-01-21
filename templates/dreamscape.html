@@ -46,8 +46,7 @@ Dreamscape - {{ user.first_name }}
             {% if request.path == url_for('dreamscape_unfollow_dream',dream_slug=dream.dream_slug, selected=selected)
                 or  request.path == url_for('dreamscape_follow_dream',dream_slug=dream.dream_slug, selected=selected)
                 or request.path == url_for('dreamscape_follow_creator',dream_slug=dream.dream_slug, selected=selected)
-                or request.path == url_for('dreamscape_unfollow_creator',dream_slug=dream.dream_slug, selected=selected)
-                or request.path == url_for('add_comment',dream_slug=dream.dream_slug, selected=selected) %}
+                or request.path == url_for('dreamscape_unfollow_creator',dream_slug=dream.dream_slug, selected=selected) %}
                 {% if dream.dream_slug == dream_slug %}
                 <div class="general-bar" id="focussed-dream" tabindex=0>
                     <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
@@ -120,9 +119,21 @@ Dreamscape - {{ user.first_name }}
                                             {{ selected_comments.append(comment) or "" }}
                                         {% endif %}
                                     {% endfor %}
+                                    {% if dream_slug == dream.dream_slug %}
+                                        {% with messages = get_flashed_messages(with_categories=true) %}
+                                            {% if messages %}
+                                                {% for category, message in messages %}
+                                                    <div class= "{{ category }}" id="comment-flash">
+                                                        <div id="focussed-dream" tabindex="0">
+                                                            <h3>{{ message }}</h3>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}        
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
                                 {% for comment in selected_comments[:3]: %}
-                                    {% if request.path == url_for('edit_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) 
-                                        or request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)  
+                                    {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)  
                                         or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
                                         or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)
                                         or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)

@@ -850,7 +850,7 @@ def add_dream_comment(dream_slug, selected):
         existing_comment = mongo.db.comments.find_one(
                 {"comment": request.form.get(dream_slug + "-text")})
         if existing_comment and ObjectId(existing_comment["user_id"])==ObjectId(session["user_id"]):
-            flash("You have already posted this comment.  Please write something different.")
+            flash("You have already posted this comment.", "amber-flash")
         else:
             comment = {
                 "comment": request.form.get(dream_slug + "-text"),
@@ -861,6 +861,7 @@ def add_dream_comment(dream_slug, selected):
                 "datetime_created": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
             }
             mongo.db.comments.insert_one(comment)
+            flash('Comment Added', 'green-flash')
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = return_view(selected)
@@ -876,6 +877,7 @@ def edit_dream_comment(dream_slug, selected, comment_id):
                 "comment": request.form.get(comment_id + "-text"),
             }}
             mongo.db.comments.update_one({"_id": ObjectId(comment_id)}, new_comment)
+            flash('Comment Updated', 'amber-flash')
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = return_view(selected)
@@ -903,7 +905,7 @@ def delete_dream_comment(dream_slug, selected, comment_id):
                         if user["comments_disliked"].count(comment_id):
                             mongo.db.users.update_one({"_id": ObjectId(user["_id"])}, {"$pull":{
                                                         "comments_disliked" : comment_id}})     
-                flash('Comment Deleted')
+                flash('Comment Deleted', 'red-flash')
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         dream = return_view(selected)
@@ -1162,10 +1164,12 @@ def edit_comment(dream_slug, comment_id):
                 "comment": request.form.get(comment_id + "-text"),
             }}
             mongo.db.comments.update_one({"_id": ObjectId(comment_id)}, new_comment)
+            flash('Comment Updated', 'amber-flash')
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
         return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+    return redirect(url_for("home"))
 
 
 @app.route("/delete-comment/<dream_slug>/<comment_id>", methods=["GET","POST"])

@@ -120,7 +120,7 @@ View Dream - {{ dream.dream_name }}
                                         {% if messages %}
                                             {% for category, message in messages %}
                                                 <div class= "{{ category }}" id="comment-flash">
-                                                    <div>
+                                                    <div id="focussed-dream" tabindex="0">
                                                         <h3>{{ message }}</h3>
                                                     </div>
                                                 </div>
@@ -129,13 +129,13 @@ View Dream - {{ dream.dream_name }}
                                     {% endwith %}                                        
                                     {% for comment in selected_comments: %}
                                     <div class="comment-section">
-                                        {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, comment_id=comment._id) 
+                                        {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
                                             or request.path == url_for('like_comment',dream_slug=dream.dream_slug, comment_id=comment._id)  
                                             or request.path == url_for('unlike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
                                             or request.path == url_for('dislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
                                             or request.path == url_for('undislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id) %}
                                             {% if comment._id | string == comment_id | string %}
-                                            <div class="comment-header" id="focussed-dream" tabindex=0>
+                                            <div class="comment-header" id="focussed-dream" tabindex="0">
                                             {% else %}
                                             <div class="comment-header">
                                             {% endif %}
