@@ -662,6 +662,10 @@ body {
     padding:3px;
     margin-bottom:10px;
 }
+.comment-entry-buttons {
+    display:flex;
+    justify-content: space-between;
+}
 
 .comment-form {
     margin-bottom:10px;
@@ -683,7 +687,6 @@ body {
 }
 
 .comment-entry {
-    border-bottom: 2px solid #0091ffff;
     margin-bottom: 10px;
 }
 
@@ -714,6 +717,10 @@ body {
     background-color: rgb(6, 28, 46);
 }
 
+.comment-section {
+    width:100%;
+}
+
 .unlike-button {
     color: green;
 }
@@ -722,6 +729,56 @@ body {
 }
 .undislike-button, .dislike-button {
     padding-left: 10px;
+}
+.comment-content {
+    display:flex;
+    
+}
+.comment-user {
+    display:flex;
+    flex-flow:column;
+    align-items:center;
+    flex:2;
+    margin: 10px 0;
+}
+
+.comment-text {
+    font-size:120%;
+    margin: 10px 15px;
+    flex:7;   
+}
+
+.comment-text textarea {
+    font-size:100%;
+    border: 1px dotted #0091ffff;
+    width:100%;
+}
+
+.comment-text textarea:focus {
+    outline:none;
+    border: 1px solid #0091ffff;
+    width:100%;
+}
+.comment-avatar {
+    margin-top:5px;
+    display:flex;
+    justify-content:center;
+    width:150px;
+    border-top: 2px solid #0091ffff;
+}
+.comment-avatar img {
+    margin:10px 0;
+    width:100px;
+}
+.edit-comment, .delete-comment {
+    margin-right:10px;
+}
+.delete-comment {
+    margin-left:10px;
+}
+.comment-actions {
+    font-size:100%;
+    text-align: right;
 }
 
 /* PROFILE PAGE */

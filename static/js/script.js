@@ -393,10 +393,6 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     //DREAMSCAPE/VIEW DREAM
-    //ensure following or unfollowing returns to dream the user followed/unfollowed
-    if (document.getElementById('focussed-dream')) {
-    document.getElementById('focussed-dream').focus();
-    }
     //enable add comment box
     function addComment(itemId) {
         form= itemId + "-comment";
@@ -499,16 +495,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
         document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
     }
-    //sets border color for active page based on section
-    if (document.getElementById("dreams-icon-container")) {
-        if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
-            document.getElementById("dreams-icon-container").style.borderColor = "#0091ffff";
-        } else if (document.getElementById("dreamscape-icon-container").classList.contains("active-page")) {
-            document.getElementById("dreamscape-icon-container").style.borderColor = "#e4ff00ff";
-        } else {
-            document.getElementById("profile-icon-container").style.borderColor = "#ff6866ff"
-        }
-    }
+    
     //functions for mouseover/out for the dreams icon
     function mouseoverDreams() {
         document.getElementById("dreams-icon").src = "../../../static/images/general-assets/dreams-icon-hover.svg";
@@ -536,5 +523,19 @@ document.addEventListener("DOMContentLoaded", function() {
     function mouseoutProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon.svg";
         document.getElementById("profile-icon-container").style.color = "white";
+    }
+    //sets border color for active page based on section
+    if (document.getElementById("dreams-icon-container")) {
+        if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
+            document.getElementById("dreams-icon-container").style.borderColor = "#0091ffff";
+        } else if (document.getElementById("dreamscape-icon-container").classList.contains("active-page")) {
+            document.getElementById("dreamscape-icon-container").style.borderColor = "#e4ff00ff";
+        } else {
+            document.getElementById("profile-icon-container").style.borderColor = "#ff6866ff"
+        }
+    }
+    //ensure following or unfollowing returns to dream the user followed/unfollowed
+    if (document.getElementById('focussed-dream')) {
+        document.getElementById('focussed-dream').focus();
     }
 });

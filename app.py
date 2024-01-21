@@ -1168,6 +1168,8 @@ def add_comment(dream_slug):
                 "user_name": user_info["first_name"] + " " + user_info["last_name"],           
                 "timestamp_created": timestamp,
                 "datetime_created": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
+                "user_pic": user_info["profile_picture"],
+                "user_pic_alt": user_info["profilepic_alt"]
             }
             mongo.db.comments.insert_one(comment)
             flash('Comment Added', 'green-flash')  
@@ -1183,10 +1185,7 @@ def edit_comment(dream_slug, comment_id):
             }}
             mongo.db.comments.update_one({"_id": ObjectId(comment_id)}, new_comment)
             flash('Comment Updated', 'amber-flash')
-        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+        return redirect(url_for("view_dream", dream_slug=dream_slug))
     return redirect(url_for("home"))
 
 
@@ -1396,17 +1395,7 @@ def allocate_avatars():
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
         if user_info["role"] == "administrator":
             users = list(mongo.db.users.find())
-            avatars = list(mongo.db.avatars.find())
             comments = list(mongo.db.comments.find())
-            for user in users:
-                new_avatar = random.choice(avatars)
-                avatar_select = {"$set":{
-                    "profile_picture": new_avatar["avatar"],
-                    "profilepic_alt": new_avatar["avatar_alt"],
-                    "pic_type": "system"
-                }}
-                mongo.db.users.update_one({"_id": user["_id"]}, avatar_select)
-            users = list(mongo.db.users.find())
             for user in users:
                 for comment in comments:
                     if (str(user["_id"])).count(str(comment["user_id"])):
