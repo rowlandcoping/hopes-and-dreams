@@ -1,19 +1,3 @@
-//------------OBJECTS-------------//
-
-const currentValues = {
-    firstName: "",
-    lastName: "",
-    email:"",
-    dreamName:"",
-    dreamDescription:""
-}
-
-const currentInfo = {
-    interests:"",
-    skills:"",
-    experiences:""
-}
-
 document.addEventListener("DOMContentLoaded", function() {
 
     //-------------EVENT LISTNERS--------------//
@@ -128,6 +112,13 @@ document.addEventListener("DOMContentLoaded", function() {
         item.addEventListener('click', function handleClick(event) {
             const itemId = item.getAttribute('id');                
             addComment(itemId);
+        });
+    });
+    const attachAddCancelListners = Array.from(document.getElementsByClassName('cancel-add-comment'));
+    attachAddCancelListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            cancelAddComment(itemId);
         });
     });
     //add event listners to all edit comment buttons
@@ -404,13 +395,55 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //enable add comment box
     function addComment(itemId) {
-        form= itemId + "-comment"
+        form= itemId + "-comment";
+        cancel= itemId + "-cancel";
+        console.log(form);
+        if (document.getElementById("comment-flash")) {
+            document.getElementById("comment-flash").style.display="none";
+        }
         document.getElementById(form).style.display="block";
+        document.getElementById(cancel).style.display="inline-block";
+        const hideEdit = document.getElementsByClassName('edit-comment');
+        for (let i = 0; i < hideEdit.length; i++) {
+            hideEdit[i].style.display = "none";
+        }
+        const hideAdd = document.getElementsByClassName('add-comment');
+        for (let i = 0; i < hideAdd.length; i++) {
+            hideAdd[i].style.display = "none";
+        }
+        const hideDelete = document.getElementsByClassName('delete-comment');
+        for (let i = 0; i < hideDelete.length; i++) {
+            hideDelete[i].style.display = "none";
+        }
+    }
+    function cancelAddComment(itemId) {
+        const fullString = itemId.split('-');
+        const selectedDream = fullString.slice(0, -1).join("-");
+        form= selectedDream + "-comment";
+        cancel= selectedDream + "-cancel";
+        document.getElementById(form).style.display="none";
+        document.getElementById(cancel).style.display="none";
+        const hideEdit = document.getElementsByClassName('edit-comment');
+        for (let i = 0; i < hideEdit.length; i++) {
+            hideEdit[i].style.display = "inline-block";
+        }
+        const hideAdd = document.getElementsByClassName('add-comment');
+        for (let i = 0; i < hideAdd.length; i++) {
+            hideAdd[i].style.display = "block";
+        }
+        const hideDelete = document.getElementsByClassName('delete-comment');
+        for (let i = 0; i < hideDelete.length; i++) {
+            hideDelete[i].style.display = "inline-block";
+        }
     }
     //enable comment edit
     function editComment(itemId) {
         const selectedComment = itemId.split('-')[0];
         const clickType = itemId.split('-')[1];
+        if (document.getElementById("comment-flash")) {
+            document.getElementById("comment-flash").style.display="none";
+        }
+        console.log(selectedComment + "-cancel");
         document.getElementById(selectedComment + "-cancel").style.display="inline-block";
         commentTextarea = selectedComment + "-display"
         document.getElementById(commentTextarea).readOnly =false;
@@ -420,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function() {
         for (let i = 0; i < hideEdit.length; i++) {
             hideEdit[i].style.display = "none";
         }
-        if (clickType=="cancel") {
+        if (clickType==="cancel") {
             for (let i = 0; i < hideEdit.length; i++) {
                 hideEdit[i].style.display = "inline-block";
             }
@@ -474,30 +507,30 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //functions for mouseover/out for the dreams icon
     function mouseoverDreams() {
-        document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon-hover.svg";
+        document.getElementById("dreams-icon").src = "../../../static/images/general-assets/dreams-icon-hover.svg";
         document.getElementById("dreams-icon-container").style.color = "#0091ffff";
     }
     function mouseoutDreams() {
-        document.getElementById("dreams-icon").src = "../static/images/general-assets/dreams-icon.svg";
+        document.getElementById("dreams-icon").src = "../../../static/images/general-assets/dreams-icon.svg";
         document.getElementById("dreams-icon-container").style.color = "white";
     }
     //functions for mouseover/out for the dreamscape icon
     function mouseoverDreamscape() {
-        document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon-hover.svg";
+        document.getElementById("dreamscape-icon").src = "../../../static/images/general-assets/sun-icon-hover.svg";
         document.getElementById("dreamscape-icon-container").style.color = "#e4ff00ff";
     }
     function mouseoutDreamscape() {
-        document.getElementById("dreamscape-icon").src = "../static/images/general-assets/sun-icon.svg";
+        document.getElementById("dreamscape-icon").src = "../../../static/images/general-assets/sun-icon.svg";
         document.getElementById("dreamscape-icon-container").style.color = "white"; 
     }
     //functions for mouseover/out for the profile icon
     function mouseoverProfile() {
-        document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon-hover.svg";
+        document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon-hover.svg";
         document.getElementById("profile-icon-container").style.color = "#ff6866ff";
 
     }
     function mouseoutProfile() {
-        document.getElementById("profile-icon").src = "../static/images/general-assets/profile-icon.svg";
+        document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon.svg";
         document.getElementById("profile-icon-container").style.color = "white";
     }
 });
