@@ -15,6 +15,11 @@
 textarea {
     color:white;
     background-color:black;
+    height: auto;
+    resize:none;
+    outline: none;
+    font-family: main;
+    font-size:90%;
 }
 h1,h2,h3,h4 {
     margin: 0;
@@ -53,7 +58,7 @@ h1 {
     border:none;
     text-align:left;
     padding:0;
-    margin:0;
+    margin-bottom:20px;
 }
 #warning-left, #warning-right {
     font-size:150%;
@@ -628,10 +633,10 @@ body {
     background-color:green;
     cursor:pointer;
 }
-.dream-button-unfollow, .cancel-comment-button {
+.dream-button-unfollow, .cancel-comment {
     background-color:rgb(49, 7, 7);
 }
-.dream-button-unfollow:hover, .cancel-comment-button:hover {
+.dream-button-unfollow:hover, .cancel-comment:hover {
     background-color:rgb(172, 3, 3);
     cursor:pointer;
 }
@@ -660,7 +665,7 @@ body {
     font-family: title;
     border-radius: 4px;
     padding:3px;
-    margin-bottom:10px;
+    margin-bottom:20px;
 }
 .comment-entry-buttons {
     position:relative;
@@ -676,9 +681,13 @@ body {
     height:150px;
     resize:none;
     padding: 20px 20px;
-    font-size: 120%;
     margin-bottom:10px;
     margin-right:50px;
+    border:1px dotted #0091ffff;
+}
+
+.comment-form textarea:focus {
+    border:1px solid #0091ffff;
 }
 
 .add-comment:hover {
@@ -742,6 +751,30 @@ body {
 .undislike-button, .dislike-button {
     padding-left: 10px;
 }
+
+.undislike-button, .dislike-button {
+    padding-left: 10px;
+}
+
+.unlike-button:hover {
+    cursor:pointer;
+    color: rgb(0, 80, 0);
+}
+
+.undislike-button:hover {
+    color:rgb(133, 0, 0);
+    cursor:pointer;
+}
+
+.like-button:hover {
+    cursor:pointer;
+    color: rgb(139, 247, 139);
+}
+
+.dislike-button:hover {
+    color:rgb(250, 144, 144);
+    cursor:pointer;
+}
 .comment-content {
     display:flex;
     
@@ -750,20 +783,29 @@ body {
     display:flex;
     flex-flow:column;
     align-items:center;
-    flex:2;
+    flex:1;
     margin: 10px 0;
 }
 
 .comment-text {
-    font-size:120%;
     margin: 10px 15px;
-    flex:7;   
+    margin-right: 50px;
+    flex:6;   
+}
+
+.comment-text i {
+    font-size:120%;
+}
+
+.comment-text i:hover {
+    color: #0091ffff;
 }
 
 .comment-text textarea {
-    font-size:100%;
     border: 1px dotted #0091ffff;
     width:100%;
+    height:auto;    
+    padding: 20px 20px;
 }
 
 .comment-text textarea:focus {
@@ -791,6 +833,19 @@ body {
 .comment-actions {
     font-size:100%;
     text-align: right;
+    margin-right: -40px;
+}
+
+.textarea-display {
+    border: 1px dotted #0091ffff;
+    padding: 0 20px;
+    padding-bottom: 20px;
+    font-size:90%;
+    width:100%;
+    white-space: pre-line;
+}
+.view-dream-description {
+    white-space: pre-line;
 }
 
 /* PROFILE PAGE */

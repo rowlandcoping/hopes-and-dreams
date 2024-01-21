@@ -221,6 +221,8 @@ document.addEventListener("DOMContentLoaded", function() {
             mouseoutProfile();
         }
     });
+    //auto-resizing for textareas
+
     //------------ACTIONS-------------//
     
     //SIGN IN
@@ -396,8 +398,8 @@ document.addEventListener("DOMContentLoaded", function() {
     //enable add comment box
     function addComment(itemId) {
         form= itemId + "-comment";
-        cancel= itemId + "-cancel";
         console.log(form);
+        cancel= itemId + "-cancel";
         if (document.getElementById("comment-flash")) {
             document.getElementById("comment-flash").style.display="none";
         }
@@ -414,6 +416,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const hideDelete = document.getElementsByClassName('delete-comment');
         for (let i = 0; i < hideDelete.length; i++) {
             hideDelete[i].style.display = "none";
+        }
+        document.getElementById(itemId + "-text").addEventListener('input', autoResize, false);
+        console.log(form);
+        function autoResize() {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + 'px';
         }
     }
     function cancelAddComment(itemId) {
@@ -445,10 +453,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         console.log(selectedComment + "-cancel");
         document.getElementById(selectedComment + "-cancel").style.display="inline-block";
-        commentTextarea = selectedComment + "-display"
-        document.getElementById(commentTextarea).readOnly =false;
-        document.getElementById(commentTextarea).focus();
-        document.getElementById(selectedComment + "-submit").style.display="inline-block";
+        commentTextarea = selectedComment + "-display";
+        commentDivarea = selectedComment + "-fixed";
+        if (document.getElementById(commentDivarea)) {
+            document.getElementById(commentDivarea).style.display = "none";
+            document.getElementById(commentTextarea).style.height = "300px";
+            document.getElementById(commentTextarea).style.display = "block";
+            document.getElementById(commentTextarea).readOnly =false;
+            document.getElementById(commentTextarea).focus();
+            document.getElementById(commentTextarea).addEventListener('input', autoResize, false);
+            function autoResize() {
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + 'px';
+            }
+            document.getElementById(selectedComment + "-submit").style.display="inline-block";
+        }
         const hideEdit = document.getElementsByClassName('edit-comment');
         for (let i = 0; i < hideEdit.length; i++) {
             hideEdit[i].style.display = "none";
@@ -471,10 +490,14 @@ document.addEventListener("DOMContentLoaded", function() {
             for (let i = 0; i < hideAdd.length; i++) {
                 hideAdd[i].style.display = "block";
             }
-            document.getElementById(selectedComment + "-submit").style.display="none";
-            document.getElementById(commentTextarea).readOnly =true;
-            document.getElementById(commentTextarea).value = document.getElementById(selectedComment + "-original").value;
-            document.getElementById(selectedComment + "-cancel").style.display="none";
+            if (document.getElementById(commentDivarea)) {
+                document.getElementById(commentDivarea).style.display = "block";
+                document.getElementById(commentTextarea).style.display = "none";
+                document.getElementById(commentTextarea).readOnly =true;
+                document.getElementById(commentTextarea).value = document.getElementById(selectedComment + "-original").value;
+                document.getElementById(selectedComment + "-cancel").style.display="none";
+                document.getElementById(selectedComment + "-submit").style.display="none";
+            }
         }
     }
     //open comment delete alert
