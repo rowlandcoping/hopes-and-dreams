@@ -282,7 +282,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 preview.setAttribute('src', event.target.result);
             }
             fileReader.readAsDataURL(previewPic[0]);
-            document.getElementById('current-image').style.display="none";
+            if (document.getElementById('current-image')) {
+                document.getElementById('current-image').style.display="none";
+            }
             document.getElementById('image-preview').style.display="inline-block";
             if (document.getElementById('info-update')) {
                 document.getElementById('info-update').style.display = "block";
@@ -357,7 +359,9 @@ document.addEventListener("DOMContentLoaded", function() {
     //EDITING PROFILE INFO    
     //cancel profile pic change 
     function cancelProfilePic() {
-        document.getElementById('current-image').style.display="inline-block";
+        if (document.getElementById('current-image')) {
+            document.getElementById('current-image').style.display="inline-block";
+        }
         document.getElementById('image-preview').style.display="none";
         document.getElementById('uploaded-image').value = "";
         document.getElementById('profile-pic-cancel').style.display = "none";

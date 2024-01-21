@@ -8,8 +8,10 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 {% if user.role=="administrator" %}
     <div  id="admin-functions" class="clickable-item">
         <div class="banner-headline" id="admin-options"><h2>Admin Functions</h2></div>
+        <div class="admin-task"><a href="{{ url_for('add_avatars') }}"><h4>Manage Avatars</h4></a></div>
         <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
         <div class="admin-task"><a href="{{ url_for('count_followers') }}"><h4>Count followers (one off activity!)</h4></a></div>
+        <div class="admin-task"><a href="{{ url_for('allocate_avatars') }}"><h4>Allocate Avatars (allocates everyone a new image, once only then delete!)</h4></a></div>        
     </div>
     {% endif %} 
 <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
@@ -37,7 +39,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                     <img id="image-preview" class="not-displayed" src="" width="150">
                     <input type="file" id="uploaded-image" name="profile_picture">
                     <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
-                    <br><label for="profile_picture">Remove Profile Picture</label><input type="checkbox" id="delete_image" name="delete_image">
+                    <br><label for="profile_picture">Replace with random avatar</label><input type="checkbox" id="delete_image" name="delete_image">
                 </div>
             <div>
             <div>

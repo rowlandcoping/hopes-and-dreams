@@ -2,6 +2,7 @@ import os
 import io
 import re
 import jwt
+import random
 from time import time
 from datetime import datetime
 from flask_mail import Mail, Message
@@ -46,7 +47,7 @@ cloudinary.config(
 
 #base urls for images and passoword reset
 base_url = { "profile": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/profile/",
-            "dreams": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dreams/",
+            "dreams": "https://res.cloudinary.com/djxae3dnx/image/upload/v1701738961/dreams/",            
             "reset": os.getenv("BASE_URL")
 }
 
@@ -166,6 +167,8 @@ def signup():
             user_slug = str(user_string + "-" + user_number)
         else: 
             user_slug = user_string
+        avatars = list(mongo.db.avatars.find())
+        new_avatar = random.choice(avatars)     
         register = {
             "first_name": request.form.get("first_name").lower(),
             "last_name": request.form.get("last_name").lower(),
@@ -173,7 +176,10 @@ def signup():
             "user_slug": user_slug,            
             "email": request.form.get("email").lower(),
             "interests": categories_array,
-            "role": "user"
+            "role": "user",
+            "profile_picture": new_avatar["avatar"],
+            "profilepic_alt": new_avatar["avatar_alt"],
+            "pic_type": "system"
         }
         mongo.db.users.insert_one(register)
         user_verify = mongo.db.users.find_one(
@@ -322,9 +328,8 @@ def profile_personal():
                 imgname= uploaded_image.filename.split(".", 1)[0]
                 filename= str(imgname + "-" + str(user_info["_id"]))
                 converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if "profile_picture" in user_info:
-                    if user_info["profile_picture"] != "":
-                        cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
+                if user_info["pic_type"] == "custom":
+                    cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])              
                 cloudinary.uploader.upload(
                     converted_image, public_id=filename, folder = "profile")  
                 profile_update = {"$set": {
@@ -334,40 +339,54 @@ def profile_personal():
                     "user_slug": user_slug,
                     "profile_picture": filename,
                     "profilepic_alt": image_alt,
+                    "pic_type": "custom",
                     "interests": categories_array
-                }}
+                }}   
             elif request.form.get("delete_image"):
-                if "profile_picture" in user_info:
-                    if user_info["profile_picture"]  != "":
-                        cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])
-                    profile_update = {"$set": {
-                        "first_name": request.form.get("first_name"),
-                        "last_name": request.form.get("last_name"),
-                        "user_string": user_string,
-                        "user_slug": user_slug,
-                        "profile_picture": "",
-                        "profilepic_alt": "",
-                        "interests": categories_array
-                    }}                
-                else:
-                    profile_update = {"$set": {
-                            "first_name": request.form.get("first_name"),
-                            "last_name": request.form.get("last_name"),
-                            "user_string": user_string,
-                            "user_slug": user_slug,
-                            "interests": categories_array
-                        }}
-            else:
+                if user_info["pic_type"] == "custom":
+                    cloudinary.uploader.destroy("profile/" + user_info["profile_picture"])
+                avatars = list(mongo.db.avatars.find())
+                new_avatar = random.choice(avatars)
                 profile_update = {"$set": {
                     "first_name": request.form.get("first_name"),
                     "last_name": request.form.get("last_name"),
                     "user_string": user_string,
                     "user_slug": user_slug,
-                    "profilepic_alt": image_alt,
+                    "profile_picture": new_avatar["avatar"],
+                    "profilepic_alt": new_avatar["avatar_alt"],
+                    "pic_type": "system",
                     "interests": categories_array
-            }}
+                }}                
+            else:
+                if user_info["pic_type"] == "custom":
+                    profile_update = {"$set": {
+                        "first_name": request.form.get("first_name"),
+                        "last_name": request.form.get("last_name"),
+                        "user_string": user_string,
+                        "user_slug": user_slug,
+                        "profilepic_alt": image_alt,
+                        "interests": categories_array
+                    }}
+                else:
+                    profile_update = {"$set": {
+                        "first_name": request.form.get("first_name"),
+                        "last_name": request.form.get("last_name"),
+                        "user_string": user_string,
+                        "user_slug": user_slug,
+                        "interests": categories_array
+                    }}
             mongo.db.users.update_one(
-                   {"_id": ObjectId(user_info["_id"])}, profile_update) 
+                   {"_id": ObjectId(user_info["_id"])}, profile_update)
+            #update comments pic data
+            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+            comments = list(mongo.db.comments.find())
+            for comment in comments:
+                if (str(session["user_id"])).count(str(comment["user_id"])):
+                    comment_avatar = {"$set":{
+                        "user_pic": user_info["profile_picture"],
+                        "user_pic_alt": user_info["profilepic_alt"]
+                    }}
+                    mongo.db.comments.update_one({"_id": comment["_id"]}, comment_avatar)
             #update category data
             new_categories = request.form.get("selected-categories").split(",")
             new_categories=[x.strip() for x in new_categories]
@@ -401,7 +420,6 @@ def profile_personal():
                     "user_name": str(request.form.get("first_name") + " " + request.form.get("last_name"))
                 }}
                 mongo.db.dreams.update_one({"_id": ObjectId(dream["_id"])}, dream_update)
-            user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
             categories = list(mongo.db.categories.find().sort("total_times_selected", -1))
             categories_one = categories[0:10]
             categories_two = categories[10:20]
@@ -1352,8 +1370,8 @@ def categories():
                             mongo.db.categories.update_one({"category": request.form.get(str(category["_id"]) + "-current")}, update_category)
             categories = list(mongo.db.categories.find())
             return render_template("categories.html", categories=categories)
-        return redirect("dreams")
-    return redirect("home")
+        return redirect(url_for("dreams"))
+    return redirect(url_for("home"))
        
         
 @app.route("/counting", methods=["GET","POST"])
@@ -1368,8 +1386,62 @@ def count_followers():
                     print(followers)
                     mongo.db.dreams.update_one({"_id": dream["_id"]}, {"$set": {
                         "total_followers" : int(followers) }})
-            return redirect(url_for("dreams"))
-        return redirect(url_for("dreams"))
+            return redirect(url_for("profile_personal"))
+        return redirect(url_for("profile_personal"))
+    return redirect(url_for("home"))
+
+@app.route("/allocate-avatars", methods=["GET","POST"])
+def allocate_avatars():
+    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        if user_info["role"] == "administrator":
+            users = list(mongo.db.users.find())
+            avatars = list(mongo.db.avatars.find())
+            comments = list(mongo.db.comments.find())
+            for user in users:
+                new_avatar = random.choice(avatars)
+                avatar_select = {"$set":{
+                    "profile_picture": new_avatar["avatar"],
+                    "profilepic_alt": new_avatar["avatar_alt"],
+                    "pic_type": "system"
+                }}
+                mongo.db.users.update_one({"_id": user["_id"]}, avatar_select)
+            users = list(mongo.db.users.find())
+            for user in users:
+                for comment in comments:
+                    if (str(user["_id"])).count(str(comment["user_id"])):
+                        comment_avatar = {"$set":{
+                            "user_pic": user["profile_picture"],
+                            "user_pic_alt": user["profilepic_alt"]
+                        }}
+                        mongo.db.comments.update_one({"_id": comment["_id"]}, comment_avatar)                
+            return redirect(url_for("profile_personal"))
+        return redirect(url_for("profile_personal"))
+    return redirect(url_for("home"))
+
+@app.route("/add-avatars", methods=["GET","POST"])
+def add_avatars():
+    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        if user_info["role"] == "administrator":
+            avatars = list(mongo.db.avatars.find())
+            if request.method == "POST":
+                uploaded_image = request.files['new_avatar']
+                imgname= uploaded_image.filename.split(".", 1)[0]
+                filename= str(imgname + "-" + str(user_info["_id"]))
+                image_alt = request.form.get("image-alt")
+                if uploaded_image:
+                    converted_image = imageConvert(uploaded_image, 400, 75, "webp")               
+                    cloudinary.uploader.upload(
+                        converted_image, public_id=filename, folder = "profile")  
+                    profile_picture = {
+                        "avatar": filename,
+                        "avatar_alt": image_alt
+                    }
+                    mongo.db.avatars.insert_one(profile_picture)      
+                return redirect(url_for("add_avatars"))
+            return render_template("avatars.html", base_url=base_url, avatars=avatars)
+        return render_template("avatars.html", base_url=base_url, avatars=avatars)
     return redirect(url_for("home"))
 
 
