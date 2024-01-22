@@ -22,6 +22,7 @@
                         {% if dream is defined %}
                         <div id ="dreams-icon-container" class="menu-icon clickable-item {{ 'active-page' 
                             if request.path == url_for('view_dream', dream_slug=dream.dream_slug)
+                            or request.path == url_for('edit_dream', dream_slug=dream.dream_slug)
                             or request.path == url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment_id)
                             or request.path == url_for('like_comment', dream_slug=dream.dream_slug, comment_id=comment_id)
                             or request.path == url_for('unlike_comment', dream_slug=dream.dream_slug, comment_id=comment_id)
@@ -37,7 +38,20 @@
                         </div>
                     </li>
                     <li>
-                        <div id ="dreamscape-icon-container" class="menu-icon clickable-item {{ 'active-page' if request.path == url_for('dreamscape') }}">
+                        <div id ="dreamscape-icon-container" class="menu-icon clickable-item {{ 'active-page' 
+                            if request.path == url_for('dreamscape')
+                            or request.path == url_for('dreamscape', dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+                            or request.path == url_for('delete_dream_comment', dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+                            or request.path == url_for('dreamscape_follow_dream', dream_slug=dream_slug, selected=selected)
+                            or request.path == url_for('dreamscape_unfollow_dream', dream_slug=dream_slug, selected=selected)
+                            or request.path == url_for('dreamscape_follow_creator', dream_slug=dream_slug, selected=selected)
+                            or request.path == url_for('dreamscape_unfollow_creator', dream_slug=dream_slug, selected=selected)
+                            or request.path == url_for('add_dream_comment', dream_slug=dream_slug, selected=selected)
+                            or request.path == url_for('edit_dream_comment', dream_slug=dream_slug, comment_id=comment_id, selected=selected)
+                            or request.path == url_for('like_dream_comment', dream_slug=dream_slug, comment_id=comment_id, selected=selected)
+                            or request.path == url_for('unlike_dream_comment', dream_slug=dream_slug, comment_id=comment_id, selected=selected)
+                            or request.path == url_for('dislike_dream_comment', dream_slug=dream_slug, comment_id=comment_id, selected=selected)
+                            or request.path == url_for('undislike_dream_comment', dream_slug=dream_slug, comment_id=comment_id, selected=selected) }}">
                             <a href="{{ url_for('dreamscape') }}">
                                 <img id ="dreamscape-icon" src="{{ url_for('static', filename='images/general-assets/sun-icon.svg') }}" alt="A sun icon, evoking sunlight dappled plains and indicating the icon will take you to the dremscape">
                                 <div id="dreamscape-caption"><h3>Feed</h3></div>

@@ -877,13 +877,13 @@ def add_dream_comment(dream_slug, selected):
                 "user_name": user_info["first_name"] + " " + user_info["last_name"],           
                 "timestamp_created": timestamp,
                 "datetime_created": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
+                "user_pic": user_info["profile_picture"],
+                "user_pic_alt": user_info["profilepic_alt"]
             }
             mongo.db.comments.insert_one(comment)
             flash('Comment Added', 'green-flash')
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = return_view(selected)
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+        return redirect(url_for('dreamscape_follow_dream', dream_slug=dream_slug, selected=selected))
     return redirect(url_for("home"))
 
 
@@ -906,9 +906,7 @@ def edit_dream_comment(dream_slug, selected, comment_id):
 @app.route("/delete-dream-comment/<dream_slug>/<selected>/<comment_id>", methods=["GET","POST"])
 def delete_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = list(mongo.db.dreams.find().sort("timestamp_created", -1))
         if mongo.db.comments.count_documents({"_id": ObjectId(comment_id)}, limit = 1) != 0:
             comment_info = dict(mongo.db.comments.find_one({"_id": ObjectId(comment_id)}))
             if str(session.get("user_id"))==str(comment_info["user_id"]) or user_info["role"] == "administrator":
@@ -924,10 +922,8 @@ def delete_dream_comment(dream_slug, selected, comment_id):
                             mongo.db.users.update_one({"_id": ObjectId(user["_id"])}, {"$pull":{
                                                         "comments_disliked" : comment_id}})     
                 flash('Comment Deleted', 'red-flash')
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        dream = return_view(selected)
-        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
+        return redirect(url_for('edit_dream_comment', dream_slug=dream_slug, selected=selected, comment_id=comment_id))
     return redirect(url_for("home"))
   
 
@@ -1019,7 +1015,7 @@ def undislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
         comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
         comment_pick = mongo.db.comments.find_one({"_id": ObjectId(comment_id)})
-        if not comment_pick["user_dislikes"].count(ObjectId(session["user_id"])):      
+        if comment_pick["user_dislikes"].count(ObjectId(session["user_id"])):      
             undislike_comment = {"$pull": {
                 "comments_disliked" : ObjectId(comment_id)
             }}

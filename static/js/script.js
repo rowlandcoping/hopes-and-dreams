@@ -398,7 +398,6 @@ document.addEventListener("DOMContentLoaded", function() {
     //enable add comment box
     function addComment(itemId) {
         form= itemId + "-comment";
-        console.log(form);
         cancel= itemId + "-cancel";
         if (document.getElementById("comment-flash")) {
             document.getElementById("comment-flash").style.display="none";
@@ -418,7 +417,6 @@ document.addEventListener("DOMContentLoaded", function() {
             hideDelete[i].style.display = "none";
         }
         document.getElementById(itemId + "-text").addEventListener('input', autoResize, false);
-        console.log(form);
         function autoResize() {
             this.style.height = "auto";
             this.style.height = this.scrollHeight + 'px';
@@ -446,15 +444,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //enable comment edit
     function editComment(itemId) {
-        const selectedComment = itemId.split('-')[0];
-        const clickType = itemId.split('-')[1];
+        const fullString = itemId.split('-');
+        const selectedComment = fullString.slice(0, -1).join("-");
+        const clickType = itemId.split('-').pop();
         if (document.getElementById("comment-flash")) {
             document.getElementById("comment-flash").style.display="none";
         }
-        console.log(selectedComment + "-cancel");
         document.getElementById(selectedComment + "-cancel").style.display="inline-block";
         commentTextarea = selectedComment + "-display";
         commentDivarea = selectedComment + "-fixed";
+        commentCancel=selectedComment + "-cancel";
+        commentSubmit=selectedComment + "-submit";
         if (document.getElementById(commentDivarea)) {
             document.getElementById(commentDivarea).style.display = "none";
             document.getElementById(commentTextarea).style.height = "300px";
@@ -491,19 +491,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 hideAdd[i].style.display = "block";
             }
             if (document.getElementById(commentDivarea)) {
-                document.getElementById(commentDivarea).style.display = "block";
-                document.getElementById(commentTextarea).style.display = "none";
-                document.getElementById(commentTextarea).readOnly =true;
                 document.getElementById(commentTextarea).value = document.getElementById(selectedComment + "-original").value;
-                document.getElementById(selectedComment + "-cancel").style.display="none";
-                document.getElementById(selectedComment + "-submit").style.display="none";
+                document.getElementById(commentTextarea).style.display = "none";
+                document.getElementById(commentDivarea).style.display = "block";
+                document.getElementById(commentCancel).style.display = "none";
+                document.getElementById(commentSubmit).style.display = "none";
+                document.getElementById(commentTextarea).readOnly =true;
             }
         }
     }
     //open comment delete alert
     function deleteComment(itemId) {
-        console.log(itemId);
-        console.log("alert-" + itemId);
         document.getElementById("alert-" + itemId).style.display="block";
         const disableMenu = document.getElementsByClassName('clickable-item');
         for (let i = 0; i < disableMenu.length; i++) {

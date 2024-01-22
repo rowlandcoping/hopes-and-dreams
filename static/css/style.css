@@ -43,7 +43,7 @@ h1 {
     color:orange;
     border:4px dashed orange;
 }
-
+ 
 #main-flash {
     display:flex;
     justify-content:space-between;
@@ -71,7 +71,7 @@ a, a:visited, a:link, a:active, a:hover, a:focus  {
     text-decoration: none;
     color: inherit;
     outline: 0;
-    cursor: auto;
+    cursor: pointer;
 }
 body {
     background-color: black;
@@ -534,6 +534,12 @@ body {
 .dream-list:last-child {
     border-bottom:1px dotted #0091ffff; 
 }
+.dreamscape-list {
+    border-left:1px dotted #e4ff00ff;
+    border-right:1px dotted #e4ff00ff;
+    border-bottom:2px solid #e4ff00ff;
+    margin-bottom:80px;   
+}
 .general-bar {
     display: flex;
     justify-content:space-between;
@@ -548,6 +554,12 @@ body {
     background-color: rgb(6, 28, 46);
 }
 
+.dreamscape-bar {
+    border-top:2px solid #e4ff00ff;
+    border-bottom:2px solid #e4ff00ff;
+    background-color: rgb(59, 49, 0);
+}
+
 .icons {
     display:flex;
     justify-content:space-between;
@@ -556,7 +568,7 @@ body {
 .icons i {
     cursor: pointer;
 }
-.edit-dream, .delete-dream, .view-dream {
+.edit-dream, .delete-dream, .view-dream  {
     flex:1;
 }
 .edit-dream:hover {
@@ -571,17 +583,22 @@ body {
     color: #0091ffff;
     cursor: pointer;
 }
+.view-dreamscape {
+    font-size:140%;
+    cursor: pointer;
+}
+.view-dreamscape:hover {
+    color: #e4ff00ff;
+    cursor: pointer;
+}
 .dream-name {
     text-align:right;
     flex:7;
 }
-.dream-general {
-    display:flex;
-}
 .dream-info {
     display:flex;
     margin:20px 50px;
-    font-size: 130%;
+    font-size: 120%;
     width:100%;
 }
 .dream-image {
@@ -593,12 +610,25 @@ body {
 #return-button-container {
     border-top:5px solid #0091ffff;
 }
-.view-dream-name {
-    text-align:left;
+.view-dream-name, .dreamscape-view-name {
+    
     line-height:120%;
     padding-bottom:10px;
+    
+}
+
+.view-dream-name {
+    text-align:left;
     border-bottom:2px solid #0091ffff;
 }
+
+.dreamscape-view-name {
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    border-bottom:2px solid #e4ff00ff;
+}
+
 
 .view-dream-image {
     margin:20px 0;
@@ -616,14 +646,16 @@ body {
 }
 
 .dream-action {
+    font-size:90%;
     display:block;
     line-height:100%;
-    padding:10px;
+    padding:5px;
+    padding-top:7px;
     text-align:center;
     border:3px solid white;
     border-radius:6px;
     font-family:title;
-    width:160px;
+    width:130px;
 }
 
 .dream-button-follow, .submit-comment {
@@ -645,7 +677,7 @@ body {
     margin-left:25px;
 }
 
-.dream-bar p {
+.dream-bar p, .dreamscape-bar p {
     margin:0;
 }
 
@@ -658,14 +690,12 @@ body {
 }
 
 .add-comment {    
-    background-color: rgb(6, 28, 46);
-    border:2px solid #0091ffff;
     width:150px;
     text-align:center;
     font-family: title;
     border-radius: 4px;
     padding:3px;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 .comment-entry-buttons {
     position:relative;
@@ -733,9 +763,16 @@ body {
     display:flex;
     justify-content:space-between;
     padding:2px 10px;
-    border-bottom: 2px solid #0091ffff;
-    border-top: 2px solid #0091ffff;
+}
+
+.dreams-button-small {
+    border: 2px solid #0091ffff;    
     background-color: rgb(6, 28, 46);
+}
+
+.dreamscape-button-small {
+    border: 2px solid #e4ff00ff;
+    background-color: rgb(59, 49, 0);
 }
 
 .comment-section {
@@ -797,20 +834,34 @@ body {
     font-size:120%;
 }
 
-.comment-text i:hover {
+.dreams-editing i:hover {
     color: #0091ffff;
+}
+.dreamscape-editing i:hover {
+    color:  #e4ff00ff;
 }
 
 .comment-text textarea {
-    border: 1px dotted #0091ffff;
+    
     width:100%;
     height:auto;    
     padding: 20px 20px;
 }
+.dreams-editing textarea {
+    border: 1px dotted #0091ffff;
+}
+.dreams-editing textarea:focus {
+    border: 1px solid #0091ffff;
+}
+.dreamscape-editing textarea {
+    border: 1px dotted #e4ff00ff;
+}
+.dreamscape-editing textarea:focus {
+    border: 1px solid #e4ff00ff;
+}
 
 .comment-text textarea:focus {
     outline:none;
-    border: 1px solid #0091ffff;
     width:100%;
 }
 .comment-avatar {
@@ -818,7 +869,13 @@ body {
     display:flex;
     justify-content:center;
     width:150px;
+}
+
+.dreams-avatar {
     border-top: 2px solid #0091ffff;
+}
+.dreamscape-avatar {
+    border-top: 2px solid #e4ff00ff;
 }
 .comment-avatar img {
     margin:10px 0;
@@ -837,12 +894,19 @@ body {
 }
 
 .textarea-display {
-    border: 1px dotted #0091ffff;
     padding: 0 20px;
     padding-bottom: 20px;
     font-size:90%;
     width:100%;
     white-space: pre-line;
+}
+
+.dreams-dotted {
+    border: 1px dotted #0091ffff;
+}
+
+.dreamscape-dotted {
+    border: 1px dotted #e4ff00ff;
 }
 .view-dream-description {
     white-space: pre-line;

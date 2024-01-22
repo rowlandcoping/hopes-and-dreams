@@ -108,7 +108,7 @@ View Dream - {{ dream.dream_name }}
                                 <div class="comments-container">
                                     <div class="comment-entry">
                                         <div class="comment-entry-buttons">
-                                            <div class="clickable-item add-comment" id = "{{ dream.dream_slug }}">Add Comment</div>
+                                            <div class="clickable-item add-comment dreams-button-small" id = "{{ dream.dream_slug }}">Add Comment</div>
                                             {% with messages = get_flashed_messages(with_categories=true) %}
                                                 {% if messages %}
                                                     {% for category, message in messages %}
@@ -137,12 +137,12 @@ View Dream - {{ dream.dream_name }}
                                             or request.path == url_for('dislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
                                             or request.path == url_for('undislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id) %}
                                             {% if comment._id | string == comment_id | string %}
-                                            <div class="comment-header" id="focussed-dream" tabindex="0">
+                                            <div class="comment-header dream-bar" id="focussed-dream" tabindex="0">
                                             {% else %}
-                                            <div class="comment-header">
+                                            <div class="comment-header dream-bar">
                                             {% endif %}
                                         {% else %}
-                                        <div class="comment-header">
+                                        <div class="comment-header dream-bar">
                                         {% endif %}
                                             <div class="delete-comment-alert delete-alert not-displayed" id="alert-{{ comment._id | string }}">
                                                 <h3> Are you sure you want to delete this comment?</h3>
@@ -184,11 +184,11 @@ View Dream - {{ dream.dream_name }}
                                         <div class="comment-content">
                                             <div class="comment-user">
                                                 <h4>{{comment.user_name}}</h4>
-                                                <div class="comment-avatar">
+                                                <div class="comment-avatar dreams-avatar">
                                                     <img src="{{ base_url.profile + comment.user_pic }}">
                                                 </div>                                                
                                             </div>
-                                            <div class="comment-text">
+                                            <div class="comment-text dreams-editing">
                                                 <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                     <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment }}" readonly hidden>
                                                     <div class="textarea-display" id="{{ comment._id }}-fixed">
