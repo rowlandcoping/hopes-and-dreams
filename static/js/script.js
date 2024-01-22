@@ -456,12 +456,13 @@ document.addEventListener("DOMContentLoaded", function() {
         commentCancel=selectedComment + "-cancel";
         commentSubmit=selectedComment + "-submit";
         if (document.getElementById(commentDivarea)) {
+            document.getElementById(commentTextarea).addEventListener('focus', autoResize, false);
+            document.getElementById(commentTextarea).addEventListener('input', autoResize, false);
+            document.getElementById(commentDivarea).style.whiteSpace = "break-spaces";
             document.getElementById(commentDivarea).style.display = "none";
-            document.getElementById(commentTextarea).style.height = "300px";
             document.getElementById(commentTextarea).style.display = "block";
             document.getElementById(commentTextarea).readOnly =false;
-            document.getElementById(commentTextarea).focus();
-            document.getElementById(commentTextarea).addEventListener('input', autoResize, false);
+            document.getElementById(commentTextarea).focus();            
             function autoResize() {
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + 'px';

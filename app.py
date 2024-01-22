@@ -883,7 +883,9 @@ def add_dream_comment(dream_slug, selected):
             mongo.db.comments.insert_one(comment)
             flash('Comment Added', 'green-flash')
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
-        return redirect(url_for('dreamscape_follow_dream', dream_slug=dream_slug, selected=selected))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        dream = return_view(selected)
+        return render_template("dreamscape.html", base_url=base_url, user=user_info, dream=dream, selected=selected, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
 

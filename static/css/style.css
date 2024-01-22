@@ -710,16 +710,10 @@ body {
 
 .comment-form textarea {
     width:85%;
-    height:150px;
     resize:none;
     padding: 20px 20px;
     margin-bottom:10px;
     margin-right:50px;
-    border:1px dotted #0091ffff;
-}
-
-.comment-form textarea:focus {
-    border:1px solid #0091ffff;
 }
 
 .add-comment:hover {
@@ -850,9 +844,7 @@ body {
 }
 
 .comment-text textarea {
-    
-    width:100%;
-    height:auto;    
+    width:100%;   
     padding: 20px 20px;
 }
 .dreams-editing textarea {
@@ -902,8 +894,7 @@ body {
 }
 
 .textarea-display {
-    padding: 0 20px;
-    padding-bottom: 20px;
+    padding: 20px 20px;
     font-size:90%;
     width:100%;
     white-space: pre-line;
@@ -913,9 +904,17 @@ body {
     border: 1px dotted #0091ffff;
 }
 
+.dreams-dotted:focus {
+    border: 1px solid #0091ffff;
+}
+
 .dreamscape-dotted {
     border: 1px dotted #e4ff00ff;
 }
+
+.dreamscape-dotted:focus {
+    border: 1px solid #e4ff00ff;
+} 
 .view-dream-description {
     white-space: pre-line;
 }
