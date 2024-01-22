@@ -255,6 +255,25 @@ def signin():
     return render_template("landing.html")
 
 
+#route if logged in via dream page
+@app.route("/signin-dream/<dream_slug>", methods=["GET","POST"])
+def signin_dream(dream_slug):
+    if request.method == "POST":
+        existing_user = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
+        if existing_user:
+            if check_password_hash(existing_user["password"], request.form.get("password")):
+                session["user_id"] = str(existing_user["_id"])
+                return redirect(url_for("view_dream", dream_slug=dream_slug))
+            else:
+                flash("Username or Password not valid, please try again.", "red-flash")
+                return redirect(url_for("view_dream", dream_slug=dream_slug))
+        else:
+            flash("Username or Password not valid, please try again.", "red-flash")
+            return redirect(url_for("view_dream", dream_slug=dream_slug))
+    return render_template("landing.html")
+
+
 #route to the default dreamscape feed
 @app.route("/dreamscape", methods=["GET","POST"])
 def dreamscape():
@@ -1170,8 +1189,10 @@ def add_comment(dream_slug):
                 "user_pic_alt": user_info["profilepic_alt"]
             }
             mongo.db.comments.insert_one(comment)
-            flash('Comment Added', 'green-flash')  
-        return redirect(url_for("view_dream", dream_slug=dream_slug))
+            flash('Comment Added', 'green-flash')
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments)
     return redirect(url_for("home"))
 
 @app.route("/edit-comment/<dream_slug>/<comment_id>", methods=["GET","POST"])
@@ -1183,7 +1204,10 @@ def edit_comment(dream_slug, comment_id):
             }}
             mongo.db.comments.update_one({"_id": ObjectId(comment_id)}, new_comment)
             flash('Comment Updated', 'amber-flash')
-        return redirect(url_for("view_dream", dream_slug=dream_slug))
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+        return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
     return redirect(url_for("home"))
 
 
@@ -1205,8 +1229,10 @@ def delete_comment(dream_slug, comment_id):
                         if user["comments_disliked"].count(comment_id):
                             mongo.db.users.update_one({"_id": ObjectId(user["_id"])}, {"$pull":{
                                                         "comments_disliked" : comment_id}})     
-                flash('Comment Deleted', 'red-flash')   
-        return redirect(url_for("view_dream", dream_slug=dream_slug))
+                flash('Comment Deleted', 'red-flash')
+        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
+        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))  
+        return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments, comment_id=comment_id)
     return redirect(url_for("home"))
   
 

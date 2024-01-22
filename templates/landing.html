@@ -20,7 +20,7 @@
             <p>You can share your advice and experiences, and you can seek input and encouragement.</p>
             <p>It is a place for validation, inspiration and hope.</p>
             <div id="landing-buttons">
-                <a class="signin-link" href="{{ url_for('signup') }}">Sign Up</a>
+                <a class="signin-link" id="main-signup" href="{{ url_for('signup') }}">Sign Up</a>
                 
                 <div class="signin-link" id="signin-click">Sign In</div>
         
@@ -36,10 +36,13 @@
                                 <td><input type="password" id="password" name="password" required></td>
                             </tr>
                         </table>
-                        <button class="signin-link" type="submit" id="sign-in">Sign Me In</button>
+                        <div class="signin-buttons">
+                            <button type="submit" class="submit-comment-button submit-comment" for="sign-in-form">Submit</button>
+                            <div class="cancel-comment-button cancel-comment cancel-signin" id="signin-cancel">Cancel</div>
+                        </div>
                     </form>
                 </div>
-                <a href="{{ url_for('password_reset')}}">Forgotten password?</a>
+                <a id="forgot-password-dream" href="{{ url_for('password_reset')}}">Forgotten password?</a>
             </div>
         </div>
         <div id="tree-right">

@@ -185,31 +185,34 @@ Dreamscape - {{ user.first_name }}
                                                     Posted on {{ comment.datetime_created}}
                                                 </div>
                                                 <div class="like-dislike-section">
-                                                    {% if user != False %}
-                                                        {% if comment.user_id | string != session['user_id'] | string %}                                                    
-                                                            {% if comment._id | string in user.comments_liked | string %}
-                                                                <a class="clickable-item" href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                                                    <i class="unlike-button fa-solid fa-thumbs-up"></i>
-                                                                </a>
-                                                                <span>{{ comment.user_likes|length }}</span>
-                                                            {% else %}
-                                                                <a class="clickable-item" href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                                                    <i class="like-button fa-solid fa-thumbs-up"></i>
-                                                                </a>
-                                                                <span>{{ comment.user_likes|length }}</span>                                            
-                                                            {% endif %}
-                                                            {% if comment._id | string in user.comments_disliked | string %}
-                                                                <a class="clickable-item" href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                                                    <i class="undislike-button fa-solid fa-thumbs-down"></i>
-                                                                </a>
-                                                                <span>{{ comment.user_dislikes|length }}</span>
-                                                            {% else %}
-                                                                <a class="clickable-item" href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                                                    <i class="dislike-button fa-solid fa-thumbs-down"></i>
-                                                                </a>
-                                                                <span>{{ comment.user_dislikes|length }}</span>
-                                                            {% endif %}
+                                                    {% if comment.user_id | string != session['user_id'] | string %}                                                    
+                                                        {% if comment._id | string in user.comments_liked | string %}
+                                                            <a class="clickable-item" href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                                                <i class="unlike-button fa-solid fa-thumbs-up"></i>
+                                                            </a>
+                                                            <span>{{ comment.user_likes|length }}</span>
+                                                        {% else %}
+                                                            <a class="clickable-item" href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                                                <i class="like-button fa-solid fa-thumbs-up"></i>
+                                                            </a>
+                                                            <span>{{ comment.user_likes|length }}</span>                                            
                                                         {% endif %}
+                                                        {% if comment._id | string in user.comments_disliked | string %}
+                                                            <a class="clickable-item" href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                                                <i class="undislike-button fa-solid fa-thumbs-down"></i>
+                                                            </a>
+                                                            <span>{{ comment.user_dislikes|length }}</span>
+                                                        {% else %}
+                                                            <a class="clickable-item" href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                                                <i class="dislike-button fa-solid fa-thumbs-down"></i>
+                                                            </a>
+                                                            <span>{{ comment.user_dislikes|length }}</span>
+                                                        {% endif %}
+                                                    {% else %}                                                    
+                                                        <i class="clickable-item fa-solid fa-thumbs-up"></i>
+                                                        <span>{{ comment.user_likes|length }}</span>                                            
+                                                        <i class="clickable-item icon-base fa-solid fa-thumbs-down"></i>
+                                                        <span>{{ comment.user_dislikes|length }}</span>
                                                     {% endif %}
                                                 </div>
                                             </div>

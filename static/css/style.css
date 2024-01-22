@@ -33,15 +33,12 @@ h1 {
 }
 .red-flash {
     color:red;
-    border:4px dashed red;
 }
 .green-flash {
     color:green;
-    border:4px dashed green;
 }
 .amber-flash {
     color:orange;
-    border:4px dashed orange;
 }
  
 #main-flash {
@@ -59,6 +56,17 @@ h1 {
     text-align:left;
     padding:0;
     margin-bottom:20px;
+}
+
+#large-flash {
+    text-align:center;
+    padding-top:10px;
+    margin:10px 0 20px 0;
+}
+
+.dream-flash {
+    width:100%;
+    border-top:5px solid #0091ffff;
 }
 #warning-left, #warning-right {
     font-size:150%;
@@ -181,6 +189,7 @@ body {
 }
 
 .signin-link {
+    cursor:pointer;
     background-color: white;
     color:black;
     border: black 1px solid;
@@ -204,6 +213,11 @@ body {
 }
 .form-table {
     border-spacing:5px;
+}
+
+.signin-buttons {
+ display:flex;
+ justify-content:center;
 }
 
 
@@ -608,8 +622,22 @@ body {
 }
 
 /*VIEW DREAM PAGE*/
+
+#dream-line-break {
+    margin-top:10px;
+    margin-bottom: 40px;
+    border-top:5px solid #0091ffff;
+}
 #return-button-container {
     border-top:5px solid #0091ffff;
+}
+
+#forgot-password-dream {
+    color: #0091ffff;
+    text-decoration: underline;
+}
+#forgot-password-dream:hover {
+    color: white;
 }
 .view-dream-name, .dreamscape-view-name {
     
@@ -786,11 +814,7 @@ body {
 .undislike-button {
     color:red;
 }
-.undislike-button, .dislike-button {
-    padding-left: 10px;
-}
-
-.undislike-button, .dislike-button {
+.undislike-button, .dislike-button, .icon-base {
     padding-left: 10px;
 }
 
@@ -869,6 +893,7 @@ body {
     display:flex;
     justify-content:center;
     width:150px;
+    margin-left:5px;
 }
 
 .dreams-avatar {

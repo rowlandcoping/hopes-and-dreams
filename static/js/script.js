@@ -27,6 +27,14 @@ document.addEventListener("DOMContentLoaded", function() {
             signInShow();
         }
     });
+    //de-activate sign-in form
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#signin-cancel");
+        if(target){
+            signInHide();
+        }
+    });
+    
     //SIGN-UP PROCESS
     //add event listners to all category button clicks
     const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
@@ -230,6 +238,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function signInShow() {
         document.getElementById('signin-form').style.display = "block";
         document.getElementById('signin-click').style.display = "none";
+        document.getElementById('main-signup').style.display = "none";
+    }
+    //hide sign-in form
+    function signInHide() {
+        document.getElementById('signin-form').style.display = "none";
+        document.getElementById('signin-click').style.display = "block";
+        document.getElementById('main-signup').style.display = "block";
     }
     //SIGN-UP/EDIT/DREAMBUILDER PROCESSES   
     //clears categories on page refresh
@@ -391,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('main-template-wrapper').style.opacity="0.4";
         document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
         document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
-        
+           
     };
 
     //DREAMSCAPE/VIEW DREAM
@@ -403,6 +418,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("comment-flash").style.display="none";
         }
         document.getElementById(form).style.display="block";
+        document.getElementById(itemId + "-text").focus(); 
         document.getElementById(cancel).style.display="inline-block";
         const hideEdit = document.getElementsByClassName('edit-comment');
         for (let i = 0; i < hideEdit.length; i++) {
