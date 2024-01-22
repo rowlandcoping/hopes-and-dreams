@@ -5,38 +5,48 @@ Dreamscape - {{ user.first_name }}
 {% endblock title %}
 
 {% block content %}
-<div>
-    <h1>Dreamscape</h1>
-    <hr>
+
+<div id="dreams-container-top">
+    <div id="section-title" class="dreamscape-title">
+        <h2>Dreamscape</h2>
+    </div>
+    <div class="filter-section">
+        <form class="clickable-item" id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
+            <div class="select-section"> 
+                <div id="filter-label">
+                    <label for="filter"><h3>Filter Results:</h3></label>
+                </div>
+                <div id="filter-select">
+                    <select name="filter" id="dreamscape-filter">
+                        {% if selected == "trending" %}
+                            <option value="latest">Latest</option>
+                            <option value="trending" selected>Trending</option>
+                            <option value="personalized">Personalized</option>
+                            <option value="followed">Followed</option>
+                        {% elif selected == "personalized" %}
+                            <option value="latest">Latest</option>
+                            <option value="trending">Trending</option>
+                            <option value="personalized" selected>Personalized</option>
+                            <option value="followed">Followed</option>
+                        {% elif selected == "followed" %}
+                            <option value="latest">Latest</option>
+                            <option value="trending">Trending</option>
+                            <option value="personalized">Personalized</option>
+                            <option value="followed" selected>Followed</option>
+                        {% else %}
+                            <option value="latest" selected>Latest</option>
+                            <option value="trending">Trending</option>
+                            <option value="personalized">Personalized</option>
+                            <option value="followed">Followed</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="submit-comment-button submit-comment" id = "filter-button" for="filter-dreamscape">Show Dreams</button>
+        </form>
+    </div>
 </div>
-<form class="clickable-item" id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
-    <label for="filter">Filter Results: </label>
-    <select name="filter" id="dreamscape-filter">
-        {% if selected == "trending" %}
-        <option value="latest">Latest</option>
-        <option value="trending" selected>Trending</option>
-        <option value="personalized">Personalized</option>
-        <option value="followed">Followed</option>
-        {% elif selected == "personalized" %}
-        <option value="latest">Latest</option>
-        <option value="trending">Trending</option>
-        <option value="personalized" selected>Personalized</option>
-        <option value="followed">Followed</option>
-        {% elif selected == "followed" %}
-        <option value="latest">Latest</option>
-        <option value="trending">Trending</option>
-        <option value="personalized">Personalized</option>
-        <option value="followed" selected>Followed</option>
-        {% else %}
-        <option value="latest" selected>Latest</option>
-        <option value="trending">Trending</option>
-        <option value="personalized">Personalized</option>
-        <option value="followed">Followed</option>
-        {% endif %}
-    </select>
-    <br>
-    <button type="submit" for="filter-dreamscape" id="filter_button">Show Dreams</button>
-</form>
+
 {% with dreams = dream %}
 {% if dreams %}
     {% for dream in dreams %}

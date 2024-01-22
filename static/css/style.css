@@ -514,12 +514,21 @@ body {
 }
 
 #section-title {
-    text-align:center;
+    text-align:center;    
+    font-size:130%;
+    padding: 20px;
+}
+
+.dreams-title {
     border-top:5px solid #0091ffff;
     border-bottom:5px solid #0091ffff;
     background-color: rgb(6, 28, 46);
-    font-size:130%;
-    padding: 20px;
+}
+
+.dreamscape-title {
+    border-top:5px solid #e4ff00ff;
+    border-bottom:5px solid #e4ff00ff;
+    background-color:rgb(59, 49, 0);
 }
 .dream-button {
     display:block;
@@ -960,4 +969,43 @@ body {
 .admin-task:hover {
     color:black;
     background-color:white;
+}
+
+/*Dreamscape Page */
+#filter-label {
+    display:block;
+    margin-right:10px;
+    padding-bottom:8px;
+}
+#filter-select {
+    display:block;
+    padding-bottom:5px;
+}
+
+.select-section {
+    display:flex;
+    align-items:center;
+}
+
+#filter-select select {
+    font-size:90%;
+    width:150px;
+    color:white;
+    background-color: black;
+    border:2px solid #e4ff00ff;
+    border-radius:4px;
+    padding:3px 3px 3px 8px;    
+}
+
+.filter-section {
+    display:flex;
+    font-size:125%;
+    justify-content:center;
+    text-align:center;
+    margin:30px;
+}
+
+#filter-button {
+    margin: 10px auto;
+    width:150px;
 }

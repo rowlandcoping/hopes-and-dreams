@@ -24,7 +24,7 @@ Dreams
     {% endif %}
 {% endwith %}
 <div id="dreams-container-top">
-    <div id="section-title">
+    <div id="section-title" class="dreams-title">
         <h2>{{ user.first_name + " " + user.last_name }}'s Dreams</h2>
     </div>
     <a class="clickable-item dream-button" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a> 
