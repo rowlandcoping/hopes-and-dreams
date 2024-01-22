@@ -508,6 +508,7 @@ body {
     padding: 20px;
 }
 .dream-button {
+    display:block;
     text-align:center;
     font-family: title;
     width: 50%;
@@ -696,6 +697,7 @@ body {
     border-radius: 4px;
     padding:3px;
     margin-bottom:15px;
+    cursor: pointer;
 }
 .comment-entry-buttons {
     position:relative;
@@ -774,6 +776,11 @@ body {
     border: 2px solid #e4ff00ff;
     background-color: rgb(59, 49, 0);
 }
+.dreamscape-button-small:hover {
+    background-color: #e4ff00ff;
+    border: 2px solid rgb(59, 49, 0);
+    color:rgb(59, 49, 0);
+}
 
 .comment-section {
     width:100%;
@@ -832,6 +839,7 @@ body {
 
 .comment-text i {
     font-size:120%;
+    cursor: pointer;
 }
 
 .dreams-editing i:hover {

@@ -13,9 +13,9 @@ View Dream - {{ dream.dream_name }}
     {% if user != false %}
     <div id="return-button-container">
         {% if dream.user_id | string != session['user_id'] | string %}
-            <div class="dream-button"><a class="clickable-item" href="{{ url_for('dreamscape') }}"><h2>Return to Dreamscape</h2></a></div>
+            <a class="clickable-item dream-button" href="{{ url_for('dreamscape') }}"><h2>Return to Dreamscape</h2></a>
         {% else %}
-            <div class="dream-button"><a class="clickable-item" href="{{ url_for('dreams') }}"><h2>Return to Dreams</h2></a></div>
+            <a class="clickable-item dream-button" href="{{ url_for('dreams') }}"><h2>Return to Dreams</h2></a>
         {% endif %}
     </div>
     {% else %}
@@ -191,7 +191,7 @@ View Dream - {{ dream.dream_name }}
                                             <div class="comment-text dreams-editing">
                                                 <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                     <input id="{{ comment._id }}-original" name="{{ comment._id }}-original" value= "{{ comment.comment }}" readonly hidden>
-                                                    <div class="textarea-display" id="{{ comment._id }}-fixed">
+                                                    <div class="textarea-display dreams-dotted" id="{{ comment._id }}-fixed">
                                                         {{ comment.comment }}
                                                     </div>
                                                     <textarea class="adjustable-height comment-comment not-displayed" wrap="hard" id="{{ comment._id }}-display" name="{{ comment._id }}-text" readonly>{{ comment.comment }}</textarea>

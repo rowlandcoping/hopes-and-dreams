@@ -27,9 +27,7 @@ Dreams
     <div id="section-title">
         <h2>{{ user.first_name + " " + user.last_name }}'s Dreams</h2>
     </div>
-    <div class="dream-button">
-        <a class="clickable-item" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a>
-    </div>    
+    <a class="clickable-item dream-button" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a> 
 </div>
 <div id="dreams-container-main">
     <div id="dream-list">
