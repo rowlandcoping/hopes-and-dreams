@@ -1,26 +1,34 @@
 {% extends 'main-template.html' %}
 
 {% block title %}
-Dreams
+{{ user.first_name + " " + user.last_name }}'s Dreams
 {% endblock title %}
 
 {% block content %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-        <div class= "{{ category }}" id="large-flash">
-            <div>
-                <h2>{{ message }}</h2>
-            </div>
-        </div>
-        {% endfor %}
-        
-    {% endif %}
-{% endwith %}
 <div id="dreams-container-top">
+    {% with dreams = user_dreams %}
+    {% if dreams %}
     <div id="section-title" class="dreams-title">
         <h2>{{ user.first_name + " " + user.last_name }}'s Dreams</h2>
     </div>
+    {% else %}
+    <div id="section-title" class="dreams-title">
+        <h2>You have no Hopes or Dreams... yet!</h2>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class= "{{ category }} dreams-flash" id="large-flash">
+                <div>
+                    <h2>{{ message }}</h2>
+                </div>
+            </div>
+            {% endfor %}            
+        {% endif %}
+    {% endwith %}
     <a class="clickable-item dream-button" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a> 
 </div>
 <div id="dreams-container-main">
@@ -57,10 +65,6 @@ Dreams
                         </div>
                     </div>
                 {% endfor %}
-            {% else %}
-                <div class="no-dreams">
-                    <h3>You have no Hopes or Dreams</h3>
-                </div>
             {% endif %}
         {% endwith %}        
     </div>

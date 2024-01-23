@@ -52,20 +52,16 @@ h1 {
 .green-flash {
     color:green;
 }
+.red-flash-reset {
+    color:red;
+}
+.green-flash-reset {
+    color:green;
+}
 .amber-flash {
     color:orange;
 }
  
-#main-flash {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    text-align:center;
-    padding:10px;
-    margin:10px auto 20px auto;
-    width:60%;
-}
-
 #comment-flash {
     border:none;
     text-align:left;
@@ -76,21 +72,26 @@ h1 {
 
 #large-flash {
     text-align:center;
-    padding-top:10px;
-    margin:10px 0 20px 0;
-    font-style: italic;
+}
+.signup-flash {
+    margin-bottom:10px;
+}
+.other-flash {
+    margin-bottom:20px;
+}
+.landing-flash {
+    margin-top:20px;
 }
 
 .dream-flash {
     width:100%;
+    padding-top:10px;
+    margin:10px 0 20px 0;
     border-top:5px solid #0091ffff;
 }
-#warning-left, #warning-right {
-    font-size:150%;
-    margin: 0 30px;
+.dreams-flash {
+    margin-top: 20px;
 }
-
-
 
 a, a:visited, a:link, a:active, a:hover, a:focus  {
     text-decoration: none;
@@ -718,6 +719,30 @@ body {
 
 /*Dreamscape*/
 
+#no-dreams {
+    text-align:center;
+}
+#no-results-name {
+    width:100%;
+    text-align:center;
+    line-height:120%;
+    padding-bottom:10px;
+    border-bottom:2px solid #e4ff00ff;
+}
+#profile-visit{
+    margin:0 auto 20px auto;
+    padding:5px;
+    width:200px;
+    border: 2px white solid;
+    background-color: rgb(77, 28, 27);
+    cursor: pointer;
+    border-radius:6px;
+}
+
+#profile-visit:hover {
+   background-color: #ff6866ff;
+}
+
 .show-hide-comments {
     display:flex;
     align-items:center;
@@ -954,11 +979,9 @@ body {
 #forgot-password-dream:hover {
     color: white;
 }
-.view-dream-name, .dreamscape-view-name {
-    
+.view-dream-name, .dreamscape-view-name {    
     line-height:120%;
     padding-bottom:10px;
-    
 }
 
 .view-dream-name {
@@ -1329,4 +1352,76 @@ body {
 #filter-button {
     margin: 10px auto;
     width:150px;
+}
+
+/*assword reset and 404*/
+
+.other-page {
+    margin: 30px 200px;
+}
+
+.container-other {
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    width: 75%;
+    padding: 20px 0;
+    margin:20px auto 0 auto;
+    border-top: 5px solid #ff6866ff;
+}
+
+.container-other img {
+    width:100px;
+}
+
+.password-reset {
+    display: flex;
+    flex-flow:column;
+    align-items:center;
+    text-align:center;
+    margin:0 40px;
+}
+
+.password-reset table {
+    margin-top: 20px;
+}
+
+#profile-exit, #home-exit {
+    margin-top:0;
+    width:200px;
+    margin-left:20px;
+    border: 2px white solid;
+    background-color: rgb(77, 28, 27);
+    cursor: pointer;
+}
+#dream-exit {
+    margin-top:0;
+    width:200px;
+    margin-left:20px;
+    border: 2px white solid;       
+    background-color: rgb(6, 28, 46);
+    cursor: pointer;
+}
+#dream-exit:hover {
+    background-color:#0091ffff; 
+}
+
+
+#reset-submit {
+    margin-top:0;
+    width:218px;
+    padding:9px 0 8px 0;
+    margin-right:20px;
+    color:white;
+    border: 2px white solid;
+    background-color:rgb(58, 73, 69);
+    cursor: pointer;
+}
+
+#reset-submit:hover {
+    background-color:green;
+}
+
+#profile-exit:hover, #home-exit:hover {
+    background-color: #ff6866ff;
 }

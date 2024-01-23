@@ -156,7 +156,7 @@ def signup():
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if existing_user:
-            flash("This e-mail address is already in use")
+            flash("This e-mail address is already in use.", "red-flash-reset")
             return redirect(url_for("signup"))
         first_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("first_name").lower()))
         last_submitted = str(re.sub("[.!#$%;@&'*+/=?^_` {|}~]", "", request.form.get("last_name").lower()))
@@ -193,41 +193,11 @@ def signup():
                     "users_selected" : user_verify["_id"] }})
                     mongo.db.categories.update_one({"category": category}, {"$inc": {
                     "total_users_selected" : 1, "total_times_selected": 1 }})
-            session["user_id"] = str(user_verify["_id"])       
+            session["user_id"] = str(user_verify["_id"])    
             return redirect(url_for("profile_upload"))        
-        flash("Registration not successful, please try again.")
+        flash("Registration not successful, please try again.", "red-flash-reset")
         return render_template("signup.html", categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return render_template("signup.html", categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
-
-
-# route for user to upload an image on signup
-@app.route("/welcome", methods=["GET","POST"])
-def profile_upload():
-    if session.get("user_id") is not None:
-        user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})  
-        if request.method == "POST":
-            uploaded_image = request.files['image_upload']
-            imgname= uploaded_image.filename.split(".", 1)[0]
-            filename= str(imgname + "-" + str(user_info["_id"]))
-            image_alt = (
-                "Profile picture for " + user_info["first_name"].capitalize() 
-                + " " + user_info["last_name"].capitalize())
-            if uploaded_image:
-                converted_image = imageConvert(uploaded_image, 400, 75, "webp")
-                if "profile_picture" in user_info: 
-                    if user_info["profile_picture"]  != "":
-                        cloudinary.uploader.destroy(user_info["profile_picture"])               
-                cloudinary.uploader.upload(
-                    converted_image, public_id=filename, folder = "profile")  
-                profile_picture = {"$set": {
-                    "profile_picture": filename,
-                    "profilepic_alt": image_alt
-                }}
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(user_info["_id"])}, profile_picture)
-                return redirect(url_for("profile_upload"))
-        return render_template("profile-submit.html",  base_url=base_url, user=user_info)
-    return redirect(url_for("home"))
 
 
 #route to abandon signup
@@ -247,10 +217,10 @@ def signin():
                 session["user_id"] = str(existing_user["_id"])
                 return redirect(url_for("dreamscape"))
             else:
-                flash("Username or Password not valid, please try again.")
+                flash("Username or Password not valid, please try again.", "red-flash-reset")
                 return redirect(url_for("home"))
         else:
-            flash("Username or Password not valid, please try again.")
+            flash("Username or Password not valid, please try again.", "red-flash-reset")
             return redirect(url_for("home"))
     return render_template("landing.html")
 
@@ -266,10 +236,10 @@ def signin_dream(dream_slug):
                 session["user_id"] = str(existing_user["_id"])
                 return redirect(url_for("view_dream", dream_slug=dream_slug))
             else:
-                flash("Username or Password not valid, please try again.", "red-flash")
+                flash("Username or Password not valid, please try again.", "red-flash-reset")
                 return redirect(url_for("view_dream", dream_slug=dream_slug))
         else:
-            flash("Username or Password not valid, please try again.", "red-flash")
+            flash("Username or Password not valid, please try again.", "red-flash-reset")
             return redirect(url_for("view_dream", dream_slug=dream_slug))
     return render_template("landing.html")
 
@@ -456,7 +426,7 @@ def log_out():
     return redirect(url_for("home"))
 
 
-#route to request a password reset link
+#route to request a password reset link from home
 @app.route("/password-reset", methods=["GET", "POST"])
 def password_reset():
     if request.method == "POST":
@@ -476,12 +446,42 @@ def password_reset():
             msg.html = messageOne + messageTwo + messageThree + messageFour + messageFive
             try:
                 mail.send(msg)
-                flash("Password update link sent, please check your e-mail")
+                flash("Password update link sent, please check your e-mail.", 'green-flash-reset')
             except:
-                flash("Password update link not sent, please contact support if issues continue.")
-            return redirect(url_for("home"))
-        flash('Please enter a registered e-mail address')       
+                flash("Password update link not sent, please contact support if issues continue.", 'red-flash-reset')
+                return render_template("password-reset.html")
+            return redirect(url_for("profile_personal"))
+        flash('Please enter a registered e-mail address.', 'red-flash-reset')       
     return render_template("password-reset.html")
+
+
+#route to request a password reset link from a dream
+@app.route("/password-reset-dream/<dream_slug>", methods=["GET", "POST"])
+def password_reset_dream(dream_slug):
+    if request.method == "POST":
+        existing_user = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
+        if existing_user:
+            token = get_reset_token(existing_user, 1000)
+            messageOne= "<h3>Hi " + existing_user['first_name'] +"!</h3>"
+            messageTwo= "<p>Please find below a link to reset your password - please note this link will expire in 15 minutes."
+            messageThree="<br>If you did not request this the security of your account may be compromised.</p>"
+            messageFour="<h4>Your reset link:</h4>"
+            messageFive= base_url["reset"] + "reset-password/" + token            
+            msg = Message()
+            msg.subject = "Password Reset"
+            msg.recipients = [existing_user["email"]]
+            msg.sender = 'noreply@hopesanddreams.com'
+            msg.html = messageOne + messageTwo + messageThree + messageFour + messageFive
+            try:
+                mail.send(msg)
+                flash("Password update link sent, please check your e-mail", "green-flash-reset")
+            except:
+                flash("Password update link not sent, please contact support if issues continue.", "red-flash-reset")
+                return render_template("password-reset-dream.html", dream_slug=dream_slug)
+            return redirect(url_for("view_dream", dream_slug=dream_slug))
+        flash('Please enter a registered e-mail address', "red-flash-reset")       
+    return render_template("password-reset-dream.html", dream_slug=dream_slug)
 
 
 #route to access password reset page and reset password
@@ -495,10 +495,11 @@ def reset_password(token):
                 }}
                 mongo.db.users.update_one(
                             {"email": existing_user}, new_password)
-                flash('Password Updated')
+                session.clear()
+                flash('Password Updated!', 'green-flash-reset')            
                 return redirect(url_for("home"))
         return render_template('reset-password.html', existing_user=existing_user, token=token)
-    flash('Your password reset token is no longer valid, please try again.')
+    flash('Your password reset token is no longer valid, please try again.', 'red-flash-reset')
     return redirect(url_for("password_reset"))
 
 
@@ -583,9 +584,9 @@ def image_upload(dream_slug):
                     }}
                     mongo.db.dreams.update_one(
                         {"dream_slug": dream_slug}, image)
-                    flash("Dream Image Uploaded", "green-flash")
+                    flash("Dream Image Uploaded.", "green-flash-reset")
                     return redirect(url_for("dreams"))
-                flash("Image Upload Failed")
+                flash("Image Upload Failed", "red-flash-reset")
             return render_template("image-upload.html", dream_slug=dream_slug, dream=dream, base_url=base_url)
         return redirect(url_for("home"))
     return redirect(url_for("home"))
@@ -761,7 +762,7 @@ def delete_dream(dream_slug):
             for comment in comments:
                 if ObjectId(comment["dream_id"]) == ObjectId(dream["_id"]):
                     mongo.db.comments.delete_one({"_id": ObjectId(comment["_id"])})
-            flash('Dream deleted.  How sad.', 'red-flash')      
+            flash('Dream deleted.  How sad.', 'red-flash-reset')      
             return redirect (url_for("dreams"))
         return redirect (url_for("dreams"))
     return redirect(url_for("home"))
@@ -1058,9 +1059,13 @@ def view_dream(dream_slug):
         user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
     else:
         user_info = False
-    dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-    comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-    return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments)
+    dreams= list(mongo.db.dreams.find())
+    for dream in dreams:
+        if dream["dream_slug"] == dream_slug:
+            comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
+            return render_template("dream.html", base_url=base_url, user=user_info, dream=dream, dream_slug=dream_slug, comments=comments)      
+    return render_template('lost-bunnies.html'), 404
+    
 
 
 # routes for actions on view dream page
@@ -1456,6 +1461,10 @@ def add_avatars():
             return render_template("avatars.html", base_url=base_url, avatars=avatars)
         return render_template("avatars.html", base_url=base_url, avatars=avatars)
     return redirect(url_for("home"))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('lost-bunnies.html'), 404
 
 
 #launches Hopes and Dreams, calls app environment variables         

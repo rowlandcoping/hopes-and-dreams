@@ -39,6 +39,17 @@
                             {% endif %}
                             <img id="image-preview" class="not-displayed" src="" width="150">
                         </div>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                <div class= "{{ category }} dreams-flash" id="large-flash">
+                                    <div>
+                                        <h2>{{ message }}</h2>
+                                    </div>
+                                </div>
+                                {% endfor %}            
+                            {% endif %}
+                        {% endwith %}
                         <div id="dream-image-uploads">
                             <button id="image-submit" type="submit" class="upload-dream-image not-displayed" for="signup-form">Upload Image</button>
                             <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>

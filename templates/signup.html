@@ -11,6 +11,17 @@
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
             <div class="banner-headline" id="personal-headline"><h2>Personal Information<h2></div>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class= "{{ category }} signup-flash" id="large-flash">
+                            <div>
+                                <h3>{{ message }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %} 
+                {% endif %}
+            {% endwith %}
             <div id="signup-one">
                 <div id="bunny-right">
                     <img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}">
@@ -34,7 +45,7 @@
                             <td><input type="password" id="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\S{8,}" name="password" required></td>
                         </tr>        
                     </table>
-                    <small>Passwords must contain a capital letter, a number and be at least 8 characters in length</small>
+                    <small>Passwords must contain a capital letter, a number and be at least 8 characters in length.</small>
                 </div>
             </div>   
             <div id="interests-section">

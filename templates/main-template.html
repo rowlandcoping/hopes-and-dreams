@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <script src="https://kit.fontawesome.com/8c1ab874f9.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/general-assets/sun-icon-hover.svg') }}">
     <title>
         {% block title %}
         {% endblock title%}
@@ -14,7 +15,7 @@
     <div id="feed-container">
         <div id="title-section">
             <div id="main-title">
-                <div class="clickable-item headline-wrapper" id="main-template-wrapper"><h1>Hopes and Dreams</h1></div>
+                <a href="{{ url_for('home') }}"><div class="clickable-item headline-wrapper" id="main-template-wrapper"><h1>Hopes and Dreams</h1></div></a>
             </div>
             {% if user != False %}
             <nav id="main-navigation">
@@ -95,7 +96,7 @@
                         </div>
                     </form>
                 </div>
-                <a id="forgot-password-dream" href="{{ url_for('password_reset')}}">Forgotten password?</a>
+                <a id="forgot-password-dream" href="{{ url_for('password_reset_dream', dream_slug=dream_slug)}}">Forgotten password?</a>
             </div>
             {% endif %}
         </div>

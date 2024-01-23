@@ -114,19 +114,25 @@ View Dream - {{ dream.dream_name }}
                                         <div class="comment-entry">
                                             <div class="comment-entry-buttons">
                                                 <div class="clickable-item add-comment dreams-button-small" id = "{{ dream.dream_slug }}">Add Comment</div>
-                                                {% if dream_slug == dream.dream_slug %}
                                                     {% with messages = get_flashed_messages(with_categories=true) %}
                                                         {% if messages %}
                                                             {% for category, message in messages %}
+                                                                {% if category == "red-flash-reset" or category == "green-flash-reset"%}
+                                                                <div class= "{{ category }} not-displayed" id="comment-flash">
+                                                                    <div id="focussed-dream" tabindex="0">
+                                                                        <h3>{{ message }}</h3>
+                                                                    </div>
+                                                                </div>
+                                                                {% else %}
                                                                 <div class= "{{ category }}" id="comment-flash">
                                                                     <div id="focussed-dream" tabindex="0">
                                                                         <h3>{{ message }}</h3>
                                                                     </div>
                                                                 </div>
+                                                                {% endif %}
                                                             {% endfor %}        
                                                         {% endif %}
                                                     {% endwith %}
-                                                {% endif %}
                                             </div>
                                             <form class="comment-form not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                 <textarea class="comment-box adjustable-height dreams-dotted" wrap="hard" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
@@ -233,7 +239,7 @@ View Dream - {{ dream.dream_name }}
                         {% else %}
                     <div class="general-bar dream-bar comments-bar">
                         <p><em>Comments are disabled for this dream</em></p>
-                    <div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
