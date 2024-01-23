@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+    //-------------Helper Functions--------------//
+    
+    function autoResize() {
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + 'px';
+    }
 
     //-------------EVENT LISTNERS--------------//
 
@@ -229,7 +235,13 @@ document.addEventListener("DOMContentLoaded", function() {
             mouseoutProfile();
         }
     });
-    //auto-resizing for textareas
+    //auto-resizing for dreambuilder textarea
+    document.addEventListener("input", function(e){
+        const target = e.target.closest("#dream_description"); 
+        if(target){
+            textareaDreambuild();
+        }
+    });
 
     //------------ACTIONS-------------//
     
@@ -273,7 +285,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     //changes colour of category when clicked and adds the category to the selected categories field
-    function addSignupCategory(itemId) {
+    //Warns user if more than 5 categories selected.
+    function addSignupCategory(itemId) {        
         if (document.getElementById(itemId).style.color === "white") {
             document.getElementById(itemId).style.backgroundColor = "grey";
             document.getElementById(itemId).style.color = "black";
@@ -287,6 +300,21 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.border = "2px solid white";
             document.getElementById("selected-categories").value += itemId + ",";
         }
+        categories = document.getElementById("selected-categories").value.split(",")
+        if (categories.length < 7) {
+            if (document.getElementById("warning-message")) {
+                document.getElementById("warning-message").innerHTML ="";
+                document.getElementById("create-dream").disabled = false;
+                document.getElementById("create-dream").style.opacity = "1"
+            }
+        } else {
+            if (document.getElementById("warning-message")) {
+                document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please ensure you only pick five maximum to continue.</p>"
+                document.getElementById("create-dream").disabled = true;
+                document.getElementById("create-dream").style.opacity = "0.1"
+            }
+        }
+
     }
     //previews images due for upload
     const imageUpload= document.getElementById('uploaded-image');
@@ -307,6 +335,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('info-update').style.display = "block";
             }
             document.getElementById('profile-pic-cancel').style.display = "inline-block";
+            if (document.getElementById('image-submit')) {
+                document.getElementById('image-submit').style.display = "inline-block";
+            }
         }
     }
     if (imageUpload) {
@@ -372,6 +403,12 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.border = "2px solid border:rgb(53, 52, 52)";
         }
     }
+    //resizes form
+    function textareaDreambuild() {
+        document.getElementById("dream_description").addEventListener('focus', autoResize, false);
+        document.getElementById("dream_description").addEventListener('input', autoResize, false);
+        document.getElementById("dream_description").focus();            
+    }
 
     //EDITING PROFILE INFO    
     //cancel profile pic change 
@@ -382,6 +419,9 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('image-preview').style.display="none";
         document.getElementById('uploaded-image').value = "";
         document.getElementById('profile-pic-cancel').style.display = "none";
+        if (document.getElementById('image-submit')) {
+            document.getElementById('image-submit').style.display = "none";
+        }
     }
 
     //DREAMS PAGE
@@ -479,10 +519,6 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(commentTextarea).style.display = "block";
             document.getElementById(commentTextarea).readOnly =false;
             document.getElementById(commentTextarea).focus();            
-            function autoResize() {
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + 'px';
-            }
             document.getElementById(selectedComment + "-submit").style.display="inline-block";
         }
         const hideEdit = document.getElementsByClassName('edit-comment');
@@ -570,7 +606,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function mouseoverProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon-hover.svg";
         document.getElementById("profile-icon-container").style.color = "#ff6866ff";
-
     }
     function mouseoutProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon.svg";

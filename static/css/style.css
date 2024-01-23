@@ -8,7 +8,7 @@
 
 @font-face {
     font-family: main;
-    src: url("../fonts/ClearSans-OP0p.ttf");
+    src: url("../fonts/OpenSans-Regular.ttf");
     font-display: swap;
 }
 
@@ -90,21 +90,7 @@ body {
     position:absolute;
     left:-2000000px
 }
-#main-template-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("../images/backgrounds/cloud-background-white.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: left;
-    background-color: black;
-    width: 392px;
-    height: 135px;
-    color:black;
-    border: 10px solid black;
-    font-family:title;
-}
+
 .delete-alert {
     position:absolute;
     left: 0;
@@ -160,18 +146,19 @@ body {
 }
 .headline-wrapper {
     display: flex;
-    justify-content:center;
-    align-items:center;
+    justify-content: center;
+    align-items: center;
     background-image: url("../images/backgrounds/cloud-background-white.svg");
-    background-size: 392px auto;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: center; 
+    background-position: left;
+    background-color: black;
     width: 392px;
     height: 135px;
-    margin:auto;
     color:black;
-    font-family: title;
+    font-family:title;
 }
+
 #landing-buttons {
     display:flex;
     flex-flow:column;
@@ -222,9 +209,7 @@ body {
 
 
 /*sign-up user journey*/
-#interests, #skills, #experiences {
-    width:70%;
-}
+
 #welcome-container {
     display:flex;
     justify-content: space-evenly;
@@ -286,40 +271,263 @@ body {
     text-align:center;
 }
 #personal-headline {
-    background-color:rgb(45, 143, 122);
+    background-color:#ff6866ff;
+    margin-bottom:20px;
 }
 #interests-headline {
-    background-color:rgb(131, 16, 121);
+    background-color:#ff6866ff;
     margin-top:20px;
 }
+.show-additional {
+    background-color:rgb(58, 73, 69);
+}
+.show-fewer-style {
+    background-color:rgb(59, 46, 52);
+}
 .show-additional, .show-fewer-style {
+    cursor: pointer;
     border: 3px solid white;
     border-radius: 6px;    
     width: 40%;
     margin:auto;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 .show-additional:hover {
-    background-color:rgb(58, 73, 69);
+    background-color:rgb(67, 109, 64);
     cursor: pointer;
 }
 .show-fewer-style:hover {
-    background-color:rgb(59, 46, 52);
+    background-color:rgb(114, 52, 52);
     cursor: pointer;
+}
+
+.show-additional i, .show-fewer-style i{
+    margin: 0 10px;
 }
 #interests-section, #explore {
     text-align: center;
 }
 #explore {
-    margin: 0 50px ;
+    margin: 0 200px ;
+    border-bottom: 5px solid #ff6866ff;
 }
-#interests-section button {
+.create-button {
+    color:white;
+    background-color:rgb(58, 73, 69);
+    cursor:pointer;
+    border: 2px solid white;
+    padding:10px;
     font-size: 120%;
-    width: 200px;
-    padding: 7px;
-    margin: 7px;
-    text-align: center;
+    width:160px;
+    margin-right:20px;
+    margin-top:20px;
 }
+
+#create-dream:hover {
+    background-color:green;
+}
+
+.abandon-button {
+    background-color:rgb(49, 7, 7);
+    cursor: pointer;
+    border: 2px solid white;
+    padding:7px;
+    padding-bottom:8px;
+    font-size: 120%;
+    width:200px;
+    margin-top:20px;
+}
+
+.abandon-button:hover {
+    background-color:rgb(172, 3, 3);
+}
+
+#journey-buttons-signup {
+    border-top: 5px solid #ff6866ff;
+    margin-top:10px;
+}
+
+#welcome-headline {
+    margin:10px auto 20px auto;
+}
+
+#congratulations {
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom:20px;
+    border-top: 5px solid #ff6866ff;
+    border-bottom:5px solid #ff6866ff;
+}
+
+#welcome-exit-buttons {
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/*create dream user journey*/
+#dreambuild-image-wrapper {
+    display:flex;
+    flex-flow:column;
+    align-items:center;
+    width:100%;
+    border-top: 5px solid #0091ffff;
+    margin: 20px 0; 
+}
+#warning-message {
+    margin: 10px 0;
+    color: red;
+    font-size: 110%;
+    margin: auto;
+    text-align:center;
+}
+#dreambuild-container {    
+    margin:10px 200px;
+}
+#dream-image-top {
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    width:75%;
+    margin-top:20px;
+}
+.dreambuild-image-form {    
+    width:100%;
+    border-bottom: 5px solid #0091ffff;
+    padding-bottom: 20px;
+}
+#disable-comments input {
+    width: 17px;
+    height: 17px;
+    accent-color: #0091ffff;
+}
+
+#dreambuilder-headline {
+    margin-top:10px;
+    width: 319px;
+    height: 110px;
+}
+
+#journey-buttons-dream {
+    border-top: 5px solid #0091ffff;
+    margin-top:10px;
+}
+
+#dream-headline {
+    margin-top:20px;
+    background-color:#0091ffff;
+}
+
+#category-headline {
+    background-color:#0091ffff;
+    margin-top:20px;
+}
+
+.cloud-left img, .cloud-right img{
+    width:100px;
+}
+.personal-section {
+    display:flex;
+    width:90%;
+    justify-content: space-between;
+    align-items:center;
+    margin:0 auto;
+}
+#dream_name {
+    font-size: 95%;
+    outline:none;
+    background-color: black;
+    color:white;
+    width:600px;
+    padding:5px;
+    margin:5px;
+}
+#dream_description {
+    width:600px;
+    height:60px;
+    font-size: 95%;
+    padding:5px;
+}
+
+#tree-left img, #tree-right img {
+    width: 75px;
+}
+
+.image-layout label {
+    display:block;
+    margin-bottom:10px;
+}
+
+.image-layout img {
+    margin-top:20px;
+    width:250px;
+}
+
+.image-layout input[type="file"]::file-selector-button {
+    font-size: 120%;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(6, 28, 46);
+    border: 2px solid white;
+    margin-left: 50px;
+    margin-right:16px;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+.image-layout input[type="file"]::file-selector-button:hover {
+    background-color: #0091ffff;
+}
+
+#dream-image-uploads {
+    margin-top: 5px solid #0091ffff;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.upload-dream-image {
+    background-color:rgb(58, 73, 69);
+    color:white;
+    border:2px solid white;
+    width:120px;
+    padding:6px 5px 4px 5px;
+    font-size:100%;
+    cursor: pointer;
+    margin:20px 10px 0 0;
+}
+.cancel-dream-image {
+    background-color:rgb(49, 7, 7);
+    border:2px solid white;
+    width:110px;
+    padding:3px;
+    font-size:100%;
+    cursor: pointer;
+    margin:20px 0 0 10px;
+}
+.cancel-dream-image:hover {
+    background-color:red;
+}
+.upload-dream-image:hover {
+    background-color:green;
+}
+
+.later-button {
+    display:block;
+    margin:20px auto;
+    background-color: #0091ffff;
+    border:2px solid white;
+    width:200px;
+    border-radius: 6px;
+    padding:3px 0;
+}
+
+.later-button:hover {
+    display:block;
+    margin:20px auto;
+    background-color: rgb(6, 28, 46);
+}
+
+
 
 /*welcome page*/
 #congratulations {
@@ -359,6 +567,37 @@ body {
     font-size: 120%;
     padding:10px;
     font-weight:bold;
+}
+
+.exit-button {
+    cursor: pointer;
+    text-align:center;
+    width:300px;
+    border:2px solid white;
+    padding:7px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-size: 110%;
+}
+
+#create-dream-exit {
+    margin-right: 20px;
+    background-color: rgb(6, 28, 46);
+    
+}
+#create-dream-exit:hover{
+    background-color: #0091ffff;
+}
+
+#dreamscape-exit {
+    margin-left: 20px;
+    background-color:rgb(59, 49, 0);
+}
+
+#dreamscape-exit:hover {
+    background-color: #e4ff00ff;
+    border: 2px solid rgb(59, 49, 0);
+    color:rgb(59, 49, 0);
 }
 
 
@@ -516,7 +755,7 @@ body {
 #section-title {
     text-align:center;    
     font-size:130%;
-    padding: 20px;
+    padding: 10px;
 }
 
 .dreams-title {
@@ -561,7 +800,7 @@ body {
 .dreamscape-list {
     border-left:1px dotted #e4ff00ff;
     border-right:1px dotted #e4ff00ff;
-    border-bottom:2px solid #e4ff00ff;
+    border-bottom:3px solid #e4ff00ff;
     margin-bottom:80px;   
 }
 .general-bar {
@@ -573,14 +812,32 @@ body {
     font-size:150%;
 }
 .dream-bar {
-    border-top:2px solid #0091ffff;
-    border-bottom:2px solid #0091ffff;
-    background-color: rgb(6, 28, 46);
+    border-top:3px solid #0091ffff;
+    border-bottom:3px solid #0091ffff;
 }
 
 .dreamscape-bar {
+    border-top:3px solid #e4ff00ff;
+    border-bottom:3px solid #e4ff00ff;   
+}
+
+.main-dream-bar {
+    background-color: rgb(6, 28, 46);
+}
+.main-dreamscape-bar {
+    background-color:rgb(59, 49, 0);
+}
+
+.comment-dream-bar {
+    border-top:2px solid #0091ffff;
+    border-bottom:2px solid #0091ffff;
+}
+.comment-dreamscape-bar {
     border-top:2px solid #e4ff00ff;
     border-bottom:2px solid #e4ff00ff;
+    border-bottom:2px solid #e4ff00ff;
+    background-color: rgb(59, 49, 0);
+    border-bottom:2px solid #e4ff00ff;  
     background-color: rgb(59, 49, 0);
 }
 
@@ -657,6 +914,7 @@ body {
 
 .view-dream-name {
     text-align:left;
+    padding-bottom:15px;
     border-bottom:2px solid #0091ffff;
 }
 

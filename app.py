@@ -310,7 +310,7 @@ def personal_feed():
 def dreams():
     if session.get("user_id") is not None:
         user_info = mongo.db.users.find_one({"_id": ObjectId(session["user_id"])})
-        user_dreams = list(mongo.db.dreams.find({"user_id": ObjectId(session["user_id"])}))      
+        user_dreams = list(mongo.db.dreams.find({"user_id": ObjectId(session["user_id"])}).sort("timestamp_created", -1))      
         return render_template("dreams.html", base_url=base_url, user=user_info, user_dreams=user_dreams)
     return redirect(url_for("home"))
 
@@ -552,8 +552,8 @@ def dreambuilder():
                         "dreams_selected" : dream_verify["_id"] }})
                         mongo.db.categories.update_one({"category": category}, {"$inc": {
                         "total_dreams_selected" : 1, "total_times_selected": 1 }})
-                return redirect(url_for("image_upload", dream_slug=dream_slug, dream=dream_verify, base_url=base_url))        
-            flash("Dream creation not successful, please try again.")
+                return redirect(url_for("image_upload", dream_slug=dream_slug))        
+            flash("Dream creation not successful, please try again.", "red-flash")
             return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
         return render_template('dreambuilder.html', categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
 
@@ -583,7 +583,7 @@ def image_upload(dream_slug):
                     }}
                     mongo.db.dreams.update_one(
                         {"dream_slug": dream_slug}, image)
-                    flash("Dream Image Uploaded")
+                    flash("Dream Image Uploaded", "green-flash")
                     return redirect(url_for("dreams"))
                 flash("Image Upload Failed")
             return render_template("image-upload.html", dream_slug=dream_slug, dream=dream, base_url=base_url)

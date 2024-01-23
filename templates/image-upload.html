@@ -1,29 +1,53 @@
 {% extends 'plain-template.html' %}
-
 {% block title %}
-    Image Upload - {{ dream.dream_name }}
+    Dreambuilder
 {% endblock title%}
-    
+ 
 {% block content %}
-    <h1>So, you dream of {{ dream.dream_name }}</h1>
-    <h3>That's great - if you don't have a dream, how you gonna make a dream come true?</h3>
-    <p>Even better, is if you can visualise a dream.  Is there an image that evokes it?</p>
-    <p>One that will catch the attention of others, motivate and inspire them.</p>
-    <p>Don't worry if not.  It can always be a tomorrow thing.</p>
-    <form action="{{ url_for('image_upload', dream_slug=dream_slug) }}" method="POST" enctype="multipart/form-data">
-        <label for="image_upload">Dream Image</label>
-        {% if dream.image %}
-            <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}" width="150">
-        {% else %}
-            <img id="current-image" src="{{ url_for('static', filename='images/general-assets/bunny.jpg') }}" alt = "A crudely drawn bunny, which appears to be sitting on grass inside a cloud in the sky. Here this indicates the user has yet to upload an image specific to this dream." width="150">
-        {% endif %}
-        <img id="image-preview" class="not-displayed" src="" width="150">
-        <input type="file" id="uploaded-image" name="image_upload">
-        <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
-        <p>
-        <button type="submit">Submit Image</button>
-        
-        <a href="{{ url_for('dreamscape') }}">I'll do this later</a>
-        </p>
-    </form>
-{% endblock content %}
+<div id="dreambuild-container">
+    <div class="headline-wrapper" id="dreambuilder-headline"><h1>Congratulations</h1></div>
+        <div id="dreambuild-image-wrapper"> 
+            <div id="dream-image-top">
+                <div id="tree-left">
+                    <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}">
+                </div>
+                <div id="tree-text">            
+                    <h4>You have dreamed a brand new dream.</h4>
+                    <br>
+                    <h4>And if you don't have a dream, how you gonna make a dream come true?</h4>                    
+                </div>
+                <div id="tree-right">
+                    <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}">
+                </div>
+            </div>
+            <div class="dreambuild-image-form">
+                <form action="{{ url_for('image_upload', dream_slug=dream_slug) }}" method="POST" enctype="multipart/form-data">
+                    <div class="banner-headline" id="dream-headline"><h2>Add an Image<h2></div>
+                    <p>It is recommended you add an image to your dream.
+                    <br>It will help "{{ dream.dream_name }}" attract more attention and look better on the feed!
+                    <br>Plus I spent ages on the image handling code.</p>
+                    <div class="image-layout">
+                        {% if dream.image %}
+                        <label for="image_upload"><h4>Upload New Image:</h4></label>
+                        {% else %}
+                        <label for="image_upload"><h4>Upload Image:</h4></label>
+                        {% endif %} 
+                        <input type="file" id="uploaded-image" name="image_upload">
+                        <div>
+                            {% if dream.image %}
+                            <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                            {% endif %}
+                            <img id="image-preview" class="not-displayed" src="" width="150">
+                        </div>
+                        <div id="dream-image-uploads">
+                            <button id="image-submit" type="submit" class="upload-dream-image not-displayed" for="signup-form">Upload Image</button>
+                            <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>
+                        </div>
+                    </div>
+                                   
+                </form> 
+            </div>
+            <a class="later-button" href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">I'll do this later</a>  
+        </div>             
+</div>
+{% endblock content %} 

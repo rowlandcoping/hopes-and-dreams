@@ -6,7 +6,7 @@
     
 {% block content %}
 <div id="explore">
-    <div class="headline-wrapper"><h1>Welcome {{ user.first_name | capitalize }}!</h1></div>       
+    <div class="headline-wrapper" id="welcome-headline"><h1>Welcome {{ user.first_name | capitalize }}!</h1></div>       
     <div id="congratulations">
         <div id="star-left"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
         <div id="congrats-text">
@@ -18,7 +18,7 @@
     
     <div id="dreamscape-intro">
         <div id="dreamscape-intro-left">
-            <img src="{{ url_for('static', filename='images/general-assets/bunny-right.svg') }}">
+            <img src="{{ url_for('static', filename='images/general-assets/bunny-right-red.svg') }}">
         </div>
         <div id="dreamscape-intro-text">
             <p>The Dreamscape is where you will find hopes, dreams and aspirations.
@@ -37,10 +37,14 @@
             </p>
         </div>
         <div id="dreamscape-intro-right">
-            <img src="{{ url_for('static', filename='images/general-assets/bunny-left.svg') }}">
+            <img src="{{ url_for('static', filename='images/general-assets/bunny-left-red.svg') }}">
         </div>
     </div>
     <div class="grass-width"></div>
     <p>Or perhaps you want to form your own Hopes and Dreams?</p>
-    <a id="dreamscape-button" class="landing-button" href="{{ url_for('dreamscape') }}">Take me to the Dreamscape</a>
+</div>
+<div id="welcome-exit-buttons">
+    <a id="create-dream-exit" class="exit-button" href="{{ url_for('dreambuilder') }}">Let's Create a Dream</a>
+    <a id="dreamscape-exit" class="exit-button" href="{{ url_for('dreamscape') }}">Take me to the Dreamscape</a>
+</div>
 {% endblock content %}
