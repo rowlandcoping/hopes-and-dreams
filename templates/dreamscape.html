@@ -196,17 +196,19 @@ Dreamscape - {{ user.first_name }}
                 {% endif %}
                 {% endif %}
             </div>
-            {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('edit_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('add_dream_comment',dream_slug=dream.dream_slug, selected=selected)
-                or request.path == url_for('delete_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
-            <div class="comments-container" id="{{dream.dream_slug}}-all-comments">            
-            {% else %}
-            <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
-            {% endif %}
+            {% if dream.dream_slug == dream_slug %}
+                {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+                    or request.path == url_for('edit_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+                    or request.path == url_for('add_dream_comment',dream_slug=dream_slug, selected=selected)
+                    or request.path == url_for('delete_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+                    or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+                    or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+                    or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
+                <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
+                {% endif %}           
+                {% else %}
+                <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
+                {% endif %}
                 <div class="comment-entry">
                     <div class="comment-entry-buttons">
                         <div class="clickable-item add-comment dreamscape-button-small" id = "{{ dream.dream_slug }}">Add Comment</div>
@@ -232,7 +234,7 @@ Dreamscape - {{ user.first_name }}
                         </div>
                     </form>
                 </div>
-                {% for comment in selected_comments[:3]: %}
+                {% for comment in selected_comments %}
                 <div class="comment-section">
                     {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)  
                         or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id)

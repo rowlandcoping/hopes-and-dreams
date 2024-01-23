@@ -70,7 +70,7 @@ h1 {
     border:none;
     text-align:left;
     padding:0;
-    margin-bottom:20px;
+    margin-bottom:10px;
     font-style: bold;
 }
 
@@ -154,7 +154,7 @@ body {
 #sun-left img {
     width: 150px;
 }
-#tree-right img{
+#landing-tree-right img{
     width:250px;
 }
 #landing-image img {
@@ -215,8 +215,20 @@ body {
     color: white;
     border: white 1px solid;
 }
-.form-table {
+.form-table,.form-table-builder {
     border-spacing:5px;
+}
+
+.form-table input{
+    outline: 1px solid black;
+    border: 1px solid white;
+    background-color: white;
+}
+
+.form-table input:focus {
+    outline: 1px solid #ff6866ff;
+    border: 1px solid #ff6866ff;
+    background-color: white;
 }
 
 .signin-buttons {
@@ -622,7 +634,7 @@ body {
 /*general template*/
 
 #feed-container {
-    margin:30px 100px;
+    margin:30px 200px;
 }
 #title-section {
     display: flex;
@@ -783,9 +795,6 @@ body {
 
 /* DREAMS PAGE */
 
-#view-dream-container {
-    padding: 0 100px;
-}
 .delete-dream-alert, .delete-comment-alert {
     display:none;
 }
@@ -1043,11 +1052,13 @@ body {
     font-family: title;
     border-radius: 4px;
     padding:3px;
-    margin-bottom:15px;
+    margin-bottom:10px;
     cursor: pointer;
 }
 .comment-entry-buttons {
-    position:relative;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
     width:100%;
 }
 

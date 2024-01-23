@@ -112,16 +112,14 @@ View Dream - {{ dream.dream_name }}
                                     </div>                                    
                                     <div class="comments-container">
                                         <div class="comment-entry">
-                                            <div class="comment-entry-buttons">                                            
-                                                {% if user != false %}
-                                                    <div class="clickable-item add-comment dreams-button-small" id = "{{ dream.dream_slug }}">Add Comment</div>
-                                                {% endif %}
+                                            <div class="comment-entry-buttons">
+                                                <div class="clickable-item add-comment dreams-button-small" id = "{{ dream.dream_slug }}">Add Comment</div>
                                                 {% if dream_slug == dream.dream_slug %}
                                                     {% with messages = get_flashed_messages(with_categories=true) %}
                                                         {% if messages %}
                                                             {% for category, message in messages %}
-                                                                <div class="{{ category }}" id="comment-flash">
-                                                                    <div>
+                                                                <div class= "{{ category }}" id="comment-flash">
+                                                                    <div id="focussed-dream" tabindex="0">
                                                                         <h3>{{ message }}</h3>
                                                                     </div>
                                                                 </div>

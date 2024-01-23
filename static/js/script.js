@@ -652,5 +652,6 @@ document.addEventListener("DOMContentLoaded", function() {
     //ensure following or unfollowing returns to dream the user followed/unfollowed
     if (document.getElementById('focussed-dream')) {
         document.getElementById('focussed-dream').focus();
+        document.getElementById('focussed-dream').scrollIntoView({behavior: "instant", block: "center"});
     }
 });
