@@ -8,8 +8,23 @@
 
 @font-face {
     font-family: main;
+    src: url("../fonts/OpenSans-BoldItalic.ttf");
+    font-style: italic;
+    font-style: bold;
+}
+@font-face {
+    font-family: main;
+    src: url("../fonts/OpenSans-Bold.ttf");
+    font-style: bold;
+}
+@font-face {
+    font-family: main;
+    src: url("../fonts/OpenSans-Italic.ttf");
+    font-style: italic;
+}
+@font-face {
+    font-family: main;
     src: url("../fonts/OpenSans-Regular.ttf");
-    font-display: swap;
 }
 
 textarea {
@@ -56,12 +71,14 @@ h1 {
     text-align:left;
     padding:0;
     margin-bottom:20px;
+    font-style: bold;
 }
 
 #large-flash {
     text-align:center;
     padding-top:10px;
     margin:10px 0 20px 0;
+    font-style: italic;
 }
 
 .dream-flash {
@@ -605,7 +622,7 @@ body {
 /*general template*/
 
 #feed-container {
-    margin:30px 200px;
+    margin:30px 100px;
 }
 #title-section {
     display: flex;
@@ -689,7 +706,29 @@ body {
 
 /*Dreamscape*/
 
+.show-hide-comments {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.show-hide-comments i {
+    padding-top:1px;
+    margin-left:15px;
+    font-size:140%;
+    cursor: pointer;
+}
+
+.show-hide-comments i:hover {
+    color: #e4ff00ff;
+}
+#dreamscape-feed-container {
+    border: 5px inset rgb(34, 34, 34);
+    background-color:rgb(20, 20, 20);
+    padding: 50px 100px;
+}
 .dream-general {
+    background-color:black;
     display:flex;
 }
 
@@ -743,6 +782,10 @@ body {
 }
 
 /* DREAMS PAGE */
+
+#view-dream-container {
+    padding: 0 100px;
+}
 .delete-dream-alert, .delete-comment-alert {
     display:none;
 }
@@ -798,6 +841,7 @@ body {
     border-bottom:1px dotted #0091ffff; 
 }
 .dreamscape-list {
+    background-color:black;
     border-left:1px dotted #e4ff00ff;
     border-right:1px dotted #e4ff00ff;
     border-bottom:3px solid #e4ff00ff;
@@ -834,11 +878,7 @@ body {
 }
 .comment-dreamscape-bar {
     border-top:2px solid #e4ff00ff;
-    border-bottom:2px solid #e4ff00ff;
-    border-bottom:2px solid #e4ff00ff;
-    background-color: rgb(59, 49, 0);
-    border-bottom:2px solid #e4ff00ff;  
-    background-color: rgb(59, 49, 0);
+    border-bottom:2px solid #e4ff00ff; 
 }
 
 .icons {
@@ -979,6 +1019,18 @@ body {
 
 .comments-bar {
     font-size:130%;
+}
+
+.dreamscape-comments-bar {
+    border-top:3px solid #e4ff00ff;
+}
+
+.dreamscape-comments-show-bottom {
+    border-bottom:3px solid #e4ff00ff;
+}
+
+.dreamscape-comments-bar p {
+    margin:0;
 }
 
 .comments-container {

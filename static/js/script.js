@@ -120,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function() {
    
 
     //DREAMSCAPE/VIEW DREAM
+    //add event listners to show/hide comments
+    const showHideComments= Array.from(document.getElementsByClassName('all-dreamscape-comments'));
+    showHideComments.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            showHide(itemId);
+        });
+    });
     //add event listners to all add comment buttons
     const attachCommentListners= Array.from(document.getElementsByClassName('add-comment'));
     attachCommentListners.forEach(item => {
@@ -450,6 +458,26 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     //DREAMSCAPE/VIEW DREAM
+    //show/hide comments section 
+    function showHide(itemId) {
+        idArray = itemId.split('-');
+        itemSlug = idArray.slice(0, -3).join("-");
+        console.log(itemSlug);
+        itemClass= idArray[idArray.length -1];
+        if (itemClass === "show") {
+            document.getElementById(itemSlug + "-view-all").style.display="none";
+            document.getElementById(itemSlug + "-hide-all").style.display="block";
+            document.getElementById(itemSlug + "-all-comments").style.display="block";
+            document.getElementById(itemSlug + "-bar").style.borderBottom="3px solid #e4ff00ff";
+        }
+        if (itemClass === "hide") {
+            document.getElementById(itemSlug + "-view-all").style.display="block";
+            document.getElementById(itemSlug + "-hide-all").style.display="none";
+            document.getElementById(itemSlug + "-all-comments").style.display="none";
+            document.getElementById(itemSlug + "-bar").style.borderBottom="none";
+        }
+
+    }
     //enable add comment box
     function addComment(itemId) {
         form= itemId + "-comment";
