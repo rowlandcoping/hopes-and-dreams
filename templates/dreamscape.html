@@ -6,12 +6,12 @@ Dreamscape - {{ user.first_name }}
 
 {% block content %}
 
-<div id="dreams-container-top">
+<div class="opaque-element" id="dreams-container-top">
     <div id="section-title" class="dreamscape-title">
         <h2>Dreamscape</h2>
     </div>
     <div class="filter-section">
-        <form class="clickable-item" id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
+        <form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
             <div class="select-section"> 
                 <div id="filter-label">
                     <label for="filter"><h3>Filter Results:</h3></label>
@@ -57,7 +57,7 @@ Dreamscape - {{ user.first_name }}
         or request.path == url_for('dreamscape_follow_creator',dream_slug=dream.dream_slug, selected=selected)
         or request.path == url_for('dreamscape_unfollow_creator',dream_slug=dream.dream_slug, selected=selected) %}
         {% if dream.dream_slug == dream_slug %}
-        <div class="general-bar dreamscape-bar main-dreamscape-bar" id="focussed-dream" tabindex=0>
+        <div class="general-bar dreamscape-bar main-dreamscape-bar opaque-element" id="focussed-dream" tabindex=0>
             <div class="ident">
                 <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
             </div>
@@ -70,7 +70,7 @@ Dreamscape - {{ user.first_name }}
             </div>
         </div>
         {% else %}
-        <div class="general-bar dreamscape-bar main-dreamscape-bar">
+        <div class="general-bar dreamscape-bar main-dreamscape-bar opaque-element">
             <div class="ident">
                 <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
             </div>
@@ -84,7 +84,7 @@ Dreamscape - {{ user.first_name }}
         </div>
         {% endif %}
         {% else %}
-        <div class="general-bar dreamscape-bar main-dreamscape-bar">
+        <div class="general-bar dreamscape-bar main-dreamscape-bar opaque-element">
             <div class="ident">
                 <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
             </div>
@@ -97,7 +97,7 @@ Dreamscape - {{ user.first_name }}
             </div>
         </div>
         {% endif %}
-        <div class="dream-general">                
+        <div class="dream-general opaque-element">                
             <div class="dream-info">
                 <div class="dreamscape-view-name">
                     <div><h2>{{ dream.dream_name}}</h2></div>
@@ -114,18 +114,18 @@ Dreamscape - {{ user.first_name }}
                     {% if user != false %}
                     {% if dream.user_id | string != session['user_id'] | string %}
                     {% if dream._id | string in user.dreams_followed | string %}
-                    <a class="clickable-item dream-action dream-button-unfollow" href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Dream</a>
+                    <a class="dream-action dream-button-unfollow" href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Dream</a>
                     {% else %}
-                    <a class="clickable-item dream-action dream-button-follow" href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Follow Dream</a>
+                    <a class="dream-action dream-button-follow" href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Follow Dream</a>
                     {% endif %}
                     {% endif %}
                     {% endif %}
                     {% if user != false %}
                     {% if dream.user_id | string != session['user_id'] | string %}
                     {% if dream.user_id | string in user.users_followed | string %}
-                    <a class="clickable-item dream-action dream-button-unfollow left-margin" href="{{ url_for('dreamscape_unfollow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Creator</a>
+                    <a class="dream-action dream-button-unfollow left-margin" href="{{ url_for('dreamscape_unfollow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Creator</a>
                     {% else %}
-                    <a class="clickable-item dream-action dream-button-follow left-margin" href="{{ url_for('dreamscape_follow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Follow Creator</a>
+                    <a class="dream-action dream-button-follow left-margin" href="{{ url_for('dreamscape_follow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Follow Creator</a>
                     {% endif %}
                     {% endif %}
                     {% endif %}
@@ -154,7 +154,7 @@ Dreamscape - {{ user.first_name }}
             or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
             or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
             or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}
-            <div class="general-bar comments-bar dreamscape-comments-bar dreamscape-comments-show-bottom" id="{{dream.dream_slug}}-bar">
+            <div class="opaque-element general-bar comments-bar dreamscape-comments-bar dreamscape-comments-show-bottom" id="{{dream.dream_slug}}-bar">
                 <div class="number-of-comments">
                     {% if selected_comments | length == 1 %}
                     <p>{{ selected_comments | length }} Comment</p>
@@ -180,7 +180,7 @@ Dreamscape - {{ user.first_name }}
             </div>
             {% endif %}
             {% else %}
-            <div class="general-bar comments-bar dreamscape-comments-bar" id="{{dream.dream_slug}}-bar">
+            <div class="opaque-element general-bar comments-bar dreamscape-comments-bar" id="{{dream.dream_slug}}-bar">
                 <div class="number-of-comments">
                     {% if selected_comments | length == 1 %}
                     <p>{{ selected_comments | length }} Comment</p>
@@ -237,9 +237,9 @@ Dreamscape - {{ user.first_name }}
             {% else %}
             <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
             {% endif %}
-                <div class="comment-entry">
+                <div class="opaque-element comment-entry">
                     <div class="comment-entry-buttons">
-                        <div class="clickable-item add-comment dreamscape-button-small" id = "{{ dream.dream_slug }}">
+                        <div class="add-comment dreamscape-button-small" id = "{{ dream.dream_slug }}">
                             Add Comment
                         </div>
                         {% if dream_slug == dream.dream_slug %}
@@ -278,47 +278,60 @@ Dreamscape - {{ user.first_name }}
                     {% else %}
                     <div class="comment-header dreamscape-bar comment-dreamscape-bar">
                     {% endif %}
-                        <div class="delete-comment-alert delete-alert" id="alert-{{ comment._id | string }}">
-                            <h3> Are you sure you want to delete this comment?</h3>
-                            <a href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}">Yes Please</a>
-                            <a href ="{{ url_for('dreamscape') }}"><div class="delete-cancel">No Thank You</div></a>
+                        <div class="comments-delete-alert delete-alert not-displayed" id="alert-{{ comment._id | string }}">
+                            <div class="main-alert">
+                                <div class="alarm-bunny-left">
+                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}">
+                                </div>
+                                <div class="alarm-text" id="dreamscape-comments">
+                                    <h3>Are you sure you want to delete this comment?</h3>
+                                    <p>It will be permanently removed, however data from any positive or negative reactions will be retained.</p>
+                                    <div class="comment-buttons">
+                                        <a class="delete-confirm" href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}">Yes, Please</a>
+                                        <div class="delete-cancel" id="{{ comment._id | string }}-cancel-delete-comment">Oops. No!!!</div>
+                                    </div>
+                                </div>
+                                <div class="alarm-bunny-right">
+                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}">
+                                </div>
+                            </div>                        
                         </div>
-                        <div class="comments-user-info">
+                        <div class="opaque-element comments-user-info">
                             Posted on {{ comment.datetime_created}}
                         </div>
-                        <div class="like-dislike-section">
+                        <div class="opaque-element like-dislike-section">
                             {% if comment.user_id | string != session['user_id'] | string %}                                                    
                                 {% if comment._id | string in user.comments_liked | string %}
-                                    <a class="clickable-item" href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <a href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
                                         <i class="unlike-button fa-solid fa-thumbs-up"></i>
                                     </a>
                                     <span>{{ comment.user_likes|length }}</span>
                                 {% else %}
-                                    <a class="clickable-item" href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <a href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
                                         <i class="like-button fa-solid fa-thumbs-up"></i>
                                     </a>
                                     <span>{{ comment.user_likes|length }}</span>                                            
                                 {% endif %}
                                 {% if comment._id | string in user.comments_disliked | string %}
-                                    <a class="clickable-item" href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <a href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
                                         <i class="undislike-button fa-solid fa-thumbs-down"></i>
                                     </a>
                                     <span>{{ comment.user_dislikes|length }}</span>
                                 {% else %}
-                                    <a class="clickable-item" href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <a href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
                                         <i class="dislike-button fa-solid fa-thumbs-down"></i>
                                     </a>
                                     <span>{{ comment.user_dislikes|length }}</span>
                                 {% endif %}
                             {% else %}                                                    
-                                <i class="clickable-item fa-solid fa-thumbs-up"></i>
+                                <i class="fa-solid fa-thumbs-up"></i>
                                 <span>{{ comment.user_likes|length }}</span>                                            
-                                <i class="clickable-item icon-base fa-solid fa-thumbs-down"></i>
+                                <i class="icon-base fa-solid fa-thumbs-down"></i>
                                 <span>{{ comment.user_dislikes|length }}</span>
                             {% endif %}
                         </div>
                     </div>
-                    <div class="comment-content">
+                    <div class="opaque-element comment-content">
                         <div class="comment-user">
                             <h4>{{comment.user_name}}</h4>
                             <div class="comment-avatar dreamscape-avatar">
@@ -334,20 +347,20 @@ Dreamscape - {{ user.first_name }}
                                 <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="adjustable-height comment-comment not-displayed" readonly>{{ comment.comment }}</textarea>
                                 <div class="edit-comment-buttons">
                                     <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit" for="{{ dream.dream_slug }}-comment-display">Confirm</button>
-                                    <div class="clickable-item cancel-comment-button cancel-comment not-displayed" id="{{ comment._id }}-cancel">Cancel</div>
+                                    <div class="cancel-comment-button cancel-comment not-displayed" id="{{ comment._id }}-cancel">Cancel</div>
                                 </div>
                                 {% if comment.user_id | string == session['user_id'] | string or user.role == "administrator" %}
                                 <div class="comment-actions">
-                                    <div class="clickable-item edit-comment" id = "{{ comment._id }}-edit">
+                                    <div class="edit-comment" id = "{{ comment._id }}-edit">
                                         <i class="fas fa-edit"></i>
                                     </div>
-                                    <div class="delete-comment clickable-item" id="{{ comment._id | string }}">
+                                    <div class="delete-comment" id="{{ comment._id | string }}">
                                         <i class="fas fa-trash"></i></a>
                                     </div>  
                                 </div>
                                 {% elif user._id == dream.user_id %}
                                 <div class="comment-actions">
-                                    <div class="delete-comment clickable-item" id="{{ comment._id | string }}">
+                                    <div class="delete-comment" id="{{ comment._id | string }}">
                                         <i class="fas fa-trash"></i>
                                     </div>
                                 </div>
@@ -361,7 +374,7 @@ Dreamscape - {{ user.first_name }}
                 {% endwith %}                
             </div>
             {% else %}
-            <div class="general-bar dreamscape-comments-bar comments-bar">
+            <div class="opaque-element general-bar dreamscape-comments-bar comments-bar">
             <p><em>Comments are disabled for this dream</em></p>
             </div>
             {% endif %}

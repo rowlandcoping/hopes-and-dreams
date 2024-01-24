@@ -58,6 +58,9 @@ h1 {
 .green-flash-reset {
     color:green;
 }
+.amber-flash-reset {
+    color:orange;
+}
 .amber-flash {
     color:orange;
 }
@@ -71,6 +74,7 @@ h1 {
 }
 
 #large-flash {
+    font-size:120%;
     text-align:center;
 }
 .signup-flash {
@@ -116,15 +120,54 @@ body {
     top: 0;
     bottom: 0;
     margin: auto;
-    width: 600px;
-    height:265px;
+    width: 650px;
+    height:175px;
     z-index: 1000;
     text-align:center;
     background-color:#000000;
     align-items:center;
-    border: ridge #5E3D00 3px;
-    padding:10px;
+    padding:20px;
     color: white;
+}
+.delete-cancel, .delete-confirm {
+    display: inline-block;
+    width:100px;
+    cursor:pointer;
+    border:2px solid white;
+    border-radius:4px;
+    padding:2px;
+}
+.delete-cancel {    
+    background-color:rgb(49, 7, 7);
+    margin-left:10px;
+}
+
+.delete-confirm {
+    background-color:rgb(58, 73, 69);
+    margin-right:10px;
+}
+
+.delete-cancel:hover {
+    display: inline-block;
+    background-color:rgb(172, 3, 3);
+}
+
+.delete-confirm:hover {
+    background-color:green;
+}
+
+.alarm-text h3 {
+    color:rgb(248, 48, 48)
+}
+#dreamscape-comments p{
+ margin:20px;
+}
+
+.comments-delete-alert {
+    display:none;
+    border:5px ridge #e4ff00ff;
+    border-radius:6px;
+
 }
 
 /*landing page */
@@ -307,7 +350,7 @@ body {
     cursor: pointer;
     border: 3px solid white;
     border-radius: 6px;    
-    width: 40%;
+    width: 300px;
     margin:auto;
     margin-bottom: 15px;
 }
@@ -386,8 +429,9 @@ body {
     justify-content:center;
 }
  #profile-section {
+    justify-content:space-between;
     align-items: start;
-    width:65%;
+    width:70%;
  }
  #profile-section h4{
     width:100%;
@@ -415,6 +459,7 @@ body {
     border:none;
     accent-color:#ff6866ff;
     color:white;
+    cursor: pointer;
  }
  .pass-change{
     font-size:105%;
@@ -424,7 +469,7 @@ body {
     text-decoration:underline;
  }
 
- #profile-pass-change {
+ #profile-pass-change:hover {
     color: rgb(77, 28, 27);
     text-decoration:underline;
  }
@@ -477,6 +522,7 @@ body {
     width: 17px;
     height: 17px;
     accent-color: #0091ffff;
+    cursor: pointer;
 }
 
 #dreambuilder-headline {
@@ -505,8 +551,9 @@ body {
 }
 .personal-section {
     display:flex;
-    width:80%;
+    width:90%;
     justify-content: space-between;
+    align-items:start;
     margin:20px auto;
 }
 #dream_name {
@@ -538,6 +585,8 @@ body {
 .image-layout img {
     margin-top:20px;
     width:250px;
+    height:250px;
+    object-fit: cover;      
 }
 
 .image-layout input[type="file"]::file-selector-button {
@@ -608,6 +657,20 @@ body {
     background-color: rgb(6, 28, 46);
 }
 
+
+.main-alert {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.main-alert img {
+    width:100px;
+}
+
+.alarm-text {
+    margin: 10px;
+}
 
 
 /*welcome page*/
@@ -874,8 +937,10 @@ body {
 
 /* DREAMS PAGE */
 
-.delete-dream-alert, .delete-comment-alert {
+.dreams-delete-alert {
     display:none;
+    border:5px ridge #0091ffff;
+    border-radius:6px;
 }
 
 .delete-dream, .delete-comment {
@@ -1057,8 +1122,7 @@ body {
     margin-right:50px;
 }
 
-.view-dream-image img {
-    
+.view-dream-image img {    
     width:300px;
 }
 
@@ -1312,6 +1376,8 @@ body {
 .comment-avatar img {
     margin:10px 0;
     width:100px;
+    height:100px;
+    object-fit:cover;
 }
 .edit-comment, .delete-comment {
     margin-right:10px;
@@ -1386,6 +1452,7 @@ body {
 }
 
 #filter-select select {
+    cursor: pointer;
     font-size:90%;
     width:150px;
     color:white;
@@ -1494,8 +1561,17 @@ body {
 
 .profile-pic-remove input {
     accent-color: #ff6866ff;
+    cursor: pointer;
 }
 /* Edit Dream */
+
+#dream-section h4{
+    margin:auto;
+    text-align:center;
+    width:80%;
+    border-bottom:2px solid #0091ffff;;
+    padding-bottom:4px;
+ }
 
 .category-edit-mofew {
     margin-top:20px;

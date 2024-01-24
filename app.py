@@ -413,7 +413,7 @@ def profile_personal():
             categories_one = categories[0:10]
             categories_two = categories[10:20]
             categories_custom = categories[20:len(categories)]
-            flash("Profile Updated")
+            flash("Profile Updated.", "amber-flash")
         return render_template("profile-personal.html", base_url=base_url, user=user_info, categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))
 
@@ -598,7 +598,7 @@ def abandon_dream ():
     return redirect(url_for("dreams"))
 
 
-#route to select various dream modules in order to edit them.
+#route to edit a dream.
 @app.route("/edit-dream/<dream_slug>", methods=["GET", "POST"])
 def edit_dream(dream_slug):
     if session.get("user_id") is not None:
@@ -727,7 +727,7 @@ def edit_dream(dream_slug):
                 categories_one = categories[0:10]
                 categories_two = categories[10:20]
                 categories_custom = categories[20:len(categories)]
-                flash("Dream Updated") 
+                flash("Dream Updated.", "amber-flash-reset") 
             return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
         return render_template("edit-dream.html", base_url=base_url,  user=user_info, dream=dream, dream_slug=dream["dream_slug"], categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return redirect(url_for("home"))

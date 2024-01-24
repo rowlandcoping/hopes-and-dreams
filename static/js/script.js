@@ -257,6 +257,15 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("dream_description").style.height = document.getElementById("dream_description").scrollHeight + 'px';           
         }
     });
+    //add evemt listeners for cancelling delete alerts
+    const attachCancelAlertListners= Array.from(document.getElementsByClassName('delete-cancel'));
+    attachCancelAlertListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            cancelAlert(itemId);
+        });
+    });
+
 
     //------------ACTIONS-------------//
     
@@ -455,37 +464,88 @@ document.addEventListener("DOMContentLoaded", function() {
 
     }
 
-    //DREAMS PAGE
-    //Open dream delete alert
+    //ALERTS
+    //Open delete dream alert
     function deleteDream(itemId) {
         document.getElementById("alert-" + itemId).style.display="block";
-        const removeElements = document.getElementsByClassName('general-bar');
-        for (let i = 0; i < removeElements.length; i++) {
-            removeElements[i].innerHTML="<i class='fas fa-edit'> </i><i class='fas fa-trash'> </i> View Dream";
-        }
-        const disableMenu = document.getElementsByClassName('clickable-item');
+        document.getElementById("alert-" + itemId).focus();
+        document.getElementById("alert-" + itemId).scrollIntoView({behavior: "instant", block: "center"}); 
+        const disableMenu = document.getElementsByClassName('opaque-element');
         for (let i = 0; i < disableMenu.length; i++) {
             disableMenu[i].style.pointerEvents = "none";
-            disableMenu[i].style.color = "rgba(1,1,1,0.4)";
+            disableMenu[i].style.opacity = "0.3";
         }
-        const fadeImageElements = document.querySelectorAll('img');
-        for (let i = 0; i < fadeImageElements.length; i++) {
-            fadeImageElements[i].style.opacity = "0.4";
-        }
-        document.body.style.backgroundColor = "rgba(1,1,1,0.4)";
-        document.body.style.color = "rgba(1,1,1,0.4)";
-        document.getElementById('main-template-wrapper').style.opacity="0.4";
-        document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
-        document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
-           
     };
+    //open comment delete alert
+    function deleteComment(itemId) {
+        document.getElementById("alert-" + itemId).style.display="block";
+        document.getElementById("alert-" + itemId).focus();
+        document.getElementById("alert-" + itemId).scrollIntoView({behavior: "instant", block: "center"}); 
+        const disableMenu = document.getElementsByClassName('opaque-element');
+        for (let i = 0; i < disableMenu.length; i++) {
+            disableMenu[i].style.pointerEvents = "none";
+            disableMenu[i].style.opacity = "0.3";
+        }
+        const opaqueBorderList = document.getElementsByClassName('dreamscape-list');
+        for (let i = 0; i < opaqueBorderList.length; i++) {
+            opaqueBorderList[i].style.borderBottom = "3px solid rgb(228,255, 0, .3)";
+        }
+        const opaqueBorderComments = document.getElementsByClassName('comment-dreamscape-bar');
+            for (let i = 0; i < opaqueBorderComments.length; i++) {
+                opaqueBorderComments[i].style.borderBottom = "2px solid rgb(228,255, 0, .3)";
+                opaqueBorderComments[i].style.borderTop = "2px solid rgb(228,255, 0, .3)";
+            }
+        const opaqueBorderCommentsDream = document.getElementsByClassName('comment-dream-bar');
+        for (let i = 0; i < opaqueBorderCommentsDream.length; i++) {
+            opaqueBorderCommentsDream[i].style.borderBottom = "2px solid rgb(0,145,255, .3)";
+            opaqueBorderCommentsDream[i].style.borderTop = "2px solid rgb(0,145,255, .3)";
+        }
+    }
+    //Close (cancel) alert
+
+    function cancelAlert(itemId) {
+        const fullString = itemId.split('-');
+        const selectedItem = fullString.slice(0, -3).join("-");
+        const alertPage = fullString.slice(-1).join("-");
+        if (alertPage==="dream") {
+            document.getElementById("alert-" + selectedItem).style.display="none";
+            const disableMenu = document.getElementsByClassName('opaque-element');
+            for (let i = 0; i < disableMenu.length; i++) {
+                disableMenu[i].style.pointerEvents = "auto";
+                disableMenu[i].style.opacity = "1";
+            }
+        }
+        if (alertPage==="comment") {
+            document.getElementById("alert-" + selectedItem).style.display="none";
+            const disableMenu = document.getElementsByClassName('opaque-element');
+            for (let i = 0; i < disableMenu.length; i++) {
+                disableMenu[i].style.pointerEvents = "auto";
+                disableMenu[i].style.opacity = "1";
+            }
+            const opaqueBorderList = document.getElementsByClassName('dreamscape-list');
+            for (let i = 0; i < opaqueBorderList.length; i++) {
+                opaqueBorderList[i].style.borderBottom = "3px solid rgb(228,255, 0, 1)";
+            }
+            const opaqueBorderComments = document.getElementsByClassName('comment-dreamscape-bar');
+            for (let i = 0; i < opaqueBorderComments.length; i++) {
+                opaqueBorderComments[i].style.borderBottom = "2px solid rgb(228,255, 0, 1)";
+                opaqueBorderComments[i].style.borderTop = "2px solid rgb(228,255, 0, 1)";
+            }
+            const opaqueBorderCommentsDream = document.getElementsByClassName('comment-dream-bar');
+            for (let i = 0; i < opaqueBorderCommentsDream.length; i++) {
+                opaqueBorderCommentsDream[i].style.borderBottom = "2px solid rgb(0,145,255, 1)";
+                opaqueBorderCommentsDream[i].style.borderTop = "2px solid rgb(0,145,255, 1)";
+            }        
+        }
+    }
+
+    
 
     //DREAMSCAPE/VIEW DREAM
     //show/hide comments section 
     function showHide(itemId) {
         idArray = itemId.split('-');
         itemSlug = idArray.slice(0, -3).join("-");
-        console.log(itemSlug);
         itemClass= idArray[idArray.length -1];
         if (itemClass === "show") {
             document.getElementById(itemSlug + "-view-all").style.display="none";
@@ -604,36 +664,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
-    //open comment delete alert
-    function deleteComment(itemId) {
-        document.getElementById("alert-" + itemId).style.display="block";
-        const disableMenu = document.getElementsByClassName('clickable-item');
-        for (let i = 0; i < disableMenu.length; i++) {
-            disableMenu[i].style.pointerEvents = "none";
-            disableMenu[i].style.color = "rgba(1,1,1,0.4)";
-        }
-        const fadeImageElements = document.querySelectorAll('img');
-        for (let i = 0; i < fadeImageElements.length; i++) {
-            fadeImageElements[i].style.opacity = "0.4";
-        }
-        const fadeFormElements = document.querySelectorAll('textarea');
-        for (let i = 0; i < fadeFormElements.length; i++) {
-            fadeFormElements[i].style.opacity = "0.4";
-        }
-        const fadeSelectElements = document.querySelectorAll('select');
-        for (let i = 0; i < fadeSelectElements.length; i++) {
-            fadeSelectElements[i].style.opacity = "0.4";
-        }
-        const fadeButtonElements = document.querySelectorAll('button');
-        for (let i = 0; i < fadeButtonElements.length; i++) {
-            fadeButtonElements[i].style.opacity = "0.4";
-        }
-        document.body.style.backgroundColor = "rgba(1,1,1,0.4)";
-        document.body.style.color = "rgba(1,1,1,0.4)";
-        document.getElementById('main-template-wrapper').style.opacity="0.4";
-        document.getElementById('main-content').style.border="5px solid rgba(1,1,1,0.4)";
-        document.getElementById('active-page').style.border="5px solid rgba(1,1,1,0.4)";
-    }
+    
     
     //functions for mouseover/out for the dreams icon
     function mouseoverDreams() {

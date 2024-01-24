@@ -6,23 +6,24 @@ Edit Dream - {{ dream.dream_name }}
 
 {% block content %}
 <div id = "edit-general" class="dream-edit-general">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="{{ category }}" id="large-flash">
-                    <div>
-                        <h3>{{ message }}</h3>
-                    </div>
-                </div>
-            {% endfor %}        
-        {% endif %}
-    {% endwith %}
     <form action="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}" method="POST" name="dream-update" enctype="multipart/form-data">
         <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories | join(',') }}" readonly required>
         <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
         <div class="banner-headline" id="dream-headline"><h2>"{{dream.dream_name}}" Information<h2></div>
-        <div class="personal-section">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }} landing-flash" id="large-flash">
+                        <div>
+                            <h3>{{ message }}</h3>
+                        </div>
+                    </div>
+                {% endfor %}        
+            {% endif %}
+        {% endwith %}
+        <div class="personal-section" id="dream-section">
             <div class="main-information">
+                <h4>Edit Dream Details:</h4>
                 <table class="form-table-edit">
                     <tr>
                         <td class="label"><label for="dream_name">My Dream: </label></td>
