@@ -245,9 +245,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     //auto-resizing for dreambuilder textarea
     document.addEventListener("input", function(e){
+        const target = e.target.closest("#dream_drescription"); 
+        if(target){
+            autoResize();
+        }
+    });
+    document.addEventListener("click", function(e){
         const target = e.target.closest("#dream_description"); 
         if(target){
-            textareaDreambuild();
+            document.getElementById("dream_description").style.height = "auto";
+            document.getElementById("dream_description").style.height = document.getElementById("dream_description").scrollHeight + 'px';           
         }
     });
 
@@ -346,6 +353,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (document.getElementById('image-submit')) {
                 document.getElementById('image-submit').style.display = "inline-block";
             }
+            if (document.getElementById('remove-picture')) {
+                document.getElementById('remove-picture').style.display = "none";
+            }
         }
     }
     if (imageUpload) {
@@ -354,7 +364,10 @@ document.addEventListener("DOMContentLoaded", function() {
     //shows more categories
     function showMore() {
         document.getElementById('show-fewer').style.display = "block";
-        document.getElementById('categories-two').style.display = "block";
+        const addCatTwo = document.getElementsByClassName('categories-two');
+        for (let i = 0; i < addCatTwo.length; i++) {
+            addCatTwo[i].style.display = "inline-block";
+        }
         if (document.getElementById('show-more')) {
             document.getElementById('show-more').style.display = "none";
         }
@@ -365,27 +378,39 @@ document.addEventListener("DOMContentLoaded", function() {
     //shows all categories
     function showAll() {
         document.getElementById('show-fewer').style.display = "block";
-        document.getElementById('categories-two').style.display = "block";
-        document.getElementById('categories-custom').style.display = "block";
+        const addCatTwo = document.getElementsByClassName('categories-two');
+        for (let i = 0; i < addCatTwo.length; i++) {
+            addCatTwo[i].style.display = "inline-block";
+        }
+        const addCatCustom= document.getElementsByClassName('categories-two');
+        for (let i = 0; i < addCatCustom.length; i++) {
+            addCatCustom[i].style.display = "inline-block";
+        }
         document.getElementById('show-more').style.display = "none";
         document.getElementById('show-all').style.display = "none";
     }
     //shows fewer categories
     function showFewer() {
-        if (document.getElementById('categories-custom').style.display != "none") {
+        if (document.getElementsByClassName('categories-custom').length) {
             if (document.getElementById('show-all')) {
                 document.getElementById('show-all').style.display = "block";
             }
             if (document.getElementById('show-all') || document.getElementById('show-more')) {
                 document.getElementById('show-fewer').style.display = "block";
             }
-            document.getElementById('categories-custom').style.display = "none"
+            const removeCatCustom = document.getElementsByClassName('categories-custom');
+            for (let i = 0; i < removeCatCustom.length; i++) {
+                removeCatCustom[i].style.display = "none";
+            }
         } else {
             if (document.getElementById('show-more')) {
                 document.getElementById('show-more').style.display = "block";
             }
             document.getElementById('show-fewer').style.display = "none";
-            document.getElementById('categories-two').style.display = "none";
+            const removeCatTwo = document.getElementsByClassName('categories-two');
+            for (let i = 0; i < removeCatTwo.length; i++) {
+                removeCatTwo[i].style.display = "none";
+            }
         }        
     }
     //mouseover effects for categories
@@ -411,12 +436,6 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.border = "2px solid border:rgb(53, 52, 52)";
         }
     }
-    //resizes form
-    function textareaDreambuild() {
-        document.getElementById("dream_description").addEventListener('focus', autoResize, false);
-        document.getElementById("dream_description").addEventListener('input', autoResize, false);
-        document.getElementById("dream_description").focus();            
-    }
 
     //EDITING PROFILE INFO    
     //cancel profile pic change 
@@ -430,6 +449,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (document.getElementById('image-submit')) {
             document.getElementById('image-submit').style.display = "none";
         }
+        if (document.getElementById('remove-picture')) {
+            document.getElementById('remove-picture').style.display = "flex";
+        }
+
     }
 
     //DREAMS PAGE

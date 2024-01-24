@@ -460,8 +460,7 @@ body {
     display:flex;
     width:90%;
     justify-content: space-between;
-    align-items:center;
-    margin:0 auto;
+    margin:20px auto;
 }
 #dream_name {
     font-size: 95%;
@@ -476,6 +475,7 @@ body {
     width:600px;
     height:60px;
     font-size: 95%;
+    margin-left:5px;
     padding:5px;
 }
 
@@ -1424,4 +1424,70 @@ body {
 
 #profile-exit:hover, #home-exit:hover {
     background-color: #ff6866ff;
+}
+
+/* Edit Dream */
+
+.category-edit-mofew {
+    margin-top:20px;
+}
+
+#dream-edit-buttons {
+    display:flex;
+    justify-content:center;
+    border-top: 5px solid #0091ffff;
+    margin-top:10px;
+    width:100%;
+    text-align:center;
+}
+
+.edit-button {
+    width:200px;
+}
+
+.edit-button:hover {
+    background-color: green;
+    width:200px;
+}
+
+.abandon-edit-button {
+    width: 182px;
+}
+
+.main-information {
+    display: flex;
+    flex-flow:column;
+    justify-content: center;
+    align-items: center;
+    margin-right:20px;
+}
+.form-table-edit {
+    border-spacing:15px;
+}
+
+#edit-layout img {
+    text-align:center;
+    width:200px;
+}
+
+#edit-layout{
+    text-align:center;
+
+}
+
+#remove-picture {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+
+#remove-picture label {
+    margin-right:9px;
+    padding-top:9px;
+}
+
+#remove-picture input {
+    width: 17px;
+    height: 17px;
+    accent-color: #0091ffff;
 }

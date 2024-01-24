@@ -9,14 +9,12 @@ View Dream - {{ dream.dream_name }}
 <div id="view-dream-container">
     <div id="dreams-container-top">
         {% if user != False %}
-        <div id="return-button-container">
-            
+        <div id="return-button-container"> 
                 {% if dream.user_id | string != session['user_id'] | string %}
                     <a class="clickable-item dream-button" href="{{ url_for('dreamscape') }}"><h2>Return to Dreamscape</h2></a>
                 {% else %}
                     <a class="clickable-item dream-button" href="{{ url_for('dreams') }}"><h2>Return to Dreams</h2></a>
-                {% endif %}
-            
+                {% endif %}  
         </div>
         {% else %}
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -247,4 +245,4 @@ View Dream - {{ dream.dream_name }}
         {% endwith %}
     </div>
 </div>
-{% endblock content %}
+{% endblock content %} 
