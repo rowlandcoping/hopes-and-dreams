@@ -58,10 +58,12 @@ Dreamscape - {{ user.first_name }}
         or request.path == url_for('dreamscape_unfollow_creator',dream_slug=dream.dream_slug, selected=selected) %}
         {% if dream.dream_slug == dream_slug %}
         <div class="general-bar dreamscape-bar main-dreamscape-bar" id="focussed-dream" tabindex=0>
-            <div class="ident"><p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p></div>
+            <div class="ident">
+                <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+            </div>
             <div class="following">
                 {% if dream.total_followers %}
-                    <p>Following: {{ dream.total_followers }} </p>
+                    <p>Following: {{ dream.total_followers }}</p>
                 {% else %}
                     <p>Following: 0</p>
                 {% endif %}
@@ -69,62 +71,69 @@ Dreamscape - {{ user.first_name }}
         </div>
         {% else %}
         <div class="general-bar dreamscape-bar main-dreamscape-bar">
-            <div class="ident"><p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p></div>
+            <div class="ident">
+                <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+            </div>
             <div class="following">
                 {% if dream.total_followers %}
-                    <p>Following: {{ dream.total_followers }} </p>
+                    <p>Following: {{ dream.total_followers }}</p>
                 {% else %}
                     <p>Following: 0</p>
                 {% endif %}
             </div>
         </div>
-        {%endif%}
+        {% endif %}
         {% else %}
         <div class="general-bar dreamscape-bar main-dreamscape-bar">
-            <div class="ident"><p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p></div>
+            <div class="ident">
+                <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+            </div>
             <div class="following">
                 {% if dream.total_followers %}
-                    <p>Following: {{ dream.total_followers }} </p>
+                    <p>Following: {{ dream.total_followers }}</p>
                 {% else %}
                     <p>Following: 0</p>
                 {% endif %}
             </div>
         </div>
-        {% endif %} 
-
+        {% endif %}
         <div class="dream-general">                
             <div class="dream-info">
                 <div class="dreamscape-view-name">
                     <div><h2>{{ dream.dream_name}}</h2></div>
-                    <div class="view-dreamscape"><a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}"><i class="fa-regular fa-eye"></i></a></div>
+                    <div class="view-dreamscape">
+                        <a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}">
+                            <i class="fa-regular fa-eye"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="view-dream-description">
                     <p>{{ dream.dream_description }}<p>
                 </div>
                 <div class="view-dream-options">
                     {% if user != false %}
-                        {% if dream.user_id | string != session['user_id'] | string %}
-                            {% if dream._id | string in user.dreams_followed | string %}
-                                <a class="clickable-item dream-action dream-button-unfollow" href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Dream</a>
-                            {% else %}
-                                <a class="clickable-item dream-action dream-button-follow" href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Follow Dream</a>
-                            {% endif %}
-                        {% endif %}
+                    {% if dream.user_id | string != session['user_id'] | string %}
+                    {% if dream._id | string in user.dreams_followed | string %}
+                    <a class="clickable-item dream-action dream-button-unfollow" href="{{ url_for('dreamscape_unfollow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Dream</a>
+                    {% else %}
+                    <a class="clickable-item dream-action dream-button-follow" href="{{ url_for('dreamscape_follow_dream', dream_slug=dream.dream_slug, selected=selected) }}">Follow Dream</a>
+                    {% endif %}
+                    {% endif %}
                     {% endif %}
                     {% if user != false %}
-                        {% if dream.user_id | string != session['user_id'] | string %}
-                            {% if dream.user_id | string in user.users_followed | string %}
-                                <a class="clickable-item dream-action dream-button-unfollow left-margin" href="{{ url_for('dreamscape_unfollow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Creator</a>
-                            {% else %}
-                                <a class="clickable-item dream-action dream-button-follow left-margin" href="{{ url_for('dreamscape_follow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Follow Creator</a>
-                            {% endif %}
-                        {% endif %}
+                    {% if dream.user_id | string != session['user_id'] | string %}
+                    {% if dream.user_id | string in user.users_followed | string %}
+                    <a class="clickable-item dream-action dream-button-unfollow left-margin" href="{{ url_for('dreamscape_unfollow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Unfollow Creator</a>
+                    {% else %}
+                    <a class="clickable-item dream-action dream-button-follow left-margin" href="{{ url_for('dreamscape_follow_creator', dream_slug=dream.dream_slug, selected=selected) }}">Follow Creator</a>
+                    {% endif %}
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>
             <div class="view-dream-image">
                 {% if dream.image %}
-                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                 {% endif %}
             </div>                
         </div>
@@ -133,27 +142,27 @@ Dreamscape - {{ user.first_name }}
             {% with dream_comment = comments %}
             {% if dream_comment %}
             {% set selected_comments=[] %}
-                {% for comment in dream_comment %}                                
-                    {% if comment.dream_id | string == dream._id | string %}
-                        {{ selected_comments.append(comment) or "" }}
-                    {% endif %}
-                {% endfor %}
-                {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('add_dream_comment',dream_slug=dream.dream_slug, selected=selected)
-                or request.path == url_for('edit_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('delete_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}
-                <div class="general-bar comments-bar dreamscape-comments-bar dreamscape-comments-show-bottom" id="{{dream.dream_slug}}-bar">
-                    <div class="number-of-comments">
+            {% for comment in dream_comment %}                                
+            {% if comment.dream_id | string == dream._id | string %}
+            {{ selected_comments.append(comment) or "" }}
+            {% endif %}
+            {% endfor %}
+            {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('add_dream_comment',dream_slug=dream.dream_slug, selected=selected)
+            or request.path == url_for('edit_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('delete_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}
+            <div class="general-bar comments-bar dreamscape-comments-bar dreamscape-comments-show-bottom" id="{{dream.dream_slug}}-bar">
+                <div class="number-of-comments">
                     {% if selected_comments | length == 1 %}
-                        <p>{{ selected_comments | length }} Comment</p>
+                    <p>{{ selected_comments | length }} Comment</p>
                     {% else %}
-                        <p>{{ selected_comments | length }} Comments</p>
+                    <p>{{ selected_comments | length }} Comments</p>
                     {% endif %}                
-                    </div>
-                    {% if selected_comments | length %}
+                </div>
+                {% if selected_comments | length %}
                 <div>
                     <span id="{{dream.dream_slug}}-view-all" class="not-displayed">
                         <span class="show-hide-comments">
@@ -168,77 +177,81 @@ Dreamscape - {{ user.first_name }}
                         </span>  
                     </span>
                 </div>
-                {% endif %}
-                {% else %}
-                <div class="general-bar comments-bar dreamscape-comments-bar" id="{{dream.dream_slug}}-bar">
-                    <div class="number-of-comments">
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="general-bar comments-bar dreamscape-comments-bar" id="{{dream.dream_slug}}-bar">
+                <div class="number-of-comments">
                     {% if selected_comments | length == 1 %}
-                        <p>{{ selected_comments | length }} Comment</p>
+                    <p>{{ selected_comments | length }} Comment</p>
                     {% else %}
-                        <p>{{ selected_comments | length }} Comments</p>
+                    <p>{{ selected_comments | length }} Comments</p>
                     {% endif %}                
-                    </div>
-                    {% if selected_comments | length %}
-                    <div>
-                        <span id="{{dream.dream_slug}}-view-all">
-                            <span class="show-hide-comments">
-                                <small>View Comments</small>
-                                <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
-                            </span>
+                </div>
+                {% if selected_comments | length %}
+                <div>
+                    <span id="{{dream.dream_slug}}-view-all">
+                        <span class="show-hide-comments">
+                            <small>View Comments</small>
+                            <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
                         </span>
-                        <span id="{{dream.dream_slug}}-hide-all" class="not-displayed">
-                            <span class="show-hide-comments">
-                                <small>Hide Comments</small>          
-                                <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
-                            </span>  
+                    </span>
+                    <span id="{{dream.dream_slug}}-hide-all" class="not-displayed">
+                        <span class="show-hide-comments">
+                            <small>Hide Comments</small>          
+                            <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
+                        </span>  
+                    </span>
+                </div>
+                {% else %}
+                <div>
+                    <span id="{{dream.dream_slug}}-view-all">
+                        <span class="show-hide-comments">
+                            <small>Add First Comment</small>
+                            <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
                         </span>
-                    </div>
-                    {% else %}
-                    <div>
-                        <span id="{{dream.dream_slug}}-view-all">
-                            <span class="show-hide-comments">
-                                <small>Add First Comment</small>
-                                <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
-                            </span>
-                        </span>
-                        <span id="{{dream.dream_slug}}-hide-all" class="not-displayed">
-                            <span class="show-hide-comments">
-                                <small>Hide Comments</small>          
-                                <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
-                            </span>  
-                        </span>
-                    </div>
-                {% endif %}
+                    </span>
+                    <span id="{{dream.dream_slug}}-hide-all" class="not-displayed">
+                        <span class="show-hide-comments">
+                            <small>Hide Comments</small>          
+                            <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
+                        </span>  
+                    </span>
+                </div>
                 {% endif %}
             </div>
+            {% endif %}        
+            
+            {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+                or request.path == url_for('edit_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+                or request.path == url_for('add_dream_comment',dream_slug=dream_slug, selected=selected)
+                or request.path == url_for('delete_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+                or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+                or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+                or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
             {% if dream.dream_slug == dream_slug %}
-                {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                    or request.path == url_for('edit_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
-                    or request.path == url_for('add_dream_comment',dream_slug=dream_slug, selected=selected)
-                    or request.path == url_for('delete_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
-                    or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                    or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                    or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
-                <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
-                {% endif %}           
-                {% else %}
-                <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
-                {% endif %}
+            <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
+            {% endif %}           
+            {% else %}
+            <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
+            {% endif %}
                 <div class="comment-entry">
                     <div class="comment-entry-buttons">
-                        <div class="clickable-item add-comment dreamscape-button-small" id = "{{ dream.dream_slug }}">Add Comment</div>
+                        <div class="clickable-item add-comment dreamscape-button-small" id = "{{ dream.dream_slug }}">
+                            Add Comment
+                        </div>
                         {% if dream_slug == dream.dream_slug %}
-                            {% with messages = get_flashed_messages(with_categories=true) %}
-                                {% if messages %}
-                                    {% for category, message in messages %}
-                                        <div class= "{{ category }}" id="comment-flash">
-                                            <div id="focussed-dream" tabindex="0">
-                                                <h3>{{ message }}</h3>
-                                            </div>
-                                        </div>
-                                    {% endfor %}        
-                                {% endif %}
-                            {% endwith %}
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class= "{{ category }}" id="comment-flash">
+                            <div id="focussed-dream" tabindex="0">
+                                <h3>{{ message }}</h3>
+                            </div>
+                        </div>
+                        {% endfor %}        
+                        {% endif %}
+                        {% endwith %}
                         {% endif %}
                     </div>
                     <form class="comment-form not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
@@ -268,7 +281,6 @@ Dreamscape - {{ user.first_name }}
                             <a href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}">Yes Please</a>
                             <a href ="{{ url_for('dreamscape') }}"><div class="delete-cancel">No Thank You</div></a>
                         </div>
-
                         <div class="comments-user-info">
                             Posted on {{ comment.datetime_created}}
                         </div>
@@ -352,7 +364,7 @@ Dreamscape - {{ user.first_name }}
             </div>
             {% endif %}
         </div>
-    </div>
+        </div>
     {% endfor %}
     {% else %}
     {% if selected == "personalized" %}
