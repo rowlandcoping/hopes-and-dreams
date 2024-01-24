@@ -50,10 +50,10 @@ View Dream - {{ dream.dream_name }}
                 <div class="dream-general">
                     <div class="dream-info">
                         <div class="view-dream-name">
-                            <h2>{{ dream.dream_name}}</h2>
+                            <h2>{{ dream.dream_name }}</h2>
                         </div>
                         <div class="view-dream-description">
-                            <p>{{ dream.dream_description }}<p>
+                            <p>{{- dream.dream_description -}}<p>
                         </div>
                         <div class="view-dream-options">
                             {% if user != false %}

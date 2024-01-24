@@ -55,7 +55,7 @@
                 <br>You can always do this later.</p>
                 {% with categories = categories_two %}
                     {% if categories %}
-                    <div class="show-additional category-edit-mofew not-displayed" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="show-additional category-edit-mofew" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
                     {% endif %}
                 {% endwith %}
                 {% with categories = categories_custom %}
@@ -63,19 +63,19 @@
                     <div class="show-additional category-edit-mofew" id="show-all"><i class="fa-solid fa-arrow-down"> </i> Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
                     {% endif %}
                 {% endwith %}
-                <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
+                <div id="show-fewer" class="show-fewer-style category-edit-mofew not-displayed"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
                 <div id="warning-message"></div>
                 {% with categories = categories_one %}
                     {% if categories %}
                         {% for category in categories %}
-                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                        <div class="category-selector category-initial" id = "{{category.category}}">{{ category.category}}</div>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
                 {% with categories = categories_two %}
                     {% if categories %}
                         {% for category in categories %}
-                        <div class="category-selector categories-two" id = "{{category.category}}">{{ category.category}}</div>
+                        <div class="category-selector categories-two not-displayed" id = "{{category.category}}">{{ category.category}}</div>
                         {% endfor %}                    
                     {% endif %}
                 {% endwith %}

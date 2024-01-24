@@ -416,6 +416,26 @@ body {
     accent-color:#ff6866ff;
     color:white;
  }
+ .pass-change{
+    font-size:105%;
+ }
+ #profile-pass-change {
+    color:#ff6866ff;
+    text-decoration:underline;
+ }
+
+ #profile-pass-change {
+    color: rgb(77, 28, 27);
+    text-decoration:underline;
+ }
+
+.profile-layout input[type="file"]::file-selector-button { 
+    background-color: rgb(77, 28, 27);
+}
+.profile-layout input[type="file"]::file-selector-button:hover {
+    background-color: #ff6866ff;
+}
+
 
 /*create dream user journey*/
 
@@ -524,14 +544,17 @@ body {
     font-size: 120%;
     cursor: pointer;
     color: white;
-    background-color: rgb(6, 28, 46);
     border: 2px solid white;
     margin-left: 50px;
     margin-right:16px;
     padding: 3px 8px;
     border-radius: 4px;
 }
-.image-layout input[type="file"]::file-selector-button:hover {
+
+.dream-layout input[type="file"]::file-selector-button { 
+    background-color: rgb(6, 28, 46);
+}
+.dream-layout input[type="file"]::file-selector-button:hover {
     background-color: #0091ffff;
 }
 
@@ -553,6 +576,7 @@ body {
     margin:20px 10px 0 0;
 }
 .cancel-dream-image {
+    text-align:center;
     background-color:rgb(49, 7, 7);
     border:2px solid white;
     width:110px;
@@ -838,11 +862,14 @@ body {
     border:rgb(53, 52, 52) 2px solid;
     cursor: pointer;
     padding:5px;
-    display:inline-block;
     margin: 5px;
     width: 100px;
     text-align: center;
     border-radius: 4px;
+}
+
+.category-initial {
+    display:inline-block;
 }
 
 /* DREAMS PAGE */
@@ -1381,7 +1408,7 @@ body {
     width:150px;
 }
 
-/*assword reset and 404*/
+/*password reset and 404*/
 
 .other-page {
     margin: 30px 200px;
@@ -1453,6 +1480,21 @@ body {
     background-color: #ff6866ff;
 }
 
+.edit-buttons {
+    display:flex;
+    justify-content:center;
+    margin-top:10px;
+    width:100%;
+    text-align:center;
+}
+
+#profile-edit-buttons {
+    border-top: 5px solid #ff6866ff;
+}
+
+.profile-pic-remove input {
+    accent-color: #ff6866ff;
+}
 /* Edit Dream */
 
 .category-edit-mofew {
@@ -1460,12 +1502,7 @@ body {
 }
 
 #dream-edit-buttons {
-    display:flex;
-    justify-content:center;
     border-top: 5px solid #0091ffff;
-    margin-top:10px;
-    width:100%;
-    text-align:center;
 }
 
 .edit-button {
@@ -1495,6 +1532,8 @@ body {
 #edit-layout img {
     text-align:center;
     width:200px;
+    height:200px;
+    object-fit: cover;
 }
 
 #edit-layout{
@@ -1515,6 +1554,5 @@ body {
 
 #remove-picture input {
     width: 17px;
-    height: 17px;
-    accent-color: #0091ffff;
+    height: 17px;   
 }

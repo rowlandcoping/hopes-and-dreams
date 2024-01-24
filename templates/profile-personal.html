@@ -43,19 +43,19 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                         <td><input type="text" id="last-name" name="last_name" value="{{ user.last_name | capitalize }}" required></td>
                     </tr>
                 </table>
-                <div>
-                    <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
+                <div class="pass-change">
+                    <p>Click <a id="profile-pass-change" href="{{url_for('password_reset')}}">HERE</a> to change your password.</p>
                 </div>
-                <a href="{{ url_for('log_out') }}">Log Out</a>
+                <a class="cancel-dream-image" href="{{ url_for('log_out') }}">Log Out</a>
             </div>
-            <div class="image-layout" id="edit-layout">
+            <div class="image-layout profile-layout" id="edit-layout">
                 <label for="image_upload"><h4>Upload New Image:</h4></label>
                 <input type="file" id="uploaded-image" name="profile_picture">
                 <div>
                     <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}">
                     <img id="image-preview" class="not-displayed" src="" width="150">
                 </div>
-                <div id="remove-picture">
+                <div id="remove-picture" class="profile-pic-remove">
                     <label for="profile_picture">Generate Random Avatar: </label>
                     <input type="checkbox" id="delete_image" name="delete_image">
                 </div>
@@ -76,39 +76,33 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 <div class="show-additional category-edit-mofew" id="show-all"><i class="fa-solid fa-arrow-down"> </i> Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
                 {% endif %}
             {% endwith %}
-            <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
-            <div id="warning-message"></div>
+            <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>
             {% with categories = categories_one %}
                 {% if categories %}
                     {% for category in categories %}
-                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                    <div class="category-selector category-initial" id = "{{category.category}}">{{ category.category}}</div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
             {% with categories = categories_two %}
                 {% if categories %}
                     {% for category in categories %}
-                    <div class="category-selector categories-two" id = "{{category.category}}">{{ category.category}}</div>
+                    <div class="category-selector categories-two category-initial" id = "{{category.category}}">{{ category.category}}</div>
                     {% endfor %}                    
                 {% endif %}
             {% endwith %}
             {% with categories = categories_custom %}
                 {% if categories %}
                     {% for category in categories %}
-                    <div class="category-selector categories-custom not-displayed" id = "{{category.category}}">{{ category.category}}</div>
+                    <div class="category-selector categories-custom category-initial" id = "{{category.category}}">{{ category.category}}</div>
                     {% endfor %}                            
                 {% endif %}
             {% endwith %}                
         </div>
-        <div id="dream-edit-buttons">
+        <div id="profile-edit-buttons" class="edit-buttons">
             <button id="create-dream" type="submit" class="create-button edit-button">Submit Changes</button>
             <a id="abandon" class="abandon-button abandon-edit-button" href="{{ url_for('profile_personal') }}">Clear Changes</a>
         </div>                
     </form>
 </div> 
-    <span id="info-update">
-        <button type="submit" id="save-button">Save Changes</button>
-        <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
-    </span>
-</form>
 {% endblock content %}
