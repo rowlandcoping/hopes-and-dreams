@@ -170,6 +170,8 @@ body {
 
 }
 
+/*LANDING PAGE*/
+
 /*landing page */
 #landing-container {
     display:flex;
@@ -201,10 +203,7 @@ body {
 #landing-tree-right img{
     width:250px;
 }
-#landing-image img {
-    width:300px;
-    margin:auto;
-}
+
 .headline-wrapper {
     display: flex;
     justify-content: center;
@@ -244,7 +243,7 @@ body {
     width:100px;
     text-align:center;
     margin:4px 0;
-    padding:5px;
+    padding:2px;
     font-size: 100%;
     font-family:main;
 }
@@ -1631,4 +1630,91 @@ body {
 #remove-picture input {
     width: 17px;
     height: 17px;   
+}
+
+
+/*-----------MEDIA QUERIES---------------*/
+
+
+/*smaller screens*/
+
+@media screen and (max-width:920px) {
+    /*landing page*/
+    #landing-top {
+        margin:0 25px;;
+    }
+    #landing-main {
+        margin:0 25px;
+    }
+    #landing-container {
+        width: 600px;
+    }
+    #blurb-wrapper {
+        margin-top: 25px;
+        width:300px;
+        font-size:100%;
+    }
+    #sun-left img {
+        width: 100px;
+    }
+    #landing-tree-right img{
+        margin-top:50px;
+        width:200px;
+    }
+    .signin-link {
+        width:90px;
+        font-size:90%;
+    }
+    
+}
+
+@media screen and (max-width:650px) {
+    /*landing page*/
+    #landing-container {
+        align-items:center;
+        width: 430px;
+    }
+    #blurb-wrapper {
+        margin-top: 25px;
+        width:300px;
+        font-size:100%;
+    }
+    #sun-left {
+        display:none;
+    }
+    #landing-tree-right{
+        display:none;
+    }
+    #sun-middle {
+        display:block;
+    }
+    #sun-middle img{
+        width:120px;
+    }
+    #tree-middle{
+        display:block;
+    }
+    #tree-middle img{
+        width:120px;
+    }
+
+}
+
+@media screen and (max-width:450px) {
+    /*landing page*/
+    #landing-container {
+        align-items:center;
+        width: 340px;
+    }
+    #landing-top {
+        margin:0 10px;;
+    }
+    #landing-main {
+        margin:0 10px;
+    }
+    #landing-wrapper {
+        width:320px;
+        height:110px;
+        font-size: 90%;
+    }
 }

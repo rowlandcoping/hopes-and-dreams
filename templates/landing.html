@@ -17,7 +17,13 @@
     <div id="landing-main">
         <div id="blurb-wrapper">
             <p>Here at Hopes and Dreams you can shape your dreams, and find out what others aspire to.</p>
+            <div id="sun-middle" class="not-displayed">
+                <img src="{{ url_for('static', filename='images/general-assets/sun-naked.svg') }}">
+            </div>
             <p>You can share your advice and experiences, and you can seek input and encouragement.</p>
+            <div id="tree-middle" class="not-displayed">
+                <img src="{{ url_for('static', filename='images/general-assets/tree-landing.svg') }}">
+            </div>
             <p>It is a place for validation, inspiration and hope.</p>
             <div id="landing-buttons">
                 <a class="signin-link" id="main-signup" href="{{ url_for('signup') }}">Sign Up</a>
@@ -28,7 +34,7 @@
                     <form id="sign-in-form" action="{{ url_for('signin') }}" method="POST">
                         <table class="form-table">
                             <tr>
-                                <td class="label"><label for="email">e-mail address: </label></td>
+                                <td class="label"><label for="email">e-mail: </label></td>
                                 <td><input type="email" id="email" name="email" required></td>
                             </tr> 
                             <tr>
