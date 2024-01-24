@@ -5,106 +5,106 @@ Edit Dream - {{ dream.dream_name }}
 {% endblock title %}
 
 {% block content %}
-    <div id = "edit-general" class="dream-edit-general">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="{{ category }}" id="large-flash">
-                        <div>
-                            <h3>{{ message }}</h3>
-                        </div>
-                    </div>
-                {% endfor %}        
-            {% endif %}
-        {% endwith %}
-        <form action="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}" method="POST" name="dream-update" enctype="multipart/form-data">
-            <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories | join(',') }}" readonly required>
-            <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
-            <div class="banner-headline" id="dream-headline"><h2>"{{dream.dream_name}}" Information<h2></div>
-            <div class="personal-section">
-                <div class="main-information">
-                    <table class="form-table-edit">
-                        <tr>
-                            <td class="label"><label for="dream_name">My Dream: </label></td>
-                            <td><input placeholder="Your dream..." class="dreams-dotted" type="text" id="dream_name" name="dream_name" value="{{ dream.dream_name | title }}" required></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="dream_description">Dream Description: </label></td>
-                            <td id="dream_text_wrapper"><textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted" id="dream_description" name="dream_description" required>{{ dream.dream_description}}</textarea></td>
-                        </tr>
-                    </table>
-                    <div id="disable-comments">
-                        <label for="profile_picture">Disable Comments? </label>
-                        {% if dream.comments_enabled %}
-                        <input type="checkbox" id="disable_comments" name="disable_comments">
-                        {% else %}
-                        <input type="checkbox" id="disable_comments" name="disable_comments" checked>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="image-layout" id="edit-layout">
-                    {% if dream.image %}
-                    <label for="image_upload"><h4>Upload New Image:</h4></label>
-                    {% else %}
-                    <label for="image_upload"><h4>Upload Image:</h4></label>
-                    {% endif %} 
-                    <input type="file" id="uploaded-image" name="image">
+<div id = "edit-general" class="dream-edit-general">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{{ category }}" id="large-flash">
                     <div>
-                        {% if dream.image %}
-                        <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
-                        <div id="remove-picture">
-                            <label for="profile_picture">Remove Picture</label>
-                            <input type="checkbox" id="delete_image" name="delete_image">
-                        </div>
-                        {% endif %}
-                        <img id="image-preview" class="not-displayed" src="" width="150">
-                    </div>
-                    <div id="dream-image-uploads">
-                        <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>
+                        <h3>{{ message }}</h3>
                     </div>
                 </div>
+            {% endfor %}        
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}" method="POST" name="dream-update" enctype="multipart/form-data">
+        <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories | join(',') }}" readonly required>
+        <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
+        <div class="banner-headline" id="dream-headline"><h2>"{{dream.dream_name}}" Information<h2></div>
+        <div class="personal-section">
+            <div class="main-information">
+                <table class="form-table-edit">
+                    <tr>
+                        <td class="label"><label for="dream_name">My Dream: </label></td>
+                        <td><input placeholder="Your dream..." class="dreams-dotted" type="text" id="dream_name" name="dream_name" value="{{ dream.dream_name | title }}" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="dream_description">Dream Description: </label></td>
+                        <td id="dream_text_wrapper"><textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted" id="dream_description" name="dream_description" required>{{ dream.dream_description}}</textarea></td>
+                    </tr>
+                </table>
+                <div id="disable-comments">
+                    <label for="profile_picture">Disable Comments? </label>
+                    {% if dream.comments_enabled %}
+                    <input type="checkbox" id="disable_comments" name="disable_comments">
+                    {% else %}
+                    <input type="checkbox" id="disable_comments" name="disable_comments" checked>
+                    {% endif %}
+                </div>
             </div>
-            
-            <div class="banner-headline" id="category-headline"><h2>"{{dream.dream_name}}" Categories<h2></div>
-            <div id="interests-section">
-                {% with categories = categories_two %}
-                    {% if categories %}
-                    <div class="show-additional category-edit-mofew not-displayed" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
+            <div class="image-layout" id="edit-layout">
+                {% if dream.image %}
+                <label for="image_upload"><h4>Upload New Image:</h4></label>
+                {% else %}
+                <label for="image_upload"><h4>Upload Image:</h4></label>
+                {% endif %} 
+                <input type="file" id="uploaded-image" name="image">
+                <div>
+                    {% if dream.image %}
+                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                    <div id="remove-picture">
+                        <label for="profile_picture">Remove Picture</label>
+                        <input type="checkbox" id="delete_image" name="delete_image">
+                    </div>
                     {% endif %}
-                {% endwith %}
-                {% with categories = categories_custom %}
-                    {% if categories %}
-                    <div class="show-additional category-edit-mofew" id="show-all"><i class="fa-solid fa-arrow-down"> </i> Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
-                    {% endif %}
-                {% endwith %}
-                <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
-                <div id="warning-message"></div>
-                {% with categories = categories_one %}
-                    {% if categories %}
-                        {% for category in categories %}
-                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                {% with categories = categories_two %}
-                    {% if categories %}
-                        {% for category in categories %}
-                        <div class="category-selector categories-two" id = "{{category.category}}">{{ category.category}}</div>
-                        {% endfor %}                    
-                    {% endif %}
-                {% endwith %}
-                {% with categories = categories_custom %}
-                    {% if categories %}
-                        {% for category in categories %}
-                        <div class="category-selector categories-custom not-displayed" id = "{{category.category}}">{{ category.category}}</div>
-                        {% endfor %}                            
-                    {% endif %}
-                {% endwith %}                
+                    <img id="image-preview" class="not-displayed" src="" width="150">
+                </div>
+                <div id="dream-image-uploads">
+                    <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>
+                </div>
             </div>
-            <div id="dream-edit-buttons">
-                <button id="create-dream" type="submit" class="create-button edit-button">Submit Changes</button>
-                <a id="abandon" class="abandon-button abandon-edit-button" href="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}">Clear Changes</a>
-            </div>                
-        </form>
-    </div>
+        </div>
+        
+        <div class="banner-headline" id="category-headline"><h2>"{{dream.dream_name}}" Categories<h2></div>
+        <div id="interests-section">
+            {% with categories = categories_two %}
+                {% if categories %}
+                <div class="show-additional category-edit-mofew not-displayed" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
+                {% endif %}
+            {% endwith %}
+            {% with categories = categories_custom %}
+                {% if categories %}
+                <div class="show-additional category-edit-mofew" id="show-all"><i class="fa-solid fa-arrow-down"> </i> Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
+                {% endif %}
+            {% endwith %}
+            <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
+            <div id="warning-message"></div>
+            {% with categories = categories_one %}
+                {% if categories %}
+                    {% for category in categories %}
+                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% with categories = categories_two %}
+                {% if categories %}
+                    {% for category in categories %}
+                    <div class="category-selector categories-two" id = "{{category.category}}">{{ category.category}}</div>
+                    {% endfor %}                    
+                {% endif %}
+            {% endwith %}
+            {% with categories = categories_custom %}
+                {% if categories %}
+                    {% for category in categories %}
+                    <div class="category-selector categories-custom not-displayed" id = "{{category.category}}">{{ category.category}}</div>
+                    {% endfor %}                            
+                {% endif %}
+            {% endwith %}                
+        </div>
+        <div id="dream-edit-buttons">
+            <button id="create-dream" type="submit" class="create-button edit-button">Submit Changes</button>
+            <a id="abandon" class="abandon-button abandon-edit-button" href="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}">Clear Changes</a>
+        </div>                
+    </form>
+</div>
 {% endblock content %}

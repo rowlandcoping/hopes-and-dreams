@@ -229,9 +229,11 @@ Dreamscape - {{ user.first_name }}
                 or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
                 or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
                 or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
-            {% if dream.dream_slug == dream_slug %}
-            <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
-            {% endif %}           
+                {% if dream.dream_slug == dream_slug %}
+                <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
+                {%else %}
+                <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
+                {% endif %}           
             {% else %}
             <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
             {% endif %}

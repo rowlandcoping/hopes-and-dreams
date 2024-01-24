@@ -267,29 +267,18 @@ body {
     width: 100%;
     height: 120px;
 }
-#signup-one {
-    position: relative;
-    display:flex;
-    flex-flow:row;
-    align-items:center;
-    justify-content:center;
-    margin:auto;
-    width:70%;
-}
-#bunny-right {
-    display:flex;
-    justify-content: right;
-    flex:1;
-}
-#bunny-right img {
-    width:110px;
-}
-#personal-section {
+.signup-table {
     display:flex;
     flex-flow:column;
-    justify-content: center;
-    flex:4;
+    align-items: center;
+    justify-content:center;
+     
 }
+
+#bunny-right img, #bunny-left img{
+    width:100px;
+}
+
 .banner-headline {
     color: white;
     border: 4px solid white;
@@ -302,7 +291,7 @@ body {
 }
 #personal-headline {
     background-color:#ff6866ff;
-    margin-bottom:20px;
+    margin:20px 0;
 }
 #interests-headline {
     background-color:#ff6866ff;
@@ -336,6 +325,8 @@ body {
 }
 #interests-section, #explore {
     text-align: center;
+    width:100%;
+    margin:10px auto;
 }
 #explore {
     margin: 0 200px ;
@@ -394,8 +385,44 @@ body {
     align-items:center;
     justify-content:center;
 }
+ #profile-section {
+    align-items: start;
+    width:65%;
+ }
+ #profile-section h4{
+    width:100%;
+    text-align:center;
+    border-bottom:2px solid #ff6866ff;
+    padding-bottom:4px;
+ }
+
+ #profile-info input{
+    color:white;
+    padding:5px;
+    font-size: 100%;
+    outline:1px;
+    border:1px dotted #ff6866ff;
+    background-color:black;
+ }
+
+ #profile-info input:focus{
+    outline:1px solid #ff6866ff;
+    border:1px solid #ff6866ff;
+    background-color:black;
+ }
+ #profile-info input[type='checkbox'] {
+    outline:none;
+    border:none;
+    accent-color:#ff6866ff;
+    color:white;
+ }
 
 /*create dream user journey*/
+
+.dreambuild-form {
+    width: 100%;
+    margin: 0 auto;
+}
 #dreambuild-image-wrapper {
     display:flex;
     flex-flow:column;
@@ -458,7 +485,7 @@ body {
 }
 .personal-section {
     display:flex;
-    width:90%;
+    width:80%;
     justify-content: space-between;
     margin:20px auto;
 }

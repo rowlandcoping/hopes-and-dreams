@@ -6,94 +6,109 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 
 {% block content %}
 {% if user.role=="administrator" %}
-    <div  id="admin-functions" class="clickable-item">
-        <div class="banner-headline" id="admin-options"><h2>Admin Functions</h2></div>
-        <div class="admin-task"><a href="{{ url_for('add_avatars') }}"><h4>Manage Avatars</h4></a></div>
-        <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
-        <div class="admin-task"><a href="{{ url_for('count_followers') }}"><h4>Count followers (one-off activity)</h4></a></div>
-        <div class="admin-task"><a href="{{ url_for('allocate_avatars') }}"><h4>Set comment images (one-off activity)</h4></a></div>        
-    </div>
-    {% endif %} 
-<form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
-    <div id="edit-personal-container">
-        <div id="personal-info">
-            <div>          
-                <div>
-                    <label for="first-name">First Name: </label>
-                    <input type="text" id="first-name" name="first_name" value="{{ user.first_name | capitalize }}" required>
+<div  id="admin-functions" class="clickable-item">
+    <div class="banner-headline" id="personal-headline"><h2>Admin Functions</h2></div>
+    <div class="admin-task"><a href="{{ url_for('add_avatars') }}"><h4>Manage Avatars</h4></a></div>
+    <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
+    <div class="admin-task"><a href="{{ url_for('count_followers') }}"><h4>Count followers (one-off activity)</h4></a></div>
+    <div class="admin-task"><a href="{{ url_for('allocate_avatars') }}"><h4>Set comment images (one-off activity)</h4></a></div>        
+</div>
+{% endif %}
+<div id = "edit-general" class="dream-edit-general">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{{ category }}" id="large-flash">
+                    <div>
+                        <h3>{{ message }}</h3>
+                    </div>
                 </div>
+            {% endfor %}        
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
+        <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ user.interests | join(',') }}" readonly required>
+        <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
+        <div class="banner-headline" id="personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Information<h2></div>
+        <div class="personal-section" id="profile-section">
+            <div class="main-information" id="profile-info">
+                <h4>Edit Your Disaply Name:</h4>
+                <table class="form-table-edit">
+                    <tr>
+                        <td class="label"><label for="first-name">First Name: </label></td>
+                        <td><input type="text" id="first-name" name="first_name" value="{{ user.first_name | capitalize }}" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="last-name">Last Name</label></td>
+                        <td><input type="text" id="last-name" name="last_name" value="{{ user.last_name | capitalize }}" required></td>
+                    </tr>
+                </table>
                 <div>
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" value="{{ user.last_name | capitalize }}" required>                  
+                    <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
                 </div>
-                <h3 class="red-text not-displayed" id="form-alert"></h3>
+                <a href="{{ url_for('log_out') }}">Log Out</a>
             </div>
-            <div>
+            <div class="image-layout" id="edit-layout">
+                <label for="image_upload"><h4>Upload New Image:</h4></label>
+                <input type="file" id="uploaded-image" name="profile_picture">
                 <div>
-                    <label for="profile_picture">Profile Picture</label>
-                    {% if user.profile_picture %}
-                        <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}" width="150">
-                    {% else %}
-                        <img id="current-image" src="{{ url_for('static', filename='images/general-assets/default-profile.jpg') }}" alt = "A crudely drawn stick-man image, indicating the users has yet to upload a profile picture." width="150">
-                    {% endif %}
+                    <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}">
                     <img id="image-preview" class="not-displayed" src="" width="150">
-                    <input type="file" id="uploaded-image" name="profile_picture">
-                    <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
-                    <br><label for="profile_picture">Replace with random avatar</label><input type="checkbox" id="delete_image" name="delete_image">
                 </div>
-            <div>
-            <div>
-                <p>Click <a href="{{url_for('password_reset')}}">here</a> to change your password.</p>
+                <div id="remove-picture">
+                    <label for="profile_picture">Generate Random Avatar: </label>
+                    <input type="checkbox" id="delete_image" name="delete_image">
+                </div>
+                <div id="dream-image-uploads">
+                    <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>
+                </div>
             </div>
-        </div>
-        <div>
-            <h2>Interests</h2>
-            <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ user.interests | join(',') }}" readonly required>
-            <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
+        </div>        
+        <div class="banner-headline" id="personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Interests<h2></div>
+        <div id="interests-section">
             {% with categories = categories_two %}
                 {% if categories %}
-                <div id="show-more" class="not-displayed">Show More Categories</div>
+                <div class="show-additional category-edit-mofew not-displayed" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
                 {% endif %}
             {% endwith %}
             {% with categories = categories_custom %}
                 {% if categories %}
-                <div id="show-all" class="not-displayed">Show All Categories</div>
+                <div class="show-additional category-edit-mofew" id="show-all"><i class="fa-solid fa-arrow-down"> </i> Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
                 {% endif %}
             {% endwith %}
-            <div id="show-fewer">Show Fewer Categories</div>
-
+            <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
+            <div id="warning-message"></div>
             {% with categories = categories_one %}
                 {% if categories %}
                     {% for category in categories %}
                     <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
                     {% endfor %}
                 {% endif %}
-            {% endwith %}                
-            </div>
-            <div id="categories-two">
+            {% endwith %}
             {% with categories = categories_two %}
                 {% if categories %}
                     {% for category in categories %}
-                    <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                    <div class="category-selector categories-two" id = "{{category.category}}">{{ category.category}}</div>
                     {% endfor %}                    
                 {% endif %}
-            {% endwith %}                 
-            </div>
-            <div id="categories-custom">
-                {% with categories = categories_custom %}
-                    {% if categories %}
-                        {% for category in categories %}
-                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                        {% endfor %}                            
-                    {% endif %}
-                {% endwith %}                
-            </div>
+            {% endwith %}
+            {% with categories = categories_custom %}
+                {% if categories %}
+                    {% for category in categories %}
+                    <div class="category-selector categories-custom not-displayed" id = "{{category.category}}">{{ category.category}}</div>
+                    {% endfor %}                            
+                {% endif %}
+            {% endwith %}                
         </div>
-    </div>
+        <div id="dream-edit-buttons">
+            <button id="create-dream" type="submit" class="create-button edit-button">Submit Changes</button>
+            <a id="abandon" class="abandon-button abandon-edit-button" href="{{ url_for('profile_personal') }}">Clear Changes</a>
+        </div>                
+    </form>
+</div> 
     <span id="info-update">
         <button type="submit" id="save-button">Save Changes</button>
         <a href="{{url_for('profile_personal')}}">Clear Changes</a>        
     </span>
 </form>
-<a href="{{ url_for('log_out') }}">Log Out</a>
 {% endblock content %}

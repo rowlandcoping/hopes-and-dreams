@@ -5,9 +5,9 @@
 {% endblock title%}
     
 {% block content %}
-<div id="signup-container"></div>
-    <div id="signup-section">
-        <div class="headline-wrapper"><h1>Create Your Profile</h1></div>
+<div id="dreambuild-container">
+    <div class="headline-wrapper"><h1>Create Your Profile</h1></div>
+    <div class="dreambuild-form">
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
             <div class="banner-headline" id="personal-headline"><h2>Personal Information<h2></div>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
@@ -22,11 +22,11 @@
                     {% endfor %} 
                 {% endif %}
             {% endwith %}
-            <div id="signup-one">
-                <div id="bunny-right">
+            <div class="personal-section">
+                <div id="bunny-left">
                     <img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}">
                 </div>
-                <div id="personal-section">
+                <div class="signup-table">
                     <table class="form-table">
                         <tr>
                             <td class="label"><label for="first_name">First Name: </label></td>
@@ -47,55 +47,51 @@
                     </table>
                     <small>Passwords must contain a capital letter, a number and be at least 8 characters in length.</small>
                 </div>
-            </div>   
-            <div id="interests-section">
-                <div class="banner-headline" id="interests-headline"><h2>Interests<h2></div>
-                <p>Just click what you are interested in from the selection below.
-                    <br>If you prefer, don't click anything at all!  You can always do this later.</p>
-                <div id = categories-one>
-                    {% with categories = categories_two %}
-                        {% if categories %}
-                        <div class="show-additional" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Interests <i class="fa-solid fa-arrow-down"></i></div>
-                        {% endif %}
-                    {% endwith %}
-                    {% with categories = categories_custom %}
-                        {% if categories %}
-                        <div class="show-additional" id="show-all"><i class="fa-solid fa-arrow-down"> </i>Show All Interests <i class="fa-solid fa-arrow-down"></i></div>
-                        {% endif %}
-                    {% endwith %}
-                    <div id="show-fewer" class="show-fewer-style not-displayed"><i class="fa-solid fa-arrow-up"></i> Show Fewer Interests <i class="fa-solid fa-arrow-up"></i></div>
-    
-                    {% with categories = categories_one %}
-                        {% if categories %}
-                            {% for category in categories %}
-                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}                
-                    </div>
-                    <div id="categories-two" class="not-displayed">
-                    {% with categories = categories_two %}
-                        {% if categories %}
-                            {% for category in categories %}
-                            <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                            {% endfor %}                    
-                        {% endif %}
-                    {% endwith %}                 
-                    </div>
-                    <div id="categories-custom" class="not-displayed">
-                        {% with categories = categories_custom %}
-                            {% if categories %}
-                                {% for category in categories %}
-                                <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
-                                {% endfor %}                            
-                            {% endif %}
-                        {% endwith %}                
-                    </div>
+                <div id="bunny-right">
+                    <img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}">
                 </div>
-                <div id="journey-buttons-signup">
-                    <button type="submit" class="create-button" for="signup-form">Create Profile</button>
-                    <a id="abandon" class="abandon-button" href="{{ url_for('abandon_signup') }}">Abandon signup</a>
-                </div>                
+            </div>
+            <div class="banner-headline" id="interests-headline"><h2>Interests<h2></div> 
+            <div id="interests-section">                
+                <p>Just click what you are interested in from the selection below.
+                <br>If you prefer, don't click anything at all!  You can always do this later.</p>
+                {% with categories = categories_two %}
+                    {% if categories %}
+                    <div class="show-additional category-edit-mofew not-displayed" id="show-more"><i class="fa-solid fa-arrow-down"></i> Show More Categories <i class="fa-solid fa-arrow-down"></i></div>
+                    {% endif %}
+                {% endwith %}
+                {% with categories = categories_custom %}
+                    {% if categories %}
+                    <div class="show-additional category-edit-mofew" id="show-all"><i class="fa-solid fa-arrow-down"> </i> Show All Categories <i class="fa-solid fa-arrow-down"></i></div>
+                    {% endif %}
+                {% endwith %}
+                <div id="show-fewer" class="show-fewer-style category-edit-mofew"><i class="fa-solid fa-arrow-up"></i> Show Fewer Categories <i class="fa-solid fa-arrow-up"></i></div>   
+                {% with categories = categories_one %}
+                    {% if categories %}
+                        {% for category in categories %}
+                        <div class="category-selector" id = "{{category.category}}">{{ category.category}}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% with categories = categories_two %}
+                    {% if categories %}
+                        {% for category in categories %}
+                        <div class="category-selector categories-two" id = "{{category.category}}">{{ category.category}}</div>
+                        {% endfor %}                    
+                    {% endif %}
+                {% endwith %}
+                {% with categories = categories_custom %}
+                    {% if categories %}
+                        {% for category in categories %}
+                        <div class="category-selector categories-custom not-displayed" id = "{{category.category}}">{{ category.category}}</div>
+                        {% endfor %}                            
+                    {% endif %}
+                {% endwith %}                
+            </div>
+            <div id="journey-buttons-signup">
+                <button type="submit" class="create-button" for="signup-form">Create Profile</button>
+                <a id="abandon" class="abandon-button" href="{{ url_for('abandon_signup') }}">Abandon signup</a>
+            </div>                
             </div>
         </form>        
     </div>    
