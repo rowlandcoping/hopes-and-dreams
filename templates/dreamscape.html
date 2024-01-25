@@ -58,21 +58,33 @@ Dreamscape - {{ user.first_name }}
         or request.path == url_for('dreamscape_unfollow_creator',dream_slug=dream.dream_slug, selected=selected) %}
         {% if dream.dream_slug == dream_slug %}
         <div class="general-bar dreamscape-bar main-dreamscape-bar opaque-element" id="focussed-dream" tabindex=0>
-            <div class="ident">
+            <div class="ident-full">
                 <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+            </div>
+            <div class="ident-small not-displayed">
+                <p>Dreamed by {{ dream.user_name | title }}</p>
+            </div>
+            <div class="ident-minimum not-displayed">
+                <p>by {{ dream.user_name | title }}</p>
             </div>
             <div class="following">
                 {% if dream.total_followers %}
-                    <p>Following: {{ dream.total_followers }}</p>
+                <p>Following: {{ dream.total_followers }}</p>
                 {% else %}
-                    <p>Following: 0</p>
+                <p>Following: 0</p>
                 {% endif %}
             </div>
         </div>
         {% else %}
         <div class="general-bar dreamscape-bar main-dreamscape-bar opaque-element">
-            <div class="ident">
+            <div class="ident-full">
                 <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+            </div>
+            <div class="ident-small not-displayed">
+                <p>Dreamed by {{ dream.user_name | title }}</p>
+            </div>
+            <div class="ident-minimum not-displayed">
+                <p>by {{ dream.user_name | title }}</p>
             </div>
             <div class="following">
                 {% if dream.total_followers %}
@@ -85,8 +97,14 @@ Dreamscape - {{ user.first_name }}
         {% endif %}
         {% else %}
         <div class="general-bar dreamscape-bar main-dreamscape-bar opaque-element">
-            <div class="ident">
+            <div class="ident-full">
                 <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+            </div>
+            <div class="ident-small not-displayed">
+                <p>Dreamed by {{ dream.user_name | title }}</p>
+            </div>
+            <div class="ident-minimum not-displayed">
+                <p>by {{ dream.user_name | title }}</p>
             </div>
             <div class="following">
                 {% if dream.total_followers %}
@@ -107,6 +125,11 @@ Dreamscape - {{ user.first_name }}
                         </a>
                     </div>
                 </div>
+                <div class="view-dream-image image-mobile yellow-border not-displayed">
+                    {% if dream.image %}
+                    <img id="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                    {% endif %}
+                </div> 
                 <div class="view-dream-description">
                     <p>{{- dream.dream_description -}}<p>
                 </div>
@@ -131,9 +154,9 @@ Dreamscape - {{ user.first_name }}
                     {% endif %}
                 </div>
             </div>
-            <div class="view-dream-image">
+            <div class="view-dream-image image-desktop yellow-border">
                 {% if dream.image %}
-                <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                <img id="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                 {% endif %}
             </div>                
         </div>
@@ -192,13 +215,13 @@ Dreamscape - {{ user.first_name }}
                 <div>
                     <span id="{{dream.dream_slug}}-view-all">
                         <span class="show-hide-comments">
-                            <small>View Comments</small>
+                            <small>View</small>
                             <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
                         </span>
                     </span>
                     <span id="{{dream.dream_slug}}-hide-all" class="not-displayed">
                         <span class="show-hide-comments">
-                            <small>Hide Comments</small>          
+                            <small>Hide</small>          
                             <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
                         </span>  
                     </span>
@@ -207,13 +230,13 @@ Dreamscape - {{ user.first_name }}
                 <div>
                     <span id="{{dream.dream_slug}}-view-all">
                         <span class="show-hide-comments">
-                            <small>Add First Comment</small>
+                            <small>Be First</small>
                             <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
                         </span>
                     </span>
                     <span id="{{dream.dream_slug}}-hide-all" class="not-displayed">
                         <span class="show-hide-comments">
-                            <small>Hide Comments</small>          
+                            <small>Hide</small>          
                             <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
                         </span>  
                     </span>
@@ -296,8 +319,11 @@ Dreamscape - {{ user.first_name }}
                                 </div>
                             </div>                        
                         </div>
-                        <div class="opaque-element comments-user-info">
+                        <div class="opaque-element comments-user-info user-info-full">
                             Posted on {{ comment.datetime_created}}
+                        </div>
+                        <div class="opaque-element comments-user-info user-info-small not-displayed">
+                            {{ comment.datetime_created}}
                         </div>
                         <div class="opaque-element like-dislike-section">
                             {% if comment.user_id | string != session['user_id'] | string %}                                                    

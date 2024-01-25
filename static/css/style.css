@@ -331,11 +331,11 @@ body {
     border-radius: 6px;
     margin-bottom: 20px;
     margin:auto;
-    padding:5px;
+    padding:7px;
     text-align:center;
 }
 .banner-headline h2 {
-    line-height:120%;
+    line-height:110%;
 }
 
 #personal-headline {
@@ -878,6 +878,21 @@ body {
 
 /*Dreamscape*/
 
+.like-dislike-section {
+    text-align:center;
+    min-width:75px;
+    margin-left:10px;
+}
+
+.dream-info p {
+    margin:0;
+    padding:0;
+}
+
+#feed-image {
+    width:300px;
+}
+
 #no-dreams {
     text-align:center;
 }
@@ -1003,6 +1018,10 @@ body {
     padding: 10px;
 }
 
+.top-border-dream {
+    border-top:5px solid #0091ffff;
+}
+
 .dreams-title {
     border-top:5px solid #0091ffff;
     border-bottom:5px solid #0091ffff;
@@ -1115,13 +1134,16 @@ body {
 }
 .dream-info {
     display:flex;
-    margin:20px 50px;
+    margin:30px 50px;
     font-size: 110%;
     width:100%;
 }
 .dream-image {
-    margin:20px 0;
+    margin:20px 0 0 0;
     margin-right:50px;
+}
+#feed-image {
+    margin-bottom: 30px;
 }
 
 /*VIEW DREAM PAGE*/
@@ -1157,6 +1179,7 @@ body {
     width:100%;
     display:flex;
     justify-content: space-between;
+    align-items:center;
     border-bottom:2px solid #e4ff00ff;
 }
 
@@ -1166,12 +1189,19 @@ body {
 
 
 .view-dream-image {
-    margin:20px 0;
+    margin:30px 0 0 0;
     margin-right:50px;
+    
+    
+}
+.yellow-border img {
+    border:1px ridge rgb(59, 49, 0);
 }
 
 .view-dream-image img {    
     width:300px;
+    
+    
 }
 
 .view-dream-options {
@@ -1288,6 +1318,9 @@ body {
     align-items:center;
     margin-top:10px;
 }
+.comment-buttons {
+    display:flex;
+}
 .cancel-comment {
     text-align:center;
     width:81px;
@@ -1361,17 +1394,18 @@ body {
     
 }
 .comment-user {
+    text-align:center;
     display:flex;
     flex-flow:column;
     align-items:center;
-    flex:1;
+    flex:2;
     margin: 10px 0;
 }
 
 .comment-text {
     margin: 10px 15px;
     margin-right: 50px;
-    flex:6;   
+    flex:10;   
 }
 
 .comment-text i {
@@ -1387,8 +1421,7 @@ body {
 }
 
 .comment-text textarea {
-    width:100%;   
-    padding: 20px 20px;
+    padding: 10px 5px;
 }
 .dreams-editing textarea {
     border: 1px dotted #0091ffff;
@@ -1716,6 +1749,11 @@ body {
     #profile-section {
         width:80%;
     }
+    /*dreamscape*/
+    #dreamscape-feed-container {
+        border-width: 4px;
+        padding: 25px 50px;
+    }
      
 }
 
@@ -1774,6 +1812,29 @@ body {
     }
     #dream_description {
         height:100px;
+    }
+    /*dreamscape*/
+    #feed-image {
+        width:250px;
+    }
+    .ident-full {
+        display:none;
+    }
+    .ident-small {
+        display:block;
+    }
+    #dreamscape-feed-container {
+        border-width: 3px;
+        padding: 25px 25px;
+    }
+    .view-dream-image {
+        margin-right:25px;
+    }
+    .dream-info {
+        margin:30px 25px;
+    }
+    #filter-dreamscape h3, #filter-dreamscape select {
+        font-size:90%;
     }
 }
 
@@ -1905,7 +1966,63 @@ body {
     #current-image {
         width:200px;
     }
-
+    /*dreamscape*/
+   
+    .dreamscape-view-name {
+        margin: 0 50px;
+        text-align:center;
+        width:auto;
+        font-size: 80%;
+    }
+    .image-mobile {
+        display:block;
+    }
+    .image-desktop {
+        display:none;
+    }
+    .view-dream-image {
+        margin-left:50px;
+    }
+    .view-dream-description {
+        margin:0 50px;
+    }
+    .view-dream-options {
+        justify-content:center;
+        margin-top:10px;
+    }
+    .dream-info {
+        padding:0;
+        margin:20px 50px;
+    }
+    .ident-small {
+        display:none;
+    }
+    .ident-minimum {
+        display:block;
+    }
+    #filter-dreamscape h3, #filter-dreamscape select {
+        font-size:80%;
+    }
+    #filter-button {
+        font-size:90%;
+    }
+    .comment-user {
+        text-align:center;
+        font-size:90%;
+    }
+    .comment-avatar {
+        width: 90px;
+    }
+    .comment-avatar img {
+        width: 75px;
+        height: 75px;
+    }
+    .textarea-display {
+        padding:10px;
+        width:105%;
+        height:100px;
+    }
+   
 }
 
 @media screen and (max-width:650px) {
@@ -2092,6 +2209,63 @@ body {
     .general-bar {
         font-size: 110%;
     }
+    /*dreamscape*/    
+    .view-dream-description {
+        font-size:90%;
+    }
+    #dreamscape-feed-container {
+        border-width: 2px;
+        padding: 20px 10px;
+    }
+    .view-dream-image {
+        margin-left:25px;
+    }
+    .view-dream-description {
+        margin:0 25px;
+    }
+    .dream-info {
+        padding:0;
+        margin:20px 25px;
+    }
+    .dreamscape-view-name{
+        margin:0 25px;
+    }
+    .comments-container {
+        margin:20px 25px;
+    }
+    .comment-user {
+        text-align:center;
+        font-size:90%;
+    }    
+    .comment-avatar {
+        width: 80px;
+    }
+    .textarea-display {
+        padding:10px;
+        width:111%;
+    }
+    .comment-entry-buttons {
+        flex-direction: column;
+        justify-content:center;
+        text-align:center;
+    }
+    .comment-buttons{
+        flex-direction: column;
+        align-items:center;
+    }
+    .comment-form textarea {
+        margin-right: 0;
+        width:91%
+    }
+    .edit-comment-buttons {
+        flex-direction:column;
+    }
+    .user-info-full {
+        display:none;
+    }
+    .user-info-small {
+        display:block;
+    }
 }
 
 @media screen and (max-width:450px) {
@@ -2240,6 +2414,61 @@ body {
     .general-bar h3 {
         font-size:100%;
     }
+    /*dreamscape*/
+    .view-dream-image {
+        margin-left:10px;
+    }
+    .view-dream-description {
+        margin:0 10px;
+    }
+    .dream-info {
+        padding:0;
+        margin:20px 10px;
+    }
+    .dreamscape-view-name{
+        margin:0 10px;
+    }
+    .view-dream-options {
+        margin:0;
+        flex-direction: column;
+        align-items:center;
+    }
+    .view-dream-options a {
+        width:200px;
+        margin:7px 0;
+        font-size:100%;
+    }
+    .comments-container {
+        margin:20px 10px;
+    }
+    .comment-user {
+        text-align:center;
+        font-size:95%;
+    }    
+    .comment-avatar {
+        width: 150px;
+    }
+    .comment-avatar img {
+        width: 100px;
+        height:100px;
+    }
+    .comment-content {
+        flex-direction: column;
+    }
+    .textarea-display {
+        padding:10px;
+        width:103%;
+    }
+    .comment-actions {
+        margin-right: -30px;
+    }
+    .general-bar p{
+        font-size:100%;
+    }
+    .dreamscape-bar:last-child p {
+        width:97px;
+    }
+
 }
 
 @media screen and (max-width:359px) {
@@ -2305,6 +2534,13 @@ body {
         font-size:90%;
     }
     .dream-general {
+        font-size:90%;
+    }
+    /*dreamscape*/
+    .dreamscape-bar:last-child p {
+        width:80px;
+    }
+    .general-bar {
         font-size:90%;
     }
 }

@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('signin-click').style.display = "block";
         document.getElementById('main-signup').style.display = "block";
     }
-    
+
     //SIGN-UP/EDIT/DREAMBUILDER PROCESSES   
     //clears categories on page refresh
     if (document.getElementById("selected-categories")) {
@@ -556,12 +556,15 @@ document.addEventListener("DOMContentLoaded", function() {
     function addComment(itemId) {
         form= itemId + "-comment";
         cancel= itemId + "-cancel";
+        widthNow = document.getElementById(itemId + "-bar").offsetWidth;
+        newWidth = String((widthNow/1.3) + "px");
         if (document.getElementById("comment-flash")) {
             document.getElementById("comment-flash").style.display="none";
         }
         document.getElementById(form).style.display="block";
+        document.getElementById(itemId + "-text").style.width=newWidth;
         document.getElementById(itemId + "-text").focus(); 
-        document.getElementById(cancel).style.display="inline-block";
+        document.getElementById(cancel).style.display="block";
         const hideEdit = document.getElementsByClassName('edit-comment');
         for (let i = 0; i < hideEdit.length; i++) {
             hideEdit[i].style.display = "none";
@@ -614,11 +617,14 @@ document.addEventListener("DOMContentLoaded", function() {
         commentCancel=selectedComment + "-cancel";
         commentSubmit=selectedComment + "-submit";
         if (document.getElementById(commentDivarea)) {
+            widthNow = document.getElementById(commentDivarea).offsetWidth;
+            newWidth = String((widthNow -10) + "px");
             document.getElementById(commentTextarea).addEventListener('focus', autoResize, false);
             document.getElementById(commentTextarea).addEventListener('input', autoResize, false);
             document.getElementById(commentDivarea).style.whiteSpace = "break-spaces";
             document.getElementById(commentDivarea).style.display = "none";
-            document.getElementById(commentTextarea).style.display = "block";
+            document.getElementById(commentTextarea).style.display = "block";            
+            document.getElementById(commentTextarea).style.width = newWidth;
             document.getElementById(commentTextarea).readOnly =false;
             document.getElementById(commentTextarea).focus();            
             document.getElementById(selectedComment + "-submit").style.display="inline-block";

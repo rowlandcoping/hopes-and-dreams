@@ -6,7 +6,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 
 {% block content %}
 {% if user.role=="administrator" %}
-<div  id="admin-functions" class="clickable-item">
+<div  id="admin-functions">
     <div class="banner-headline" id="personal-headline"><h2>Admin Functions</h2></div>
     <div class="admin-task"><a href="{{ url_for('add_avatars') }}"><h4>Manage Avatars</h4></a></div>
     <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
