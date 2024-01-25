@@ -5,14 +5,14 @@
  
 {% block content %}
 <div id="dreambuild-container">
-    <div class="headline-wrapper" id="dreambuilder-headline"><h1>Dream a dream</h1></div>    
+    <div class="headline-wrapper" id="create-wrapper"><h1>Dream a dream</h1></div>    
     <div class="dreambuild-form">
         <form action="{{ url_for('dreambuilder') }}" method="POST" name="dreambuilder-form">
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             <div class="banner-headline" id="dream-headline"><h2>Dream Information<h2></div>
             <div class="intro-text">
                 <p>Dreams are freeform and can be anything.
-                <br>Just write what inspires or drives you.
+                <br>Just write what inspires you today.
                 </p>
             </div>
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -27,20 +27,30 @@
                 {% endif %}
             {% endwith %}
             <div class="personal-section">
-                <div class="cloud-left">
+                <div class="cloud">
                     <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-left.svg') }}">
                 </div>
-                <table class="form-table-builder">
-                    <tr>
-                        <td class="label"><label for="dream_name">My Dream: </label></td>
-                        <td><input placeholder="Your dream..." class="dreams-dotted" type="text" id="dream_name" name="dream_name" required></td>
+                <table class="form-table-builder" id="dreambuild-table">
+                    <tr class="not-displayed labelmob">
+                        <td>
+                            <label for="dream_name">My Dream:</label>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="label"><label for="dream_description">Dream Description: </label></td>
+                        <td class="label dream-label"><label for="dream_name">My Dream: </label></td>
+                        <td><input placeholder="Your dream..." class="dreams-dotted" type="text" id="dream_name" name="dream_name" required></td>
+                    </tr>
+                    <tr class="not-displayed labelmob">
+                        <td>
+                            <label for="dream_description">Dream Description:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label dream-label"><label for="dream_description">Dream Description: </label></td>
                         <td><textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted" id="dream_description" name="dream_description" required></textarea></td>
                     </tr>
                 </table>
-                <div class="cloud-right">
+                <div class="cloud cloud-right">
                     <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-right.svg') }}">
                 </div>
             </div>
@@ -87,8 +97,8 @@
                     {% endif %}
                 {% endwith %}                
             </div>
-                <div id="journey-buttons-dream">
-                    <button id="create-dream" type="submit" class="create-button" for="signup-form">Create Dream</button>
+                <div id="journey-buttons-signup">
+                    <button type="submit" class="create-button" for="signup-form">Create Dream</button>
                     <a id="abandon" class="abandon-button" href="{{ url_for('dreams') }}">Abandon Dream</a>
                 </div>
             </div>

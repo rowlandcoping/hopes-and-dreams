@@ -506,7 +506,7 @@ body {
     text-align:center;
 }
 #dreambuild-container {    
-    margin:10px 200px;
+    margin:30px 200px;
 }
 #dream-image-top {
     display:flex;
@@ -548,7 +548,7 @@ body {
     margin-top:20px;
 }
 
-.cloud-left img, .cloud-right img{
+.cloud img{
     width:100px;
 }
 .personal-section {
@@ -563,12 +563,12 @@ body {
     outline:none;
     background-color: black;
     color:white;
-    width:600px;
+    width:400px;
     padding:5px;
     margin:5px;
 }
 #dream_description {
-    width:600px;
+    width:400px;
     height:60px;
     font-size: 95%;
     margin-left:5px;
@@ -1670,6 +1670,10 @@ body {
     .view-dream-description {
         font-size: 90%;
     }
+    /*dreambuilder*/
+    #dream_name, #dream_description {
+        width:350px;
+    }
      
 }
 
@@ -1714,6 +1718,13 @@ body {
         font-size:95%;
         top:29px;
         right:19px;
+    }
+    /*sign-up & dreambuild */
+    .personal-section {
+        width:100%;
+    }
+    #dreambuild-container {
+        margin:30px 100px;
     }
 }
 
@@ -1790,7 +1801,18 @@ body {
         position:absolute;
         top:35px;
         right:25px;
-    }    
+    }
+    /*sign-up & dreambuild */
+    #dreambuild-container {
+        margin:30px 25px;
+    }
+    /*dreambuilder*/
+    .cloud img{
+        width:75px;
+    }
+    #dream_name, #dream_description {
+        width:280px;
+    }
 }
 
 @media screen and (max-width:650px) {
@@ -1915,6 +1937,21 @@ body {
         top:29px;
         right:19px;
     }
+    /*sign-up & dreambuild */
+    #bunny-right {
+        display:none;
+    }
+    .personal-section {
+        flex-direction:column;
+        align-items:center;
+    }
+    /*dreambuilder*/
+    .cloud img{
+        width:80px;
+    }
+    .cloud-right {
+        display:none;
+    }
 }
 
 @media screen and (max-width:450px) {
@@ -1964,18 +2001,54 @@ body {
     }
     #dreams-caption {
         font-size:80%;
-        top:26px;
+        top:27px;
         left:25px;
     }    
     #dreamscape-caption {
         font-size:80%;
-        top:35px;
+        top:36px;
         left:30px;
     }    
     #profile-caption {
         font-size:80%;
-        top:20px;
+        top:21px;
         right:12px;
+    }
+    /*sign-up & dreambuilder*/
+    #dreambuild-container {
+        margin:20px 10px;
+    } 
+    #journey-buttons-signup button {
+        display:block;
+        width: 218px;
+        margin:15px auto;
+    }
+    #journey-buttons-signup a {
+        display:block;
+        width: 200px;
+        margin: auto;
+    }
+    #create-wrapper {
+        width:320px;
+        height:110px;
+        font-size: 90%;
+    }
+    /*dreambuilder*/
+    .dream-label {
+        display:none;
+    }
+    .labelmob {
+        display:block;
+    }
+    .labelmob td {
+        width:304px;
+        text-align: center;
+    }
+    #dreambuild-table {
+        border-spacing:3px;
+    }
+    #dream_description {
+        height:200px;
     }
 }
 
@@ -2012,5 +2085,21 @@ body {
     /*main-template*/
     #feed-container {
         margin:20px 3px;
+    }
+    /*signup & dreambuilder*/
+    #dreambuild-container {
+        margin:20px 10px;
+    }
+    #create-wrapper {
+        width:290px;
+        height:100px;
+        font-size: 80%;
+    }
+    .show-additional, .show-fewer {
+        width: 280px;
+    }
+    /*dreambuilder*/
+    #dream_name, #dream_description {
+        width:270px;
     }
 }
