@@ -5,7 +5,7 @@
  
 {% block content %}
 <div id="dreambuild-container">
-    <div class="headline-wrapper" id="dreambuilder-headline"><h1>Congratulations</h1></div>
+    <div class="headline-wrapper" id="create-wrapper"><h1>Congratulations</h1></div>
         <div id="dreambuild-image-wrapper"> 
             <div id="dream-image-top">
                 <div id="tree-left">
@@ -14,6 +14,9 @@
                 <div id="tree-text">            
                     <h4>You have dreamed a brand new dream.</h4>
                     <br>
+                    <div id="tree-center" class="not-displayed">
+                        <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}">
+                    </div>
                     <h4>And if you don't have a dream, how you gonna make a dream come true?</h4>                    
                 </div>
                 <div id="tree-right">
@@ -23,10 +26,9 @@
             <div class="dreambuild-image-form">
                 <form action="{{ url_for('image_upload', dream_slug=dream_slug) }}" method="POST" enctype="multipart/form-data">
                     <div class="banner-headline" id="dream-headline"><h2>Add an Image<h2></div>
-                    <p>It is recommended you add an image to your dream.
-                    <br>It will help "{{ dream.dream_name }}" attract more attention and look better on the feed!
-                    <br>Plus I spent ages on the image handling code.</p>
-                    <div class="image-layout">
+                    <p>It is recommended you add an image to your dream.</p>
+                    <p>It will help "{{ dream.dream_name }}" attract more attention and look better on the feed!</p>
+                    <div class="image-layout dream-layout">
                         {% if dream.image %}
                         <label for="image_upload"><h4>Upload New Image:</h4></label>
                         {% else %}
@@ -37,7 +39,7 @@
                             {% if dream.image %}
                             <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                             {% endif %}
-                            <img id="image-preview" class="not-displayed" src="" width="150">
+                            <img id="image-preview" class="not-displayed" src="">
                         </div>
                         {% with messages = get_flashed_messages(with_categories=true) %}
                             {% if messages %}

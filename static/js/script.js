@@ -98,15 +98,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cancelProfilePic();
         }
     });
-    //check image remove box
-    const checkbox = document.querySelector("input[name=delete_image]");
-    if (checkbox) {
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('info-update').style.display = "block";
-            }
-        });
-    }
 
     //DREAMS PAGE
     //attach event listners to all delete alerts
@@ -329,13 +320,15 @@ document.addEventListener("DOMContentLoaded", function() {
             if (document.getElementById("warning-message")) {
                 document.getElementById("warning-message").innerHTML ="";
                 document.getElementById("disable-button").disabled = false;
+                document.getElementById("disable-button").style.pointerEvents = "auto";
                 document.getElementById("disable-button").style.opacity = "1"
             }
         } else {
             if (document.getElementById("warning-message")) {
                 document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please ensure you only pick five maximum to continue.</p>"
                 document.getElementById("disable-button").disabled = true;
-                document.getElementById("disable-button").style.opacity = "0.1"
+                document.getElementById("disable-button").style.pointerEvents = "none";
+                document.getElementById("disable-button").style.opacity = "0.2"
             }
         }
 

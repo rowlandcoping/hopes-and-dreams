@@ -97,6 +97,7 @@ h1 {
     margin-top: 20px;
 }
 
+
 a, a:visited, a:link, a:active, a:hover, a:focus  {
     text-decoration: none;
     color: inherit;
@@ -330,10 +331,13 @@ body {
     border-radius: 6px;
     margin-bottom: 20px;
     margin:auto;
-    line-height:100%;
-    padding:10px;
+    padding:5px;
     text-align:center;
 }
+.banner-headline h2 {
+    line-height:120%;
+}
+
 #personal-headline {
     background-color:#ff6866ff;
     margin:20px 0;
@@ -421,14 +425,6 @@ body {
 
 #welcome-headline {
     margin:10px auto 20px auto;
-}
-
-#congratulations {
-    width: 100%;
-    padding: 10px 0;
-    margin-bottom:20px;
-    border-top: 5px solid #ff6866ff;
-    border-bottom:5px solid #ff6866ff;
 }
 
 #welcome-exit-buttons {
@@ -526,7 +522,7 @@ body {
     border-bottom: 5px solid #0091ffff;
     padding-bottom: 20px;
 }
-#disable-comments input {
+.blue-box input  {
     width: 17px;
     height: 17px;
     accent-color: #0091ffff;
@@ -581,8 +577,11 @@ body {
     padding:5px;
 }
 
-#tree-left img, #tree-right img {
+#tree-left img, #tree-right img, #tree-center img {
     width: 75px;
+}
+.image-layout {
+    overflow:hidden;
 }
 
 .image-layout label {
@@ -593,8 +592,11 @@ body {
 .image-layout img {
     margin-top:20px;
     width:250px;
+}
+
+.profile-layout img {
     height:250px;
-    object-fit: cover;      
+    object-fit: cover;  
 }
 
 .image-layout input[type="file"]::file-selector-button {
@@ -654,9 +656,10 @@ body {
     margin:20px auto;
     background-color: #0091ffff;
     border:2px solid white;
-    width:200px;
+    width:220px;
     border-radius: 6px;
     padding:3px 0;
+    font-size:120%;
 }
 
 .later-button:hover {
@@ -682,19 +685,48 @@ body {
 
 
 /*welcome page*/
+
 #congratulations {
+    padding: 10px 0;
     display:flex;
-    justify-content:center;
+    justify-content:space-between;
     align-items:center;
+    width:85%;
+    margin:30px auto;
+    text-align:center;
+    border-top: 5px solid #ff6866ff;
+    border-bottom:5px solid #ff6866ff;
+}
+.grass-width {
+    background-image: url("../images/backgrounds/grass.svg");
+    background-size: auto 100%;
+    width:100%;
+    height:25px;
+    margin:0 auto 20px auto;
 }
 #congratulations img {
     margin:0 20px;
     width:80px;
 }
+#star-left {
+    margin-left:150px;  
+}
+
+#star-right {
+    margin-right:150px;
+}
 #dreamscape-intro, #dream-intro {
     display:flex;
     justify-content:center;
     align-items:center;
+    margin:0 30px;
+}
+.welcome-main {
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    margin:auto;
+    width:85%;
 }
 #dreamscape-intro-left img, #dreamscape-intro-right img {
     width:75px;
@@ -705,13 +737,7 @@ body {
 #dreamscape-intro-right {
     margin-left: 50px;
 }
-.grass-width {
-    background-image: url("../images/backgrounds/grass.svg");
-    background-size: auto 100%;
-    width:75%;
-    height:25px;
-    margin:0 auto 20px auto;
-}
+
 #dreamscape-button {
     margin: 10px auto;
     display:block;
@@ -1588,7 +1614,7 @@ body {
 #dream-section h4{
     margin:auto;
     text-align:center;
-    width:80%;
+    width:220px;
     border-bottom:2px solid #0091ffff;;
     padding-bottom:4px;
  }
@@ -1628,8 +1654,6 @@ body {
 #edit-layout img {
     text-align:center;
     width:200px;
-    height:200px;
-    object-fit: cover;
 }
 
 #edit-layout{
@@ -1679,6 +1703,14 @@ body {
     /*dreambuilder*/
     #dream_name, #dream_description {
         width:350px;
+    }
+    /*welcome*/
+    #star-left {
+        margin:0;  
+    }
+    
+    #star-right {
+        margin:0;
     }
      
 }
@@ -1731,6 +1763,13 @@ body {
     }
     #dreambuild-container {
         margin:30px 100px;
+    }
+    /*edit dream*/
+    #dream_name, #dream_description {
+        width:270px;
+    }
+    #dream_description {
+        height:100px;
     }
 }
 
@@ -1818,6 +1857,35 @@ body {
     }
     #dream_name, #dream_description {
         width:280px;
+    }
+    /*image-upload (dreambuilder) */
+    #tree-left {
+        margin-right:10px;
+    }
+    #tree-right {
+        margin-left:10px;
+    }
+    /*welcome*/
+    .welcome-main, #congratulations {
+        width:100%;
+    }
+    /*edit-dream*/
+    .personal-section {
+        flex-flow:column;
+        align-items:center;
+        justify-content: center;
+    }
+    #dream_name, #dream_description {
+        width:300px;
+    }
+    .middle-headline {
+        display:block;
+        margin:0;
+        margin-bottom:20px;
+        width:96%;
+    }
+    .main-information {
+        margin:0;
     }
 }
 
@@ -1958,6 +2026,41 @@ body {
     .cloud-right {
         display:none;
     }
+    /*image-upload (dreambuild)*/
+    #tree-right {
+        display:none;
+    }
+    /*welcome*/
+    #congratulations {
+        justify-content:center;
+        margin-bottom:10px;
+    }
+    #star-left, #star-right, #dreamscape-intro-left, #dreamscape-intro-right {
+        display:none;  
+    }
+    .welcome-center-img {
+        display:block;
+    }
+    .welcome-center-img img{
+        width:75px;
+    }
+    .welcome-star {
+        margin:10px 0;
+    }
+    #create-dream-exit {
+        margin: 10px 0 20px 0;
+    }
+    #dreamscape-exit {
+        margin:0;
+    }
+    /*edit-dream*/
+    #dream_name, #dream_description {
+        width:270px;
+    }
+    .middle-headline {
+        width:94%;
+    }
+    
 }
 
 @media screen and (max-width:450px) {
@@ -2056,6 +2159,39 @@ body {
     #dream_description {
         height:200px;
     }
+    /*image-upload (dreambuild)*/    
+    #tree-left {
+        display:none;
+    }
+    #tree-center {
+        display:block;
+        margin:10px 0;
+    }
+    #tree-text br {
+        display: none;
+    }
+    /*edit-dream*/
+    .middle-headline {
+        width:92%;
+    }
+    #edit-table-dream {
+        margin-top:20px;
+        margin-bottom:5px;
+        border-spacing:3px;
+    }
+    #edit-table-dream td {
+        border-spacing:3px;
+        width:304px;
+        text-align: center;
+    }
+    #dream-edit-buttons {
+        flex-direction:column;
+        align-items:center;
+    }
+    #dream-edit-buttons button, #dream-edit-buttons a {
+        margin:20px 0 0 0;
+    }
+
 }
 
 @media screen and (max-width:359px) {
@@ -2107,5 +2243,13 @@ body {
     /*dreambuilder*/
     #dream_name, #dream_description {
         width:270px;
+    }
+    /*welcome*/
+    #create-dream-exit {
+        width:250px;
+    }
+    /*edit-dream*/
+    .middle-headline {
+        width:91%;
     }
 }

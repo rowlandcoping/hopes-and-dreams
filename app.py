@@ -194,11 +194,19 @@ def signup():
                     mongo.db.categories.update_one({"category": category}, {"$inc": {
                     "total_users_selected" : 1, "total_times_selected": 1 }})
             session["user_id"] = str(user_verify["_id"])    
-            return redirect(url_for("profile_upload"))        
+            return redirect(url_for("welcome"))        
         flash("Registration not successful, please try again.", "red-flash-reset")
         return render_template("signup.html", categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
     return render_template("signup.html", categories_one=categories_one, categories_two=categories_two, categories_custom=categories_custom)
 
+
+#welcome page (once user has completed sign-up process)
+@app.route("/welcome")
+def welcome():
+    if session.get("user_id") is not None:
+        user_info = dict(mongo.db.users.find_one({"_id": ObjectId(session["user_id"])}))
+        return render_template("welcome.html", base_url=base_url, user=user_info)
+    return redirect(url_for("home"))
 
 #route to abandon signup
 @app.route("/abandon")
