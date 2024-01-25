@@ -10,13 +10,13 @@
     <form action="{{ url_for('password_reset') }}" method="POST" name="password-reset">
         <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>     
         <div class="container-other">
-            <div id="star-left"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}"></div>
+            <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}"></div>
             <div class="password-reset">
                 <h3>We're ever so sorry, but that content is not avaiable.</h3>
-                <p>It's probably been deleted, either that or it never existed in the first place.
-                <br>Why not go back to the Dreamscape, that's where we're going!</p>
+                <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+                <p>It's probably been deleted, either that or it never existed in the first place. Why not go back to the Dreamscape? That's where we're going!</p>
             </div>
-            <div id="star-right"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+            <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
         </div>
         <div id="welcome-exit-buttons">
             <a id="dreamscape-exit" class="exit-button" href="{{ url_for('dreamscape') }}">Return to Dreamscape</a>
