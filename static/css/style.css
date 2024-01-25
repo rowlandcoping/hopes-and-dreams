@@ -749,6 +749,13 @@ body {
 
 
 /*general template*/
+#dreams-icon-container, #dreamscape-icon-container, #profile-icon-container {
+    padding:0;
+    margin:0;
+}
+#main-navigation {
+    position:relative;
+}
 
 #feed-container {
     margin:30px 200px;
@@ -767,9 +774,10 @@ body {
     margin: 0 10px;
 }
 #nav-list img {
+    display:block;
     width: 125px;
     margin:0;
-    padding:5px;
+    padding:10px;
 }
 #main-content{
     position:relative;
@@ -1684,29 +1692,28 @@ body {
     }
     #nav-list img {
         width:100px;
+        padding:8px;
     }
     #nav-list li {
         margin: 0;
     }
     .menu-icon {
-        padding:4px;
-        padding-bottom:2px;
         border-width:4px;
     }
     #dreams-caption {
         font-size:95%;
-        top:37px;
-        left:35px;
+        top:36px;
+        left:33px;
     }    
     #dreamscape-caption {
         font-size:95%;
-        top:50px;
-        left:42px;
+        top:47px;
+        left:40px;
     }    
     #profile-caption {
         font-size:95%;
         top:29px;
-        right:21px;
+        right:19px;
     }
 }
 
@@ -1757,13 +1764,14 @@ body {
         padding:0;
     }
     #nav-list img {
+        padding:10px;
         width:125px;
     }
     #nav-list li {
+        padding:0;
         margin: 0 10px;
     }
     .menu-icon {
-        padding:5px;
         border-width:5px;
     }
     #dreams-caption {
@@ -1883,30 +1891,29 @@ body {
         font-size: 95%;
     }
     #nav-list img {
+        padding:8px;
         width:100px;
     }
     #nav-list li {
         margin: 0;
     }
     .menu-icon {
-        padding:4px;
-        padding-bottom:2px;
         border-width:4px;
     }
     #dreams-caption {
-        font-size:90%;
-        top:37px;
-        left:35px;
+        font-size:95%;
+        top:36px;
+        left:33px;
     }    
     #dreamscape-caption {
-        font-size:90%;
-        top:50px;
-        left:42px;
+        font-size:95%;
+        top:47px;
+        left:40px;
     }    
     #profile-caption {
-        font-size:90%;
+        font-size:95%;
         top:29px;
-        right:21px;
+        right:19px;
     }
 }
 
@@ -1949,10 +1956,10 @@ body {
         margin:20px 5px;
     }
     #nav-list img {
+        padding:5px;
         width:80px;
     }
     .menu-icon {
-        padding:0;
         border-width:3px;
     }
     #dreams-caption {
