@@ -389,7 +389,7 @@ body {
     margin-top:20px;
 }
 
-#create-dream:hover {
+.create-button:hover {
     background-color:green;
 }
 
@@ -408,9 +408,15 @@ body {
     background-color:rgb(172, 3, 3);
 }
 
-#journey-buttons-signup {
-    border-top: 5px solid #ff6866ff;
+#journey-buttons {
     margin-top:10px;
+}
+
+.dreambuild-buttons {
+    border-top: 5px solid #0091ffff;
+}
+.signup-buttons {
+    border-top: 5px solid #ff6866ff;
 }
 
 #welcome-headline {
@@ -2018,12 +2024,12 @@ body {
     #dreambuild-container {
         margin:20px 10px;
     } 
-    #journey-buttons-signup button {
+    #journey-buttons button {
         display:block;
         width: 218px;
         margin:15px auto;
     }
-    #journey-buttons-signup a {
+    #journey-buttons a {
         display:block;
         width: 200px;
         margin: auto;

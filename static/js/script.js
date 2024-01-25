@@ -328,14 +328,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if (categories.length < 7) {
             if (document.getElementById("warning-message")) {
                 document.getElementById("warning-message").innerHTML ="";
-                document.getElementById("create-dream").disabled = false;
-                document.getElementById("create-dream").style.opacity = "1"
+                document.getElementById("disable-button").disabled = false;
+                document.getElementById("disable-button").style.opacity = "1"
             }
         } else {
             if (document.getElementById("warning-message")) {
                 document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please ensure you only pick five maximum to continue.</p>"
-                document.getElementById("create-dream").disabled = true;
-                document.getElementById("create-dream").style.opacity = "0.1"
+                document.getElementById("disable-button").disabled = true;
+                document.getElementById("disable-button").style.opacity = "0.1"
             }
         }
 

@@ -103,7 +103,7 @@ Edit Dream - {{ dream.dream_name }}
             {% endwith %}                
         </div>
         <div id="dream-edit-buttons" class="edit-buttons">
-            <button id="create-dream" type="submit" class="create-button edit-button">Submit Changes</button>
+            <button id="disable-button" type="submit" class="create-button edit-button">Submit Changes</button>
             <a id="abandon" class="abandon-button abandon-edit-button" href="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}">Clear Changes</a>
         </div>                
     </form>
