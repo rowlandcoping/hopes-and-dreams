@@ -438,10 +438,11 @@ body {
     width:70%;
  }
  #profile-section h4{
-    width:100%;
+    width:220px;
     text-align:center;
     border-bottom:2px solid #ff6866ff;
     padding-bottom:4px;
+    margin:auto;
  }
 
  #profile-info input{
@@ -581,6 +582,7 @@ body {
     width: 75px;
 }
 .image-layout {
+    text-align:center;
     overflow:hidden;
 }
 
@@ -590,12 +592,13 @@ body {
 }
 
 .image-layout img {
+    text-align:center;
     margin-top:20px;
-    width:250px;
+    width:200px;
 }
 
 .profile-layout img {
-    height:250px;
+    height:200px;
     object-fit: cover;  
 }
 
@@ -979,6 +982,9 @@ body {
 
 /* DREAMS PAGE */
 
+#current-image {
+    width:300px;
+}
 .dreams-delete-alert {
     display:none;
     border:5px ridge #0091ffff;
@@ -989,6 +995,7 @@ body {
     display:inline-block;
 
 }
+
 
 #section-title {
     text-align:center;    
@@ -1015,9 +1022,9 @@ body {
     background-color:#0091ffff;
     cursor: pointer;
     font-size: 120%;
-    line-height: 100%;
+    line-height: 140%;
     margin:20px auto;
-    padding:20px;
+    padding:10px 20px;
     border: 4px solid white;
     border-radius: 6px;
 }
@@ -1046,10 +1053,11 @@ body {
     display: flex;
     justify-content:space-between;
     align-items:center;
-    padding:10px 20px;
-    line-height: 100%;
+    padding:8px 20px;
+    line-height: 125%;
     font-size:150%;
 }
+
 .dream-bar {
     border-top:3px solid #0091ffff;
     border-bottom:3px solid #0091ffff;
@@ -1063,6 +1071,7 @@ body {
 .main-dream-bar {
     background-color: rgb(6, 28, 46);
 }
+
 .main-dreamscape-bar {
     background-color:rgb(59, 49, 0);
 }
@@ -1078,15 +1087,12 @@ body {
 
 .icons {
     display:flex;
-    justify-content:space-between;
-    flex:2; 
 }
 .icons i {
+    margin-left:20px;
     cursor: pointer;
 }
-.edit-dream, .delete-dream, .view-dream  {
-    flex:1;
-}
+
 .edit-dream:hover {
     color: #0091ffff;
     cursor: pointer;
@@ -1106,10 +1112,6 @@ body {
 .view-dreamscape:hover {
     color: #e4ff00ff;
     cursor: pointer;
-}
-.dream-name {
-    text-align:right;
-    flex:7;
 }
 .dream-info {
     display:flex;
@@ -1687,7 +1689,6 @@ body {
     #feed-container {
         margin:30px 100px;
     }
-
     /*dreamscape*/
     .general-bar {
         font-size:130%;
@@ -1708,9 +1709,12 @@ body {
     #star-left {
         margin:0;  
     }
-    
     #star-right {
         margin:0;
+    }
+    /*profile*/
+    #profile-section {
+        width:80%;
     }
      
 }
@@ -1876,6 +1880,7 @@ body {
         justify-content: center;
     }
     #dream_name, #dream_description {
+        margin:0;
         width:300px;
     }
     .middle-headline {
@@ -1887,6 +1892,20 @@ body {
     .main-information {
         margin:0;
     }
+    .cloud-right {
+        display:none;
+    }
+    /*profile*/
+    #profile-section {
+        align-items:center;
+        justify-content: center;
+        width:100%;
+    }
+    /*dreams*/
+    #current-image {
+        width:200px;
+    }
+
 }
 
 @media screen and (max-width:650px) {
@@ -2060,7 +2079,19 @@ body {
     .middle-headline {
         width:94%;
     }
-    
+    /*dreams page*/
+    .dream-general {
+        text-align:center;
+        flex-direction:column-reverse;
+        justify-content:center;
+        align-items:center;
+    }
+    .dream-image {
+        margin:20px 0 0 0;
+    }
+    .general-bar {
+        font-size: 110%;
+    }
 }
 
 @media screen and (max-width:450px) {
@@ -2191,7 +2222,24 @@ body {
     #dream-edit-buttons button, #dream-edit-buttons a {
         margin:20px 0 0 0;
     }
-
+    #profile-edit-buttons button, #profile-edit-buttons a {
+        margin:20px 0 0 0;
+    }
+    /*profile*/
+    #profile-edit-buttons {
+        flex-direction:column;
+        align-items:center;
+    }
+    #profile-edit-buttons button, #profile-edit-buttons a {
+        margin:20px 0 0 0;
+    }
+    /*dreams page*/
+    .icons i {
+      margin-left:15px; 
+    }
+    .general-bar h3 {
+        font-size:100%;
+    }
 }
 
 @media screen and (max-width:359px) {
@@ -2251,5 +2299,12 @@ body {
     /*edit-dream*/
     .middle-headline {
         width:91%;
+    }
+    /*dreams-page*/
+    .general-bar h3 {
+        font-size:90%;
+    }
+    .dream-general {
+        font-size:90%;
     }
 }

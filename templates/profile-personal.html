@@ -48,7 +48,8 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 </div>
                 <a class="cancel-dream-image" href="{{ url_for('log_out') }}">Log Out</a>
             </div>
-            <div class="image-layout profile-layout" id="edit-layout">
+            <div class="banner-headline middle-headline not-displayed" id="personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Avatar<h2></div>
+            <div class="image-layout profile-layout">
                 <label for="image_upload"><h4>Upload New Avatar:</h4></label>
                 <input type="file" id="uploaded-image" name="profile_picture">
                 <div>

@@ -273,6 +273,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('signin-click').style.display = "block";
         document.getElementById('main-signup').style.display = "block";
     }
+    
     //SIGN-UP/EDIT/DREAMBUILDER PROCESSES   
     //clears categories on page refresh
     if (document.getElementById("selected-categories")) {
@@ -325,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } else {
             if (document.getElementById("warning-message")) {
-                document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please ensure you only pick five maximum to continue.</p>"
+                document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please select a maximum of five.</p>"
                 document.getElementById("disable-button").disabled = true;
                 document.getElementById("disable-button").style.pointerEvents = "none";
                 document.getElementById("disable-button").style.opacity = "0.2"
@@ -495,7 +496,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
     //Close (cancel) alert
-
     function cancelAlert(itemId) {
         const fullString = itemId.split('-');
         const selectedItem = fullString.slice(0, -3).join("-");
@@ -531,8 +531,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }        
         }
     }
-
-    
 
     //DREAMSCAPE/VIEW DREAM
     //show/hide comments section 
@@ -657,8 +655,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
-    
-    
     //functions for mouseover/out for the dreams icon
     function mouseoverDreams() {
         document.getElementById("dreams-icon").src = "../../../static/images/general-assets/dreams-icon-hover.svg";
