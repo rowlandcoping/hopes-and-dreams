@@ -257,42 +257,42 @@ Please find the wireframes [HERE](WIREFRAMES.md).
 
 ##### Color Names
 
-black: background for all pages
-red: warning, delete and fail messages.  Also used as activated/mousover color for buttons which cancel, abandon or unfollow. Used to indicate user has liked something already.
-green: success messages. Also used as activated/mousover color for buttons which submit or follow. Used to indicate user has liked something already.  Green background indicates a category is selected.
-orange: user for edit confirmation messages, or non-critical alerts.
-grey: initial background for category buttons.
-white: color for text and borders (except in situations where higher contrast was required)
+black - background for all pages.\
+red - warning, delete and fail messages.  Also used as activated/mousover color for buttons which cancel, abandon or unfollow. Used to indicate user has liked something already.\
+green - success messages. Also used as activated/mousover color for buttons which submit or follow. Used to indicate user has liked something already.  Green background indicates a category is selected.\
+orange - user for edit confirmation messages, or non-critical alerts.\
+grey - initial background for category buttons.\
+white - color for text and borders (except in situations where higher contrast was required)
 
 ##### RGB
 
-rgb(34, 34, 34): secondary background for Dreamscape.
-rgb(0, 145, 255): main color theme for dreams icon, all dreams, view dream and dream creation pages. Also used for highlighting icons and form fields.
-rgb(6, 28, 46): secondary color theme for dreams.
-rgb(228, 255, 0): main color theme for the Dreamscape feed and icons. Also used for highlighting icons and form fields.
-rgb(59, 49, 0): secondary color theme for the Dreamscape.
-rgb(255, 104, 102): main color theme for profile icon and all profile related activities including signup and the profile page. Also used for highlighting icons and form fields.
-rgb(77, 28, 27): secondary color theme for the profile pages.
-rgb(49, 7, 7): follow, unfollow, cancel and abandon buttons background color.
-rgb(58, 73, 69): submit and confirm buttons.
-rgb(139, 247, 139): mouseover color for like button.
-rgb(250, 144, 144): mouseover color for unlike button.
-rgb(0, 80, 0): mouseover color for unlike button.
-rgb(133, 0, 0): mouseover color for undislike button.
+rgb(34, 34, 34) - secondary background for Dreamscape.\
+rgb(0, 145, 255) - main color theme for dreams icon, all dreams, view dream and dream creation pages. Also used for highlighting icons and form fields.\
+rgb(6, 28, 46) - secondary color theme for dreams.\
+rgb(228, 255, 0) - main color theme for the Dreamscape feed and icons. Also used for highlighting icons and form fields.\
+rgb(59, 49, 0) - secondary color theme for the Dreamscape.\
+rgb(255, 104, 102) - main color theme for profile icon and all profile related activities including signup and the profile page. Also used for highlighting icons and form fields.\
+rgb(77, 28, 27) - secondary color theme for the profile pages.\
+rgb(49, 7, 7) - follow, unfollow, cancel and abandon buttons background color.\
+rgb(58, 73, 69) - submit and confirm buttons.\
+rgb(139, 247, 139) - mouseover color for like button.\
+rgb(250, 144, 144) - mouseover color for unlike button.\
+rgb(0, 80, 0) - mouseover color for unlike button.\
+rgb(133, 0, 0) - mouseover color for undislike button.
 
 ### Fonts
 
 All fonts found on fontspace. The title font has been chosen because I feel it is evocative or the theme.  The main font is chosen to marry with this but also for its clarity and versatility.  I originally wanted to use a font called ClearSans by Intel but this was throwing errors in the console so I had to abandon it for the purposes of a graded project.
 
-#### titles/some buttons
+#### Titles/some buttons
 
 CfDavesDreamPersonalRegular-WyAGn.ttf
 
 #### Main font
 
-OpenSans-BoldItalic.ttf
-OpenSans-Bold.ttf
-OpenSans-Italic.ttf
+OpenSans-BoldItalic.ttf\
+OpenSans-Bold.ttf\
+OpenSans-Italic.ttf\
 OpenSans-Regular.ttf
 
 ### Images
@@ -333,11 +333,11 @@ Most of the difficulties were in scaling textboxes to work effectively on differ
 
 I worked to specific break points in order to keep the development overhead to a minimum. I've been strict with myself to avoid any custom break-points for specific cases - for such a complex site this could easily get out of hand!  The break-points are as follows:
 
-max-width: 359px (for very very small phones)
-max width: 450px (the main break point for converting to smaller mobile format)
-max-width: 650px (the main break point for converting to a mobile format)
-max width: 920px (for large tablets or people viewing in smaller windows)
-max width: 1200px (to accommodate smaller laptop screens)
+max-width: 359px (for very very small phones)\
+max width: 450px (the main break point for converting to smaller mobile format)\
+max-width: 650px (the main break point for converting to a mobile format)\
+max width: 920px (for large tablets or people viewing in smaller windows)\
+max width: 1200px (to accommodate smaller laptop screens)\
 max width: 1400px (to accommodate laptop screens)
 
 ## The MVP
@@ -354,7 +354,7 @@ The majority of work required for this project definitely fell into the 'unknown
 #### Developer Goals
 
  _"I would like to make use of JQuery on this occasion to simplify the Javascript"_\
-My own reading and research has led me to believe that JQuery is little more than shorthand Javascript. As such I decided against using it for multiple reasons:
+ My own reading and research has led me to believe that JQuery is little more than shorthand Javascript. As such I decided against using it for multiple reasons:
 
  - It does not offer anything that Javascript doesn't.
  - In my view it lacks semantic clarity (like trying to read War and Peace in Morse Code)
@@ -365,8 +365,10 @@ My own reading and research has led me to believe that JQuery is little more tha
 
 _"Base Elements: Once signed in each page will have title/logo and menu with four core elements, plus a search"_\
 The core elements were almost immediately reduced to three, and eventually the search integrated into the Dreamscape feed filter.  Because the site is so freeform in its current iteration, it is more of a browsing experience than searching for specifics.  And in any case users can use categories to customise their personalised feed or the followed filter to view specific dreams they have interest in.  Time was also a factor in creating a full search facility.
+
 _"Feed (default page): The main site feed is divided into two elements, Dreamscape (default) and Personal"_\
-The various elements of the original were integrated into one feed and accessible via the filter at the top of the page - for example the followed filter contains all the content intented for the personal feed that is avilable in the MVP iteration
+The various elements of the original were integrated into one feed and accessible via the filter at the top of the page - for example the followed filter contains all the content intented for the personal feed that is avilable in the MVP iteration.
+
 _"Profile: Consists of an overview of your profile and options to update info divided into 2 sections, account or personal settings._"\
 After a painful meeting with my mentor before Christmas when I presented the first iteration of the site, I decided to simplify this into one page.
 
@@ -374,18 +376,25 @@ After a painful meeting with my mentor before Christmas when I presented the fir
 
 _"Detailed step-by-step user journey planner..."_\
 The original plan was for the signup process to be staged and broken down into sections - a bit like a tutorial on a video game.  In the prototype meeting my mentor demostrated that this was far too complicated for what the site is.  It was not just unviable to produce in the timescale, it was unwieldy for a user, especially on mobile. People simply would have been put off by it. The MVP sign-up process is now one page and four fields of basic information, and adding custom images and interests is something the user is prompted to do as they go.
+
 _"Personal feed will consist of actions from people or dreams you follow"_\
 This section is now the 'follwed' filter option on the main feed page.
+
 _"Step-by-step Dreambuilder wizard"_\
 This is now also a single page, with only two compulsary fields and a category selector.  The user is prompted to upload an image but they don't have to.  The absence of any 'Dream modules' makes an extended process completely unnecessary for now, and in any case should never detract from how easy the core site ought to be to use.
+
 _"Optional modular elements for your dream..."_\
 None of these have been included in the MVP due to time constraints.  Leaving modules out for now has also made my design choices a lot easier!
+
 _"Opportunities to update skills and interests... Account and personal settings which allow the user to customize their experience"_\
-The original suite of options has been reduced to a single pre-defined interests list which is also shared with dreams. Interests etc were originally free-form and manually entered, but even as the site creator I was struggling to enter appropriate interests.  The chances of anything matching with a dream were slim.  Also users do not want all these steps.  Following the prototype meeting all this was stripped down (along with 500 lines of beautiful Javascript) and the current categories system instigated.  Account settings are a roadmap feature, but not necessary the way the site stands.
+The original suite of options has been reduced to a single pre-defined interests list which is also shared with dreams. Interests etc were originally free-form and manually entered, but even as the site creator I was struggling to enter appropriate interests.  The chances of anything matching with a dream were slim.  Also users do not want all these steps.  Following the prototype meeting all this was stripped down (along with 500 lines of beautiful Javascript) and the current categories system instigated.  Account settings are a roadmap feature, but not essential at present.
+
 _"Users may rate comments, and have the option to filter users with very low scores"_\
-All the data regadring likes and dislikes exists and could be used to build a user filter which could be integrated into the profile.  Unfortunately time constraints mean this will not be part of the MVP.  Users are protected by the opportunity delete any comments on their own dreams they do not think are acceptable or in extreme cases disable comments altogether. As profiles are not searchable at present users are protected from persistent trolling.
+All the data regadring likes and dislikes exists and could be used to build a user filter which could be integrated into the profile.  Unfortunately time constraints mean this will not be part of the MVP.  Users are protected by the opportunity delete any comments on their own dreams they do not think are acceptable or in extreme cases disable comments altogether.
+
 _"Search facility to find friends or chase specific dreams"_\
 This has been abandoned in favour of the Dreamscape filters which do much the same thing, due to time constraints and necessity.  It is possible to follow users and see all thier content in your 'followed' feed, and to share dreams with others whether they are registered site members or not.
+
 _"Basic themes - dreams and indeed profiles can be tailored with basic color themes"_\
 It would be relatively straightforward to implement, but it would require a major reworking of the CSS as well as designing other site themes, which would require a lot more time than I have for this project.
 
@@ -397,25 +406,25 @@ Dreams page:  This has been simplified to allow immediate access to key CRUD fea
 
 The data structure has evolved significantly as the project has developed, particularly as my experience of using both MongoDB and the FLask framework has grown. I have outlined below significant changes to the structure originally mooted:
 
-##### Dream Modules
+DREAM MODULES:
 
 There are no dream modules in the MVP, so none of these schemas have been implemented
 
-##### Comments
+COMMENTS:
 
 Comments have been split into their own collection
 
-##### Categories
+CATEGORIES:
 
 There is a new categories collection, which is common to users and to dreams.
 
-##### Avatars
+AVATARS:
 
 This is now a collection of avatars that can be allocated to users.
 
-##### Duplicating data
+DUPLICATING DATA:
 
-In light of the limitations of Jinja2 as a templating language and to limit as much as possible the number of data queries, and in light of the fact that MongoDB stores data in a freeform way with no foreign keys, I have opted to store some data in multiple locations.  For example comments all contain the user's full name and a link to their profile picture and alt to make it easier to render than information on the page, even though it is also stored in the 'users' collection.  Rather than force the template to count data (eg total number of times a category has been selected) I have included a seperate count as a document in the categories collection.  It's not clear to be what best practice is as to be honest not too many examples exist of projects with Flask and PyMongo, but I have approached it from a common-sense standpoint as far as I can!
+In light of the limitations of Jinja2 as a templating language and to limit as much as possible the number of data queries, and in light of the fact that MongoDB stores data in a freeform way with no foreign keys, I have opted to store some data in multiple locations.  For example comments all contain the user's full name and a link to their profile picture and alt to make it easier to render than information on the page, even though it is also stored in the 'users' collection.  Rather than force the template to count data (eg total number of times a category has been selected) I have included a separate count as a document in the categories collection.  It's not clear to be what best practice is as to be honest not too many examples exist of projects with Flask and PyMongo, but I have approached it from a common-sense standpoint as far as I can!
 
 #### Design Choices
 
