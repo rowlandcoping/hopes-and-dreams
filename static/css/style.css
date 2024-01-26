@@ -2288,13 +2288,16 @@ body {
         margin:auto;
     }
     .submit-comment {
-        margin-top:20px
+        margin-top:10px
     }
     .user-info-full {
         display:none;
     }
     .user-info-small {
         display:block;
+    }
+    .comment-actions {
+        margin-top:10px;
     }
     /*view dream page*/
     .view-dream-name{
