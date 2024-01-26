@@ -37,7 +37,7 @@
                         <input type="file" id="uploaded-image" name="image_upload">
                         <div>
                             {% if dream.image %}
-                            <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                            <img id="current-edit-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                             {% endif %}
                             <img id="image-preview" class="not-displayed" src="">
                         </div>

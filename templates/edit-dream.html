@@ -63,7 +63,7 @@ Edit Dream - {{ dream.dream_name }}
                 <input type="file" id="uploaded-image" name="image">
                 <div>
                     {% if dream.image %}
-                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                    <img id="current-edit-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                     <div id="remove-picture" class="dream-pic-remove blue-box">
                         <label for="profile_picture">Remove Picture?</label>
                         <input type="checkbox" id="delete_image" name="delete_image">

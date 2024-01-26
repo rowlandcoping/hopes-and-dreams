@@ -53,7 +53,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 <label for="image_upload"><h4>Upload New Avatar:</h4></label>
                 <input type="file" id="uploaded-image" name="profile_picture">
                 <div>
-                    <img id="current-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}">
+                    <img id="current-edit-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}">
                     <img id="image-preview" class="not-displayed" src="" width="150">
                 </div>
                 <div id="remove-picture" class="profile-pic-remove">
