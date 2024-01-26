@@ -38,7 +38,15 @@ View Dream - {{ dream.dream_name }}
         {% if dream %}
             <div class="dream-list">
                 <div class="opaque-element general-bar dream-bar main-dream-bar">
-                    <div class="ident"><p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p></div>
+                    <div class="ident-full">
+                        <p>Dreamed on {{ dream.datetime_created }} by {{ dream.user_name | title }}</p>
+                    </div>
+                    <div class="ident-small not-displayed">
+                        <p>Dreamed by {{ dream.user_name | title }}</p>
+                    </div>
+                    <div class="ident-minimum not-displayed">
+                        <p>by {{ dream.user_name | title }}</p>
+                    </div>
                     <div class="following">
                         {% if dream.total_followers %}
                             <p>Following: {{ dream.total_followers }} </p>
@@ -51,6 +59,11 @@ View Dream - {{ dream.dream_name }}
                     <div class="dream-info">
                         <div class="view-dream-name">
                             <h2>{{ dream.dream_name }}</h2>
+                        </div>
+                        <div class="view-dream-image image-mobile blue-border not-displayed">
+                            {% if dream.image %}
+                            <img id="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                            {% endif %}
                         </div>
                         <div class="view-dream-description">
                             <p>{{- dream.dream_description -}}<p>
@@ -76,9 +89,9 @@ View Dream - {{ dream.dream_name }}
                             {% endif %}
                         </div>
                     </div>
-                    <div class="view-dream-image">
+                    <div class="view-dream-image image-desktop blue-border">
                         {% if dream.image %}
-                            <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                            <img id="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                         {% endif %}
                     </div>             
                 </div>
@@ -161,8 +174,11 @@ View Dream - {{ dream.dream_name }}
                                                         </div>
                                                     </div>                        
                                                 </div>
-                                                <div class="opaque-element comments-user-info">
+                                                <div class="opaque-element comments-user-info user-info-full">
                                                     Posted on {{ comment.datetime_created}}
+                                                </div>
+                                                <div class="opaque-element comments-user-info user-info-small not-displayed">
+                                                    {{ comment.datetime_created}}
                                                 </div>
                                                 <div class="opaque-element like-dislike-section">
                                                     {% if user != False %}
