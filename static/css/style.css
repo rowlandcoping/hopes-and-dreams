@@ -1016,6 +1016,9 @@ body {
 .top-border-dream {
     border-top:5px solid #0091ffff;
 }
+.top-border-dreamscape {
+    border-top:5px solid #e4ff00ff;
+}
 
 .dreams-title {
     border-top:5px solid #0091ffff;

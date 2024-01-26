@@ -6,10 +6,7 @@ Dreamscape - {{ user.first_name }}
 
 {% block content %}
 
-<div class="opaque-element" id="dreams-container-top">
-    <div id="section-title" class="dreamscape-title">
-        <h2>Dreamscape</h2>
-    </div>
+<div class="opaque-element top-border-dreamscape" id="dreams-container-top">
     <div class="filter-section">
         <form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
             <div class="select-section"> 
