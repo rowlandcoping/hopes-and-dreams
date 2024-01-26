@@ -147,7 +147,7 @@ View Dream - {{ dream.dream_name }}
                                             </div>
                                             <form class="comment-form not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                 <textarea class="comment-box adjustable-height dreams-dotted" wrap="hard" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
-                                                <div class="comment-buttons">
+                                                <div class="add-comment-buttons">
                                                     <button type="submit" class="submit-comment-button submit-comment" for="{{ dream.dream_slug }}-comment">Submit</button>
                                                     <div class="cancel-comment-button cancel-comment cancel-add-comment" id = "{{ dream.dream_slug }}-cancel">Cancel</div>
                                                 </div>
