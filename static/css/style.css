@@ -1925,6 +1925,9 @@ body {
     #dreambuild-container {
         margin:30px 25px;
     }
+    #bunny-right {
+        display:none;
+    }
     /*dreambuilder*/
     .cloud img{
         width:75px;
