@@ -91,7 +91,7 @@ h1 {
     width:100%;
     padding-top:10px;
     margin:10px 0 20px 0;
-    border-top:5px solid #0091ffff;
+    border-top:5px solid rgb(0, 145, 255);
 }
 .dreams-flash {
     margin-top: 20px;
@@ -166,7 +166,7 @@ body {
 
 .comments-delete-alert {
     display:none;
-    border:5px ridge #e4ff00ff;
+    border:5px ridge rgb(228, 255, 0);
     border-radius:6px;
 
 }
@@ -272,8 +272,8 @@ body {
 
 
 .form-table input:focus {
-    outline: 1px solid #ff6866ff;
-    border: 1px solid #ff6866ff;
+    outline: 1px solid rgb(255, 104, 102);
+    border: 1px solid rgb(255, 104, 102);
     background-color: white;
 }
 
@@ -339,11 +339,11 @@ body {
 }
 
 #personal-headline {
-    background-color:#ff6866ff;
+    background-color:rgb(255, 104, 102);
     margin:20px 0;
 }
 #interests-headline {
-    background-color:#ff6866ff;
+    background-color:rgb(255, 104, 102);
     margin-top:20px;
 }
 .show-additional {
@@ -379,7 +379,7 @@ body {
 }
 #explore {
     margin: 0 200px ;
-    border-bottom: 5px solid #ff6866ff;
+    border-bottom: 5px solid rgb(255, 104, 102);
 }
 .create-button {
     color:white;
@@ -417,10 +417,10 @@ body {
 }
 
 .dreambuild-buttons {
-    border-top: 5px solid #0091ffff;
+    border-top: 5px solid rgb(0, 145, 255);
 }
 .signup-buttons {
-    border-top: 5px solid #ff6866ff;
+    border-top: 5px solid rgb(255, 104, 102);
 }
 
 #welcome-headline {
@@ -440,7 +440,7 @@ body {
  #profile-section h4{
     width:220px;
     text-align:center;
-    border-bottom:2px solid #ff6866ff;
+    border-bottom:2px solid rgb(255, 104, 102);
     padding-bottom:4px;
     margin:auto;
  }
@@ -450,19 +450,19 @@ body {
     padding:5px;
     font-size: 100%;
     outline:1px;
-    border:1px dotted #ff6866ff;
+    border:1px dotted rgb(255, 104, 102);
     background-color:black;
  }
 
  #profile-info input:focus{
-    outline:1px solid #ff6866ff;
-    border:1px solid #ff6866ff;
+    outline:1px solid rgb(255, 104, 102);
+    border:1px solid rgb(255, 104, 102);
     background-color:black;
  }
  #profile-info input[type='checkbox'] {
     outline:none;
     border:none;
-    accent-color:#ff6866ff;
+    accent-color:rgb(255, 104, 102);
     color:white;
     cursor: pointer;
  }
@@ -470,7 +470,7 @@ body {
     font-size:105%;
  }
  #profile-pass-change {
-    color:#ff6866ff;
+    color:rgb(255, 104, 102);
     text-decoration:underline;
  }
 
@@ -483,7 +483,7 @@ body {
     background-color: rgb(77, 28, 27);
 }
 .profile-layout input[type="file"]::file-selector-button:hover {
-    background-color: #ff6866ff;
+    background-color: rgb(255, 104, 102);
 }
 
 
@@ -498,7 +498,7 @@ body {
     flex-flow:column;
     align-items:center;
     width:100%;
-    border-top: 5px solid #0091ffff;
+    border-top: 5px solid rgb(0, 145, 255);
     margin: 20px 0; 
 }
 #warning-message {
@@ -520,13 +520,13 @@ body {
 }
 .dreambuild-image-form {    
     width:100%;
-    border-bottom: 5px solid #0091ffff;
+    border-bottom: 5px solid rgb(0, 145, 255);
     padding-bottom: 20px;
 }
 .blue-box input  {
     width: 17px;
     height: 17px;
-    accent-color: #0091ffff;
+    accent-color: rgb(0, 145, 255);
     cursor: pointer;
 }
 
@@ -537,17 +537,17 @@ body {
 }
 
 #journey-buttons-dream {
-    border-top: 5px solid #0091ffff;
+    border-top: 5px solid rgb(0, 145, 255);
     margin-top:10px;
 }
 
 #dream-headline {
     margin-top:20px;
-    background-color:#0091ffff;
+    background-color:rgb(0, 145, 255);
 }
 
 #category-headline {
-    background-color:#0091ffff;
+    background-color:rgb(0, 145, 255);
     margin-top:20px;
 }
 
@@ -617,11 +617,11 @@ body {
     background-color: rgb(6, 28, 46);
 }
 .dream-layout input[type="file"]::file-selector-button:hover {
-    background-color: #0091ffff;
+    background-color: rgb(0, 145, 255);
 }
 
 #dream-image-uploads {
-    margin-top: 5px solid #0091ffff;
+    margin-top: 5px solid rgb(0, 145, 255);
     display:flex;
     justify-content:center;
     align-items: center;
@@ -657,7 +657,7 @@ body {
 .later-button {
     display:block;
     margin:20px auto;
-    background-color: #0091ffff;
+    background-color: rgb(0, 145, 255);
     border:2px solid white;
     width:220px;
     border-radius: 6px;
@@ -697,8 +697,8 @@ body {
     width:85%;
     margin:30px auto;
     text-align:center;
-    border-top: 5px solid #ff6866ff;
-    border-bottom:5px solid #ff6866ff;
+    border-top: 5px solid rgb(255, 104, 102);
+    border-bottom:5px solid rgb(255, 104, 102);
 }
 .grass-width {
     background-image: url("../images/backgrounds/grass.svg");
@@ -767,7 +767,7 @@ body {
     
 }
 #create-dream-exit:hover{
-    background-color: #0091ffff;
+    background-color: rgb(0, 145, 255);
 }
 
 #dreamscape-exit {
@@ -776,7 +776,7 @@ body {
 }
 
 #dreamscape-exit:hover {
-    background-color: #e4ff00ff;
+    background-color: rgb(228, 255, 0);
     border: 2px solid rgb(59, 49, 0);
     color:rgb(59, 49, 0);
 }
@@ -895,7 +895,7 @@ body {
     text-align:center;
     line-height:120%;
     padding-bottom:10px;
-    border-bottom:2px solid #e4ff00ff;
+    border-bottom:2px solid rgb(228, 255, 0);
 }
 #profile-visit{
     margin:0 auto 20px auto;
@@ -908,7 +908,7 @@ body {
 }
 
 #profile-visit:hover {
-   background-color: #ff6866ff;
+   background-color: rgb(255, 104, 102);
 }
 
 .show-hide-comments {
@@ -925,7 +925,7 @@ body {
 }
 
 .show-hide-comments i:hover {
-    color: #e4ff00ff;
+    color: rgb(228, 255, 0);
 }
 #dreamscape-feed-container {
     border: 5px inset rgb(34, 34, 34);
@@ -997,7 +997,7 @@ body {
 }
 .dreams-delete-alert {
     display:none;
-    border:5px ridge #0091ffff;
+    border:5px ridge rgb(0, 145, 255);
     border-radius:6px;
 }
 
@@ -1014,21 +1014,21 @@ body {
 }
 
 .top-border-dream {
-    border-top:5px solid #0091ffff;
+    border-top:5px solid rgb(0, 145, 255);
 }
 .top-border-dreamscape {
-    border-top:5px solid #e4ff00ff;
+    border-top:5px solid rgb(228, 255, 0);
 }
 
 .dreams-title {
-    border-top:5px solid #0091ffff;
-    border-bottom:5px solid #0091ffff;
+    border-top:5px solid rgb(0, 145, 255);
+    border-bottom:5px solid rgb(0, 145, 255);
     background-color: rgb(6, 28, 46);
 }
 
 .dreamscape-title {
-    border-top:5px solid #e4ff00ff;
-    border-bottom:5px solid #e4ff00ff;
+    border-top:5px solid rgb(228, 255, 0);
+    border-bottom:5px solid rgb(228, 255, 0);
     background-color:rgb(59, 49, 0);
 }
 .dream-button {
@@ -1036,7 +1036,7 @@ body {
     text-align:center;
     font-family: title;
     width: 50%;
-    background-color:#0091ffff;
+    background-color:rgb(0, 145, 255);
     cursor: pointer;
     font-size: 120%;
     line-height: 140%;
@@ -1052,18 +1052,18 @@ body {
     background-color: rgb(6, 28, 46);
 }
 .dream-list {
-    border-left:1px dotted #0091ffff;
-    border-right:1px dotted #0091ffff;    
+    border-left:1px dotted rgb(0, 145, 255);
+    border-right:1px dotted rgb(0, 145, 255);    
 }
 
 .dream-list:last-child {
-    border-bottom:1px dotted #0091ffff; 
+    border-bottom:1px dotted rgb(0, 145, 255);
 }
 .dreamscape-list {
     background-color:black;
-    border-left:1px dotted #e4ff00ff;
-    border-right:1px dotted #e4ff00ff;
-    border-bottom:3px solid #e4ff00ff;
+    border-left:1px dotted rgb(228, 255, 0);
+    border-right:1px dotted rgb(228, 255, 0);
+    border-bottom:3px solid rgb(228, 255, 0);
     margin-bottom:80px;   
 }
 .general-bar {
@@ -1076,13 +1076,13 @@ body {
 }
 
 .dream-bar {
-    border-top:3px solid #0091ffff;
-    border-bottom:3px solid #0091ffff;
+    border-top:3px solid rgb(0, 145, 255);
+    border-bottom:3px solid rgb(0, 145, 255);
 }
 
 .dreamscape-bar {
-    border-top:3px solid #e4ff00ff;
-    border-bottom:3px solid #e4ff00ff;   
+    border-top:3px solid rgb(228, 255, 0);
+    border-bottom:3px solid rgb(228, 255, 0);   
 }
 
 .main-dream-bar {
@@ -1094,12 +1094,12 @@ body {
 }
 
 .comment-dream-bar {
-    border-top:2px solid #0091ffff;
-    border-bottom:2px solid #0091ffff;
+    border-top:2px solid rgb(0, 145, 255);
+    border-bottom:2px solid rgb(0, 145, 255);
 }
 .comment-dreamscape-bar {
-    border-top:2px solid #e4ff00ff;
-    border-bottom:2px solid #e4ff00ff; 
+    border-top:2px solid rgb(228, 255, 0);
+    border-bottom:2px solid rgb(228, 255, 0); 
 }
 
 .icons {
@@ -1111,15 +1111,15 @@ body {
 }
 
 .edit-dream:hover {
-    color: #0091ffff;
+    color: rgb(0, 145, 255);
     cursor: pointer;
 }
 .delete-dream:hover {
-    color: #0091ffff;
+    color: rgb(0, 145, 255);
     cursor: pointer;
 }
 .view-dream:hover {
-    color: #0091ffff;
+    color: rgb(0, 145, 255);
     cursor: pointer;
 }
 .view-dreamscape {
@@ -1127,7 +1127,7 @@ body {
     cursor: pointer;
 }
 .view-dreamscape:hover {
-    color: #e4ff00ff;
+    color: rgb(228, 255, 0);
     cursor: pointer;
 }
 .dream-info {
@@ -1149,14 +1149,14 @@ body {
 #dream-line-break {
     margin-top:10px;
     margin-bottom: 40px;
-    border-top:5px solid #0091ffff;
+    border-top:5px solid rgb(0, 145, 255);
 }
 #return-button-container {
-    border-top:5px solid #0091ffff;
+    border-top:5px solid rgb(0, 145, 255);
 }
 
 #forgot-password-dream {
-    color: #0091ffff;
+    color: rgb(0, 145, 255);
     text-decoration: underline;
 }
 #forgot-password-dream:hover {
@@ -1169,7 +1169,7 @@ body {
 
 .view-dream-name {
     text-align:left;    
-    border-bottom:2px solid #0091ffff;
+    border-bottom:2px solid rgb(0, 145, 255);
 }
 
 .dreamscape-view-name {
@@ -1177,7 +1177,7 @@ body {
     display:flex;
     justify-content: space-between;
     align-items:center;
-    border-bottom:2px solid #e4ff00ff;
+    border-bottom:2px solid rgb(228, 255, 0);
 }
 
 .dreamscape-view-name i {
@@ -1250,11 +1250,11 @@ body {
 }
 
 .dreamscape-comments-bar {
-    border-top:3px solid #e4ff00ff;
+    border-top:3px solid rgb(228, 255, 0);
 }
 
 .dreamscape-comments-show-bottom {
-    border-bottom:3px solid #e4ff00ff;
+    border-bottom:3px solid rgb(228, 255, 0);
 }
 
 .dreamscape-comments-bar p {
@@ -1294,7 +1294,7 @@ body {
 }
 
 .add-comment:hover {
-    background-color: #0091ffff;
+    background-color: rgb(0, 145, 255);
     border:2px solid white;
 }
 
@@ -1347,16 +1347,16 @@ body {
 }
 
 .dreams-button-small {
-    border: 2px solid #0091ffff;    
+    border: 2px solid rgb(0, 145, 255);     
     background-color: rgb(6, 28, 46);
 }
 
 .dreamscape-button-small {
-    border: 2px solid #e4ff00ff;
+    border: 2px solid rgb(228, 255, 0);
     background-color: rgb(59, 49, 0);
 }
 .dreamscape-button-small:hover {
-    background-color: #e4ff00ff;
+    background-color: rgb(228, 255, 0);
     border: 2px solid rgb(59, 49, 0);
     color:rgb(59, 49, 0);
 }
@@ -1418,26 +1418,26 @@ body {
 }
 
 .dreams-editing i:hover {
-    color: #0091ffff;
+    color: rgb(0, 145, 255);
 }
 .dreamscape-editing i:hover {
-    color:  #e4ff00ff;
+    color:  rgb(228, 255, 0);
 }
 
 .comment-text textarea {
     padding: 10px 5px;
 }
 .dreams-editing textarea {
-    border: 1px dotted #0091ffff;
+    border: 1px dotted rgb(0, 145, 255);
 }
 .dreams-editing textarea:focus {
-    border: 1px solid #0091ffff;
+    border: 1px solid rgb(0, 145, 255);
 }
 .dreamscape-editing textarea {
-    border: 1px dotted #e4ff00ff;
+    border: 1px dotted rgb(228, 255, 0);
 }
 .dreamscape-editing textarea:focus {
-    border: 1px solid #e4ff00ff;
+    border: 1px solid rgb(228, 255, 0);
 }
 
 .comment-text textarea:focus {
@@ -1453,10 +1453,10 @@ body {
 }
 
 .dreams-avatar {
-    border-top: 2px solid #0091ffff;
+    border-top: 2px solid rgb(0, 145, 255);
 }
 .dreamscape-avatar {
-    border-top: 2px solid #e4ff00ff;
+    border-top: 2px solid rgb(228, 255, 0);
 }
 .comment-avatar img {
     margin:10px 0;
@@ -1484,19 +1484,19 @@ body {
 }
 
 .dreams-dotted {
-    border: 1px dotted #0091ffff;
+    border: 1px dotted rgb(0, 145, 255);
 }
 
 .dreams-dotted:focus {
-    border: 1px solid #0091ffff;
+    border: 1px solid rgb(0, 145, 255);;
 }
 
 .dreamscape-dotted {
-    border: 1px dotted #e4ff00ff;
+    border: 1px dotted rgb(228, 255, 0);
 }
 
 .dreamscape-dotted:focus {
-    border: 1px solid #e4ff00ff;
+    border: 1px solid rgb(228, 255, 0);
 } 
 .view-dream-description {
     white-space: pre-line;
@@ -1542,7 +1542,7 @@ body {
     width:150px;
     color:white;
     background-color: black;
-    border:2px solid #e4ff00ff;
+    border:2px solid rgb(228, 255, 0);
     border-radius:4px;
     padding:3px 3px 3px 8px;    
 }
@@ -1573,7 +1573,7 @@ body {
     width: 75%;
     padding: 20px 0;
     margin:20px auto 0 auto;
-    border-top: 5px solid #ff6866ff;
+    border-top: 5px solid rgb(255, 104, 102);
 }
 
 .container-other img {
@@ -1609,7 +1609,7 @@ body {
     cursor: pointer;
 }
 #dream-exit:hover {
-    background-color:#0091ffff; 
+    background-color:rgb(0, 145, 255); 
 }
 
 
@@ -1629,7 +1629,7 @@ body {
 }
 
 #profile-exit:hover, #home-exit:hover {
-    background-color: #ff6866ff;
+    background-color: rgb(255, 104, 102);
 }
 
 .edit-buttons {
@@ -1641,11 +1641,11 @@ body {
 }
 
 #profile-edit-buttons {
-    border-top: 5px solid #ff6866ff;
+    border-top: 5px solid rgb(255, 104, 102);
 }
 
 .profile-pic-remove input {
-    accent-color: #ff6866ff;
+    accent-color: rgb(255, 104, 102);
     cursor: pointer;
 }
 /* Edit Dream */
@@ -1654,7 +1654,7 @@ body {
     margin:auto;
     text-align:center;
     width:220px;
-    border-bottom:2px solid #0091ffff;;
+    border-bottom:2px solid rgb(0, 145, 255);
     padding-bottom:4px;
  }
 
@@ -1663,7 +1663,7 @@ body {
 }
 
 #dream-edit-buttons {
-    border-top: 5px solid #0091ffff;
+    border-top: 5px solid rgb(0, 145, 255);
 }
 
 .edit-button {

@@ -542,7 +542,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemSlug + "-view-all").style.display="none";
             document.getElementById(itemSlug + "-hide-all").style.display="block";
             document.getElementById(itemSlug + "-all-comments").style.display="block";
-            document.getElementById(itemSlug + "-bar").style.borderBottom="3px solid #e4ff00ff";
+            document.getElementById(itemSlug + "-bar").style.borderBottom="3px solid rgb(228, 255, 0)";
         }
         if (itemClass === "hide") {
             document.getElementById(itemSlug + "-view-all").style.display="block";
@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //functions for mouseover/out for the dreams icon
     function mouseoverDreams() {
         document.getElementById("dreams-icon").src = "../../../static/images/general-assets/dreams-icon-hover.svg";
-        document.getElementById("dreams-icon-container").style.color = "#0091ffff";
+        document.getElementById("dreams-icon-container").style.color = "rgb(0, 145, 255)";
     }
     function mouseoutDreams() {
         document.getElementById("dreams-icon").src = "../../../static/images/general-assets/dreams-icon.svg";
@@ -673,7 +673,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //functions for mouseover/out for the dreamscape icon
     function mouseoverDreamscape() {
         document.getElementById("dreamscape-icon").src = "../../../static/images/general-assets/sun-icon-hover.svg";
-        document.getElementById("dreamscape-icon-container").style.color = "#e4ff00ff";
+        document.getElementById("dreamscape-icon-container").style.color = "rgb(228, 255, 0)";
     }
     function mouseoutDreamscape() {
         document.getElementById("dreamscape-icon").src = "../../../static/images/general-assets/sun-icon.svg";
@@ -682,7 +682,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //functions for mouseover/out for the profile icon
     function mouseoverProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon-hover.svg";
-        document.getElementById("profile-icon-container").style.color = "#ff6866ff";
+        document.getElementById("profile-icon-container").style.color = "rgb(255, 104, 102)";
     }
     function mouseoutProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon.svg";
@@ -691,11 +691,11 @@ document.addEventListener("DOMContentLoaded", function() {
     //sets border color for active page based on section
     if (document.getElementById("dreams-icon-container")) {
         if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
-            document.getElementById("dreams-icon-container").style.borderColor = "#0091ffff";
+            document.getElementById("dreams-icon-container").style.borderColor = "rgb(0, 145, 255)";
         } else if (document.getElementById("dreamscape-icon-container").classList.contains("active-page")) {
-            document.getElementById("dreamscape-icon-container").style.borderColor = "#e4ff00ff";
+            document.getElementById("dreamscape-icon-container").style.borderColor = "rgb(228, 255, 0)";
         } else {
-            document.getElementById("profile-icon-container").style.borderColor = "#ff6866ff"
+            document.getElementById("profile-icon-container").style.borderColor = "rgb(255, 104, 102)";
         }
     }
     //ensure following or unfollowing returns to dream the user followed/unfollowed
