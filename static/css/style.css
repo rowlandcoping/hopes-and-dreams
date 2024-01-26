@@ -2515,7 +2515,6 @@ body {
         width: 210px;
         height:460px;
         padding:10px 10px 20px 10px;
-        padding
     }
     .delete-confirm, .delete-cancel {
         width:180px;
@@ -2523,9 +2522,6 @@ body {
     .alarm-text{
         margin-top:0;
     }
-    
-
-
 }
 
 @media screen and (max-width:359px) {

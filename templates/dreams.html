@@ -35,13 +35,16 @@
         {% with dreams = user_dreams %}
             {% if dreams %}
                 {% for dream in dreams %}
-                    <div class="dreams-delete-alert delete-alert not-displayed" id="alert-{{ dream.dream_slug }}">
+                    <div class="delete-alert dreams-delete-alert not-displayed" id="alert-{{ dream.dream_slug }}">
                         <div class="main-alert">
                             <div class="alarm-bunny-left">
                                 <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}">
                             </div>
                             <div class="alarm-text">
                                 <h3>Are you sure you want to delete<br>"{{dream.dream_name}}"?</h3>
+                                <div class="alarm-bunny-middle">
+                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}">
+                                </div>
                                 <p>It will permanently remove the dream, plus all related comments and followers!</p>
                                 <div class="comment-buttons">
                                     <a class="delete-confirm" href ="{{ url_for('delete_dream', dream_slug = dream.dream_slug) }}">Yes, Please</a>
