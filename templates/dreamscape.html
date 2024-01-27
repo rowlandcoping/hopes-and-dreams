@@ -186,19 +186,34 @@ Dreamscape - {{ user.first_name }}
                 <div>
                     <span id="{{dream.dream_slug}}-view-all" class="not-displayed">
                         <span class="show-hide-comments">
-                            <small>View Comments</small>
+                            <small>View</small>
                             <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
                         </span>
                     </span>
                     <span id="{{dream.dream_slug}}-hide-all">
                         <span class="show-hide-comments">
-                            <small>Hide Comments</small>          
+                            <small>Hide</small>          
                             <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
                         </span>  
                     </span>
                 </div>
-            </div>
-            {% endif %}
+                {% else %}
+                <div>
+                    <span id="{{dream.dream_slug}}-view-all" class="not-displayed">
+                        <span class="show-hide-comments">
+                            <small>Be First</small>
+                            <i class="all-dreamscape-comments fa-solid fa-caret-left" id="{{dream.dream_slug}}-all-comments-show"></i>
+                        </span>
+                    </span>
+                    <span id="{{dream.dream_slug}}-hide-all">
+                        <span class="show-hide-comments">
+                            <small>Hide</small>          
+                            <i class="all-dreamscape-comments fa-solid fa-caret-down" id="{{dream.dream_slug}}-all-comments-hide"></i>
+                        </span>  
+                    </span>
+                </div>
+                {% endif %}
+            </div>            
             {% else %}
             <div class="opaque-element general-bar comments-bar dreamscape-comments-bar" id="{{dream.dream_slug}}-bar">
                 <div class="number-of-comments">

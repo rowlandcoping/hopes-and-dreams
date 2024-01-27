@@ -106,15 +106,8 @@ View Dream - {{ dream.dream_name }}
                                             {% if comment.dream_id | string == dream._id | string %}
                                                 {{ selected_comments.append(comment) or "" }}
                                             {% endif %}
-                                        {% endfor %}
-
-                                        {% if request.path == url_for('edit_comment',dream_slug=dream.dream_slug, comment_id=comment_id)  
-                                            or request.path == url_for('add_comment',dream_slug=dream.dream_slug)
-                                            or request.path == url_for('delete_comment',dream_slug=dream.dream_slug, comment_id=comment_id) %}
-                                            <div id="focussed-dream" tabindex="0" class="opaque-element general-bar dream-bar comments-bar">
-                                        {%else%}
-                                            <div class="opaque-element general-bar dream-bar comments-bar">
-                                        {% endif %}
+                                        {% endfor %}                                        
+                                    <div class="opaque-element general-bar dream-bar comments-bar" id="{{dream.dream_slug}}-bar">
                                         {% if selected_comments | length == 1 %}
                                         <p>{{ selected_comments | length }} Comment</p>
                                         {% else %}
@@ -152,7 +145,7 @@ View Dream - {{ dream.dream_name }}
                                                     <div class="cancel-comment-button cancel-comment cancel-add-comment" id = "{{ dream.dream_slug }}-cancel">Cancel</div>
                                                 </div>
                                             </form>
-                                        </div>                                     
+                                        </div>                                      
                                         {% for comment in selected_comments: %}
                                         <div class="comment-section">                                        
                                             <div class="comment-header dream-bar comment-dream-bar">
@@ -168,7 +161,7 @@ View Dream - {{ dream.dream_name }}
                                                             </div>
                                                             <p>It will be permanently removed, however data from any positive or negative reactions will be retained.</p>
                                                             <div class="comment-buttons">
-                                                                <a class="delete-confirm" href="{{ url_for('delete_dream_comment', dream_slug = dream.dream_slug, selected=selected, comment_id=comment._id) }}">Yes, Please</a>
+                                                                <a class="delete-confirm" href="{{ url_for('delete_comment', dream_slug = dream.dream_slug, comment_id=comment._id) }}">Yes, Please</a>
                                                                 <div class="delete-cancel" id="{{ comment._id | string }}-cancel-delete-comment">Oops. No!!!</div>
                                                             </div>
                                                         </div>

@@ -910,7 +910,7 @@ def delete_dream(dream_slug):
             {"_id": ObjectId(session["user_id"])})
         dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
         if ObjectId(user_info["_id"]) == ObjectId(
-          dream["_id"]) or user_info["role"] == "administrator":
+          dream["user_id"]) or user_info["role"] == "administrator":
             mongo.db.dreams.delete_one({"_id": ObjectId(dream["_id"])})
             categories = mongo.db.categories.find()
             for categ in categories:
