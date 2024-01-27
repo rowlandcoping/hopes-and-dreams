@@ -139,7 +139,7 @@ View Dream - {{ dream.dream_name }}
                                                     {% endwith %}
                                             </div>
                                             <form class="comment-form not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_comment', dream_slug=dream.dream_slug) }}" method="POST" name="personal-update" enctype="multipart/form-data">
-                                                <textarea class="comment-box adjustable-height dreams-dotted" wrap="hard" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
+                                                <textarea class="comment-box adjustable-height dreams-dotted" id="{{ dream.dream_slug }}-text" name="{{ dream.dream_slug }}-text"></textarea>
                                                 <div class="add-comment-buttons">
                                                     <button type="submit" class="submit-comment-button submit-comment" form="{{ dream.dream_slug }}-comment">Submit</button>
                                                     <div class="cancel-comment-button cancel-comment cancel-add-comment" id = "{{ dream.dream_slug }}-cancel">Cancel</div>
@@ -225,10 +225,10 @@ View Dream - {{ dream.dream_name }}
                                                 <div class="comment-text dreams-editing">
                                                     <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                         <textarea id="{{ comment._id }}-original" name="{{ comment._id }}-original" readonly hidden>{{ comment.comment }}</textarea>
-                                                        <div class="textarea-display dreams-dotted" wrap="hard" id="{{ comment._id }}-fixed">
+                                                        <div class="textarea-display dreams-dotted" id="{{ comment._id }}-fixed">
                                                             {{- comment.comment -}}
                                                         </div>
-                                                        <textarea class="adjustable-height comment-comment not-displayed" wrap="hard" id="{{ comment._id }}-display" name="{{ comment._id }}-text" readonly>{{ comment.comment }}</textarea>
+                                                        <textarea class="adjustable-height comment-comment not-displayed" id="{{ comment._id }}-display" name="{{ comment._id }}-text" readonly>{{ comment.comment }}</textarea>
                                                         <div class="edit-comment-buttons">
                                                             <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit" form="{{ dream.dream_slug }}-comment-display">Confirm</button>
                                                             <div class="cancel-comment-button cancel-comment not-displayed" id="{{ comment._id }}-cancel">Cancel</div>
