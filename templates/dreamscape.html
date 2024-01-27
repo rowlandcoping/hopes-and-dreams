@@ -387,7 +387,7 @@ Dreamscape - {{ user.first_name }}
                                 </div>
                                 <textarea id="{{ comment._id }}-display" name="{{ comment._id }}-text" class="adjustable-height comment-comment not-displayed" readonly>{{ comment.comment }}</textarea>
                                 <div class="edit-comment-buttons">
-                                    <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit" form="{{ dream.dream_slug }}-comment-display">Confirm</button>
+                                    <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit">Confirm</button>
                                     <div class="cancel-comment-button cancel-comment not-displayed" id="{{ comment._id }}-cancel">Cancel</div>
                                 </div>
                                 {% if comment.user_id | string == session['user_id'] | string or user.role == "administrator" %}
