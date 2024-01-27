@@ -640,6 +640,16 @@ def dreambuilder():
             dream_string = str(re.sub(" ", "-", dream_string))
             timestamp = time()
             date_time = datetime.fromtimestamp(timestamp)
+            user_dreams = list(mongo.db.dreams.find(
+                {"user_id": ObjectId(session["user_id"])}))
+            for dream in user_dreams:
+                if dream["dream_string"] == dream_string:
+                    flash("You have already created a dream with that name.",
+                          "amber-flash")
+                    return render_template(
+                        'dreambuilder.html', categories_one=categories_one,
+                        categories_two=categories_two,
+                        categories_custom=categories_custom)
             check_slug = list(mongo.db.dreams.find(
                 {"dream_string": dream_string}))
             if (check_slug):
@@ -896,10 +906,7 @@ def edit_dream(dream_slug):
                 dream=dream, dream_slug=dream["dream_slug"],
                 categories_one=categories_one, categories_two=categories_two,
                 categories_custom=categories_custom)
-        return render_template(
-            "edit-dream.html", base_url=base_url,  user=user_info, dream=dream,
-            dream_slug=dream["dream_slug"], categories_one=categories_one,
-            categories_two=categories_two, categories_custom=categories_custom)
+        return redirect(url_for("dreams"))
     return redirect(url_for("home"))
 
 
@@ -1353,59 +1360,87 @@ def view_dream(dream_slug):
 @app.route("/follow-dream/<dream_slug>", methods=["GET", "POST"])
 def follow_dream(dream_slug):
     if session.get("user_id") is not None:
-        dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        if "users_following" in dream:
-            if not dream["users_following"].count(
-              ObjectId(session["user_id"])):
-                add_dream = {"$push": {
-                    "dreams_followed": ObjectId(dream["_id"])
-                }}
-                add_user = {"$push": {
-                    "users_following": ObjectId(session["user_id"])
-                }}
-                mongo.db.dreams.update_one(
-                    {"dream_slug": dream_slug}, add_user)
-                mongo.db.dreams.update_one(
-                    {"dream_slug": dream_slug}, {
-                        "$inc": {"total_followers": 1}})
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, add_dream)
-        else:
-            add_dream = {"$push": {
-                "dreams_followed": ObjectId(dream["_id"])
-            }}
-            add_user = {"$push": {
-                "users_following": ObjectId(session["user_id"])
-            }}
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, add_user)
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, {"$inc": {
-                        "total_followers": 1}})
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, add_dream)
-        return redirect(url_for("view_dream", dream_slug=dream_slug))
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                if "users_following" in dream:
+                    if not dream["users_following"].count(
+                    ObjectId(session["user_id"])):
+                        add_dream = {"$push": {
+                            "dreams_followed": ObjectId(dream["_id"])
+                        }}
+                        add_user = {"$push": {
+                            "users_following": ObjectId(session["user_id"])
+                        }}
+                        mongo.db.dreams.update_one(
+                            {"dream_slug": dream_slug}, add_user)
+                        mongo.db.dreams.update_one(
+                            {"dream_slug": dream_slug}, {
+                                "$inc": {"total_followers": 1}})
+                        mongo.db.users.update_one(
+                            {"_id": ObjectId(session["user_id"])}, add_dream)
+                    else:
+                        add_dream = {"$push": {
+                            "dreams_followed": ObjectId(dream["_id"])
+                        }}
+                        add_user = {"$push": {
+                            "users_following": ObjectId(session["user_id"])
+                        }}
+                        mongo.db.dreams.update_one(
+                            {"dream_slug": dream_slug}, add_user)
+                        mongo.db.dreams.update_one(
+                            {"dream_slug": dream_slug}, {"$inc": {
+                                "total_followers": 1}})
+                        mongo.db.users.update_one(
+                            {"_id": ObjectId(session["user_id"])}, add_dream)
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = dict(mongo.db.dreams.find_one(
+                    {"dream_slug": dream_slug}))
+                return render_template(
+                    "dream.html", base_url=base_url, user=user_info,
+                    dream=dream, dream_slug=dream_slug, comments=comments)
+        return render_template('lost-bunnies.html'), 404
     return redirect(url_for("home"))
 
 
 @app.route("/unfollow-dream/<dream_slug>", methods=["GET", "POST"])
 def unfollow_dream(dream_slug):
     if session.get("user_id") is not None:
-        dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        if dream["users_following"].count(ObjectId(session["user_id"])):
-            # remove from dreams followed list in users
-            remove_dream = {"$pull": {
-                "dreams_followed": ObjectId(dream["_id"])
-            }}
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, remove_dream)
-            # remove from users following list in dreams
-            remove_user = {"$pull": {
-                "users_following": ObjectId(session["user_id"])
-            }}
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, remove_user)
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, {"$inc": {
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                if dream["users_following"].count(
+                    ObjectId(session["user_id"])):
+                    # remove from dreams followed list in users
+                    remove_dream = {"$pull": {
+                        "dreams_followed": ObjectId(dream["_id"])
+                    }}
+                    mongo.db.users.update_one(
+                        {"_id": ObjectId(session["user_id"])}, remove_dream)
+                    # remove from users following list in dreams
+                    remove_user = {"$pull": {
+                        "users_following": ObjectId(session["user_id"])
+                    }}
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, remove_user)
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, {"$inc": {
                             "total_followers": -1}})
-            dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        return redirect(url_for("view_dream", dream_slug=dream_slug))
+                    dream = mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug})
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = dict(mongo.db.dreams.find_one(
+                    {"dream_slug": dream_slug}))
+                return render_template(
+                    "dream.html", base_url=base_url, user=user_info,
+                    dream=dream, dream_slug=dream_slug, comments=comments)
+        return render_template('lost-bunnies.html'), 404
     return redirect(url_for("home"))
 
 
