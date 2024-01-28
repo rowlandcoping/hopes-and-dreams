@@ -6,21 +6,55 @@
     
 {% block content %}
 <div class="other-page">
-    
-    <form action="{{ url_for('password_reset') }}" method="POST" name="password-reset">
-        <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>     
-        <div class="container-other">
-            <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}"></div>
+    <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>     
+    <div class="container-other">
+        <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}"></div>
+        {% if user_info %}
             <div class="password-reset">
                 <h3>We're ever so sorry, but that content is not avaiable.</h3>
                 <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
-                <p>It's probably been deleted, either that or it never existed in the first place. Why not go back to the Dreamscape? That's where we're going!</p>
+                <p>It's probably been deleted, either that or it never existed in the first place. Why not visit the Dreamscape? That's where we're going!</p>
             </div>
-            <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+        {% else %}
+        <div class="password-reset">
+            <h3>We're ever so sorry, but that content is not avaiable.</h3>
+            <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+            <p>It's probably been deleted, either that or it never existed in the first place.</p>
+            <p>If you are not a member already, why not sign up and have a look around?  I'm sure there is something here for you!</p>
         </div>
-        <div id="welcome-exit-buttons">
-            <a id="dreamscape-exit" class="exit-button" href="{{ url_for('dreamscape') }}">Return to Dreamscape</a>
+
+
+        {% endif %}
+        <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+    </div>
+    {% if user_info %}
+    <div id="welcome-exit-buttons">
+        <a id="create-dream-exit" class="exit-button" href="{{ url_for('dreams') }}">Return to Dreams</a>
+        <a id="dreamscape-exit" class="exit-button" href="{{ url_for('dreamscape') }}">Return to Dreamscape</a>
+    </div>
+    {% else %}
+    <div id="landing-buttons">
+        <a class="signin-link"  id="main-signup" href="{{ url_for('signup') }}">Sign Up</a>        
+        <div class="signin-link" id="signin-click">Sign In</div>
+        <div id="signin-form" class ="not-displayed">
+            <form id="sign-in-form" action="{{ url_for('signin_dream', dream_slug=dream_slug) }}" method="POST">
+                <table class="form-table">
+                    <tr>
+                        <td class="label"><label for="email">e-mail: </label></td>
+                        <td><input type="email" id="email" name="email" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="password">Password: </label></td>
+                        <td><input type="password" id="password" name="password" required></td>
+                    </tr>
+                </table>
+                <div class="signin-buttons">
+                    <button type="submit" class="submit-comment-button submit-comment">Submit</button>
+                    <div class="cancel-comment-button cancel-comment cancel-signin" id="signin-cancel">Cancel</div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+    {% endif %}
 </div>
 {% endblock content %}

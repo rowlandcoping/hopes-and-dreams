@@ -744,168 +744,182 @@ def abandon_dream():
 @app.route("/edit-dream/<dream_slug>", methods=["GET", "POST"])
 def edit_dream(dream_slug):
     if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        categories = list(mongo.db.categories.find().sort(
-            "total_times_selected", -1))
-        categories_one = categories[0:10]
-        categories_two = categories[10:20]
-        categories_custom = categories[20:len(categories)]
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        if str(dream["user_id"]) == str(session.get("user_id")):
-            user_info = dict(mongo.db.users.find_one(
-                {"_id": ObjectId(session["user_id"])}))
-            if request.method == "POST":
-                if request.form.get("disable_comments"):
-                    comments_enabled = False
-                else:
-                    comments_enabled = True
-                categories_selected = request.form.get(
-                    "selected-categories").removesuffix(',')
-                categories_array = categories_selected.split(",")
-                if (request.form.get(
-                  "dream_name").lower() != dream["dream_name"].lower()):
-                    dream_string = str(
-                        re.sub(
-                            "[.!# \"$%;@&'*+\\/=?^_`{|}~]", "",
-                            request.form.get("dream_name").lower()))
-                    dream_string = str(re.sub(" ", "-", dream_string))
-                    check_slug = list(
-                        mongo.db.dreams.find({"dream_string": dream_string}))
-                    if (check_slug):
-                        user_number = str(len(check_slug)+1)
-                        dream_slug = str(dream_string + "-" + user_number)
-                    else:
-                        dream_slug = dream_string
-                else:
-                    dream_slug = dream["dream_slug"]
-                    dream_string = dream["dream_string"]
-                timestamp = time()
-                date_time = datetime.fromtimestamp(timestamp)
-                image_alt = (
-                    "This image represents " + request.form.get("dream_name"))
-                if request.files['image']:
-                    uploaded_image = request.files['image']
-                    imgname = uploaded_image.filename.split(".", 1)[0]
-                    filename = str(imgname + "-" + str(user_info["_id"]))
-                    converted_image = imageConvert(
-                        uploaded_image, 400, 75, "webp")
-                    if "image" in dream:
-                        if dream["image"] != "":
-                            cloudinary.uploader.destroy(
-                                "dreams/" + dream["image"])
-                    cloudinary.uploader.upload(
-                        converted_image, public_id=filename, folder="dreams")
-                    dream_update = {"$set": {
-                        "timestamp_updated": timestamp,
-                        "datetime_updated": date_time.strftime(
-                            "%d/%m/%Y at %H:%M:%S"),
-                        "dream_name": request.form.get("dream_name"),
-                        "dream_string": dream_string,
-                        "dream_slug": dream_slug,
-                        "dream_description": request.form.get(
-                            "dream_description"),
-                        "image": filename,
-                        "image_alt": image_alt,
-                        "categories": categories_array,
-                        "comments_enabled": comments_enabled
-                    }}
-                elif request.form.get("delete_image"):
-                    if "image" in dream:
-                        if (dream["image"] != ""):
-                            cloudinary.uploader.destroy(
-                                "dreams/" + dream["image"])
-                        dream_update = {"$set": {
-                            "timestamp_updated": timestamp,
-                            "datetime_updated": date_time.strftime(
-                                "%d/%m/%Y at %H:%M:%S"),
-                            "dream_name": request.form.get("dream_name"),
-                            "dream_string": dream_string,
-                            "dream_slug": dream_slug,
-                            "dream_description": request.form.get(
-                                "dream_description"),
-                            "image": "",
-                            "image_alt": "",
-                            "categories": categories_array,
-                            "comments_enabled": comments_enabled
-                        }}
-                    else:
-                        dream_update = {"$set": {
-                            "timestamp_updated": timestamp,
-                            "datetime_updated": date_time.strftime(
-                                "%d/%m/%Y at %H:%M:%S"),
-                            "dream_name": request.form.get("dream_name"),
-                            "dream_string": dream_string,
-                            "dream_slug": dream_slug,
-                            "dream_description": request.form.get(
-                                "dream_description"),
-                            "categories": categories_array,
-                            "comments_enabled": comments_enabled
-                        }}
-                else:
-                    dream_update = {"$set": {
-                        "timestamp_updated": timestamp,
-                        "datetime_updated": date_time.strftime(
-                            "%d/%m/%Y at %H:%M:%S"),
-                        "dream_name": request.form.get("dream_name"),
-                        "dream_string": dream_string,
-                        "dream_slug": dream_slug,
-                        "dream_description": request.form.get(
-                            "dream_description"),
-                        "image_alt": image_alt,
-                        "categories": categories_array,
-                        "comments_enabled": comments_enabled
-                    }}
-                mongo.db.dreams.update_one(
-                        {"_id": ObjectId(dream["_id"])}, dream_update)
-                # update categories fields
-                new_categories = request.form.get(
-                    "selected-categories").split(",")
-                new_categories = [x.strip() for x in new_categories]
-                initial_categories = request.form.get(
-                    "initial-interests").split(",")
-                initial_categories = [x.strip() for x in initial_categories]
-                to_delete = []
-                to_add = []
-                for category in new_categories:
-                    present = initial_categories.count(category)
-                    if present == 0:
-                        to_add.append(category)
-                for category in initial_categories:
-                    present = new_categories.count(category)
-                    if present == 0:
-                        to_delete.append(category)
-                for category in to_add:
-                    if category != "":
-                        mongo.db.categories.update_one(
-                            {"category": category}, {"$push": {
-                                "dreams_selected": dream["_id"]}})
-                        mongo.db.categories.update_one(
-                            {"category": category}, {"$inc": {
-                                "total_dreams_selected": 1,
-                                "total_times_selected": 1}})
-                for category in to_delete:
-                    if category != "":
-                        mongo.db.categories.update_one(
-                            {"category": category}, {
-                                "$pull": {"dreams_selected": dream["_id"]}})
-                        mongo.db.categories.update_one(
-                            {"category": category}, {"$inc": {
-                                "total_dreams_selected": -1,
-                                "total_times_selected": -1}})
-                dream = dict(mongo.db.dreams.find_one(
-                    {"_id": ObjectId(dream["_id"])}))
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
                 categories = list(mongo.db.categories.find().sort(
-                    ("total_times_selected"), -1))
+                    "total_times_selected", -1))
                 categories_one = categories[0:10]
                 categories_two = categories[10:20]
                 categories_custom = categories[20:len(categories)]
-                flash("Dream Updated.", "amber-flash-reset")
-            return render_template(
-                "edit-dream.html", base_url=base_url, user=user_info,
-                dream=dream, dream_slug=dream["dream_slug"],
-                categories_one=categories_one, categories_two=categories_two,
-                categories_custom=categories_custom)
+                if str(dream["user_id"]) == str(session.get("user_id")):
+                    user_info = dict(mongo.db.users.find_one(
+                        {"_id": ObjectId(session["user_id"])}))
+                    if request.method == "POST":
+                        if request.form.get("disable_comments"):
+                            comments_enabled = False
+                        else:
+                            comments_enabled = True
+                        categories_selected = request.form.get(
+                            "selected-categories").removesuffix(',')
+                        categories_array = categories_selected.split(",")
+                        if (request.form.get(
+                          "dream_name").lower() !=
+                          dream["dream_name"].lower()):
+                            dream_string = str(
+                                re.sub(
+                                    "[.!# \"$%;@&'*+\\/=?^_`{|}~]", "",
+                                    request.form.get("dream_name").lower()))
+                            dream_string = str(re.sub(" ", "-", dream_string))
+                            check_slug = list(
+                                mongo.db.dreams.find(
+                                    {"dream_string": dream_string}))
+                            if (check_slug):
+                                user_number = str(len(check_slug)+1)
+                                dream_slug = str(
+                                    dream_string + "-" + user_number)
+                            else:
+                                dream_slug = dream_string
+                        else:
+                            dream_slug = dream["dream_slug"]
+                            dream_string = dream["dream_string"]
+                        timestamp = time()
+                        date_time = datetime.fromtimestamp(timestamp)
+                        image_alt = (
+                            "This image represents " + request.form.get(
+                                "dream_name"))
+                        if request.files['image']:
+                            uploaded_image = request.files['image']
+                            imgname = uploaded_image.filename.split(".", 1)[0]
+                            filename = str(imgname + "-" + str(
+                                user_info["_id"]))
+                            converted_image = imageConvert(
+                                uploaded_image, 400, 75, "webp")
+                            if "image" in dream:
+                                if dream["image"] != "":
+                                    cloudinary.uploader.destroy(
+                                        "dreams/" + dream["image"])
+                            cloudinary.uploader.upload(
+                                converted_image,
+                                public_id=filename, folder="dreams")
+                            dream_update = {"$set": {
+                                "timestamp_updated": timestamp,
+                                "datetime_updated": date_time.strftime(
+                                    "%d/%m/%Y at %H:%M:%S"),
+                                "dream_name": request.form.get("dream_name"),
+                                "dream_string": dream_string,
+                                "dream_slug": dream_slug,
+                                "dream_description": request.form.get(
+                                    "dream_description"),
+                                "image": filename,
+                                "image_alt": image_alt,
+                                "categories": categories_array,
+                                "comments_enabled": comments_enabled
+                            }}
+                        elif request.form.get("delete_image"):
+                            if "image" in dream:
+                                if (dream["image"] != ""):
+                                    cloudinary.uploader.destroy(
+                                        "dreams/" + dream["image"])
+                                dream_update = {"$set": {
+                                    "timestamp_updated": timestamp,
+                                    "datetime_updated": date_time.strftime(
+                                        "%d/%m/%Y at %H:%M:%S"),
+                                    "dream_name": request.form.get(
+                                        "dream_name"),
+                                    "dream_string": dream_string,
+                                    "dream_slug": dream_slug,
+                                    "dream_description": request.form.get(
+                                        "dream_description"),
+                                    "image": "",
+                                    "image_alt": "",
+                                    "categories": categories_array,
+                                    "comments_enabled": comments_enabled
+                                }}
+                            else:
+                                dream_update = {"$set": {
+                                    "timestamp_updated": timestamp,
+                                    "datetime_updated": date_time.strftime(
+                                        "%d/%m/%Y at %H:%M:%S"),
+                                    "dream_name": request.form.get(
+                                        "dream_name"),
+                                    "dream_string": dream_string,
+                                    "dream_slug": dream_slug,
+                                    "dream_description": request.form.get(
+                                        "dream_description"),
+                                    "categories": categories_array,
+                                    "comments_enabled": comments_enabled
+                                }}
+                        else:
+                            dream_update = {"$set": {
+                                "timestamp_updated": timestamp,
+                                "datetime_updated": date_time.strftime(
+                                    "%d/%m/%Y at %H:%M:%S"),
+                                "dream_name": request.form.get("dream_name"),
+                                "dream_string": dream_string,
+                                "dream_slug": dream_slug,
+                                "dream_description": request.form.get(
+                                    "dream_description"),
+                                "image_alt": image_alt,
+                                "categories": categories_array,
+                                "comments_enabled": comments_enabled
+                            }}
+                        mongo.db.dreams.update_one(
+                                {"_id": ObjectId(dream["_id"])}, dream_update)
+                        # update categories fields
+                        new_categories = request.form.get(
+                            "selected-categories").split(",")
+                        new_categories = [x.strip() for x in new_categories]
+                        initial_categories = request.form.get(
+                            "initial-interests").split(",")
+                        initial_categories = ([x.strip() for
+                                               x in initial_categories])
+                        to_delete = []
+                        to_add = []
+                        for category in new_categories:
+                            present = initial_categories.count(category)
+                            if present == 0:
+                                to_add.append(category)
+                        for category in initial_categories:
+                            present = new_categories.count(category)
+                            if present == 0:
+                                to_delete.append(category)
+                        for category in to_add:
+                            if category != "":
+                                mongo.db.categories.update_one(
+                                    {"category": category}, {"$push": {
+                                        "dreams_selected": dream["_id"]}})
+                                mongo.db.categories.update_one(
+                                    {"category": category}, {"$inc": {
+                                        "total_dreams_selected": 1,
+                                        "total_times_selected": 1}})
+                        for category in to_delete:
+                            if category != "":
+                                mongo.db.categories.update_one(
+                                    {"category": category}, {
+                                        "$pull": {
+                                            "dreams_selected": dream["_id"]}})
+                                mongo.db.categories.update_one(
+                                    {"category": category}, {"$inc": {
+                                        "total_dreams_selected": -1,
+                                        "total_times_selected": -1}})
+                        dream = dict(mongo.db.dreams.find_one(
+                            {"_id": ObjectId(dream["_id"])}))
+                        categories = list(mongo.db.categories.find().sort(
+                            ("total_times_selected"), -1))
+                        categories_one = categories[0:10]
+                        categories_two = categories[10:20]
+                        categories_custom = categories[20:len(categories)]
+                        flash("Dream Updated.", "amber-flash-reset")
+                    return render_template(
+                        "edit-dream.html", base_url=base_url, user=user_info,
+                        dream=dream, dream_slug=dream["dream_slug"],
+                        categories_one=categories_one,
+                        categories_two=categories_two,
+                        categories_custom=categories_custom)
+        flash("Dream Not Found.", "amber-flash")
         return redirect(url_for("dreams"))
     return redirect(url_for("home"))
 
@@ -959,42 +973,51 @@ def delete_dream(dream_slug):
     methods=["GET", "POST"])
 def dreamscape_follow_dream(dream_slug, selected):
     if session.get("user_id") is not None:
-        dream_pick = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        if "users_following" in dream_pick:
-            if not dream_pick["users_following"].count(
-              ObjectId(session["user_id"])):
-                add_dream = {"$push": {
-                    "dreams_followed": ObjectId(dream_pick["_id"])
-                }}
-                add_user = {"$push": {
-                    "users_following": ObjectId(session["user_id"])
-                }}
-                mongo.db.dreams.update_one(
-                    {"dream_slug": dream_slug}, add_user)
-                mongo.db.dreams.update_one(
-                    {"dream_slug": dream_slug}, {"$inc": {
-                        "total_followers": 1}})
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, add_dream)
-        else:
-            add_dream = {"$push": {
-                "dreams_followed": ObjectId(dream_pick["_id"])
-            }}
-            add_user = {"$push": {
-                "users_following": ObjectId(session["user_id"])
-            }}
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, add_user)
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, {"$inc": {
-                        "total_followers": 1}})
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, add_dream)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-    return render_template(
-        "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-        selected=selected, dream_slug=dream_slug, comments=comments)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                if "users_following" in dream:
+                    if not dream["users_following"].count(
+                      ObjectId(session["user_id"])):
+                        add_dream = {"$push": {
+                            "dreams_followed": ObjectId(dream["_id"])
+                        }}
+                        add_user = {"$push": {
+                            "users_following": ObjectId(session["user_id"])
+                        }}
+                        mongo.db.dreams.update_one(
+                            {"dream_slug": dream_slug}, add_user)
+                        mongo.db.dreams.update_one(
+                            {"dream_slug": dream_slug}, {"$inc": {
+                                "total_followers": 1}})
+                        mongo.db.users.update_one(
+                            {"_id": ObjectId(
+                                session["user_id"])}, add_dream)
+                else:
+                    add_dream = {"$push": {
+                        "dreams_followed": ObjectId(dream["_id"])
+                    }}
+                    add_user = {"$push": {
+                        "users_following": ObjectId(session["user_id"])
+                    }}
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, add_user)
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, {"$inc": {
+                            "total_followers": 1}})
+                    mongo.db.users.update_one(
+                        {"_id": ObjectId(session["user_id"])}, add_dream)
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments)
+        return redirect(url_for('dreamscape'))
+    return redirect(url_for("home"))
 
 
 @app.route(
@@ -1002,28 +1025,36 @@ def dreamscape_follow_dream(dream_slug, selected):
     methods=["GET", "POST"])
 def dreamscape_unfollow_dream(dream_slug, selected):
     if session.get("user_id") is not None:
-        dream = mongo.db.dreams.find_one({"dream_slug": dream_slug})
-        if dream["users_following"].count(ObjectId(session["user_id"])):
-            # remove from dreams followed list in users
-            remove_dream = {"$pull": {
-                "dreams_followed": ObjectId(dream["_id"])
-            }}
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, remove_dream)
-            # remove from users following list in dreams
-            remove_user = {"$pull": {
-                "users_following": ObjectId(session["user_id"])
-            }}
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, remove_user)
-            mongo.db.dreams.update_one({"dream_slug": dream_slug}, {"$inc": {
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                if dream["users_following"].count(
+                  ObjectId(session["user_id"])):
+                    # remove from dreams followed list in users
+                    remove_dream = {"$pull": {
+                        "dreams_followed": ObjectId(dream["_id"])
+                    }}
+                    mongo.db.users.update_one(
+                        {"_id": ObjectId(session["user_id"])}, remove_dream)
+                    # remove from users following list in dreams
+                    remove_user = {"$pull": {
+                        "users_following": ObjectId(session["user_id"])
+                    }}
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, remove_user)
+                    mongo.db.dreams.update_one(
+                        {"dream_slug": dream_slug}, {"$inc": {
                             "total_followers": -1}})
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments)
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1032,39 +1063,44 @@ def dreamscape_unfollow_dream(dream_slug, selected):
     methods=["GET", "POST"])
 def dreamscape_follow_creator(dream_slug, selected):
     if session.get("user_id") is not None:
-        this_dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        if "users_followed" in user_info:
-            if not user_info["users_followed"].count(this_dream["user_id"]):
-                add_user = {"$push": {
-                    "users_following": ObjectId(session["user_id"])
-                }}
-                follow_user = {"$push": {
-                    "users_followed": ObjectId(this_dream["user_id"])
-                }}
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(this_dream["user_id"])}, add_user)
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, follow_user)
-        else:
-            add_user = {"$push": {
-                "users_following": ObjectId(session["user_id"])
-            }}
-            follow_user = {"$push": {
-                "users_followed": ObjectId(this_dream["user_id"])
-            }}
-            mongo.db.users.update_one(
-                {"_id":  ObjectId(this_dream["user_id"])}, add_user)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, follow_user)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                if "users_followed" in user_info:
+                    if not user_info["users_followed"].count(dream["user_id"]):
+                        add_user = {"$push": {
+                            "users_following": ObjectId(session["user_id"])
+                        }}
+                        follow_user = {"$push": {
+                            "users_followed": ObjectId(dream["user_id"])
+                        }}
+                        mongo.db.users.update_one(
+                            {"_id": ObjectId(dream["user_id"])}, add_user)
+                        mongo.db.users.update_one(
+                            {"_id": ObjectId(session["user_id"])}, follow_user)
+                else:
+                    add_user = {"$push": {
+                        "users_following": ObjectId(session["user_id"])
+                    }}
+                    follow_user = {"$push": {
+                        "users_followed": ObjectId(dream["user_id"])
+                    }}
+                    mongo.db.users.update_one(
+                        {"_id":  ObjectId(dream["user_id"])}, add_user)
+                    mongo.db.users.update_one(
+                        {"_id": ObjectId(session["user_id"])}, follow_user)
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1073,27 +1109,32 @@ def dreamscape_follow_creator(dream_slug, selected):
     methods=["GET", "POST"])
 def dreamscape_unfollow_creator(dream_slug, selected):
     if session.get("user_id") is not None:
-        this_dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        if user_info["users_followed"].count(this_dream["user_id"]):
-            remove_user = {"$pull": {
-                "users_following": ObjectId(session["user_id"])
-            }}
-            unfollow_user = {"$pull": {
-                "users_followed": ObjectId(this_dream["user_id"])
-            }}
-            mongo.db.users.update_one(
-                {"_id": ObjectId(this_dream["user_id"])}, remove_user)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, unfollow_user)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                if user_info["users_followed"].count(dream["user_id"]):
+                    remove_user = {"$pull": {
+                        "users_following": ObjectId(session["user_id"])
+                    }}
+                    unfollow_user = {"$pull": {
+                        "users_followed": ObjectId(dream["user_id"])
+                    }}
+                    mongo.db.users.update_one(
+                        {"_id": ObjectId(dream["user_id"])}, remove_user)
+                    mongo.db.users.update_one(
+                        {"_id": ObjectId(session["user_id"])}, unfollow_user)
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1101,37 +1142,48 @@ def dreamscape_unfollow_creator(dream_slug, selected):
     "/add-dream-comment/<dream_slug>/<selected>", methods=["GET", "POST"])
 def add_dream_comment(dream_slug, selected):
     if session.get("user_id") is not None:
-        this_dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        timestamp = time()
-        date_time = datetime.fromtimestamp(timestamp)
-        existing_comment = mongo.db.comments.find_one(
-                {"comment": request.form.get(dream_slug + "-text")})
-        if existing_comment and ObjectId(
-          existing_comment["user_id"]) == ObjectId(session["user_id"]):
-            flash("You have already posted this comment.", "amber-flash")
-        else:
-            comment = {
-                "comment": request.form.get(dream_slug + "-text"),
-                "dream_id": ObjectId(this_dream["_id"]),
-                "user_id": ObjectId(session["user_id"]),
-                "user_name": user_info["first_name"] +
-                " " + user_info["last_name"],
-                "timestamp_created": timestamp,
-                "datetime_created": date_time.strftime("%d/%m/%Y at %H:%M:%S"),
-                "user_pic": user_info["profile_picture"],
-                "user_pic_alt": user_info["profilepic_alt"]
-            }
-            mongo.db.comments.insert_one(comment)
-            flash('Comment Added', 'green-flash')
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                timestamp = time()
+                date_time = datetime.fromtimestamp(timestamp)
+                existing_comment = mongo.db.comments.find_one(
+                        {"comment": request.form.get(
+                            dream_slug + "-text")})
+                if (
+                  existing_comment and
+                  ObjectId(existing_comment["user_id"]) ==
+                  ObjectId(session["user_id"])):
+                    flash(
+                        "You have already posted this comment.",
+                        "amber-flash")
+                else:
+                    comment = {
+                        "comment": request.form.get(dream_slug + "-text"),
+                        "dream_id": ObjectId(dream["_id"]),
+                        "user_id": ObjectId(session["user_id"]),
+                        "user_name": user_info["first_name"] +
+                        " " + user_info["last_name"],
+                        "timestamp_created": timestamp,
+                        "datetime_created": date_time.strftime(
+                            "%d/%m/%Y at %H:%M:%S"),
+                        "user_pic": user_info["profile_picture"],
+                        "user_pic_alt": user_info["profilepic_alt"]
+                    }
+                    mongo.db.comments.insert_one(comment)
+                    flash('Comment Added', 'green-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1147,14 +1199,28 @@ def edit_dream_comment(dream_slug, selected, comment_id):
             mongo.db.comments.update_one(
                 {"_id": ObjectId(comment_id)}, new_comment)
             flash('Comment Updated', 'amber-flash')
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments,
-            comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        dream = return_view(selected)
+                        return render_template(
+                            "dreamscape.html", base_url=base_url,
+                            user=user_info, dream=dream, selected=selected,
+                            dream_slug=dream_slug, comments=comments,
+                            comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments, comment_id=comment_id)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1163,33 +1229,66 @@ def edit_dream_comment(dream_slug, selected, comment_id):
     methods=["GET", "POST"])
 def delete_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        if mongo.db.comments.count_documents(
-          {"_id": ObjectId(comment_id)}, limit=1) != 0:
-            comment_info = dict(mongo.db.comments.find_one(
-                {"_id": ObjectId(comment_id)}))
-            if str(session.get("user_id")) == str(
-              comment_info["user_id"]) or user_info["role"] == "administrator":
-                mongo.db.comments.delete_one({"_id": ObjectId(comment_id)})
-                users = list(mongo.db.users.find())
-                for user in users:
-                    if "comments_liked" in user:
-                        if user["comments_liked"].count(comment_id):
-                            mongo.db.users.update_one(
-                                {"_id": ObjectId(user["_id"])}, {"$pull": {
-                                    "comments_liked": comment_id}})
-                    if "comments_disliked" in user:
-                        if user["comments_disliked"].count(comment_id):
-                            mongo.db.users.update_one(
-                                {"_id": ObjectId(user["_id"])}, {"$pull": {
-                                    "comments_disliked": comment_id}})
-                flash('Comment Deleted', 'red-flash')
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        return redirect(
-            url_for('edit_dream_comment', dream_slug=dream_slug,
-                    selected=selected, comment_id=comment_id))
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        if str(session.get("user_id")) == (
+                          (str(comment["user_id"])) or
+                          (user_info["role"] == "administrator")):
+                            mongo.db.comments.delete_one(
+                                {"_id": ObjectId(comment_id)})
+                            users = list(mongo.db.users.find())
+                            for user in users:
+                                if "comments_liked" in user:
+                                    if user["comments_liked"].count(
+                                      comment_id):
+                                        mongo.db.users.update_one(
+                                            {"_id": ObjectId(
+                                                user["_id"])}, {
+                                                    "$pull": {
+                                                        "comments_liked":
+                                                        comment_id}})
+                                if "comments_disliked" in user:
+                                    if user["comments_disliked"].count(
+                                      comment_id):
+                                        mongo.db.users.update_one(
+                                          {"_id": ObjectId(user["_id"])},
+                                          {"$pull": {
+                                            "comments_disliked": comment_id}})
+                            flash('Comment Deleted', 'red-flash')
+                            dream = dict(
+                                mongo.db.dreams.find_one(
+                                    {"dream_slug": dream_slug}))
+                            comments = list(
+                                mongo.db.comments.find().sort(
+                                    "timestamp_created", -1))
+                            dream = return_view(selected)
+                            return render_template(
+                                "dreamscape.html", base_url=base_url,
+                                user=user_info, dream=dream, selected=selected,
+                                dream_slug=dream_slug, comments=comments,
+                                comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments, comment_id=comment_id)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1198,41 +1297,61 @@ def delete_dream_comment(dream_slug, selected, comment_id):
     methods=["GET", "POST"])
 def like_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if "user_likes" in comment_pick:
-            if not comment_pick["user_likes"].count(
-              ObjectId(session["user_id"])):
-                like_comment = {"$push": {
-                    "comments_liked": ObjectId(comment_id)
-                }}
-                user_likes = {"$push": {
-                    "user_likes": ObjectId(session["user_id"])
-                }}
-                mongo.db.comments.update_one(
-                    {"_id": ObjectId(comment_id)}, user_likes)
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, like_comment)
-        else:
-            like_comment = {"$push": {
-                "comments_liked": ObjectId(comment_id)
-            }}
-            user_likes = {"$push": {
-                "user_likes": ObjectId(session["user_id"])
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_likes)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, like_comment)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments,
-            comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if "user_likes" in comment:
+                            if not comment["user_likes"].count(
+                              ObjectId(session["user_id"])):
+                                like_comment = {"$push": {
+                                    "comments_liked": ObjectId(comment_id)
+                                }}
+                                user_likes = {"$push": {
+                                    "user_likes": ObjectId(session["user_id"])
+                                }}
+                                mongo.db.comments.update_one(
+                                    {"_id": ObjectId(comment_id)}, user_likes)
+                                mongo.db.users.update_one(
+                                    {"_id": ObjectId(
+                                        session["user_id"])}, like_comment)
+                        else:
+                            like_comment = {"$push": {
+                                "comments_liked": ObjectId(comment_id)
+                            }}
+                            user_likes = {"$push": {
+                                "user_likes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_likes)
+                            mongo.db.users.update_one(
+                                {"_id": ObjectId(
+                                    session["user_id"])}, like_comment)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        dream = return_view(selected)
+                        return render_template(
+                            "dreamscape.html", base_url=base_url,
+                            user=user_info, dream=dream, selected=selected,
+                            dream_slug=dream_slug, comments=comments,
+                            comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments, comment_id=comment_id)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1241,28 +1360,48 @@ def like_dream_comment(dream_slug, selected, comment_id):
     methods=["GET", "POST"])
 def unlike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        if comment_pick["user_likes"].count(ObjectId(session["user_id"])):
-            like_comment = {"$pull": {
-                "comments_liked": ObjectId(comment_id)
-            }}
-            user_likes = {"$pull": {
-                "user_likes": ObjectId(session["user_id"])
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_likes)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, like_comment)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments,
-            comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if comment["user_likes"].count(
+                          ObjectId(session["user_id"])):
+                            like_comment = {"$pull": {
+                                "comments_liked": ObjectId(comment_id)
+                            }}
+                            user_likes = {"$pull": {
+                                "user_likes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_likes)
+                            mongo.db.users.update_one(
+                                {"_id": ObjectId(
+                                    session["user_id"])}, like_comment)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        dream = return_view(selected)
+                        return render_template(
+                            "dreamscape.html", base_url=base_url,
+                            user=user_info, dream=dream, selected=selected,
+                            dream_slug=dream_slug, comments=comments,
+                            comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments, comment_id=comment_id)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1271,40 +1410,70 @@ def unlike_dream_comment(dream_slug, selected, comment_id):
     methods=["GET", "POST"])
 def dislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if "user_dislikes" in comment_pick:
-            if not comment_pick["user_dislikes"].count(
-             ObjectId(session["user_id"])):
-                dislike_comment = {"$push": {
-                    "comments_disliked": ObjectId(comment_id)
-                }}
-                user_dislikes = {"$push": {
-                    "user_dislikes": ObjectId(session["user_id"])
-                }}
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, dislike_comment)
-                mongo.db.comments.update_one(
-                    {"_id": ObjectId(comment_id)}, user_dislikes)
-        else:
-            dislike_comment = {"$push": {
-                "comments_disliked": ObjectId(comment_id)
-            }}
-            user_dislikes = {"$push": {
-                "user_dislikes": ObjectId(session["user_id"])
-            }}
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, dislike_comment)
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_dislikes)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments,
-            comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if "user_dislikes" in comment:
+                            if not comment["user_dislikes"].count(
+                              ObjectId(session["user_id"])):
+                                dislike_comment = {"$push": {
+                                    "comments_disliked": ObjectId(comment_id)
+                                }}
+                                user_dislikes = {"$push": {
+                                    "user_dislikes": ObjectId(
+                                        session["user_id"])
+                                }}
+                                mongo.db.users.update_one(
+                                    {"_id": ObjectId(
+                                        session["user_id"])}, dislike_comment)
+                                mongo.db.comments.update_one(
+                                    {"_id": ObjectId(
+                                        comment_id)}, user_dislikes)
+                        else:
+                            dislike_comment = {"$push": {
+                                "comments_disliked": ObjectId(comment_id)
+                            }}
+                            user_dislikes = {"$push": {
+                                "user_dislikes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.users.update_one(
+                                {"_id": ObjectId(
+                                    session["user_id"])}, dislike_comment)
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_dislikes)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(
+                            mongo.db.comments.find().sort(
+                                "timestamp_created", -1))
+                        dream = dict(
+                            mongo.db.dreams.find_one(
+                                {"dream_slug": dream_slug}))
+                        dream = return_view(selected)
+                        return render_template(
+                            "dreamscape.html", base_url=base_url,
+                            user=user_info, dream=dream, selected=selected,
+                            dream_slug=dream_slug, comments=comments,
+                            comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments, comment_id=comment_id)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1313,28 +1482,52 @@ def dislike_dream_comment(dream_slug, selected, comment_id):
     methods=["GET", "POST"])
 def undislike_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if comment_pick["user_dislikes"].count(ObjectId(session["user_id"])):
-            undislike_comment = {"$pull": {
-                "comments_disliked": ObjectId(comment_id)
-            }}
-            user_undislikes = {"$pull": {
-                "user_dislikes": ObjectId(session["user_id"])
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_undislikes)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, undislike_comment)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = return_view(selected)
-        return render_template(
-            "dreamscape.html", base_url=base_url, user=user_info, dream=dream,
-            selected=selected, dream_slug=dream_slug, comments=comments,
-            comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if comment["user_dislikes"].count(
+                          ObjectId(session["user_id"])):
+                            undislike_comment = {"$pull": {
+                                "comments_disliked": ObjectId(comment_id)
+                            }}
+                            user_undislikes = {"$pull": {
+                                "user_dislikes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_undislikes)
+                            mongo.db.users.update_one({"_id": ObjectId(
+                                session["user_id"])}, undislike_comment)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        dream = dict(mongo.db.dreams.find_one(
+                            {"dream_slug": dream_slug}))
+                        dream = return_view(selected)
+                        return render_template(
+                            "dreamscape.html", base_url=base_url,
+                            user=user_info, dream=dream, selected=selected,
+                            dream_slug=dream_slug, comments=comments,
+                            comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                dream = return_view(selected)
+                return render_template(
+                    "dreamscape.html", base_url=base_url, user=user_info,
+                    dream=dream, selected=selected, dream_slug=dream_slug,
+                    comments=comments, comment_id=comment_id)
+        return redirect(url_for('dreamscape'))
     return redirect(url_for("home"))
 
 
@@ -1353,7 +1546,7 @@ def view_dream(dream_slug):
             return render_template(
                 "dream.html", base_url=base_url, user=user_info, dream=dream,
                 dream_slug=dream_slug, comments=comments)
-    return render_template('lost-bunnies.html'), 404
+    return render_template('lost-bunnies.html', user_info=user_info), 404
 
 
 #  routes for actions on view dream page
@@ -1402,7 +1595,8 @@ def follow_dream(dream_slug):
                 return render_template(
                     "dream.html", base_url=base_url, user=user_info,
                     dream=dream, dream_slug=dream_slug, comments=comments)
-        return render_template('lost-bunnies.html'), 404
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1440,7 +1634,8 @@ def unfollow_dream(dream_slug):
                 return render_template(
                     "dream.html", base_url=base_url, user=user_info,
                     dream=dream, dream_slug=dream_slug, comments=comments)
-        return render_template('lost-bunnies.html'), 404
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1484,7 +1679,8 @@ def follow_creator(dream_slug):
                 return render_template(
                         "dream.html", base_url=base_url, user=user_info,
                         dream=dream, dream_slug=dream_slug, comments=comments)
-        return render_template('lost-bunnies.html'), 404
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1522,7 +1718,8 @@ def unfollow_creator(dream_slug):
                 return render_template(
                         "dream.html", base_url=base_url, user=user_info,
                         dream=dream, dream_slug=dream_slug, comments=comments)
-        return render_template('lost-bunnies.html'), 404
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1570,7 +1767,8 @@ def add_comment(dream_slug):
                             "dream.html", base_url=base_url, user=user_info,
                             dream=dream, dream_slug=dream_slug,
                             comments=comments)
-            return render_template('lost-bunnies.html'), 404
+            flash('Dream Not Found', 'amber-flash')
+            return redirect(url_for('dreams'))
         return redirect(url_for("home"))
 
 
@@ -1589,8 +1787,6 @@ def edit_comment(dream_slug, comment_id):
             if dream["dream_slug"] == dream_slug:
                 user_info = dict(mongo.db.users.find_one(
                     {"_id": ObjectId(session["user_id"])}))
-                dream = dict(mongo.db.dreams.find_one(
-                    {"dream_slug": dream_slug}))
                 comments = list(mongo.db.comments.find().sort(
                     "timestamp_created", -1))
                 for comment in comments:
@@ -1606,7 +1802,8 @@ def edit_comment(dream_slug, comment_id):
                         user=user_info, dream=dream,
                         dream_slug=dream_slug,
                         comments=comments, comment_id=comment_id)
-        return render_template('lost-bunnies.html'), 404
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1672,47 +1869,73 @@ def delete_comment(dream_slug, comment_id):
                     user=user_info, dream=dream,
                     dream_slug=dream_slug, comments=comments,
                     comment_id=comment_id)
-        return render_template('lost-bunnies.html'), 404
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
 @app.route("/like-comment/<dream_slug>/<comment_id>", methods=["GET", "POST"])
 def like_comment(dream_slug, comment_id):
     if session.get("user_id") is not None:
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if "user_likes" in comment_pick:
-            if not comment_pick["user_likes"].count(
-              ObjectId(session["user_id"])):
-                like_comment = {"$push": {
-                    "comments_liked": ObjectId(comment_id)
-                }}
-                user_likes = {"$push": {
-                    "user_likes": ObjectId(session["user_id"])
-                }}
-                mongo.db.comments.update_one(
-                    {"_id": ObjectId(comment_id)}, user_likes)
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, like_comment)
-        else:
-            like_comment = {"$push": {
-                "comments_liked": ObjectId(comment_id)
-            }}
-            user_likes = {"$push": {
-                "user_likes": ObjectId(session["user_id"])
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_likes)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, like_comment)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        return render_template(
-            "dream.html", base_url=base_url, user=user_info, dream=dream,
-            dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if "user_likes" in comment:
+                            if not comment["user_likes"].count(
+                              ObjectId(session["user_id"])):
+                                like_comment = {"$push": {
+                                    "comments_liked": ObjectId(comment_id)
+                                }}
+                                user_likes = {"$push": {
+                                    "user_likes": ObjectId(session["user_id"])
+                                }}
+                                mongo.db.comments.update_one(
+                                    {"_id": ObjectId(comment_id)}, user_likes)
+                                mongo.db.users.update_one(
+                                    {"_id": ObjectId(
+                                        session["user_id"])}, like_comment)
+                        else:
+                            like_comment = {"$push": {
+                                "comments_liked": ObjectId(comment_id)
+                            }}
+                            user_likes = {"$push": {
+                                "user_likes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_likes)
+                            mongo.db.users.update_one(
+                                {"_id": ObjectId(
+                                    session["user_id"])}, like_comment)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        dream = dict(mongo.db.dreams.find_one(
+                            {"dream_slug": dream_slug}))
+                        return render_template(
+                            "dream.html", base_url=base_url, user=user_info,
+                            dream=dream, dream_slug=dream_slug,
+                            comments=comments, comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                return render_template(
+                    "dream.html", base_url=base_url,
+                    user=user_info, dream=dream,
+                    dream_slug=dream_slug, comments=comments,
+                    comment_id=comment_id)
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1720,27 +1943,52 @@ def like_comment(dream_slug, comment_id):
     "/unlike-comment/<dream_slug>/<comment_id>", methods=["GET", "POST"])
 def unlike_comment(dream_slug, comment_id):
     if session.get("user_id") is not None:
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if comment_pick["user_likes"].count(ObjectId(session["user_id"])):
-            like_comment = {"$pull": {
-                "comments_liked": ObjectId(comment_id)
-            }}
-            user_likes = {"$pull": {
-                "user_likes": ObjectId(session["user_id"])
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_likes)
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, like_comment)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        return render_template(
-            "dream.html", base_url=base_url, user=user_info, dream=dream,
-            dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if comment["user_likes"].count(
+                          ObjectId(session["user_id"])):
+                            like_comment = {"$pull": {
+                                "comments_liked": ObjectId(comment_id)
+                            }}
+                            user_likes = {"$pull": {
+                                "user_likes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_likes)
+                            mongo.db.users.update_one(
+                                {"_id": ObjectId(
+                                    session["user_id"])}, like_comment)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        dream = dict(mongo.db.dreams.find_one(
+                            {"dream_slug": dream_slug}))
+                        return render_template(
+                            "dream.html", base_url=base_url, user=user_info,
+                            dream=dream, dream_slug=dream_slug,
+                            comments=comments, comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                return render_template(
+                    "dream.html", base_url=base_url,
+                    user=user_info, dream=dream,
+                    dream_slug=dream_slug, comments=comments,
+                    comment_id=comment_id)
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1748,39 +1996,69 @@ def unlike_comment(dream_slug, comment_id):
     "/dislike-comment/<dream_slug>/<comment_id>", methods=["GET", "POST"])
 def dislike_comment(dream_slug, comment_id):
     if session.get("user_id") is not None:
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if "user_dislikes" in comment_pick:
-            if not comment_pick["user_dislikes"].count(
-              ObjectId(session["user_id"])):
-                dislike_comment = {"$push": {
-                    "comments_disliked": ObjectId(comment_id)
-                }}
-                user_dislikes = {"$push": {
-                    "user_dislikes": ObjectId(session["user_id"])
-                }}
-                mongo.db.users.update_one(
-                    {"_id": ObjectId(session["user_id"])}, dislike_comment)
-                mongo.db.comments.update_one(
-                    {"_id": ObjectId(comment_id)}, user_dislikes)
-        else:
-            dislike_comment = {"$push": {
-                "comments_disliked": ObjectId(comment_id)
-            }}
-            user_dislikes = {"$push": {
-                "user_dislikes": ObjectId(session["user_id"])
-            }}
-            mongo.db.users.update_one(
-                {"_id": ObjectId(session["user_id"])}, dislike_comment)
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_dislikes)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        return render_template(
-            "dream.html", base_url=base_url, user=user_info, dream=dream,
-            dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if "user_dislikes" in comment:
+                            if not comment["user_dislikes"].count(
+                              ObjectId(session["user_id"])):
+                                dislike_comment = {"$push": {
+                                    "comments_disliked": ObjectId(comment_id)
+                                }}
+                                user_dislikes = {"$push": {
+                                    "user_dislikes": ObjectId(
+                                        session["user_id"])
+                                }}
+                                mongo.db.users.update_one(
+                                    {"_id": ObjectId(
+                                        session["user_id"])}, dislike_comment)
+                                mongo.db.comments.update_one(
+                                    {"_id": ObjectId(
+                                        comment_id)}, user_dislikes)
+                        else:
+                            dislike_comment = {"$push": {
+                                "comments_disliked": ObjectId(comment_id)
+                            }}
+                            user_dislikes = {"$push": {
+                                "user_dislikes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.users.update_one(
+                                {"_id": ObjectId(
+                                    session["user_id"])}, dislike_comment)
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_dislikes)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(
+                            mongo.db.comments.find().sort(
+                                "timestamp_created", -1))
+                        dream = dict(
+                            mongo.db.dreams.find_one(
+                                {"dream_slug": dream_slug}))
+                        return render_template(
+                            "dream.html", base_url=base_url, user=user_info,
+                            dream=dream, dream_slug=dream_slug,
+                            comments=comments, comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                return render_template(
+                    "dream.html", base_url=base_url,
+                    user=user_info, dream=dream,
+                    dream_slug=dream_slug, comments=comments,
+                    comment_id=comment_id)
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1788,27 +2066,51 @@ def dislike_comment(dream_slug, comment_id):
     "/undislike-comment/<dream_slug>/<comment_id>", methods=["GET", "POST"])
 def undislike_comment(dream_slug, comment_id):
     if session.get("user_id") is not None:
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        comment_pick = mongo.db.comments.find_one(
-            {"_id": ObjectId(comment_id)})
-        if comment_pick["user_dislikes"].count(ObjectId(session["user_id"])):
-            undislike_comment = {"$pull": {
-                "comments_disliked": ObjectId(comment_id)
-            }}
-            user_undislikes = {"$pull": {
-                "user_dislikes": ObjectId(session["user_id"])
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, user_undislikes)
-            mongo.db.users.update_one({"_id": ObjectId(
-                session["user_id"])}, undislike_comment)
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        comments = list(mongo.db.comments.find().sort("timestamp_created", -1))
-        dream = dict(mongo.db.dreams.find_one({"dream_slug": dream_slug}))
-        return render_template(
-            "dream.html", base_url=base_url, user=user_info, dream=dream,
-            dream_slug=dream_slug, comments=comments, comment_id=comment_id)
+        dreams = list(mongo.db.dreams.find())
+        for dream in dreams:
+            if dream["dream_slug"] == dream_slug:
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+                for comment in comments:
+                    if str(comment["_id"]) == comment_id:
+                        if comment["user_dislikes"].count(
+                          ObjectId(session["user_id"])):
+                            undislike_comment = {"$pull": {
+                                "comments_disliked": ObjectId(comment_id)
+                            }}
+                            user_undislikes = {"$pull": {
+                                "user_dislikes": ObjectId(session["user_id"])
+                            }}
+                            mongo.db.comments.update_one(
+                                {"_id": ObjectId(comment_id)}, user_undislikes)
+                            mongo.db.users.update_one({"_id": ObjectId(
+                                session["user_id"])}, undislike_comment)
+                        user_info = dict(mongo.db.users.find_one(
+                            {"_id": ObjectId(session["user_id"])}))
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        dream = dict(mongo.db.dreams.find_one(
+                            {"dream_slug": dream_slug}))
+                        return render_template(
+                            "dream.html", base_url=base_url, user=user_info,
+                            dream=dream, dream_slug=dream_slug,
+                            comments=comments, comment_id=comment_id)
+                flash('Comment Not Found', 'amber-flash')
+                user_info = dict(mongo.db.users.find_one(
+                    {"_id": ObjectId(session["user_id"])}))
+                dream = dict(
+                    mongo.db.dreams.find_one(
+                        {"dream_slug": dream_slug}))
+                comments = list(
+                    mongo.db.comments.find().sort(
+                        "timestamp_created", -1))
+                return render_template(
+                    "dream.html", base_url=base_url,
+                    user=user_info, dream=dream,
+                    dream_slug=dream_slug, comments=comments,
+                    comment_id=comment_id)
+        flash('Dream Not Found', 'amber-flash')
+        return redirect(url_for('dreams'))
     return redirect(url_for("home"))
 
 
@@ -1960,7 +2262,11 @@ def add_avatars():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('lost-bunnies.html'), 404
+    if session.get("user_id") is not None:
+        user_info = True
+    else:
+        user_info = False
+    return render_template('lost-bunnies.html', user_info=user_info), 404
 
 
 # launches Hopes and Dreams, calls app environment variables
