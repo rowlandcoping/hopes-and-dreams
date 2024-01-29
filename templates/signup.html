@@ -9,7 +9,7 @@
     <div class="headline-wrapper" id="create-wrapper"><h1>Create Your Profile</h1></div>
     <div class="dreambuild-form">
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
-            <div class="banner-headline" id="personal-headline"><h2>Personal Information</h2></div>
+            <div class="banner-headline personal-headline"><h2>Personal Information</h2></div>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

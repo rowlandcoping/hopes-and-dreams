@@ -104,9 +104,10 @@ Outstanding Issues: None
 ### CSS Validation
 ([back to top](#testing-documentation))
 
-Validation:
-
-Issues:
+File Validated: style.css
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/
+Repaired Issues: 4 errors total - invalid font-style and ineligable margin values (due to typo)
+Outstanding Issues: None
 
 
 ### JavaScript Validation

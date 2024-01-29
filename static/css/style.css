@@ -5,26 +5,10 @@
     src: url("../fonts/CfDavesDreamPersonalRegular-WyAGn.ttf");
     font-display: swap;
 }
-
-@font-face {
-    font-family: main;
-    src: url("../fonts/OpenSans-BoldItalic.ttf");
-    font-style: italic;
-    font-style: bold;
-}
-@font-face {
-    font-family: main;
-    src: url("../fonts/OpenSans-Bold.ttf");
-    font-style: bold;
-}
-@font-face {
-    font-family: main;
-    src: url("../fonts/OpenSans-Italic.ttf");
-    font-style: italic;
-}
 @font-face {
     font-family: main;
     src: url("../fonts/OpenSans-Regular.ttf");
+    font-display: swap;
 }
 
 textarea {
@@ -607,7 +591,6 @@ body {
 }
 
 #dream-image-uploads {
-    margin-top: 5px solid rgb(0, 145, 255);
     display:flex;
     justify-content:center;
     align-items: center;
