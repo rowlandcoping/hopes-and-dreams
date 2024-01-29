@@ -54,7 +54,7 @@ base_url = {"profile": os.getenv("CLOUDINARY_BASE") + "profile/",
 
 
 # password reset function (creates token for e-mail)
-# --Please note the following blocks of code are derived from the blog linked 
+# --Please note the following blocks of code are derived from the blog linked
 # in the README regarding password reset--
 def get_reset_token(self, expires):
     return jwt.encode({'reset_password': self["email"],
@@ -553,7 +553,7 @@ def password_reset():
 
 
 # route to request a password reset link from a dream
-# --Please note the following blocks of code are derived from the blog linked 
+# --Please note the following blocks of code are derived from the blog linked
 # in the README regarding password reset--
 @app.route("/password-reset-dream/<dream_slug>", methods=["GET", "POST"])
 def password_reset_dream(dream_slug):
@@ -2188,50 +2188,6 @@ def categories():
             categories = list(mongo.db.categories.find())
             return render_template("categories.html", categories=categories)
         return redirect(url_for("dreams"))
-    return redirect(url_for("home"))
-
-
-@app.route("/counting", methods=["GET", "POST"])
-def count_followers():
-    if session.get("user_id") is not None:
-        user_info = dict(mongo.db.users.find_one(
-            {"_id": ObjectId(session["user_id"])}))
-        if user_info["role"] == "administrator":
-            dreams = list(mongo.db.dreams.find())
-            for dream in dreams:
-                if "users_following" in dream:
-                    followers = len(dream["users_following"])
-                    print(followers)
-                    mongo.db.dreams.update_one(
-                        {"_id": dream["_id"]}, {
-                            "$set": {
-                                "total_followers": int(followers)}})
-            return redirect(url_for("profile_personal"))
-        return redirect(url_for("profile_personal"))
-    return redirect(url_for("home"))
-
-
-@app.route("/allocate-avatars", methods=["GET", "POST"])
-def allocate_avatars():
-    if session.get("user_id") is not None:
-        user_info = dict(
-            mongo.db.users.find_one(
-                {"_id": ObjectId(session["user_id"])}))
-        if user_info["role"] == "administrator":
-            users = list(mongo.db.users.find())
-            comments = list(mongo.db.comments.find())
-            for user in users:
-                for comment in comments:
-                    if (str(user["_id"])).count(str(comment["user_id"])):
-                        comment_avatar = {"$set": {
-                            "user_pic": user["profile_picture"],
-                            "user_pic_alt": user["profilepic_alt"]
-                        }}
-                        mongo.db.comments.update_one(
-                            {"_id": comment["_id"]},
-                            comment_avatar)
-            return redirect(url_for("profile_personal"))
-        return redirect(url_for("profile_personal"))
     return redirect(url_for("home"))
 
 
