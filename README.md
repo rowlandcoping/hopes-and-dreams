@@ -14,7 +14,8 @@ Hopes and Dreams is a social platform designed to help users collaborate, share 
 
 ### The MVP
 
-[Specification Changes](#specification-changes)
+[Specification Changes](#specification-changes)\
+[MVP Data Structure](#mvp-data-structure)\
 [Feature List](#feature-list)
 
 ### Testing and Deployment
@@ -70,6 +71,8 @@ This site should be for everyone, from any walk of life.  As such the user stori
 
 ## UX - Scope
 ([back to top](#contents))
+
+It is important to make clear at that the below is the scope envisaged at the beginning of the project, and that there was always anticipated to be an evolutionary process in producing an MVP.  For a full overview of specification changes in the finished MVP, please click [HERE](#specification-changes).
 
 ### Technology
 
@@ -134,6 +137,10 @@ NB This MVP feature list represents this site as I currently envisage it, and wi
 ## UX - Structure
 ([back to top](#contents))
 
+As with the Scope, it is important to make clear at that the below is the scope envisaged at the beginning of the project, and that there was always anticipated to be an evolutionary process in producing an MVP.  For a full overview of specification changes in the finished MVP, please click [HERE](#specification-changes).
+
+The data structure for the submitted MPV can be found [HERE](#mvp-data-structure).
+
 ### Site pages and elements
 
 #### Header and Site Navigation
@@ -181,11 +188,9 @@ The user will be faced with two options - it defaults to personal which allows t
 
 ### Core Data Structure
 
+Please note that this section represents the initial design phase for the database schema, and as I outlined below it was always going to be subject to change. The data structure for the completed MVP can be found [HERE](#mvp-data-structure).
+
 Using Mongo DB and a modular approach to building key elements of the site means I have opted for an extremely flat structure, creating new collections where possible to make data easily accessible and speeding up the process of removing data.  This data structure has been put together with two major provisos - one is that this is my first MongoDB project and I do not yet know how this structure will evolve in practice.  It may well be that I need to merge, nest or separate various collections as the requirements of the platform become clearer.  My preference at this stage is to keep it as simple as possible!
-
-Here is an overview of my initial database design, followed by a breakdown of each collection:
-
-![image](static/images/data-model/data-overview.png)
 
 #### Users Collection
 
@@ -230,6 +235,8 @@ The requests module of a dream allows a user to request any number of specific s
 ## UX - Skeleton
 ([back to top](#contents))
 
+As with the Scope and Structure, it is important to make clear at that the below is the Skeleton envisaged at the beginning of the project, and that there was always anticipated to be an evolutionary process in producing an MVP.  This said the guiding principles set out here for the design of the platform have been adhered to throughout, if not the specifics.  For a full overview of specification changes in the finished MVP, please click [HERE](#specification-changes).
+
 ### Design Choices
 
  - Landing page aside, I have kept the menu system consistently placed throughout the site according to the platform on which it is being viewed.
@@ -255,7 +262,7 @@ Please find the wireframes [HERE](WIREFRAMES.md).
 
 ### Color Palate
 
-##### Color Names
+#### Color Names
 
 black - background for all pages.\
 red - warning, delete and fail messages.  Also used as activated/mousover color for buttons which cancel, abandon or unfollow. Used to indicate user has liked something already.\
@@ -264,7 +271,7 @@ orange - user for edit confirmation messages, or non-critical alerts.\
 grey - initial background for category buttons.\
 white - color for text and borders (except in situations where higher contrast was required)
 
-##### RGB
+#### RGB
 
 rgb(34, 34, 34) - secondary background for Dreamscape.\
 rgb(0, 145, 255) - main color theme for dreams icon, all dreams, view dream and dream creation pages. Also used for highlighting icons and form fields.\
@@ -341,23 +348,22 @@ max width: 1200px (to accommodate smaller laptop screens)\
 max width: 1400px (to accommodate laptop screens)
 
 ## The MVP
-([back to top](#contents))
 
 ### Specification Changes
+([back to top](#contents))
 
 As Donald Rumsfeld memorably said:
 
 "There are known knowns. These are things we know that we know. There are known unknowns. That is to say, there are things that we know we don't know. But there are also unknown unknowns. There are things we don't know we don't know."
 
-The majority of work required for this project definitely fell into the 'unknown unknowns' category. As such although the MVP is true to the core concepts of the original design there have been significant modifications to the feature list and schema laid out in the original UX Design section.
+The majority of work required for this project definitely fell into the 'unknown unknowns' category. As such although the MVP is true to the core concepts of the original design there have been significant modifications to the feature list and schema and some elements of the initial design as laid out in the UX Design section.
 
 #### Developer Goals
 
  _"I would like to make use of JQuery on this occasion to simplify the Javascript"_\
- My own reading and research has led me to believe that JQuery is little more than shorthand Javascript. As such I decided against using it for multiple reasons:
+ My own reading and research has led me to believe that JQuery is identical in functionality to Javascript. As such I decided against using it for multiple reasons:
 
  - It does not offer anything that Javascript doesn't.
- - In my view it lacks semantic clarity (like trying to read War and Peace in Morse Code)
  - By all accounts it's not really worth investing time in learning it if you alredy know Javascript.
  - I did not have time to learn it.
 
@@ -428,14 +434,52 @@ In light of the limitations of Jinja2 as a templating language and to limit as m
 
 #### Design Choices
 
-Most of this has been covered above, however the wireframes show significant deviation from the finished design.
+Most of this has been covered above, and the principles underlying the initial design have not deviated.  The wireframes, however, show significant deviation from the finished design.
 
  - Main navigation moved to the top of the page
- - no search bar/icon
+ - No search bar/icon
  - Dream editor page goes straight into editing general info.
  - Profile page is now all in one place and significantly less complex.
 
+
+### MVP Data Structure
+([back to top](#contents))
+
+Although the core functionality of the project has not changed, the schema has evolved as I have learned more about working with MongoDB and Jinja2.  Most notable I have done my best to restrict data operations to the back end as much as possible, and try to reduce database calls and simplify my code.  This has means duplicating some data across multiple collections to limit the necessity of cross-referencing data.  As the site has evolved I have also added two new collections, and removed anything pertaining to modules, as well as separating comments from the collections they relate to.
+
+#### users
+
+The users data collection contains key user data and tracks details of what the user is following and the comments they have liked.
+
+![image](static/images/data-model/users-mvp.png)
+
+#### dreams
+
+The dreams collection contains details relating to a dream, including the user who created it.  It also tracks who has followed the dream.
+
+![image](static/images/data-model/dreams-mvp.png)
+
+#### comments
+
+The comments collection has been seperated from its related modules to ensure user interaction and reactions are tracked more easily.
+
+![image](static/images/data-model/comments-mvp.png)
+
+#### categories
+
+Pre-defined categories have been added to simplify the dream creation experience and shorten the user journey.  It will also make drema discovery a lot less hit and miss.  There is potential for user-added categories at a future date but not in this MVP.  Categories also tacks users and dreams selecting them, as well as a count of that data to simplify the front end.
+
+![image](static/images/data-model/categories-mvp.png)
+
+#### avatars
+
+The final collection is a repository of details for pre-defined user avatars, which are randomly assigned to users on sign-up.  It consists solely of the filename to link to the image in cloudinary and the image alt.
+
+![image](static/images/data-model/avatars-mvp.png)
+
+
 ### Feature List
+([back to top](#contents))
 
 
 
