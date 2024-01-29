@@ -1,5 +1,7 @@
 # Hopes and Dreams
 
+![image](static/images/general-assets/home-tree.png)
+
 Hopes and Dreams is a social platform designed to help users collaborate, share and plan their hopes, aspirations, dreams and goals.  The site is designed as a collaborative space through which, with a little luck and a little help, those dreams might come true.
 
 ## Contents:
@@ -430,7 +432,7 @@ This is now a collection of avatars that can be allocated to users.
 
 DUPLICATING DATA:
 
-In light of the limitations of Jinja2 as a templating language and to limit as much as possible the number of data queries, and in light of the fact that MongoDB stores data in a freeform way with no foreign keys, I have opted to store some data in multiple locations.  For example comments all contain the user's full name and a link to their profile picture and alt to make it easier to render than information on the page, even though it is also stored in the 'users' collection.  Rather than force the template to count data (eg total number of times a category has been selected) I have included a separate count as a document in the categories collection.  It's not clear to be what best practice is as to be honest not too many examples exist of projects with Flask and PyMongo, but I have approached it from a common-sense standpoint as far as I can!
+In light of the limitations of Jinja2 as a templating language and to limit as much as possible the number of data queries, and in light of the fact that MongoDB stores data in a freeform way with no foreign keys, I have opted to store some data in multiple locations.  For example comments all contain the user's full name and a link to their profile picture and alt to make it easier to render than information on the page, even though it is also stored in the 'users' collection.  Rather than force the template to count data (eg total number of times a category has been selected) I have included a separate count as a document in the categories collection.  It's not clear to be what best practice is as to be honest not too many examples exist of projects with Flask and PyMongo, but the principle behind my approach is to simplify data queries made in the browser and do as much of the work as possible in the back end.
 
 #### Design Choices
 
@@ -480,6 +482,130 @@ The final collection is a repository of details for pre-defined user avatars, wh
 
 ### Feature List
 ([back to top](#contents))
+
+#### Landing Page and Sign-up
+
+ - Bright, engaging and distinct landing page with clear link to signup process.
+
+![image](static/images/feature-list/home-page.png)
+
+ - Very simple sign-up page developing site brand and theme.
+
+![image](static/images/feature-list/sign-up.png)
+
+ - Colorful welcome page further building theme, providing affirmation, and explaining site themes.
+
+![image](static/images/feature-list/welcome.png)
+
+ - Welcome page options provide immediate access to key areas of the site.
+
+![image](static/images/feature-list/welcome-options.png)
+
+ #### Site Theme and navigation
+
+  - Navigation is clear and obvious where it leads and what page the user is on, and continues site theme established throughout signup.
+
+![image](static/images/feature-list/navigation.png)
+
+ - Themes established in the styling of the navigation are continued througout the various sections of the site to provide user with a clear sense of where they are.
+
+ ![image](static/images/feature-list/section-color-theme.png)
+
+ - Key actions are made easy to access with obvious calls to action.
+
+![image](static/images/feature-list/dream-creation.png)
+
+ - custom 404 page is only served when reaching broken links for dreams to avoid breaking the user's flow, and provides a clear path back to the site.
+
+![image](static/images/feature-list/custom-404.png)
+
+ - fully functional password reset features means users are not at risk of losing access to their account content
+
+![image](static/images/feature-list/password-reset.png)
+
+#### Dreams
+
+ - Large , well sited and clearly recognisable icons provide access to key actions relating to a dream.
+
+![image](static/images/feature-list/dream-icons.png)
+
+ - the dream creation category selector (also present in the profile and dream editing) provides point and click interface for selecting categories with user validation and clear messaging if they select too many.
+
+![image](static/images/feature-list/category-selector.png)
+
+ - option to disable comments when editing or creating a dream as a safeguarding feature.
+
+![image](static/images/feature-list/disable-comments.png)
+
+ - users can see previews of any image they upload with the aspect ratio in which they will be displayed - also applies to user profile; all user images are compressed, reformatted and appropriately resized on upload to maintain site performance.
+
+![image](static/images/feature-list/image-preview.png)
+
+ - users are provided with clear feedback for any action they take relating to a dream.
+
+![image](static/images/feature-list/dream-edit-feedback.png)
+
+ - users may view their own dreams from the dreams page and review any comments that have been made.
+
+![image](static/images/feature-list/view-dream.png)
+
+ - users have the freedom to delete any comments relating to their own content which they find unacceptable, as a safeguarding feature.
+
+![image](static/images/feature-list/own-dream-delete.png)
+
+ - users may add comments to a dream with an intuitive interface; all textboxes across the site automatically resize to their content providing a seamless user experience
+
+![image](static/images/feature-list/add-comment.png)
+
+ - users are able to share dreams they like or have created external to Hopes and Dreams; people do not have to be logged in to view them.
+
+![image](static/images/feature-list/share-dream.png)
+
+
+#### Dreamscape Feed
+
+- The user feed can be filtered according to multiple categories - latest, trending (most followers), personalized (matching selected categories on a dream to selected user interests), and followed (matching dreams a user has followed or dreams created by a user they are following).  Users do not see their own dreams in their feed; it is a journey of discovery.
+
+![image](static/images/feature-list/feed-filter.png)
+
+ - follow and unfollow buttons allow the user to follow dreams or users of interest to them and then view them using the 'following' filter.  When following a dream on the feed, the page returns the user to the area of the page they were looking at when they pressed the button, providing a seamless experience.
+
+![image](static/images/feature-list/follow-buttons.png)
+
+ - users can immediately see from the feed how popular a dream (or their dream in 'view dream') is.
+
+![image](static/images/feature-list/follower-count.png)
+
+ - comments on the feed are expandable which not only reduce clutter on the feed but allow the user to fully explore any content they are interested in without having to open a new window.
+
+![image](static/images/feature-list/expandable-comments.png)
+
+ - Users may like or dislike comments, but only those that other users have focussed.  In doing so provides clear visual feedback as to which comment the user has liked or disliked.  The feed always returns user to the comment they were looking at when they pressed the button.
+
+![image](static/images/feature-list/like-dislike.png)
+
+ - users may edit or delete their own comments from within the feed.
+
+![image](static/images/feature-list/edit-own.png)
+
+ - on adding, editing, or deleting a comment users are provided with clear feedback inline with the dream affected.  The user's page focus is returned to the dream they were commenting on and if commenting in the feed that set of comments begin in an opened state.  This significantly enhances user experience.
+
+![image](static/images/feature-list/comment-focus.png)
+
+#### Personal Profile
+
+ - Users are allocated an avatar on signup - this can be randomized if they don't like it or alternatively they can upload their own custom image.
+
+![image](static/images/feature-list/profile-pic.png)
+
+ - As well as editing basic information or selecting interests, users can also log out or reset their password from the profile page.
+
+![image](static/images/feature-list/personal-actions.png)
+
+
+
+
+
 
 
 
