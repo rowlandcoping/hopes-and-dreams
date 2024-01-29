@@ -54,7 +54,7 @@ h1 {
     text-align:left;
     padding:0;
     margin-bottom:10px;
-    font-style: bold;
+    font-weight: bold;
 }
 
 #large-flash {
@@ -200,7 +200,6 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left;
-    background-color: black;
     width: 392px;
     height: 135px;
     color:black;
@@ -252,7 +251,7 @@ body {
 
 .form-table input {
     outline: 1px solid black;
-    border: 1px solid white;
+    border: 1px solid rgb(184, 183, 183);
     background-color: white;
     padding:3px;
 }

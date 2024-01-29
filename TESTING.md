@@ -110,6 +110,14 @@ Repaired Issues: 4 errors total - invalid font-style and ineligable margin value
 Outstanding Issues: None
 
 
+Outstanding Warnings (ignored):
+
+.headline-wrapper: same color for background-color and color
+_the black text appears on a white background image, not the background color._
+
+
+
+
 ### JavaScript Validation
 ([back to top](#testing-documentation))
 
