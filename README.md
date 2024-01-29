@@ -612,7 +612,7 @@ Please find all testing documentation [HERE](TESTING.md).
 
 ### Initial Deployment
 
-Hopes and Dreams has been deployed [HERE] via Heroku, taking the following steps:
+Hopes and Dreams has been deployed [HERE](https://hopes-and-dreams-15b83f2d1383.herokuapp.com/) via Heroku, taking the following steps:
 
 Preparing for Deployment:
 
@@ -627,7 +627,7 @@ Creating the App and connecting to Github:
 - I selected an available name appropriate to the website - in this case I chose hopes-and-dreams, before selecting my region (Europe) and clicking the 'create app' button.
 - Heroku immediately took me to the 'Deploy' page.  From this page I went straight to 'Deployment Method' and clicked on Github.
 - Once my Github account was connected, I selected the hopes and dreams repository and clicked 'connect'.
-- Once connected I enabled automatic deploys, which means the deployedsite automatically updates when it detects a new commit to the linked repository
+- Once connected I enabled automatic deploys, which means the deployed site automatically updates when it detects a new commit to the linked repository.
 
 Setting up the deployment:
 
@@ -641,25 +641,26 @@ For the site to function I also needed to add the correct environment variables.
 
 If you wish to deploy this website yourself, here is how to go about it.
 
-Create a Version of the repository:
+#### Create a Version of the repository:
 
  - Log in to or create your own Github account [HERE](https://github.com/).
  - Go to the lost-king-part1 repository [HERE](https://github.com/rowlandcoping/hopes-and-dreams) and select 'Fork' to create your own snapshot of the repository.
 
-Creating your own Heroku Account:
+#### Creating your own Heroku Account:
 
  - Sign in to Heroku [HERE](https://www.heroku.com/).  Keep in mind you will need two-factor authentication to use this website.
  - To use Heroku, unless you have access by some other means, you will need to purchase some platform credits.  For a basic deployment, this won't cost you more than $5/month.
 
-Creating the database:
+#### Creating the database:
 
 This project uses MongoDB to store all data, therefore you will need a copy of the database to deploy it for yourself.
 
  - Sign up to MongoDB Atlas [HERE](https://www.mongodb.com/cloud/atlas/register)
  - Create a database (call it what you like, but something indicative of the project is a good idea!)
  - Use the database structure outlined in this readme to re-create the database.  Keep in mind you only need to create the collections - the beauty of MongoDB is that everything else will be created on the fly.
+ - Keep in mind if you want administrator access you will have to manually add the key/value pair user: "administrator" to the document for that user in Atlas.
 
-Creating a Cloudinary Account:
+#### Creating a Cloudinary Account:
 
 This project hosts all images on Cloudinary.  In order to do the same you will need a Cloudinary account.
 
@@ -672,7 +673,7 @@ For this project I used gmail to set up an account through which all password re
  - Set up a gmail account [HERE](https://gmail.com)
  - Once in gmail I set up a specific app password so that the app can connect to it via SMTP.  Find details of this [HERE](https://support.google.com/mail/answer/185833?hl=en-GB).  Keep in mind this app password resets if you change the password of the gmail account!
 
-Deploy to Heroku
+#### Deploy to Heroku
 
  - Once all of this is set up, you are ready to deploy - first use the instructions I outlined in the [Initial Deployment](#initial-deployment) section.
  - When it comes to setting up the config vars, you will need to set them up according the details of your own database/cloudinary/gmail accounts.  I have included below a list of all the [environment variables](#hopes-and-dreams-environment-variables) that need to be set up on Heroku, and indeed in any local deployment via an env.py file.
@@ -683,7 +684,7 @@ Once the deployment steps have been completed, as above, you will be in a great 
 
 Using VS Code on Linux:
 
-Using VS Code to continue the project is actually a simple matter because you already have the requirements.txt. I have used it throughout and I have found it a simple matter to set it up on a second machine using an venv and the requirements.txt file.
+Using VS Code to continue the project is actually a simple matter because you already have the requirements.txt. I have used it throughout and I have found it straightforward to set it up on a second machine using a venv and the requirements.txt file.
 
 Setting up.
 
@@ -698,12 +699,12 @@ Setting up.
 
 Making it work:
 
-- create an env.py file and a .gitignore file.  Add env.py to your .gitignore file to ensure you don't upload sensitive data to the public repository!
-- ensure you have python3-venv installed ($sudo apt get update, then $sudo apt-get install python3-venv)
+- Create an env.py file and a .gitignore file.  Add env.py to your .gitignore file to ensure you don't upload sensitive data to the public repository!
+- Ensure you have python3-venv installed ($sudo apt get update, then $sudo apt-get install python3-venv)
 - Press CTRL-shift-P again, then type in python: Create Environment.
 - Select Venv, then select the recommended settings to create a new virtual environment. It will install all the dependencies outlined in the requirements.txt file.  If it has worked you should see (.venv) in your terminal.  I found depending on the system I had to restart VS Code to make this work.
-- Add the [environment variables](#hopes-and-dreams-environment-variables) to your env.py file. 
-- If you type python3 app.py in your new virtual environment in VS Code, you should see the site working in your if you open the port. you can continue the project.
+- Add the [environment variables](#hopes-and-dreams-environment-variables) to your env.py file. Be sure to update the Base_URL to reflect the port you are using locally as opposed to any deployment on Heroku.  Normally it's 127.0.0.1:5000/.
+- If you type python3 app.py in your new virtual environment in VS Code, you should see the site working in your if you open the port. You can now continue to develop the project.
 
 ### Hopes and Dreams Environment Variables
 
@@ -762,26 +763,61 @@ os.environ.setdefault("BASE_URL", "xxxxxxxxxxxxx")\
 
 ### Fonts
 
-### Images
+FONTSPACE: 
+
+CfDavesDreamPersonalRegular-WyAGn.ttf
+
+GOOGLE FONTS:
+
+OpenSans-BoldItalic.ttf\
+OpenSans-Bold.ttf\
+OpenSans-Italic.ttf\
+OpenSans-Regular.ttf
+
+### Images and Icons
+
+IMAGES:
+
+All avatar images were created using Bing Image Creator.
+All other site assets were created myself using Inkscape.
+
+As such all images belong to me.
+
+ICONS:
+
+Icons are from Font Awesome.
 
 ### Content
 
-### Acknowledgments
+© 2023 John Hall
 
-https://cloudinary.com/blog/creating_an_api_with_python_flask_to_upload_files_to_cloudinary
-method used for uploading image files
+### Code
 
-https://medium.com/geekculture/how-to-preview-images-before-upload-with-javascript-3420e3cd2f1c
-code to preview images on various pages with JavaScript
+IMAGE HANDLING:
 
-Various sources which helped me to build my image handling process:
+My image handling process was put together using information from the following sources. I believe something has changed in the most recent versions of Python and the .save function is now deprecated, so this code may need to be refactored for future versions of the site.
+
 https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18
 https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array
 https://gist.github.com/tomvon/ae288482869b495201a0
 
-session.get thing
-https://stackoverflow.com/questions/28925602/how-can-i-detect-whether-a-variable-exists-in-flask-session
+PASSWORD RESET:
 
+I used the following blog, combined with a great deal of guesswork, to put together the password reset functionality.
+
+https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968
+
+### Acknowledgments
+
+HELP AND ASSISTANCE:
+
+I have to give enormous credit to my mentor Mitko Bachvarov for his patience and assistance throughout this build.  His feedback about the UI in particular resulted in major changed for the better to the sign-up and editing process - I'm not sure how I would have completed this project to any kind of standard without his input!
+
+DESIGN INSPIRATION:
+
+Strange as this may sound, since I came across it as part of my work I've always wanted to produce a website drawing influence from the design for the Luton Culture website c. 2012-2015.  I always thought it was a great, clean, distinctive design. It has since been re-build in black and white (which I think is a shame), but here is a link from the web archive:
+
+https://web.archive.org/web/20121002225637/http://www.lutonculture.com/wardown-park-museum/
 
 ## Technical Information
 ([back to top](#contents))

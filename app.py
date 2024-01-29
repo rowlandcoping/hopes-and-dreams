@@ -53,7 +53,12 @@ base_url = {"profile": os.getenv("CLOUDINARY_BASE") + "profile/",
             }
 
 
+
 # password reset function (creates token for e-mail)
+""" 
+Please note the following blocks of code are derived from the blog linked in
+the README regarding password reset.
+"""
 def get_reset_token(self, expires):
     return jwt.encode({'reset_password': self["email"],
                       'exp':    time() + expires},
@@ -70,9 +75,16 @@ def verify_reset_token(token):
     except Exception as e:
         print(e)
         return
+""" 
+end of code block.
+"""
 
 
 # converts images to appropriate format and size
+""" 
+Please note this is the block of code referred to in the Readme which is 
+derived from multiple third party sources.
+"""
 def imageConvert(image, width, quality, format):
     with Image.open(image) as img:
         img = Image.open(image)
@@ -83,6 +95,9 @@ def imageConvert(image, width, quality, format):
     img.save(img_byte_arr, format, optimize=True, quality=quality)
     img_byte_arr = img_byte_arr.getvalue()
     return img_byte_arr
+""" 
+end of code block.
+"""
 
 
 # function to return the filter selection
@@ -547,6 +562,10 @@ def password_reset():
 
 
 # route to request a password reset link from a dream
+""" 
+Please note the following blocks of code are derived from the blog linked in
+the README regarding password reset.
+"""
 @app.route("/password-reset-dream/<dream_slug>", methods=["GET", "POST"])
 def password_reset_dream(dream_slug):
     if request.method == "POST":
@@ -609,7 +628,9 @@ def reset_password(token):
         'Your password reset token is no longer valid, please try again.',
         'red-flash-reset')
     return redirect(url_for("password_reset"))
-
+""" 
+end of code block.
+"""
 
 # route for the dream creation process
 @app.route("/dreambuilder", methods=["GET", "POST"])
