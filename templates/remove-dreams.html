@@ -1,0 +1,44 @@
+{% extends 'plain-template.html' %}
+
+{% block title %}
+    Dream Management
+{% endblock title%}
+    
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="{{ category }} landing-flash" id="large-flash">
+                <div>
+                    <h3>{{ message }}</h3>
+                </div>
+            </div>
+        {% endfor %}        
+    {% endif %}
+{% endwith %}
+<div id="headline-wrapper"><h1>Dream Manager</h1></div>
+    <div class="admin-task"><a href="{{ url_for('profile_personal') }}"><h4>Return to Profile</h4></a></div>
+    <form action="{{ url_for('remove_dreams') }}" method="POST" enctype="multipart/form-data">
+        <table class="form-table">
+            <h3>Remove dreams</h3>
+        {% if dreams %}         
+            {% for dream in dreams %}
+            <tr>
+                <td>               
+                    {{ dream.dream_name }}
+                </td>
+                <td>
+                    {{ dream.description }}
+                </td>
+                <td>
+                    <label for="remove_user">| Remove: </label><input type="checkbox" id="{{ dream.dream_slug }}-delete" name="{{ dream.dream_slug }}-delete">
+                </td>
+            </tr>                       
+            {% endfor %}
+        {% else %}
+        <h3>No Users found</h3>
+        {% endif %}
+        </table>
+        <button class="landing-button button-large" type="submit">Remove Selected</button>
+</form>
+{% endblock content%}

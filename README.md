@@ -789,13 +789,13 @@ Icons are from Font Awesome.
 
 ### Content
 
-© 2023 John Hall
+© 2023 John Hall.
 
 ### Code
 
 IMAGE HANDLING:
 
-My image handling process was put together using information from the following sources. I believe something has changed in the most recent versions of Python and the .save function is now deprecated, so this code may need to be refactored for future versions of the site.
+My image handling process was put together using information from the following sources.
 
 https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18
 https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array
@@ -803,7 +803,7 @@ https://gist.github.com/tomvon/ae288482869b495201a0
 
 PASSWORD RESET:
 
-I used the following blog, combined with a great deal of guesswork, to put together the password reset functionality.
+I used the following blog, combined with a great deal of googling and guesswork, to put together the password reset functionality.
 
 https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968
 
@@ -811,11 +811,11 @@ https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcd
 
 HELP AND ASSISTANCE:
 
-I have to give enormous credit to my mentor Mitko Bachvarov for his patience and assistance throughout this build.  His feedback about the UI in particular resulted in major changed for the better to the sign-up and editing process - I'm not sure how I would have completed this project to any kind of standard without his input!
+Enormous credit goes to my mentor Mitko Bachvarov for his patience and assistance throughout this build.  His feedback about the UI in particular resulted in major changes for the better to the sign-up and editing process and a significant re-build since Christmas - I'm not sure how I would have completed this project to any kind of standard without his input!
 
 DESIGN INSPIRATION:
 
-Strange as this may sound, since I came across it as part of my work I've always wanted to produce a website drawing influence from the design for the Luton Culture website c. 2012-2015.  I always thought it was a great, clean, distinctive design. It has since been re-build in black and white (which I think is a shame), but here is a link from the web archive:
+Strange as this may sound, since I came across it as part of my work I've always wanted to produce a website drawing influence from the design for the Luton Culture website c. 2012-2015.  I always thought it was a great, clean, distinctive design. It has since been re-built in black and white (which I think is a shame), but here is a link from the web archive:
 
 https://web.archive.org/web/20121002225637/http://www.lutonculture.com/wardown-park-museum/
 

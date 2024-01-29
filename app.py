@@ -53,12 +53,9 @@ base_url = {"profile": os.getenv("CLOUDINARY_BASE") + "profile/",
             }
 
 
-
 # password reset function (creates token for e-mail)
-""" 
-Please note the following blocks of code are derived from the blog linked in
-the README regarding password reset.
-"""
+# --Please note the following blocks of code are derived from the blog linked 
+# in the README regarding password reset--
 def get_reset_token(self, expires):
     return jwt.encode({'reset_password': self["email"],
                       'exp':    time() + expires},
@@ -75,16 +72,12 @@ def verify_reset_token(token):
     except Exception as e:
         print(e)
         return
-""" 
-end of code block.
-"""
+# --end of code block--.
 
 
 # converts images to appropriate format and size
-""" 
-Please note this is the block of code referred to in the Readme which is 
-derived from multiple third party sources.
-"""
+# --Please note this is the block of code referred to in the Readme which is
+# derived from multiple third party sources--
 def imageConvert(image, width, quality, format):
     with Image.open(image) as img:
         img = Image.open(image)
@@ -95,9 +88,7 @@ def imageConvert(image, width, quality, format):
     img.save(img_byte_arr, format, optimize=True, quality=quality)
     img_byte_arr = img_byte_arr.getvalue()
     return img_byte_arr
-""" 
-end of code block.
-"""
+# --end of code block--.
 
 
 # function to return the filter selection
@@ -562,10 +553,8 @@ def password_reset():
 
 
 # route to request a password reset link from a dream
-""" 
-Please note the following blocks of code are derived from the blog linked in
-the README regarding password reset.
-"""
+# --Please note the following blocks of code are derived from the blog linked 
+# in the README regarding password reset--
 @app.route("/password-reset-dream/<dream_slug>", methods=["GET", "POST"])
 def password_reset_dream(dream_slug):
     if request.method == "POST":
@@ -628,9 +617,8 @@ def reset_password(token):
         'Your password reset token is no longer valid, please try again.',
         'red-flash-reset')
     return redirect(url_for("password_reset"))
-""" 
-end of code block.
-"""
+# --end of code block--.
+
 
 # route for the dream creation process
 @app.route("/dreambuilder", methods=["GET", "POST"])
@@ -814,12 +802,10 @@ def edit_dream(dream_slug):
                                 user_info["_id"]))
                             converted_image = imageConvert(
                                 uploaded_image, 400, 75, "webp")
-                            print (dream["image"])
                             if "image" in dream:
                                 if dream["image"]:
                                     cloudinary.uploader.destroy(
                                         "dreams/" + dream["image"])
-                                    print (dream["image"] + "DELETED")
                             cloudinary.uploader.upload(
                                 converted_image,
                                 public_id=filename, folder="dreams")
@@ -952,6 +938,8 @@ def delete_dream(dream_slug):
         if ObjectId(user_info["_id"]) == ObjectId(
           dream["user_id"]) or user_info["role"] == "administrator":
             mongo.db.dreams.delete_one({"_id": ObjectId(dream["_id"])})
+            if dream["image"]:
+                cloudinary.uploader.destroy("dreams/" + dream["image"])
             categories = mongo.db.categories.find()
             for categ in categories:
                 if "dreams_selected" in categ:
@@ -2169,7 +2157,6 @@ def categories():
                 for category in categories:
                     if request.form.get(str(category["_id"]) + "-delete"):
                         for user in users:
-                            print(user["first_name"])
                             if "interests" in user:
                                 for interest in user["interests"]:
                                     if interest == category["category"]:
@@ -2276,6 +2263,156 @@ def add_avatars():
                 "avatars.html", base_url=base_url, avatars=avatars)
         return render_template(
             "avatars.html", base_url=base_url, avatars=avatars)
+    return redirect(url_for("home"))
+
+
+@app.route("/remove-users", methods=["GET", "POST"])
+def remove_users():
+    if session.get("user_id") is not None:
+        user_info = dict(
+            mongo.db.users.find_one(
+                {"_id": ObjectId(session["user_id"])}))
+        if user_info["role"] == "administrator":
+            users = list(mongo.db.users.find())
+            user_array = []
+            for user in users:
+                if str(user["_id"]) != session.get("user_id"):
+                    user_array.append(user)
+            users = user_array
+            if request.method == "POST":
+                dreams = list(mongo.db.dreams.find())
+                categories = list(mongo.db.categories.find())
+                for user in users:
+                    if request.form.get(user["user_slug"] + "-delete"):
+                        mongo.db.users.delete_one(
+                            {"_id": ObjectId(user["_id"])})
+                        if user["pic_type"] == "custom":
+                            cloudinary.uploader.destroy(
+                                "profile/" + user["profile_picture"])
+                        for x in users:
+                            if "users_followed" in x:
+                                for followed in x["users_followed"]:
+                                    if ObjectId(followed) == ObjectId(
+                                      user["_id"]):
+                                        mongo.db.users.update_one(
+                                         {"user_slug": x["user_slug"]}, {
+                                          "$pull": {
+                                           "users_followed": ObjectId(
+                                               user["_id"])}})
+                        for x in users:
+                            if "users_following" in x:
+                                for following in x["users_following"]:
+                                    if ObjectId(following) == ObjectId(
+                                      user["_id"]):
+                                        mongo.db.users.update_one(
+                                         {"user_slug": x["user_slug"]}, {
+                                          "$pull": {
+                                           "users_following": ObjectId(
+                                               user["_id"])}})
+                        for dream in dreams:
+                            if "users_following" in dream:
+                                for following in dream["users_following"]:
+                                    if ObjectId(following) == ObjectId(
+                                      user["_id"]):
+                                        mongo.db.dreams.update_one(
+                                         {"dream_slug": dream["dream_slug"]}, {
+                                          "$pull": {
+                                            "users_following": ObjectId(
+                                              user["_id"])}})
+                                        mongo.db.dreams.update_one(
+                                         {("dream_slug"): dream["dream_slug"]},
+                                         {"$inc": {
+                                            "total_followers": -1}})
+                        for category in categories:
+                            if "users_selected" in category:
+                                for x in category["users_selected"]:
+                                    if ObjectId(x) == ObjectId(user["_id"]):
+                                        mongo.db.categories.update_one(
+                                            {"_id": ObjectId(category["_id"])},
+                                            {"$pull": {
+                                                "users_selected": ObjectId(
+                                                    user["_id"])}})
+                                        mongo.db.categories.update_one(
+                                            {"category": category["category"]},
+                                            {"$inc": {
+                                                "total_users_selected": -1,
+                                                "total_times_selected": -1}})
+                                        flash("User Deleted", "red-flash")
+                        users = list(mongo.db.users.find())
+                        user_array = []
+                        for user in users:
+                            if str(user["_id"]) != session.get("user_id"):
+                                user_array.append(user)
+                        users = user_array
+            return render_template("remove-users.html", base_url=base_url,
+                                   users=users)
+        return redirect(url_for('profile_personal'))
+    return redirect(url_for("home"))
+
+
+@app.route("/remove-dreams", methods=["GET", "POST"])
+def remove_dreams():
+    if session.get("user_id") is not None:
+        user_info = dict(
+            mongo.db.users.find_one(
+                {"_id": ObjectId(session["user_id"])}))
+        if user_info["role"] == "administrator":
+            dreams = list(mongo.db.dreams.find())
+            dream_array = []
+            for dream in dreams:
+                if str(dream["user_id"]) != session.get("user_id"):
+                    dream_array.append(dream)
+            dreams = dream_array
+            if request.method == "POST":
+                dreams = list(mongo.db.dreams.find())
+                for dream in dreams:
+                    if request.form.get(dream["dream_slug"] + "-delete"):
+                        mongo.db.dreams.delete_one(
+                            {"_id": ObjectId(dream["_id"])})
+                        if "image" in dream:
+                            cloudinary.uploader.destroy(
+                                "dreams/" + dream["image"])
+                        categories = mongo.db.categories.find()
+                        for categ in categories:
+                            if "dreams_selected" in categ:
+                                for x in categ["dreams_selected"]:
+                                    if ObjectId(x) == ObjectId(dream["_id"]):
+                                        mongo.db.categories.update_one(
+                                            {"category": categ["category"]},
+                                            {"$pull": {
+                                                "dreams_selected": ObjectId(
+                                                    dream["_id"])}})
+                                        mongo.db.categories.update_one(
+                                            {"category": categ["category"]},
+                                            {"$inc": {
+                                                "total_dreams_selected": -1,
+                                                "total_times_selected": -1}})
+                        users = mongo.db.users.find()
+                        for user in users:
+                            if "dreams_followed" in user:
+                                for x in user["dreams_followed"]:
+                                    if ObjectId(x) == ObjectId(dream["_id"]):
+                                        mongo.db.users.update_one(
+                                            {"_id": ObjectId(user["_id"])},
+                                            {"$pull": {
+                                                "dreams_followed": ObjectId(
+                                                    dream["_id"])}})
+                        comments = mongo.db.comments.find()
+                        for comment in comments:
+                            if ObjectId(comment["dream_id"]) == ObjectId(
+                              dream["_id"]):
+                                mongo.db.comments.delete_one(
+                                    {"_id": ObjectId(comment["_id"])})
+                        flash("Dream Deleted", "red-flash")
+                        dreams = list(mongo.db.dreams.find())
+                        dream_array = []
+                        for dream in dreams:
+                            if str(dream["user_id"]) != session.get("user_id"):
+                                dream_array.append(dream)
+                        dreams = dream_array
+            return render_template("remove-dreams.html", base_url=base_url,
+                                   dreams=dreams)
+        return redirect(url_for('profile_personal'))
     return redirect(url_for("home"))
 
 

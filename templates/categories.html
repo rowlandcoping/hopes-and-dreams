@@ -6,6 +6,7 @@
     
 {% block content %}
 <div id="headline-wrapper"><h1>Category Manager</h1></div>
+    <div class="admin-task"><a href="{{ url_for('profile_personal') }}"><h4>Return to Profile</h4></a></div> 
     <form action="{{ url_for('categories') }}" method="POST">
         <label for ="new_category">Add New Categories (separated by commas if more than one)</label>
         <br>

@@ -1,3 +1,92 @@
+# Testing Documentation
+
+([return to README](README.md))
+
+## Contents
+
+### Audit and Validation
+
+[HTML Validation](#html-validation)\
+[CSS Validation](#css-validation)\
+[JavaScript Validation](#javascript-validation)\
+[Lighthouse Audit](#lighthouse-audit)
+
+### User Story Validation
+
+[Site Owner User Stories](#site-owner-user-stories)\
+[Site Visitor User Stories](#site-visitor-user-stories)
+
+### Testing
+
+[Automated Testing](#automated-testing)\
+[Manual Testing](#manual-testing)\
+[Bugs and Issues](#bugs-and-issues)
+
+## Code Validation
+
+### HTML Validation
+([back to top](#testing-documentation))
+
+Validation:
+
+
+
+Issues
+
+
+
+### CSS Validation
+([back to top](#testing-documentation))
+
+Validation:
+
+Issues:
+
+
+### JavaScript Validation
+([back to top](#testing-documentation))
+
+Validation:
+
+
+Issues:
+
+
+### Python PEP 8 compliance
+
+Validation:
+
+
+Issues:
+
+### Lighthouse Audit
+([back to top](#testing-documentation))
+
+
+## User Stories
+([back to top](#testing-documentation))
+
+### Site Owner User Stories
+([back to top](#testing-documentation))
+
+
+### Site Visitor User Stories
+([back to top](#testing-documentation))
+
+
+
+
+## Testing
+([back to top](#testing-documentation))
+
+### Automated Testing
+([back to top](#testing-documentation))
+
+
+### Bugs and Issues
+([back to top](#testing-documentation))
+
+
 Bugs:
 
 Image handling
@@ -13,14 +102,13 @@ I wanted to display an image previoew using JavaScript prior to upload, and foun
 
 BUGS
 
-Form submission
+Passwords not saved!
 
-I discovered that when adding skills etc through my staged sign-in process, selecting the add button submitted the form ahead of it being ready for submission.
-I replaced the additional buttons with div elements, which I oculd then style.
-On testing with a user, I discoveered they preferred to tab and pres enter thorugh form elements.  
-I found out how to enable this for the divs, but then discovered a bug where pressing the enter key i the final stage of the form once the submit button had been enabled implicitly submitted the whole form regardless of where the focus was.  
-Disabling default submit behaviour for the entire form would have meant handling the whole thing in Javascript, which was not a favourable option.  
-I discivered that using an if statement and keydown with preventDefault() meant that I could prevent enter from triggering the default behaviour, whilst still enabling me to use that method to activate the submit method on focus.  I was please with this solution because I came up with it all by my very self. 
+REbuild on boxing day removed the code to store passwords along with the old interests and categories fields by accident.  This didn't show itself until last week, when a user who had signed up since then tried to log in a second time, as on initial sign-in the user is validated by e-mail and logged into a session straight away.  This was an extremely alarming bug.
+
+Textbox manipulation
+
+Textbox sizing and focussing.
 
 key missing
 
@@ -63,6 +151,10 @@ My end decision has been get rid of a checkbox which enables a user to videw the
 
 I was then able to assign an element of the followed dream the id of focussed if it was reached through onie of the follow app routes, and use javascript to focus the page on the selected dream.
 
+broken link error issue:
+
+re-build everything to test the existance of the values passed via the URL before processing it.  Analyzing same overhead as a normal server query.  Should mean however the user manipulates the url it won't break the code and in many cases provide logical error messages ()
+
 IMAGE FORMAT ISSUE - HEROKU
 
 When deploying to Heroku I discovered that the code to reformat images did not work. First I checked the code I used for any deprecated methods and re-wrote it.  When the problem persisted, and after a bit of reading and research, I discovered that this was an issue with the Image module, which for some reason only supports the 'png' image format when deployed with Python 3.12.1.  When it comes to compressing images 'png' probably isn't the best option, so I opted to use an older version of Python (3.10.12) which appears to cause no conflicts with Pillow, and therefore works fine with the 'webp' image format which I want to use.
@@ -72,3 +164,46 @@ Hopefully I'll eventually get to the bottom of what is causing the PIL Image mod
 https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/5603
 
 This could pretty much be anything that either I've used or that Heroku uses with Python or even something within Python itself over-writing the list of file extensions in the Image module - since my workaround causes no issues or conflicts I'll continue to use Python 3.10.12 for now and add finding and resolving the source of this problem as a future feature.  Alongside a number of other issues I've had, it does raise some concerns in my mind about working with so many moving parts. Because this issue is not limited to Flask (it also seems to affect Django deployments) and seems to affect a lot of people I think that in the future I should seek out a different library for handling images.
+
+### Manual Testing
+([back to top](#testing-documentation))
+
+#### Logic Manual testing
+
+For me the most sensible way of approaching this is to systematically check the functionality on every page to ensure that everything appears as intended when an action is taken on the site.
+
+Include url manipulation stuff I've done.
+
+#### Data Manipulation Manual Testing
+
+As well as ensuring the site delivers expected outcomes, it is also important that I test to ensure create and delete actions update all the collections affected as intended, as well as other data stores such as Cloudinary.  As such this section tests data operations that may not be visible to the user.
+
+#### Responsiveness Testing
+
+I have tested at (in descending order) 3072px, 1920px (default), 1200px, 920px, 650px, 450px, 360px, 320px.  This is reflective of the major break points.
+
+As well as using google developer tools in responsive mode, this has been tested in the real world on Chrome and Firefox in Windows on a 1920 x 1080 HD monitor, and on a Samsung Galaxy S8 (at c. 360px width).
+
+| Page tested | Screen width tested | Result |
+
+
+#### Issues found during manual testing
+
+Although I and others have tested the game extensively, a small number of issues were uncovered during formal manual testing.
+It should be noted that the orb issues in particular are never encountered during normal gameplay on account of a known game balance issue that needs addressing (see Code Issues).
+
+ - Slime object image was not displaying due to typographical error.
+ - Glowing Orb did not populate item slot if found in dining room.
+ - Glowing Orb could be discovered multiple times in abandoned dining room
+ - In battle a weapon with an attack value of 0 would actually reduce your minimum attack, and a weapon with a value of 1 did nothig to improve it.  Updated code so this was no longer the case.
+ - This is not a bug, but after testing I believe the vulnerability buff may be somewhat overpowered.
+
+
+
+
+
+
+
+
+
+
