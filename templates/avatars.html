@@ -18,26 +18,6 @@
         <label for ="new_category">Image Alt:</label>
         <input type="text" id="image-alt" name="image-alt">
         <hr>
-        <table class="form-table">
-            <h3>Remove Existing Avatars</h3>
-        {% if avatars %}         
-            {% for avatar in avatars %}
-            <tr>
-                <td>               
-                    <img src="{{ base_url.profile + avatar.avatar }}" width="150">
-                </td>
-                <td>
-                    <label for="profile_picture">{{avatar.avatar_alt}}</label>
-                </td>
-                <td>
-                    <label for="profile_picture">| Remove: </label><input type="checkbox" id="delete_image" name="delete_image">
-                </td>
-            </tr>                       
-            {% endfor %}
-        {% else %}
-        <h3>No existing avatars found</h3>
-        {% endif %}
-        </table>
         <button class="landing-button button-large" type="submit">Add and Update</button>
 </form>
 {% endblock content%}

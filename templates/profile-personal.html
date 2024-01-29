@@ -10,8 +10,6 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
     <div class="banner-headline" id="personal-headline"><h2>Admin Functions</h2></div>
     <div class="admin-task"><a href="{{ url_for('add_avatars') }}"><h4>Manage Avatars</h4></a></div>
     <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
-    <div class="admin-task"><a href="{{ url_for('count_followers') }}"><h4>Count followers (one-off activity)</h4></a></div>
-    <div class="admin-task"><a href="{{ url_for('allocate_avatars') }}"><h4>Set comment images (one-off activity)</h4></a></div>
     <div class="admin-task"><a href="{{ url_for('remove_users') }}"><h4>Remove Users</h4></a></div>
     <div class="admin-task"><a href="{{ url_for('remove_dreams') }}"><h4>Remove Dreams</h4></a></div>        
 </div>
