@@ -602,14 +602,6 @@ The final collection is a repository of details for pre-defined user avatars, wh
 
 ![image](static/images/feature-list/personal-actions.png)
 
-
-
-
-
-
-
-
-
 ## Testing Documentation
 ([back to top](#contents))
 
@@ -620,9 +612,150 @@ Please find all testing documentation [HERE](TESTING.md).
 
 ### Initial Deployment
 
-### Deployment Instructions
+Hopes and Dreams has been deployed [HERE] via Heroku, taking the following steps:
 
-### Continuing This Project
+Preparing for Deployment:
+
+- For the site to function, I needed to add a Procfile to the repo containing the command to start the app (web: python app.py)
+- I already had an up-to-date requirements.txt file in my repository which I updated as I installed new dependencies.  This was a product of developing my project using a virtual environment in VS Code.
+- On initial deployment I received error messages related to my image handling code. This was on account of Heroku using a different version of Python which was actually ahead of the official version!  In order to make the app function as intended, I needed to add a runtime.txt file to the repo containing the Python version used for this project (python-3.10.12)
+
+Creating the App and connecting to Github:
+
+- I logged into my Heroku account
+- From my Dashboard, I selected 'new' then 'Create new app'
+- I selected an available name appropriate to the website - in this case I chose hopes-and-dreams, before selecting my region (Europe) and clicking the 'create app' button.
+- Heroku immediately took me to the 'Deploy' page.  From this page I went straight to 'Deployment Method' and clicked on Github.
+- Once my Github account was connected, I selected the hopes and dreams repository and clicked 'connect'.
+- Once connected I enabled automatic deploys, which means the deployedsite automatically updates when it detects a new commit to the linked repository
+
+Setting up the deployment:
+
+For the site to function I also needed to add the correct environment variables.
+
+- I first went to the settings tab and selected 'Reveal Config Vars' from the 'Config Vars' menu.  
+- I then proceeded to add all of my environment variables to this section and save them in turn.
+- The final step prior to submission was to ensure the 'DEBUG' environment variable was set to 'false'.
+
+### Deploying this Project
+
+If you wish to deploy this website yourself, here is how to go about it.
+
+Create a Version of the repository:
+
+ - Log in to or create your own Github account [HERE](https://github.com/).
+ - Go to the lost-king-part1 repository [HERE](https://github.com/rowlandcoping/hopes-and-dreams) and select 'Fork' to create your own snapshot of the repository.
+
+Creating your own Heroku Account:
+
+ - Sign in to Heroku [HERE](https://www.heroku.com/).  Keep in mind you will need two-factor authentication to use this website.
+ - To use Heroku, unless you have access by some other means, you will need to purchase some platform credits.  For a basic deployment, this won't cost you more than $5/month.
+
+Creating the database:
+
+This project uses MongoDB to store all data, therefore you will need a copy of the database to deploy it for yourself.
+
+ - Sign up to MongoDB Atlas [HERE](https://www.mongodb.com/cloud/atlas/register)
+ - Create a database (call it what you like, but something indicative of the project is a good idea!)
+ - Use the database structure outlined in this readme to re-create the database.  Keep in mind you only need to create the collections - the beauty of MongoDB is that everything else will be created on the fly.
+
+Creating a Cloudinary Account:
+
+This project hosts all images on Cloudinary.  In order to do the same you will need a Cloudinary account.
+
+ - Sign up to Cloudinary [HERE](https://cloudinary.com/)
+
+ Creating an email for the password reset functionality:
+
+For this project I used gmail to set up an account through which all password reset e-mails are sent.
+
+ - Set up a gmail account [HERE](https://gmail.com)
+ - Once in gmail I set up a specific app password so that the app can connect to it via SMTP.  Find details of this [HERE](https://support.google.com/mail/answer/185833?hl=en-GB).  Keep in mind this app password resets if you change the password of the gmail account!
+
+Deploy to Heroku
+
+ - Once all of this is set up, you are ready to deploy - first use the instructions I outlined in the [Initial Deployment](#initial-deployment) section.
+ - When it comes to setting up the config vars, you will need to set them up according the details of your own database/cloudinary/gmail accounts.  I have included below a list of all the [environment variables](#hopes-and-dreams-environment-variables) that need to be set up on Heroku, and indeed in any local deployment via an env.py file.
+
+### Continuing the Project
+
+Once the deployment steps have been completed, as above, you will be in a great position to continue the project.  All you will need to do is set up the [environment variables](#hopes-and-dreams-environment-variables) in your chosen development environment.
+
+Using VS Code on Linux:
+
+Using VS Code to continue the project is actually a simple matter because you already have the requirements.txt. I have used it throughout and I have found it a simple matter to set it up on a second machine using an venv and the requirements.txt file.
+
+Setting up.
+
+- Install Linux on your machine. You can either dual-boot like I do, or even install a virtual version in Windows.  Either approach is much more straightforward than trying to use VS Code native in Windows, for a number of reasons.  [HERE](https://itsfoss.com/guide-install-linux-mint-16-dual-boot-windows/) is a guide to setting up a dual boot install.
+- Install VS Code [HERE](https://code.visualstudio.com/download)
+- Click Extensions and search for 'github'.  You want to install 'GitHub Pull Requests and Issues'.
+- You should see a github icon you can now use to log in to Github.  Restart VS Code at this point.
+- Press CTRL-shift-P to open the command palette and then type 'git:clone'.
+- Select this, then click 'clone from github' before selecting your forked repository of Hopes and Dreams.
+- Create a folder in an appropriate location.  I save all my repos in a folder called 'repos'.
+- You will now be set up and connected to the appropriate repo and the files should all be available in VS CODE, including requirements.txt
+
+Making it work:
+
+- create an env.py file and a .gitignore file.  Add env.py to your .gitignore file to ensure you don't upload sensitive data to the public repository!
+- ensure you have python3-venv installed ($sudo apt get update, then $sudo apt-get install python3-venv)
+- Press CTRL-shift-P again, then type in python: Create Environment.
+- Select Venv, then select the recommended settings to create a new virtual environment. It will install all the dependencies outlined in the requirements.txt file.  If it has worked you should see (.venv) in your terminal.  I found depending on the system I had to restart VS Code to make this work.
+- Add the [environment variables](#hopes-and-dreams-environment-variables) to your env.py file. 
+- If you type python3 app.py in your new virtual environment in VS Code, you should see the site working in your if you open the port. you can continue the project.
+
+### Hopes and Dreams Environment Variables
+
+FLASK:
+
+os.environ.setdefault("IP", "0.0.0.0")\
+os.environ.setdefault("PORT", "5000")\
+os.environ.setdefault("DEBUG", "False")\
+os.environ.setdefault("SECRET_KEY", "xxxxxxxxxxxxx")\
+    _this key can be whatever you like_\
+os.environ.setdefault("SESSION_COOKIE_SAMESITE", "None")
+os.environ.setdefault("SESSION_COOKIE_SECURE", "True")
+
+MONGO DB:
+
+Please note you can set up this connection by logging into Mongo DB then doing as follows:
+ - select the database you wish to access
+ - select 'connect'
+ - select 'drivers', then follow the instructions provided.
+
+os.environ.setdefault("MONGO_URI", "mongodb+srv://xxxxxxxxxxxxxxxxxxxx.mongodb.net/xxxxxxxxxxxx")\
+    _these are the details of the database connection_\
+os.environ.setdefault("MONGO_DBNAME", "xxx")\
+    _this is the name of the database you wish to connect to_\
+
+CLOUDINARY:
+
+All the details for your Cloudinary account are provided on your Cloudinary Dashboard when you log in.
+
+os.environ.setdefault("CLOUD_NAME", "xxxxxxx")\
+    _as found on your Cloudinary dashboard_\
+os.environ.setdefault("API_KEY", "xxxxxxxxxx")\
+    _as found on your Cloudinary dashboard_\
+os.environ.setdefault("API_SECRET", "xxxxxxxxxxxxxxx")\
+    _as found on your Cloudinary dashboard_\
+os.environ.setdefault("CLOUDINARY_BASE", "https://res.cloudinary.com/xxxxxxxxxxxx/image/upload/yyyyyyyyyyyyy/")\
+    _this is the base URL for cloudinary images - please note the 'xxxxxxx' portion is the same as your cloud name.  If you view an image in the cloudinary explored and check the 'original url' you will be able to find the second part._
+
+GMAIL:
+
+os.environ.setdefault("MAIL_SERVER", "smtp.gmail.com")\
+os.environ.setdefault("MAIL_PORT", "465")\
+os.environ.setdefault("MAIL_USE_SSL", "True")\
+os.environ.setdefault("MAIL_USERNAME", "xxxxxxxxxxxxx")\
+    _the e-mail address you've set up with gmail_\
+os.environ.setdefault("MAIL_PASSWORD", "xxxxxxxxxxxxxxxx")\
+    _the app password you've set up with gmail_
+
+CUSTOM:
+
+os.environ.setdefault("BASE_URL", "xxxxxxxxxxxxx")\
+    _this is the base URL for your site deployment.  For example, for my deployment of Hopes and Dreams this is https://hopes-and-dreams-15b83f2d1383.herokuapp.com, for your localhost it will be something like http://127.0.0.1:5000/_
 
 ## Credits
 ([back to top](#contents))

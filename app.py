@@ -47,12 +47,8 @@ cloudinary.config(
     api_secret=os.environ.get('API_SECRET'))
 
 # base urls for images and passoword reset
-base_url = {"profile": (
-                "https://res.cloudinary.com/djxae3dnx/image/upload" +
-                "/v1701738961/profile/"),
-            "dreams": (
-                "https://res.cloudinary.com/djxae3dnx/image/upload" +
-                "/v1701738961/dreams/"),
+base_url = {"profile": os.getenv("CLOUDINARY_BASE") + "profile/",
+            "dreams": os.getenv("CLOUDINARY_BASE") + "dreams/",
             "reset": os.getenv("BASE_URL")
             }
 
@@ -797,10 +793,12 @@ def edit_dream(dream_slug):
                                 user_info["_id"]))
                             converted_image = imageConvert(
                                 uploaded_image, 400, 75, "webp")
+                            print (dream["image"])
                             if "image" in dream:
-                                if dream["image"] != "":
+                                if dream["image"]:
                                     cloudinary.uploader.destroy(
                                         "dreams/" + dream["image"])
+                                    print (dream["image"] + "DELETED")
                             cloudinary.uploader.upload(
                                 converted_image,
                                 public_id=filename, folder="dreams")
@@ -820,7 +818,7 @@ def edit_dream(dream_slug):
                             }}
                         elif request.form.get("delete_image"):
                             if "image" in dream:
-                                if (dream["image"] != ""):
+                                if dream["image"]:
                                     cloudinary.uploader.destroy(
                                         "dreams/" + dream["image"])
                                 dream_update = {"$set": {
