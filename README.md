@@ -686,7 +686,7 @@ Using VS Code on Linux:
 
 Using VS Code to continue the project is actually a simple matter because you already have the requirements.txt. I have used it throughout and I have found it straightforward to set it up on a second machine using a venv and the requirements.txt file.
 
-Setting up.
+Setting up:
 
 - Install Linux on your machine. You can either dual-boot like I do, or even install a virtual version in Windows.  Either approach is much more straightforward than trying to use VS Code native in Windows, for a number of reasons.  [HERE](https://itsfoss.com/guide-install-linux-mint-16-dual-boot-windows/) is a guide to setting up a dual boot install.
 - Install VS Code [HERE](https://code.visualstudio.com/download)
@@ -715,7 +715,7 @@ os.environ.setdefault("PORT", "5000")\
 os.environ.setdefault("DEBUG", "False")\
 os.environ.setdefault("SECRET_KEY", "xxxxxxxxxxxxx")\
     _this key can be whatever you like_\
-os.environ.setdefault("SESSION_COOKIE_SAMESITE", "None")
+os.environ.setdefault("SESSION_COOKIE_SAMESITE", "None")\
 os.environ.setdefault("SESSION_COOKIE_SECURE", "True")
 
 MONGO DB:
@@ -728,7 +728,7 @@ Please note you can set up this connection by logging into Mongo DB then doing a
 os.environ.setdefault("MONGO_URI", "mongodb+srv://xxxxxxxxxxxxxxxxxxxx.mongodb.net/xxxxxxxxxxxx")\
     _these are the details of the database connection_\
 os.environ.setdefault("MONGO_DBNAME", "xxx")\
-    _this is the name of the database you wish to connect to_\
+    _this is the name of the database you wish to connect to_
 
 CLOUDINARY:
 
@@ -778,7 +778,7 @@ OpenSans-Regular.ttf
 
 IMAGES:
 
-All avatar images were created using Bing Image Creator.
+All avatar images were created using Bing Image Creator.\
 All other site assets were created myself using Inkscape.
 
 As such all images belong to me.
@@ -797,8 +797,8 @@ IMAGE HANDLING:
 
 My image handling process was put together using information from the following sources.
 
-https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18
-https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array
+https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18\
+https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array\
 https://gist.github.com/tomvon/ae288482869b495201a0
 
 PASSWORD RESET:
@@ -811,11 +811,11 @@ https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcd
 
 HELP AND ASSISTANCE:
 
-Enormous credit goes to my mentor Mitko Bachvarov for his patience and assistance throughout this build.  His feedback about the UI in particular resulted in major changes for the better to the sign-up and editing process and a significant re-build since Christmas - I'm not sure how I would have completed this project to any kind of standard without his input!
+Enormous credit goes to my mentor Mitko Bachvarov for his patience and assistance throughout this build.  His feedback about the UI in particular resulted in major changes for the better to the sign-up and editing process and a significant re-build since Christmas - I'm not sure how I would have completed this project to any kind of standard without this.  I feel certain he must be one of the best mentors working with Code Institue and very fortunate to have had access to his insight.
 
 DESIGN INSPIRATION:
 
-Strange as this may sound, since I came across it as part of my work I've always wanted to produce a website drawing influence from the design for the Luton Culture website c. 2012-2015.  I always thought it was a great, clean, distinctive design. It has since been re-built in black and white (which I think is a shame), but here is a link from the web archive:
+Strange as this may sound, since I came across it as part of my work I've always wanted to produce a project drawing influence from the design for the Luton Culture website c. 2012-2015.  I always thought it was a great, clean, distinctive design. It has since been re-built in black and white (which I think is a shame), but here is a link from the web archive:
 
 https://web.archive.org/web/20121002225637/http://www.lutonculture.com/wardown-park-museum/
 

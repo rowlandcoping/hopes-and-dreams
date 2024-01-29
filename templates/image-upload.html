@@ -9,37 +9,37 @@
         <div id="dreambuild-image-wrapper"> 
             <div id="dream-image-top">
                 <div id="tree-left">
-                    <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}" alt="A line drawing of a tree, which could possibly be a palm tree">
                 </div>
                 <div id="tree-text">            
                     <h4>You have dreamed a brand new dream.</h4>
                     <br>
                     <div id="tree-center" class="not-displayed">
-                        <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}">
+                        <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}" alt="A line drawing of a tree, which could possibly be a palm tree">
                     </div>
                     <h4>And if you don't have a dream, how you gonna make a dream come true?</h4>                    
                 </div>
                 <div id="tree-right">
-                    <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}" alt="A line drawing of a tree, which could possibly be a palm tree">
                 </div>
             </div>
             <div class="dreambuild-image-form">
                 <form action="{{ url_for('image_upload', dream_slug=dream_slug) }}" method="POST" enctype="multipart/form-data">
-                    <div class="banner-headline" id="dream-headline"><h2>Add an Image<h2></div>
+                    <div class="banner-headline" id="dream-headline"><h2>Add an Image</h2></div>
                     <p>It is recommended you add an image to your dream.</p>
                     <p>It will help "{{ dream.dream_name }}" attract more attention and look better on the feed!</p>
                     <div class="image-layout dream-layout">
                         {% if dream.image %}
-                        <label for="image_upload"><h4>Upload New Image:</h4></label>
+                        <h4><label for="uploaded-image">Upload New Image:</label></h4>
                         {% else %}
-                        <label for="image_upload"><h4>Upload Image:</h4></label>
+                        <h4><label for="uploaded-image">Upload Image:</label></h4>
                         {% endif %} 
                         <input type="file" id="uploaded-image" name="image_upload">
                         <div>
                             {% if dream.image %}
                             <img id="current-edit-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                             {% endif %}
-                            <img id="image-preview" class="not-displayed" src="">
+                            <img id="image-preview" class="not-displayed" src="false" alt="A preview of the uploaded image">
                         </div>
                         {% with messages = get_flashed_messages(with_categories=true) %}
                             {% if messages %}

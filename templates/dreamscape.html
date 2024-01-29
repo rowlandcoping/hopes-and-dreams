@@ -24,7 +24,7 @@ Dreamscape - {{ user.first_name }}
         <form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
             <div class="select-section"> 
                 <div id="filter-label">
-                    <label for="filter"><h3>Filter Results:</h3></label>
+                    <h3><label for="dreamscape-filter">Filter Results:</label></h3>
                 </div>
                 <div id="filter-select">
                     <select name="filter" id="dreamscape-filter">
@@ -137,7 +137,7 @@ Dreamscape - {{ user.first_name }}
                 </div>
                 <div class="view-dream-image image-mobile yellow-border not-displayed">
                     {% if dream.image %}
-                    <img id="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                    <img class="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                     {% endif %}
                 </div> 
                 <div class="view-dream-description">
@@ -166,7 +166,7 @@ Dreamscape - {{ user.first_name }}
             </div>
             <div class="view-dream-image image-desktop yellow-border">
                 {% if dream.image %}
-                <img id="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                <img class="feed-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                 {% endif %}
             </div>                
         </div>
@@ -328,12 +328,12 @@ Dreamscape - {{ user.first_name }}
                         <div class="comments-delete-alert delete-alert not-displayed" id="alert-{{ comment._id | string }}">
                             <div class="main-alert">
                                 <div class="alarm-bunny-left">
-                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}">
+                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing right">
                                 </div>
-                                <div class="alarm-text" id="dreamscape-comments">
+                                <div class="alarm-text">
                                     <h3>Are you sure you want to delete this comment?</h3>
                                     <div class="alarm-bunny-middle not-displayed">
-                                        <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}">
+                                        <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
                                     </div>
                                     <p>It will be permanently removed, however data from any positive or negative reactions will be retained.</p>
                                     <div class="comment-buttons">
@@ -342,7 +342,7 @@ Dreamscape - {{ user.first_name }}
                                     </div>
                                 </div>
                                 <div class="alarm-bunny-right">
-                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}">
+                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing right">
                                 </div>
                             </div>                        
                         </div>
@@ -388,11 +388,11 @@ Dreamscape - {{ user.first_name }}
                         <div class="comment-user">
                             <h4>{{comment.user_name}}</h4>
                             <div class="comment-avatar dreamscape-avatar">
-                                <img src="{{ base_url.profile + comment.user_pic }}">
+                                <img src="{{ base_url.profile + comment.user_pic }}" alt="{{ base_url.profile + comment.user_pic_alt }}">
                             </div>                                                
                         </div>
                         <div class="comment-text dreamscape-editing">
-                            <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                            <form id="{{ comment._id }}-comment-display" action="{{ url_for('edit_dream_comment', dream_slug=dream.dream_slug, selected=selected, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                 <textarea id="{{ comment._id }}-original" name="{{ comment._id }}-original" readonly hidden>{{ comment.comment }}</textarea>
                                 <div class="textarea-display dreamscape-dotted" id="{{ comment._id }}-fixed">
                                     {{- comment.comment -}}
@@ -408,7 +408,7 @@ Dreamscape - {{ user.first_name }}
                                         <i class="fas fa-edit"></i>
                                     </div>
                                     <div class="delete-comment" id="{{ comment._id | string }}">
-                                        <i class="fas fa-trash"></i></a>
+                                        <i class="fas fa-trash"></i>
                                     </div>  
                                 </div>
                                 {% elif user._id == dream.user_id %}

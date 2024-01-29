@@ -9,7 +9,7 @@
     <div class="dreambuild-form">
         <form action="{{ url_for('dreambuilder') }}" method="POST" name="dreambuilder-form">
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
-            <div class="banner-headline" id="dream-headline"><h2>Dream Information<h2></div>
+            <div class="banner-headline dream-headline"><h2>Dream Information</h2></div>
             <div class="intro-text">
                 <p>Dreams are freeform and can be anything.
                 <br>Just write what inspires you today.
@@ -28,37 +28,50 @@
             {% endwith %}
             <div class="personal-section">
                 <div class="cloud">
-                    <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-left.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-left.svg') }}" alt="a line drawing of a little cloud in blue, with dots underneathing indicating a thought or dream">
                 </div>
-                <table class="form-table-builder" id="dreambuild-table">
-                    <tr class="not-displayed labelmob">
+                <table class="form-table-builder dreambuild-table mobile-version not-displayed" id="edit-table-dream-mobile">
+                    <tr class="labelmob">
                         <td>
-                            <label for="dream_name">My Dream:</label>
+                            <label for="dream_name-mob">My Dream:</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label dream-label"><label for="dream_name">My Dream: </label></td>
-                        <td><input placeholder="Your dream..." class="dreams-dotted" type="text" id="dream_name" name="dream_name" required></td>
-                    </tr>
-                    <tr class="not-displayed labelmob">
                         <td>
-                            <label for="dream_description">Dream Description:</label>
+                            <input placeholder="Your dream..." class="dreams-dotted input-field-duplicate" type="text" id="dream_name-mob" name="dream_name" required>
                         </td>
                     </tr>
+                    <tr class="labelmob">
+                        <td>
+                            <label for="dream_description-mob">Dream Description:</label>
+                        </td>                        
+                    </tr>
                     <tr>
-                        <td class="label dream-label"><label for="dream_description">Dream Description: </label></td>
-                        <td><textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted" id="dream_description" name="dream_description" required></textarea></td>
+                        <td>
+                            <textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted input-field-dupliaate" id="dream_description-mob" name="dream_description" required>
+                            </textarea>
+                        </td>
+                    </tr>
+                </table>
+                <table class="form-table-builder dreambuild-table desktop-version" id="edit-table-dream">
+                    <tr>
+                        <td class="label dream-label"><label for="dream_name-desk">My Dream: </label></td>
+                        <td><input placeholder="Your dream..." class="dreams-dotted input-field-duplicate" type="text" id="dream_name-desk" name="dream_name" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label dream-label"><label for="dream_description-desk">Dream Description: </label></td>
+                        <td><textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted input-field-duplicate" id="dream_description-desk" name="dream_description" required></textarea></td>
                     </tr>
                 </table>
                 <div class="cloud cloud-right">
-                    <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-right.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-right.svg') }}" alt="a line drawing of a little cloud in blue, with dots underneathing indicating a thought or dream">
                 </div>
             </div>
             <div id="disable-comments" class="blue-box">
-                <label for="profile_picture">Disable Comments? </label>
+                <label for="disable_comments">Disable Comments? </label>
                 <input type="checkbox" id="disable_comments" name="disable_comments">
             </div>
-            <div class="banner-headline" id="category-headline"><h2>Dream Categories<h2></div>
+            <div class="banner-headline" id="category-headline"><h2>Dream Categories</h2></div>
                 
             <div id="interests-section">
                 <p>If you would like to, you may add up to 5 categories. 
@@ -97,10 +110,9 @@
                     {% endif %}
                 {% endwith %}                
             </div>
-                <div id="journey-buttons" class="dreambuild-buttons">
-                    <button id="disable-button" type="submit" class="create-button">Create Dream</button>
-                    <a id="abandon" class="abandon-button" href="{{ url_for('dreams') }}">Abandon Dream</a>
-                </div>
+            <div id="journey-buttons" class="dreambuild-buttons">
+                <button type="submit" class="create-button">Create Dream</button>
+                <a id="abandon" class="abandon-button" href="{{ url_for('dreams') }}">Abandon Dream</a>
             </div>
         </form>
     </div>            

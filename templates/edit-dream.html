@@ -9,7 +9,7 @@ Edit Dream - {{ dream.dream_name }}
     <form action="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}" method="POST" name="dream-update" enctype="multipart/form-data">
         <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories | join(',') }}" readonly required>
         <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
-        <div class="banner-headline" id="dream-headline"><h2>"{{dream.dream_name}}" Information<h2></div>
+        <div class="banner-headline dream-headline"><h2>"{{dream.dream_name}}" Information</h2></div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -24,28 +24,42 @@ Edit Dream - {{ dream.dream_name }}
         <div class="personal-section" id="dream-section">
             <div class="main-information">
                 <h4>Edit Dream Details:</h4>
-                <table class="form-table-edit" id="edit-table-dream">
-                    <tr class="not-displayed labelmob">
+                <table class="form-table-edit mobile-version not-displayed" id="edit-table-dream-mobile">
+                    <tr class="labelmob">
                         <td>
-                            <label for="dream_name">My Dream:</label>
+                            <label for="dream_name-mob">My Dream:</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label dream-label"><label for="dream_name">My Dream: </label></td>
-                        <td><input class="dreams-dotted" type="text" id="dream_name" name="dream_name" value="{{ dream.dream_name }}" required></td>
-                    </tr>
-                    <tr class="not-displayed labelmob">
                         <td>
-                            <label for="dream_description">Dream Description:</label>
+                            <input class="dreams-dotted input-field-duplicate" type="text" id="dream_name-mob" name="dream_name" value="{{ dream.dream_name }}" required>
+                        </td>
+                    </tr>
+                    <tr class="labelmob">
+                        <td>
+                            <label for="dream_description-mob">Dream Description:</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class="label dream-label"><label for="dream_description">Dream Description: </label></td>
-                        <td><textarea class="dreams-dotted" id="dream_description" name="dream_description" required>{{ dream.dream_description }}</textarea></td>
+                        <td>
+                            <textarea class="dreams-dotted input-field-duplicate" id="dream_description-mob" name="dream_description" required>
+                                {{ dream.dream_description }}
+                            </textarea>
+                        </td>
+                    </tr>
+                </table>
+                <table class="form-table-builder dreambuild-table desktop-version" id="edit-table-dream">
+                    <tr>
+                        <td class="label dream-label"><label for="dream_name-desk">My Dream: </label></td>
+                        <td><input class="dreams-dotted input-field-duplicate desktop-input" type="text" id="dream_name-desk" name="dream_name" value="{{ dream.dream_name }}" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label dream-label"><label for="dream_description-desk">Dream Description: </label></td>
+                        <td><textarea class="dreams-dotted input-field-duplicate desktop-input" id="dream_description-desk" name="dream_description" required>{{ dream.dream_description }}</textarea></td>
                     </tr>
                 </table>
                 <div id="disable-comments" class="blue-box">
-                    <label for="profile_picture">Disable Comments? </label>
+                    <label for="disable_comments">Disable Comments? </label>
                     {% if dream.comments_enabled %}
                     <input type="checkbox" id="disable_comments" name="disable_comments">
                     {% else %}
@@ -53,23 +67,23 @@ Edit Dream - {{ dream.dream_name }}
                     {% endif %}
                 </div>
             </div>
-            <div class="banner-headline middle-headline not-displayed" id="dream-headline"><h2>Dream Image<h2></div>
+            <div class="banner-headline middle-headline not-displayed dream-headline"><h2>Dream Image</h2></div>
             <div class="image-layout dream-layout" id="edit-layout">
                 {% if dream.image %}
-                <label for="image_upload"><h4>Upload New Image:</h4></label>
+                <h4><label for="uploaded-image">Upload New Image:</label></h4>
                 {% else %}
-                <label for="image_upload"><h4>Upload Image:</h4></label>
+                <h4><label for="uploaded-image">Upload Image:</label></h4>
                 {% endif %} 
                 <input type="file" id="uploaded-image" name="image">
                 <div>
                     {% if dream.image %}
                     <img id="current-edit-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                     <div id="remove-picture" class="dream-pic-remove blue-box">
-                        <label for="profile_picture">Remove Picture?</label>
+                        <label for="delete_image">Remove Picture?</label>
                         <input type="checkbox" id="delete_image" name="delete_image">
                     </div>
                     {% endif %}
-                    <img id="image-preview" class="not-displayed" src="" width="150">
+                    <img id="image-preview" class="not-displayed" src="false" alt="This is a preview of the uploaded image">
                 </div>
                 <div id="dream-image-uploads">
                     <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>
@@ -77,7 +91,7 @@ Edit Dream - {{ dream.dream_name }}
             </div>
         </div>
         
-        <div class="banner-headline" id="category-headline"><h2>"{{dream.dream_name}}" Categories<h2></div>
+        <div class="banner-headline" id="category-headline"><h2>"{{dream.dream_name}}" Categories</h2></div>
         <div id="interests-section">
             {% with categories = categories_two %}
                 {% if categories %}

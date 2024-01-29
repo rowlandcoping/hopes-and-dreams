@@ -27,14 +27,78 @@
 ### HTML Validation
 ([back to top](#testing-documentation))
 
-Validation:
+I have validated the html code by copying and pasting the source code from each page into the w3c validator [HERE](https://validator.w3.org/).
+Please note I have not validated (or styled) the adbmin only pages as they are not intended to be user facing.  Only I, and the user I will create for assessment purposes, will have admin access for this iteration of the site.
 
-### Landing Page (https://hopes-and-dreams-15b83f2d1383.herokuapp.com/):
+Page validated: Landing Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/\
+Repaired Issues: Missing image alt tags.\
+Outstanding Issues: None
 
+Page validated: Signup Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dare-to-dream\
+Repaired Issues: H2 tag not closed, missing image alts, stray closing tag for div.\
+Outstanding Issues: None
 
+Page validated: Password Reset Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/password-reset\
+Repaired Issues: Missing image alts.\
+Outstanding Issues: None
 
-Issues
+Page validated: Password Reset Page (Dream Route)\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/password-reset-dream/compete-at-le-mans\
+Repaired Issues: Missing image alts.\
+Outstanding Issues: None
 
+Page validated: Reset Password Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/reset-password/xxxxxxxresetkeyxxxxxxxxx\
+Repaired Issues: Missing image alts.\
+Outstanding Issues: None
+
+Page validated: 404 Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/lost-bunnies\
+Repaired Issues: Missing image alts.\
+Outstanding Issues: None
+
+Page validated: View Dream Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dream/compete-at-le-mans\
+Repaired Issues: Missing image alts, duplicate IDs for feed images.\
+Outstanding Issues: None
+
+Page validated: Welcome Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/welcome\
+Repaired Issues: Missing image alts, duplicate IDs for intro text (not used anywhere!).\
+Outstanding Issues: None
+
+Page validated: Create Dream Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dream/compete-at-le-mans\
+Repaired Issues: stray/erroneous tags, table issues requiring major refactoring, missing image alts.\
+Outstanding Issues: None
+
+Page validated: Dream Image Upload Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/image-upload/compete-at-le-mans\
+Repaired Issues: missing image alts, stray/erroneous tags, an empty javascript-populated field, misdirected labels\
+Outstanding Issues: None
+
+Page validated: Edit Dream Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/edit-dream/compete-at-le-mans
+Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels, table issues requiring major refactoring\
+Outstanding Issues: None
+
+Page validated: Personal Profile Page\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/profile
+Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels.
+Outstanding Issues: None
+
+Page validated: Dreamscape\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreamscape
+Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts, misdirected label
+Outstanding Issues: None
+
+Page validated: Dreams\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreams
+Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts
+Outstanding Issues: None
 
 
 ### CSS Validation

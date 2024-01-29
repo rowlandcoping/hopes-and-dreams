@@ -8,7 +8,7 @@
 <div class="other-page">
     <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>     
     <div class="container-other">
-        <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}"></div>
+        <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing right"></div>
         {% if user_info %}
             <div class="password-reset">
                 <h3>We're ever so sorry, but that content is not avaiable.</h3>
@@ -18,14 +18,14 @@
         {% else %}
         <div class="password-reset">
             <h3>We're ever so sorry, but that content is not avaiable.</h3>
-            <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+            <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing left"></div>
             <p>It's probably been deleted, either that or it never existed in the first place.</p>
             <p>If you are not a member already, why not sign up and have a look around?  I'm sure there is something here for you!</p>
         </div>
 
 
         {% endif %}
-        <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
+        <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing left"></div>
     </div>
     {% if user_info %}
     <div id="welcome-exit-buttons">

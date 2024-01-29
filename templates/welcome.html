@@ -8,42 +8,42 @@
 <div class="other-page">
     <div class="headline-wrapper" id="welcome-headline"><h1>Welcome {{ user.first_name | capitalize }}!</h1></div>       
     <div id="congratulations">
-        <div id="star-left"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
+        <div id="star-left"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}" alt="A line drawing of a golden star"></div>
         <div id="congrats-text">
             <h2>Congratulations!</h2>
-            <div class="welcome-center-img welcome-star not-displayed"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
+            <div class="welcome-center-img welcome-star not-displayed"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}" alt="A line drawing of a golden star"></div>
             <h4>You are ready to explore the Dreamscape.</h4>
         </div>
-        <div id="star-right"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}"></div>
+        <div id="star-right"><img src="{{ url_for('static', filename='images/general-assets/star.svg') }}" alt="A line drawing of a golden star"></div>
     </div>
     <div class="welcome-main">
         <div id="dreamscape-intro">
             <div id="dreamscape-intro-left">
-                <img src="{{ url_for('static', filename='images/general-assets/bunny-right-red.svg') }}">
+                <img src="{{ url_for('static', filename='images/general-assets/bunny-right-red.svg') }}" alt="a line drawing of a bunny, facing right">
             </div>
-            <div id="dreamscape-intro-text">
+            <div class="dreamscape-intro-text">
                 <p>The Dreamscape is where you will find hopes, dreams and aspirations</p>
                 <p>It is a thrilling and uplifting place.</p>
                 <div class="welcome-center-img not-displayed">
-                    <img src="{{ url_for('static', filename='images/general-assets/bunny-right-red.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/bunny-right-red.svg') }}" alt="a line drawing of a bunny, facing right">
                 </div>               
             </div>
         </div>
         <div class="grass-width"></div>
         <div id="dream-intro">
-            <div id="dreamscape-intro-text">
+            <div class="dreamscape-intro-text">
                 <p>Each dream you see is special to someone.</p>
                 <p>Perhaps you can help.
                     <br>Perhaps you can encourage.
                     <br>Perhaps you just want to see how they get along.
                 </p>
                 <div class="welcome-center-img not-displayed">
-                    <img src="{{ url_for('static', filename='images/general-assets/bunny-left-red.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/bunny-left-red.svg') }}" alt="a line drawing of a bunny, facing left">
                 </div>
                 
             </div>
             <div id="dreamscape-intro-right">
-                <img src="{{ url_for('static', filename='images/general-assets/bunny-left-red.svg') }}">
+                <img src="{{ url_for('static', filename='images/general-assets/bunny-left-red.svg') }}" alt="a line drawing of a bunny, facing left">
             </div>
         </div>
         <div class="grass-width"></div>

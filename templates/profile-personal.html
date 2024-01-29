@@ -7,7 +7,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 {% block content %}
 {% if user.role=="administrator" %}
 <div  id="admin-functions">
-    <div class="banner-headline" id="personal-headline"><h2>Admin Functions</h2></div>
+    <div class="banner-headline personal-headline"><h2>Admin Functions</h2></div>
     <div class="admin-task"><a href="{{ url_for('add_avatars') }}"><h4>Manage Avatars</h4></a></div>
     <div class="admin-task"><a href="{{ url_for('categories') }}"><h4>Manage Categories</h4></a></div>
     <div class="admin-task"><a href="{{ url_for('remove_users') }}"><h4>Remove Users</h4></a></div>
@@ -18,7 +18,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
     <form action="{{ url_for('profile_personal') }}" method="POST" name="personal-update" enctype="multipart/form-data">
         <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ user.interests | join(',') }}" readonly required>
         <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
-        <div class="banner-headline" id="personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Information<h2></div>
+        <div class="banner-headline personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Information</h2></div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -48,16 +48,16 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 </div>
                 <a class="cancel-dream-image" href="{{ url_for('log_out') }}">Log Out</a>
             </div>
-            <div class="banner-headline middle-headline not-displayed" id="personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Avatar<h2></div>
-            <div class="image-layout profile-layout">
-                <label for="image_upload"><h4>Upload New Avatar:</h4></label>
+            <div class="banner-headline middle-headline not-displayed personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Avatar</h2></div>
+            <div class="image-layout profile-layout" id="edit-layout">
+                <h4><label for="uploaded-image">Upload New Avatar:</label></h4>
                 <input type="file" id="uploaded-image" name="profile_picture">
                 <div>
                     <img id="current-edit-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}">
-                    <img id="image-preview" class="not-displayed" src="" width="150">
+                    <img id="image-preview" class="not-displayed" src="false" alt="This is the preview of the uploaded user avatar">
                 </div>
                 <div id="remove-picture" class="profile-pic-remove">
-                    <label for="profile_picture">Generate Random Avatar: </label>
+                    <label for="delete_image">Generate Random Avatar: </label>
                     <input type="checkbox" id="delete_image" name="delete_image">
                 </div>
                 <div id="dream-image-uploads">
@@ -65,7 +65,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 </div>
             </div>
         </div>        
-        <div class="banner-headline" id="personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Interests<h2></div>
+        <div class="banner-headline personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Interests</h2></div>
         <div id="interests-section">
             {% with categories = categories_two %}
                 {% if categories %}

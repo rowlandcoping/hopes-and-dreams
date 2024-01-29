@@ -43,6 +43,16 @@ document.addEventListener("DOMContentLoaded", function() {
     
     //SIGN-UP PROCESS
     //add event listners to all category button clicks
+    const attachDupeFieldListeners= Array.from(document.getElementsByClassName('input-field-duplicate'));
+    attachDupeFieldListeners.forEach(item => {
+        item.addEventListener('focus', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            duplicateField(itemId);
+        });
+    });
+
+    //Create Dream page
+    //add event listeners to listen for key up on input fields and populate the mobile field as well
     const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
     attachCategoryListners.forEach(item => {
         item.addEventListener('click', function handleClick(event) {
@@ -235,17 +245,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     //auto-resizing for dreambuilder textarea
-    document.addEventListener("input", function(e){
-        const target = e.target.closest("#dream_drescription"); 
+    document.addEventListener("click", function(e){
+        const target = e.target.closest("#dream_description-mob"); 
         if(target){
-            autoResize();
+            document.getElementById("dream_description-mob").style.height = "auto";
+            document.getElementById("dream_description-mob").style.height = document.getElementById("dream_description-mob").scrollHeight + 'px';           
         }
     });
     document.addEventListener("click", function(e){
-        const target = e.target.closest("#dream_description"); 
+        const target = e.target.closest("#dream_description-desk"); 
         if(target){
-            document.getElementById("dream_description").style.height = "auto";
-            document.getElementById("dream_description").style.height = document.getElementById("dream_description").scrollHeight + 'px';           
+            document.getElementById("dream_description-desk").style.height = "auto";
+            document.getElementById("dream_description-desk").style.height = document.getElementById("dream_description-desk").scrollHeight + 'px';           
         }
     });
     //add evemt listeners for cancelling delete alerts
@@ -439,6 +450,29 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.border = "2px solid border:rgb(53, 52, 52)";
         }
     }
+    //ensure all form fields populated
+    function duplicateField(itemId) {
+        formField = itemId.split('-')[0]
+        formSection = itemId.split('-')[1];
+        console.log(formSection);
+        if (formSection === "desk") {
+            document.getElementById(itemId).onkeyup = function () { 
+                document.getElementById(formField + "-mob").value = this.value;
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + 'px';
+            };
+        }
+        if (formSection === "mob") {
+            document.getElementById(itemId).onkeyup = function () { 
+                document.getElementById(formField + "-desk").value = this.value;
+                this.style.height = "auto";
+                this.style.height =  this.scrollHeight + 'px';
+            };
+            
+        }
+    }
+
+
 
     //EDITING PROFILE INFO    
     //cancel profile pic change 

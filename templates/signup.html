@@ -9,7 +9,7 @@
     <div class="headline-wrapper" id="create-wrapper"><h1>Create Your Profile</h1></div>
     <div class="dreambuild-form">
         <form action="{{ url_for('signup') }}" method="POST" name="signup-form" id="signup-form">
-            <div class="banner-headline" id="personal-headline"><h2>Personal Information<h2></div>
+            <div class="banner-headline" id="personal-headline"><h2>Personal Information</h2></div>
             <input type="text" id="selected-categories" class="absolutely-hidden" name="selected-categories">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -24,7 +24,7 @@
             {% endwith %}
             <div class="personal-section">
                 <div id="bunny-left">
-                    <img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing right">
                 </div>
                 <div class="signup-table">
                     <table class="form-table">
@@ -48,13 +48,12 @@
                     <small>Passwords must contain a capital letter, a number and be at least 8 characters in length.</small>
                 </div>
                 <div id="bunny-right">
-                    <img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}">
+                    <img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing left">
                 </div>
             </div>
             <div id="journey-buttons" class="signup-buttons">
                 <button type="submit" class="create-button" form="signup-form">Create Profile</button>
-                <a id="abandon" class="abandon-button" href="{{ url_for('abandon_signup') }}">Abandon signup</a>
-            </div>                
+                <a id="abandon" class="abandon-button" href="{{ url_for('abandon_signup') }}">Abandon signup</a>               
             </div>
         </form>        
     </div>    

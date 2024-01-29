@@ -38,12 +38,12 @@
                     <div class="delete-alert dreams-delete-alert not-displayed" id="alert-{{ dream.dream_slug }}">
                         <div class="main-alert">
                             <div class="alarm-bunny-left">
-                                <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}">
+                                <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing right">
                             </div>
                             <div class="alarm-text">
                                 <h3>Are you sure you want to delete<br>"{{dream.dream_name}}"?</h3>
                                 <div class="alarm-bunny-middle not-displayed">
-                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}">
+                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
                                 </div>
                                 <p>It will permanently remove the dream, plus all related comments and followers!</p>
                                 <div class="comment-buttons">
@@ -52,16 +52,16 @@
                                 </div>
                             </div>
                             <div class="alarm-bunny-right">
-                                <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}">
+                                <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
                             </div>
                         </div>                        
                     </div>
                     <div class="dream-list opaque-element">
-                        <div class="general-bar dream-bar main-dream-bar" id="dreams-page-bar">
+                        <div class="general-bar dream-bar main-dream-bar dreams-page-bar">
                             <div class="dream-name"><h3>{{ dream.dream_name}}</h3></div>
                             <div class="icons">
                                 <div class="edit-dream"><a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a></div>
-                                <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></a></div>
+                                <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></div>
                                 <div class="view-dream"><a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}"><i class="fa-regular fa-eye"></i></a></div>
                             </div>                            
                         </div>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="dream-image">
                                 {% if dream.image %}
-                                    <img id="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                                    <img class="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                                 {% endif %}
                             </div>                            
                         </div>

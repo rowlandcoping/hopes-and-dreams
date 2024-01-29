@@ -938,7 +938,7 @@ def delete_dream(dream_slug):
         if ObjectId(user_info["_id"]) == ObjectId(
           dream["user_id"]) or user_info["role"] == "administrator":
             mongo.db.dreams.delete_one({"_id": ObjectId(dream["_id"])})
-            if dream["image"]:
+            if "image" in dream:
                 cloudinary.uploader.destroy("dreams/" + dream["image"])
             categories = mongo.db.categories.find()
             for categ in categories:
