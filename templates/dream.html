@@ -147,14 +147,25 @@ View Dream - {{ dream.dream_name }}
                                             </form>
                                         </div>                                      
                                         {% for comment in selected_comments: %}
-                                        <div class="comment-section">                                        
+                                        <div class="comment-section">
+                                            {% if request.path == url_for('like_comment',dream_slug=dream.dream_slug, comment_id=comment._id)  
+                                            or request.path == url_for('unlike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
+                                            or request.path == url_for('dislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id)
+                                            or request.path == url_for('undislike_comment',dream_slug=dream.dream_slug, comment_id=comment._id) %}
+                                            {% if comment._id | string == comment_id | string %}
+                                            <div class="comment-header dream-bar comment-dream-bar" id="focussed-dream" tabindex=0>
+                                            {% else %}
                                             <div class="comment-header dream-bar comment-dream-bar">
+                                            {% endif %}
+                                            {% else %}
+                                            <div class="comment-header dream-bar comment-dream-bar">
+                                            {% endif %}                                       
                                                 <div class="dreams-delete-alert delete-alert not-displayed" id="alert-{{ comment._id | string }}">
                                                     <div class="main-alert">
                                                         <div class="alarm-bunny-left">
                                                             <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing right">
                                                         </div>
-                                                        <div class="alarm-text" id="dreamscape-comments">
+                                                        <div class="alarm-text">
                                                             <h3>Are you sure you want to delete this comment?</h3>
                                                             <div class="alarm-bunny-middle not-displayed">
                                                                 <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
@@ -223,14 +234,14 @@ View Dream - {{ dream.dream_name }}
                                                     </div>                                                
                                                 </div>
                                                 <div class="comment-text dreams-editing">
-                                                    <form id="{{ dream.dream_slug }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
+                                                    <form id="{{ comment._id }}-comment-display" action="{{ url_for('edit_comment', dream_slug=dream.dream_slug, comment_id=comment._id) }}" method="POST" name="personal-update" enctype="multipart/form-data">
                                                         <textarea id="{{ comment._id }}-original" name="{{ comment._id }}-original" readonly hidden>{{ comment.comment }}</textarea>
                                                         <div class="textarea-display dreams-dotted" id="{{ comment._id }}-fixed">
                                                             {{- comment.comment -}}
                                                         </div>
                                                         <textarea class="adjustable-height comment-comment not-displayed" id="{{ comment._id }}-display" name="{{ comment._id }}-text" readonly>{{ comment.comment }}</textarea>
                                                         <div class="edit-comment-buttons">
-                                                            <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit" form="{{ dream.dream_slug }}-comment-display">Confirm</button>
+                                                            <button type="submit" class="not-displayed submit-comment" id="{{ comment._id }}-submit" form="{{ comment._id }}-comment-display">Confirm</button>
                                                             <div class="cancel-comment-button cancel-comment not-displayed" id="{{ comment._id }}-cancel">Cancel</div>
                                                         </div>
                                                     </form>
@@ -241,7 +252,7 @@ View Dream - {{ dream.dream_name }}
                                                             <i class="fas fa-edit"></i>
                                                         </div>
                                                         <div class="delete-comment" id="{{ comment._id | string }}">
-                                                            <i class="fas fa-trash"></i></a>
+                                                            <i class="fas fa-trash"></i>
                                                         </div>  
                                                     </div>
                                                     {% elif user._id == dream.user_id %}

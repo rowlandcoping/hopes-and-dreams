@@ -404,7 +404,7 @@ DREAMS PAGE:
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
-| navigation icons | selected dream box set to dreams icon | Success |
+| navigation icons | selected page box set to dreams icon | Success |
 | Create New Dream button | takes user to Dreambuilder page (create dream) | Success |
 | Create New Dream button | color and pointer change on mouseover | Success |
 | Edit dream icon | takes user to edit the selected dream | Success |
@@ -431,6 +431,7 @@ CREATE DREAM PAGE:
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
 | DOM | all interactable buttons change on hover and show pointer | Success |
+| navigation icons | selected page box set to dreams icon | Success |
 | My Dream input | highlights on focus | Success |
 | My Dream input | user input is duplicated in mobile and desktop versions of the form | Success |
 | My Dream input | required field must be populated to submit form | Success |
@@ -474,6 +475,7 @@ IMAGE UPLOAD PAGE:
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
 | DOM | all interactable buttons change on hover and show pointer | Success |
+| navigation icons | selected page box set to dreams icon | Success |
 | I'll do this later button | returns user to dreams page | Success |
 | Browse button | Allows user to select an image to upload | Success |
 | On selecting file | file is previewed on page | Success |
@@ -496,6 +498,7 @@ EDIT DREAM PAGE:
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
 | DOM | all interactable buttons change on hover and show pointer | Success |
+| navigation icons | selected page box set to dreams icon | Success |
 | My Dream input | highlights on focus | Success |
 | My Dream input | displays dream name for selected dream | Success |
 | My Dream input | user input is duplicated in mobile and desktop versions of the form | Success |
@@ -554,6 +557,80 @@ EDIT DREAM PAGE:
 | manually editing url to non-existent address | takes user to 404 | Success |
 | manually editing dream slug to non-existent address or another user's dream | takes user to dreams page with error message | Success |
 
+VIEW DREAM PAGE
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable buttons change on hover and show pointer | Success |
+| navigation icons | selected page box set to dreams icon | Success |
+| Return to Dreams button | returns user to dreams page | Success |
+| Return to Dreams button | returns user to dreams page | Success |
+| Add Comment button | opend text box to add a comment | Success |
+| Add Comment button | hides icons to edit or delete a comment | Success |
+| Add Comment button | displays submit and cancel buttons | Success |
+| Add Comment cancel button | returns page to original state | Success |
+| Add Comment textarea | resizes to match text | Success |
+| Add Comment submit button | sends data to server, provides feedback message | Success |
+| Add Comment submit button | once submitted, returns page to original state and re-centers view on the comments section | Success |
+| Add Comment on submit | adds comment and returns success message | Success |
+| Add Comment on submit | If comment text matches an existing comment, returns warning message | Success |
+| Add Comment on submit | Adds comment to comment field in database | Success |
+| Add Comment on submit | Adds user id to comment in database | Success |
+| Add Comment on submit | Adds dream id to comment in database | Success |
+| Add Comment on submit | Adds user name to comment in database | Success |
+| Add Comment on submit | Adds timestamp to comment in database | Success |
+| Add Comment on submit | Adds datetime created to comment in database | Success |
+| Add Comment on submit | Adds user avatar to comment in database | Success |
+| Add Comment on submit | Adds user avatar alt to comment in database | Success |
+| Edit comment icon | hides div displaying text, and opens and focusses the textbox | Success |
+| Edit comment icon | hides add and delete options, and disaplys confirm and cancel buttons | Success |
+| Edit comment textbox | automatically resizes to width of the page and the text contained within | Success |
+| Edit comment cancel button | returns the page to its original state with text reverted to the original comment | Success |
+| Edit comment submit button | sends data to server, provides feedback message | Success |
+| Edit comment submit button | once submitted, returns page to original state and re-centers view on the comments section | Success |
+| Edit comment on submit | edits comment and returns success message | Success |
+| Edit comment on submit | If comment text matches an existing comment, returns warning message | Success |
+| Edit comment on submit | Updates comment in comment field in database | Success |
+| Delete comment Icon | on click opens confirmation box for selected dream | Success |
+| Delete comment Alert | all other navigation on page disabled | Success |
+| Delete comment Alert | all other content on page greyed out | Success |
+| Delete comment Alert Cancel Button | closes the alert and returns the page to a normal state | Success |
+| Delete comment Confirm Button | tells server to delete selected comment and returns confirmation message | Success |
+| Delete comment on submit | deletes comment from database | Success |
+| comment delete return code | returns dream page and re-centers view on the updated comments section | Success |
+| Comment like button | submits like, returns page with updated icon, focusses page on the affected comment | Success |
+| On like | user id is added to user likes array in the comment | Success |
+| On like | comment id is added to comments liked array in user | Success |
+| Comment unlike button | submits like, returns page with updated icon, focusses page on the affected comment | Success |
+| On unlike | user id is removed from user likes array in the comment | Success |
+| On unlike | comment id is removed from comments liked array in user | Success |
+| Comment dislike button | submits dislike, returns page with updated icon, focussed page on the affected comment | Success |
+| On dislike | user id is added to user dislikes array in the comment | Success |
+| On dislike | comment id is added to comments disliked array in user | Success |
+| Comment undislike button | submits undislike, returns page with updated icon, focussed page on the affected comment | Success |
+| On undislike | user id is removed from user dislikes array in the comment | Success |
+| On undislike | comment id is removed from comments disliked array in user | Success |
+| Follow Dream Button | submits follow, returns page with updated icon | Success |
+| On follow dream | user id is added to users following array in the dream | Success |
+| On follow dream | dream id is added to dreams followed array in user | Success |
+| On follow dream | total followers number in dreams is incremented by 1 | Success |
+| Unfollow Dream Button | submits unfollow, returns page with updated icon | Success |
+| On unfollow dream | user id is removed from users following array in the dream | Success |
+| On unfollow dream | dream id is removed from dreams followed array in user | Success |
+| On unfollow dream | total followers number in dreams is decremented by 1 | Success |
+| Follow Creator Button | submits follow, returns page with updated icon | Success |
+| On follow user | user id is added to the followed user's users following array | Success |
+| On follow user | followed user's id is added to users followed array in user | Success |
+| Unfollow Creator Button | submits unfollow, returns page with updated icon | Success |
+| On unfollow user | user id is removed from the followed user's users following array | Success |
+| On unfollow user | followed user's id is removed from the users followed array in user | Success |
+| On page reload | new database state is pulled in pre page load to ensure refresh doesn't increment numbers | Success |
+| manually editing comment id | returns 'comment not found' message to user | Success |
+| manually editing dream slug | returns 'dream not found' message to user | Success |
+| manually editing base url | returns 404 page | Success |
+
+
 
 
 
@@ -572,14 +649,15 @@ As well as using google developer tools in responsive mode, this has been tested
 
 #### Issues found during manual testing
 
-Although I and others have tested the game extensively, a small number of issues were uncovered during formal manual testing.
-It should be noted that the orb issues in particular are never encountered during normal gameplay on account of a known game balance issue that needs addressing (see Code Issues).
+The manual testing process uncovered a number of issues.  The issues around dream cretion and editing in particular required significant remedial work.
 
- - Slime object image was not displaying due to typographical error.
- - Glowing Orb did not populate item slot if found in dining room.
- - Glowing Orb could be discovered multiple times in abandoned dining room
- - In battle a weapon with an attack value of 0 would actually reduce your minimum attack, and a weapon with a value of 1 did nothig to improve it.  Updated code so this was no longer the case.
- - This is not a bug, but after testing I believe the vulnerability buff may be somewhat overpowered.
+ - The sign up section in the 404 page did not work correctly.
+ - The dream string used to create the slug was not being created as intended, which I fixed by reversing the order or the string creation logic.  I'm not sure at which point this stopped working!
+ - On editing a dream the code did not check if the dream name already existed for the user.  I created the appropriate logic and a re-direct to stop the code executing further.
+ - On editing a dream if the name and dream slug was updated the page would not return the new url for the dream.  This was achieved via a redirect with the updated data on update.
+ - On submitting a duplicate comment on the view dream page the page was not redirected back to the same dream.
+ - edit comment code on view dream page did not check for duplicate comments.  It now does!
+ - view dream page was not refocussing on comments after likes/dislikes, but now is.  Also the logged in version of the page was not properly validated (I had previously validated the logged out version!)
 
 
 ### Bugs and Issues

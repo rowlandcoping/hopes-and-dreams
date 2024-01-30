@@ -638,9 +638,11 @@ def dreambuilder():
                 "selected-categories").removesuffix(',')
             categories_array = categories_selected.split(",")
             user_info = dict(mongo.db.users.find_one(
-                {"_id": ObjectId(session["user_id"])}))            
-            dream_string = str(re.sub(" ", "-", request.form.get("dream_name").lower()))
-            dream_string = str(re.sub("[.!# \"$%;@&'*+\\/=?^_`{|}~]", "", dream_string))
+                {"_id": ObjectId(session["user_id"])}))
+            dream_string = str(re.sub(" ", "-", request.form.get(
+                "dream_name").lower()))
+            dream_string = str(re.sub(
+                "[.!# \"$%;@&'*+\\/=?^_`{|}~]", "", dream_string))
             timestamp = time()
             date_time = datetime.fromtimestamp(timestamp)
             user_dreams = list(mongo.db.dreams.find(
@@ -766,10 +768,15 @@ def edit_dream(dream_slug):
                             {"user_id": ObjectId(session["user_id"])}))
                         for x in user_dreams:
                             if dream["_id"] != x["_id"]:
-                                if request.form.get("dream_name") == x["dream_name"]:
-                                    flash("You have already created a dream with that name.",
+                                if request.form.get(
+                                  "dream_name") == x["dream_name"]:
+                                    flash(
+                                        "You have already created " +
+                                        "a dream with that name.",
                                         "amber-flash")
-                                    return redirect(url_for("edit_dream", dream_slug=dream["dream_slug"]))                            
+                                    return redirect(url_for(
+                                        "edit_dream",
+                                        dream_slug=dream["dream_slug"]))
                         if request.form.get("disable_comments"):
                             comments_enabled = False
                         else:
@@ -777,15 +784,22 @@ def edit_dream(dream_slug):
                         categories_selected = request.form.get(
                             "selected-categories").removesuffix(',')
                         categories_array = categories_selected.split(",")
-                        dream_string = str(re.sub(" ", "-", request.form.get("dream_name").lower()))
-                        dream_string = str(re.sub("[.!# \"$%;@&'*+\\/=?^_`{|}~]", "", dream_string))
+                        dream_string = str(
+                            re.sub(" ", "-", request.form.get(
+                                "dream_name").lower()))
+                        dream_string = str(
+                            re.sub("[.!# \"$%;@&'*+\\/=?^_`{|}~]", "",
+                                   dream_string))
                         check_slug = list(
                             mongo.db.dreams.find(
                                 {"dream_string": dream_string}))
-                        if (check_slug):
-                            user_number = str(len(check_slug)+1)
-                            dream_slug = str(
-                                dream_string + "-" + user_number)
+                        slug_no = 0
+                        if check_slug:
+                            for x in check_slug:
+                                if dream["_id"] != x["_id"]:
+                                    slug_no += 1
+                        if slug_no:
+                            dream_slug = str(dream_string + "-" + slug_no)
                         else:
                             dream_slug = dream_string
                         timestamp = time()
@@ -917,7 +931,8 @@ def edit_dream(dream_slug):
                         categories_custom = categories[20:len(categories)]
                         flash("Dream Updated.", "amber-flash-reset")
                         print(dream['dream_slug'])
-                        return redirect(url_for("edit_dream", dream_slug=dream["dream_slug"]))
+                        return redirect(url_for(
+                            "edit_dream", dream_slug=dream["dream_slug"]))
                     return render_template(
                         "edit-dream.html", base_url=base_url, user=user_info,
                         dream=dream, dream_slug=dream["dream_slug"],
@@ -1751,6 +1766,12 @@ def add_comment(dream_slug):
                         flash(
                             "You have already posted this comment.",
                             "amber-flash")
+                        comments = list(mongo.db.comments.find().sort(
+                            "timestamp_created", -1))
+                        return render_template(
+                            "dream.html", base_url=base_url, user=user_info,
+                            dream=dream, dream_slug=dream_slug,
+                            comments=comments)
                     else:
                         comment = {
                             "comment": request.form.get(dream_slug + "-text"),
@@ -1783,12 +1804,25 @@ def add_comment(dream_slug):
 def edit_comment(dream_slug, comment_id):
     if session.get("user_id") is not None:
         if request.method == "POST":
-            new_comment = {"$set": {
-                "comment": request.form.get(comment_id + "-text"),
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, new_comment)
-            flash('Comment Updated', 'amber-flash')
+            existing_comment = mongo.db.comments.find_one(
+                            {"comment": request.form.get(
+                                comment_id + "-text")})
+            if (
+                existing_comment and
+                ObjectId(existing_comment["user_id"]) ==
+                ObjectId(session["user_id"])):
+                flash(
+                    "You have already posted this comment.",
+                    "amber-flash")
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+            else:
+                new_comment = {"$set": {
+                    "comment": request.form.get(comment_id + "-text"),
+                }}
+                mongo.db.comments.update_one(
+                    {"_id": ObjectId(comment_id)}, new_comment)
+                flash('Comment Updated', 'amber-flash')
         dreams = list(mongo.db.dreams.find())
         for dream in dreams:
             if dream["dream_slug"] == dream_slug:
