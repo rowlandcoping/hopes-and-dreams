@@ -137,14 +137,71 @@ Outstanding Issues: None
 ([back to top](#testing-documentation))
 
 ### Site Owner User Stories
+
 ([back to top](#testing-documentation))
 
+_"Brand Identity: The branding needs to be strong and clear from page one"_\
+The art style and color palate is clearly established on the landing page and continued throughout the signup process.
+
+![image](static/images/user-stories/hopes-logo.png)
+
+_"The site mission and purpose needs to be clearly stated to encourage sign-up.  It needs to inspire people."_\
+The landing page includes a site description which alongside the imagary is designed to inspire curiosity
+
+![image](static/images/user-stories/hopes-intro.png)
+
+_"...users need a simple sign-up process just as soon as they hit the homepage."_\
+The sign-up process has been reduced to a single page and is immediately accessible from the homepage.
+
+![image](static/images/feature-list/sign-up.png)
+
+_"I want the UI to be a stripped down and simple as possible so that it functions as well on mobile as it does on desktop_"\
+The UI has been designed with big, colorful icons and buttons which make the site easy and intuitive to use on any platform.
+
+![image](static/images/user-stories/hopes-UI.png)
+
+_"As soon as (the user) have signed up and land in the site for the first time, the question 'what do I do now' needs to be answered._"\
+The welcome page provides a detailed introduction to the site and an immediate option to either create a dream or visit the feed.
+
+![image](static/images/user-stories/next-steps.png)
+
+_"Logic for displaying dreams must be clean and effective."_\
+Dream display consists of a feed which can be filtered by a number of easy to understand criteria - dreams can be filtered chronologically, by popularity (most followers), matched by category to user interests, or according to those that a specific user is following.
+
+![image](static/images/feature-list/feed-filter.png)
 
 ### Site Visitor User Stories
 ([back to top](#testing-documentation))
 
+_"The homepage needs to give users instant motivation to sign up, through brand imagery and a clear concept."_\
+The imagery and concept combine to generate a sense of curiosity which encourages user sign-up.
 
+![image](static/images/user-stories/imagery-concept.png)
 
+_"The user journey needs to be interesting, but not too long, particularly through the sign-up phase."_\
+The signup now consists of a one page form and a welcome page, which introduces users to core site concepts.  Both pages also consolidate core branding and themes.
+
+![image](static/images/user-stories/signup-journey.png)
+
+_"Quick and intuitive UI: to avoid drop-outs the user should not be hunting for anything."_\
+Key site content and activities are immediately discoverable both through the bright, clear navigation and large, obviously sited buttons.
+
+![image](static/images/feature-list/dream-creation.png)
+
+_"Customisable look and feel: People like to be able to make their corner of the web their own."_\
+Users are able to either create their own avatars or randomly generate a brand new cute fluffy friend from the database, which will appear next to all their comments.
+
+![image](static/images/user-stories/furry-friend.png)
+
+_"Feeds need to reflect what people are following and the things they have interest in..."_\
+The feed filter can be used to focus on followed dreams, or user interests can be tailored to produce a relevant personalized feed.
+
+![image](static/images/user-stories/personal-interests.png)
+
+_"Users need to feel ... that they have control over comments and content they see."_\
+Users may delete any comments on their own dreams they find unacceptable, or if they prefer disable comments entirely.
+
+![image](static/images/user-stories/disabled.png)
 
 ## Testing
 ([back to top](#testing-documentation))

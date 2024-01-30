@@ -192,7 +192,7 @@ The user will be faced with two options - it defaults to personal which allows t
 
 Please note that this section represents the initial design phase for the database schema, and as I outlined below it was always going to be subject to change. The data structure for the completed MVP can be found [HERE](#mvp-data-structure).
 
-Using Mongo DB and a modular approach to building key elements of the site means I have opted for an extremely flat structure, creating new collections where possible to make data easily accessible and speeding up the process of removing data.  This data structure has been put together with two major provisos - one is that this is my first MongoDB project and I do not yet know how this structure will evolve in practice.  It may well be that I need to merge, nest or separate various collections as the requirements of the platform become clearer.  My preference at this stage is to keep it as simple as possible!
+Using Mongo DB and a modular approach to building key elements of the site means I have opted for an extremely flat structure, creating new collections where possible to make data easily accessible and speeding up the process of removing data.  This data structure has been put together with two major provisos - one is that this is my first MongoDB project and I do not yet know how this structure will evolve in practice.  It may well be that I need to merge, nest or separate various collections as the requirements of the platform become clearer.
 
 #### Users Collection
 
@@ -280,7 +280,7 @@ rgb(0, 145, 255) - main color theme for dreams icon, all dreams, view dream and 
 rgb(6, 28, 46) - secondary color theme for dreams.\
 rgb(255, 221, 71) - main color theme for the Dreamscape feed and icons. Also used for highlighting icons and form fields.\
 rgb(59, 49, 0) - secondary color theme for the Dreamscape.\
-rgb(255, 104, 102) - main color theme for profile icon and all profile related activities including signup and the profile page. Also used for highlighting icons and form fields.\
+rgb(248, 72, 69) - main color theme for profile icon and all profile related activities including signup and the profile page. Also used for highlighting icons and form fields.\
 rgb(77, 28, 27) - secondary color theme for the profile pages.\
 rgb(49, 7, 7) - follow, unfollow, cancel and abandon buttons background color.\
 rgb(58, 73, 69) - submit and confirm buttons.\
@@ -317,7 +317,7 @@ User Avatars were all created using Bing Image creator.
 
 ### Navigation
 
-Navigation was always intended to be a site feature rather simply be functional, with very bold and memorable icons.  The choices are intended to be evocative of the destination but also include a text prompt which I know from experience is key with a new site.
+Navigation was always intended to be a site feature rather than simply be functional, with very bold and memorable icons.  The choices are intended to be evocative of the destination but also include a text prompt which I know from experience is key with a new site.
 
 Elsewhere on the site I have used clear, recognisable icons for edit and delete processes, as well as viewing dreams.  The show/hide comments carat also includes a text prompt.
 
@@ -375,7 +375,7 @@ _"Feed (default page): The main site feed is divided into two elements, Dreamsca
 The various elements of the original were integrated into one feed and accessible via the filter at the top of the page - for example the followed filter contains all the content intented for the personal feed that is avilable in the MVP iteration.
 
 _"Profile: Consists of an overview of your profile and options to update info divided into 2 sections, account or personal settings._"\
-After a painful meeting with my mentor before Christmas when I presented the first iteration of the site, I decided to simplify this into one page.
+After a meeting to review the prototype of the site with my mentor before Christmas, it was agreed it would be for the best to simplify this into one page.
 
 #### Features
 
@@ -392,20 +392,20 @@ _"Optional modular elements for your dream..."_\
 None of these have been included in the MVP due to time constraints.  Leaving modules out for now has also made my design choices a lot easier!
 
 _"Opportunities to update skills and interests... Account and personal settings which allow the user to customize their experience"_\
-The original suite of options has been reduced to a single pre-defined interests list which is also shared with dreams. Interests etc were originally free-form and manually entered, but even as the site creator I was struggling to enter appropriate interests.  The chances of anything matching with a dream were slim.  Also users do not want all these steps.  Following the prototype meeting all this was stripped down (along with 500 lines of beautiful Javascript) and the current categories system instigated.  Account settings are a roadmap feature, but not essential at present.
+The original suite of options has been reduced to a single pre-defined interests list which is also shared with dreams. Interests etc were originally free-form and manually entered, but even as the site creator I was struggling to enter appropriate interests.  The chances of anything matching with a dream were slim.  Also users do not want all these steps.  Following the prototype meeting all this was stripped down (along with 500+ lines of Javascript) and the current categories system instigated.  Account settings are a roadmap feature, but not essential at present.
 
 _"Users may rate comments, and have the option to filter users with very low scores"_\
-All the data regadring likes and dislikes exists and could be used to build a user filter which could be integrated into the profile.  Unfortunately time constraints mean this will not be part of the MVP.  Users are protected by the opportunity delete any comments on their own dreams they do not think are acceptable or in extreme cases disable comments altogether.
+All the data regadring likes and dislikes exists and could be used to build a user filter which could be integrated into the profile.  Unfortunately time constraints mean this will not be part of the MVP.  Users are protected by the opportunity to delete any comments on their own dreams they do not think are acceptable or in extreme cases disable comments altogether.
 
 _"Search facility to find friends or chase specific dreams"_\
 This has been abandoned in favour of the Dreamscape filters which do much the same thing, due to time constraints and necessity.  It is possible to follow users and see all thier content in your 'followed' feed, and to share dreams with others whether they are registered site members or not.
 
 _"Basic themes - dreams and indeed profiles can be tailored with basic color themes"_\
-It would be relatively straightforward to implement, but it would require a major reworking of the CSS as well as designing other site themes, which would require a lot more time than I have for this project.
+It would be relatively straightforward to implement, but it would require a major reworking of the CSS as well as designing other site themes, which would require a lot more time than I have left for this project.
 
 #### Site Pages and Elements
 
-Dreams page:  This has been simplified to allow immediate access to key CRUD features and reduce the number of user clicks.  As there are no modules in the MVP there is no need to provide access to them.  If modules were added they would instead need to be integrated into the current site structure, probably part of each dream section on the 'view dreams' page rather than as a seperate page (which is mooted both here and in the wireframes)
+Dreams page:  This has been simplified to allow immediate access to key CRUD features and reduce the number of user clicks.  As there are no modules in the MVP there is no need to provide access to them.  If modules were added they would instead need to be integrated into the current site structure, probably part of each dream section on the 'view dreams' page rather than as a seperate page (which is mooted both here and in the wireframes) in order to limit the number of clicks to reach a destination.
 
 #### Data Structure
 
@@ -444,7 +444,7 @@ Most of this has been covered above, and the principles underlying the initial d
 ### MVP Data Structure
 ([back to top](#contents))
 
-Although the core functionality of the project has not changed, the schema has evolved as I have learned more about working with MongoDB and Jinja2.  Most notable I have done my best to restrict data operations to the back end as much as possible, and try to reduce database calls and simplify my code.  This has means duplicating some data across multiple collections to limit the necessity of cross-referencing data.  As the site has evolved I have also added two new collections, and removed anything pertaining to modules, as well as separating comments from the collections they relate to.
+Although the core functionality of the project has not changed, the schema has evolved as I have learned more about working with MongoDB and Jinja2.  Most notably I have done my best to restrict data operations to the back end as much as possible, and try to reduce database calls and simplify my code.  This has means duplicating some data across multiple collections to limit the necessity of cross-referencing data.  As the site has evolved I have also added two new collections, and removed anything pertaining to modules, as well as separating comments from the collections they relate to.
 
 #### users
 
