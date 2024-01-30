@@ -644,6 +644,7 @@ DREAMSCAPE PAGE:
 | Dreamscape Filter Followed | Displays dreams followed and dreams from users that are followed, chronologically | Success |
 | Filter Page return code | Returns the previously selected filter whenever an action is taken on the page | Success |
 | Disabled Comments | comments disabled message appears if comments disabled set to true; no further actions can be taken | Success |
+| View Dream Icon | Loaded page to view the selected dream | Success |
 | View comments carat | Expands the selected comments section to view dream comments | Success |
 | Hide comments carat | Hides the selected comments section | Success |
 | Comments Page return code | Ensures the comments section acted upon is open when page is returned | Success |
@@ -775,6 +776,8 @@ MANAGE CATEGORIES
 
 On submitting the form:
 
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
 | On submit | list of comma joined categories to add are separated and a new collection created for each. | Success |
 | On submit | any categories with the 'delete' checkbox selected are deleted | Success |
 | On submit | for any deleted categories, any user selecting them has them removed from their 'interests' array | Success |
@@ -789,6 +792,8 @@ Adding a DELETE EVERYTHING feature is a future feature, given the current timesc
 
 On deleting a user:
 
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
 | On submit | any categories the user has selected have the user id removed from their 'users selected' array | Success |
 | On submit | any categories wthe user has selected have their total users selected number decremented by 1 | Success |
 | On submit | any categories wthe user has selected have their total times selected number decremented by 1 | Success |
@@ -802,21 +807,14 @@ MANAGE DREAMS
 
 On deleting a dream:
 
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
 | On submit | the dream id is removed from the 'dreams_followed' array of any user following it | Success |
 | On submit | all comments on the dream are deleted | Success |
 | On submit | the dream id is removed from the 'dreams_selected' array for any categories selected | Success |
 | On submit | for any categories selected the 'total_dreams_selected' number is decremented by 1 | Success |
 | On submit | for any categories selected the 'total_times_selected' number is decremented by 1 | Success |
 | On submit | if present, the image for the dream is deleted from the 'dreams' Cloudinary folder | Success |
-
-#### Responsiveness Testing
-
-I have tested at (in descending order) 3072px, 1920px (default), 1200px, 920px, 650px, 450px, 360px, 320px.  This is reflective of the major break points.
-
-As well as using google developer tools in responsive mode, this has been tested in the real world on Chrome and Firefox in Windows on a 1920 x 1080 HD monitor, and on a Samsung Galaxy S8 (at c. 360px width).
-
-| Page tested | Screen width tested | Result |
-
 
 #### Issues found during manual testing
 
@@ -832,6 +830,126 @@ The manual testing process uncovered a number of issues.  The issues around drea
 - edit comment code on dreamscape page did not check for duplicate comments.  It now does!
 - editing categories did not update the category in user and dream category arrays, which needed a fix.
 
+#### Responsiveness Testing
+
+I have tested at (in descending order) 3072px, 1920px (default), 1200px, 920px, 650px, 450px, 360px, 320px.  This is reflective of the major break points.
+
+As well as using google developer tools in responsive mode, this has been tested in the real world on Chrome and Firefox in Windows on a 1920 x 1080 HD monitor, and on a Samsung Galaxy S8 (at c.360px width).
+
+| Page tested | Screen width tested | Result |
+| ------------- | ------------------|-------------- |
+| landing page | 3072px | Success |
+| landing page | 1920px | Success |
+| landing page | 1200px | Success |
+| landing page | 920px | Success |
+| landing page | 650px | Success |
+| landing page | 450px | Success |
+| landing page | 360px | Success |
+| landing page | 320px | Success |
+| sign-up page | 3072px | Success |
+| sign-up page | 1920px | Success |
+| sign-up page | 1200px | Success |
+| sign-up page | 920px | Success |
+| sign-up page | 650px | Success |
+| sign-up page | 450px | Success |
+| sign-up page | 360px | Success |
+| sign-up page | 320px | Success |
+| welcome page | 3072px | Success |
+| welcome page | 1920px | Success |
+| welcome page | 1200px | Success |
+| welcome page | 920px | Success |
+| welcome page | 650px | Success |
+| welcome page | 450px | Success |
+| welcome page | 360px | Success |
+| welcome page | 320px | Success |
+| password reset page | 3072px | Success |
+| password reset page | 1920px | Success |
+| password reset page | 1200px | Success |
+| password reset page | 920px | Success |
+| password reset page | 650px | Success |
+| password reset page | 450px | Success |
+| password reset page | 360px | Success |
+| password reset page | 320px | Success ||
+| password reset page (dream) | 3072px | Success |
+| password reset page (dream) | 1920px | Success |
+| password reset page (dream) | 1200px | Success |
+| password reset page (dream) | 920px | Success |
+| password reset page (dream) | 650px | Success |
+| password reset page (dream) | 450px | Success |
+| password reset page (dream) | 360px | Success |
+| password reset page (dream) | 320px | Success |
+| reset password | 3072px | Success |
+| reset password | 1920px | Success |
+| reset password | 1200px | Success |
+| reset password | 920px | Success |
+| reset password | 650px | Success |
+| reset password | 450px | Success |
+| reset password | 360px | Success |
+| reset password | 320px | Success |
+| lost bunnies (404 page) | 3072px | Success |
+| lost bunnies (404 page) | 1920px | Success |
+| lost bunnies (404 page) | 1200px | Success |
+| lost bunnies (404 page) | 920px | Success |
+| lost bunnies (404 page) | 650px | Success |
+| lost bunnies (404 page) | 450px | Success |
+| lost bunnies (404 page) | 360px | Success |
+| lost bunnies (404 page) | 320px | Success |
+| dreams page | 3072px | Success |
+| dreams page | 1920px | Success |
+| dreams page | 1200px | Success |
+| dreams page | 920px | Success |
+| dreams page | 650px | Success |
+| dreams page | 450px | Success |
+| dreams page | 360px | Success |
+| dreams page | 320px | Success |
+| create dream page | 3072px | Success |
+| create dream page | 1920px | Success |
+| create dream page | 1200px | Success |
+| create dream page | 920px | Success |
+| create dream page | 650px | Success |
+| create dream page | 450px | Success |
+| create dream page | 360px | Success |
+| create dream page | 320px | Success |
+| image upload page | 3072px | Success |
+| image upload page | 1920px | Success |
+| image upload page | 1200px | Success |
+| image upload page | 920px | Success |
+| image upload page | 650px | Success |
+| image upload page | 450px | Success |
+| image upload page | 360px | Success |
+| image upload page | 320px | Success |
+| edit dream page | 3072px | Success |
+| edit dream page | 1920px | Success |
+| edit dream page | 1200px | Success |
+| edit dream page | 920px | Success |
+| edit dream page | 650px | Success |
+| edit dream page | 450px | Success |
+| edit dream page | 360px | Success |
+| edit dream page | 320px | Success |
+| view dream page | 3072px | Success |
+| view dream page | 1920px | Success |
+| view dream page | 1200px | Success |
+| view dream page | 920px | Success |
+| view dream page | 650px | Success |
+| view dream page | 450px | Success |
+| view dream page | 360px | Success |
+| view dream page | 320px | Success |
+| dreamscape page | 3072px | Success |
+| dreamscape page | 1920px | Success |
+| dreamscape page | 1200px | Success |
+| dreamscape page | 920px | Success |
+| dreamscape page | 650px | Success |
+| dreamscape page | 450px | Success |
+| dreamscape page | 360px | Success |
+| dreamscape page | 320px | Success |
+| profile page | 3072px | Success |
+| profile page | 1920px | Success |
+| profile page | 1200px | Success |
+| profile page | 920px | Success |
+| profile page | 650px | Success |
+| profile page | 450px | Success |
+| profile page | 360px | Success |
+| profile page | 320px | Success |
 
 ### Bugs and Issues
 ([back to top](#testing-documentation))
