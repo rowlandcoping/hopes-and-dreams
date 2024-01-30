@@ -443,6 +443,7 @@ CREATE DREAM PAGE:
 | Show more categories button | displays up to 10 additional categories to select from | Success |
 | Show all categories button | displays all categories to select from | Success |
 | Show fewer | displays fewer categories to select from | Success |
+| category buttons | First ten category buttons displayed on page load | Success |
 | category buttons | Change color to green when selected | Success |
 | category buttons | change color to grey when deselected | Success |
 | category buttons | When selected adds category to hidden input field | Success |
@@ -533,7 +534,6 @@ EDIT DREAM PAGE:
 | submit button | Returns warning message from server and reloads the page if dream name is a duplicate for the user | Success |
 | On submit | timestamp updated field updated in database | Success |
 | On submit | datetime updated field updated in database | Success |
-| On submit | datetime field updated in database | Success |
 | On submit | Dream Name field updated in database | Success |
 | On submit | dream string created and updated in database | Success |
 | On submit | dream slug created and updated in database, with correct adjustment for duplicate names | Success |
@@ -713,13 +713,101 @@ DREAMSCAPE PAGE:
 | manually editing selected part of url (ie latest) | returns dreamscape page in original state | Success |
 | manually editing base url | returns 404 page | Success |
 
+PERSONAL PROFILE PAGE:
 
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable buttons change on hover and show pointer | Success |
+| navigation icons | selected page box set to profile icon | Success |
+| log out button | on pressing clears the user session and returns to homepage | Success |
+| change password link | goes to password reset page, with 'return to profile' button | Success |
+| First Name input | highlights on focus | Success |
+| First Name input | displays user first name | Success |
+| First Name input | required field must be populated to submit form | Success |
+| Last Name input | highlights on focus | Success |
+| Last Name input | displays user last name | Success |
+| Last Name input | required field must be populated to submit form | Success |
+| Show fewer | displays fewer categories to select from | Success |
+| Show more categories button | displays up to 10 additional categories to select from | Success |
+| Show all categories button | displays all categories to select from | Success |
+| category buttons | All category buttons displayed on page load | Success |
+| category buttons | Selected dream's categories highlighted green on page load | Success |
+| category buttons | on click change color to green when selected | Success |
+| category buttons | on click change color to grey when deselected | Success |
+| category buttons | When selected adds category to hidden input field | Success |
+| category buttons | When deselected removes category from hidden input field | Success |
+| Browse button | Allows user to select an image to upload | Success |
+| On selecting file | file is previewed on page | Success |
+| On selecting file | cancel button visible | Success |
+| On selecting file | any existing image is hidden | Success |
+| Cancel Upload Button | removes previewed image, hides preview display and buttons, shows existing image (if any) | Success |
+| Clear Changes button | refreshes page, restoring data to original state | Success |
+| submit button | submits data to back-end, refreshes page with new data and confirmation message if fields correct | Success |
+| submit button | Will not submit data if form not correctly filled out | Success |
+| submit button | Returns warning message from server and reloads the page if dream name is a duplicate for the user | Success |
+| On submit | First name field updated in database | Success |
+| On submit | Last name field updated in database | Success |
+| On submit | user string created and updated in database | Success |
+| On submit | user slug created and updated in database, with correct adjustment for duplicate names | Success |
+| On submit | Categories Selected field updated in database as an array of categories | Success |
+| On submit | 'users_selected' array for selected categories updated with user id | Success |
+| On submit | for any categories selected the 'total_users_selected' number is incremented by 1 | Success |
+| On submit | for any categories selected the 'total_times_selected' number is incremented by 1 | Success |
+| On submit | for any categories removed the 'total_users_selected' number is decremented by 1 | Success |
+| On submit | for any categories removed the 'total_times_selected' number is decremented by 1 | Success |
+| On upload | if custom image is added it is compressed and converted to webp format, resized to 400pxx wide | Success |
+| On upload | if custom image is added filename for image is created using user ID and existing filename. | Success |
+| On upload | if custom image is added new image filename is saved to database. | Success |
+| On upload | if custom image is added generated image alt is saved to database. | Success |
+| On upload | if custom image is added image is uploaded to the cloudinary 'dreams' folder | Success |
+| On upload | if custom image is addedany existing custom image is image deleted from the cloudinary 'dreams' folder | Success |
+| On upload | if custom image is added 'pic_type' is set to custom in the database | Success |
+| On upload | if the user has checked 'generate random avatar' a random avatar from the avatars collection is chosen | Success |
+| On upload | if the user has checked 'generate random avatar' the avatar filename and alt are added to the database | Success |
+| On upload | if the user has checked 'generate random avatar' any existing custom image is deleted from Cloudinary | Success |
+| On upload | if the user has checked 'generate random avatar', 'pic_type' is set to system in the database | Success |
+| manually editing base url | returns 404 page | Success |
 
+Please note that while the admin functions are not user facing I have tested the back-end functionality for whenever anything is deleted or updated to ensure the integrity of the data in the database.
 
+MANAGE CATEGORIES
 
-#### Data Manipulation Manual Testing
+On submitting the form:
 
-As well as ensuring the site delivers expected outcomes, it is also important that I test to ensure create and delete actions update all the collections affected as intended, as well as other data stores such as Cloudinary.  As such this section tests data operations that may not be visible to the user.
+| On submit | list of comma joined categories to add are separated and a new collection created for each. | Success |
+| On submit | any categories with the 'delete' checkbox selected are deleted | Success |
+| On submit | for any deleted categories, any user selecting them has them removed from their 'interests' array | Success |
+| On submit | for any deleted categories, any dream selecting them has them removed from their 'categories' array | Success |
+| On submit | for any edited categories, any user selecting them has them updated in their 'interests' array | Success |
+| On submit | for any edited categories, any dream selecting them has them updated in their 'categories' array | Success |
+
+MANAGE USERS
+
+I made the decision that deleting a user would leave their dreams and comments intact for now, to retain legacy content.
+Adding a DELETE EVERYTHING feature is a future feature, given the current timescales. If a user requests removal of everything they have created, this can be done manually for now, or a function created when the need arises.
+
+On deleting a user:
+
+| On submit | any categories the user has selected have the user id removed from their 'users selected' array | Success |
+| On submit | any categories wthe user has selected have their total users selected number decremented by 1 | Success |
+| On submit | any categories wthe user has selected have their total times selected number decremented by 1 | Success |
+| On submit | for any users following the deleted user the user's id is removed from their users followed array | Success |
+| On submit | for any dreams the deleted user is following the user's id is removed from their users following array | Success |
+| On submit | for any dreams the deleted user is following the total followers are decremented by 1 | Success |
+| On submit | If the user had a custom image, this is deleted from Cloudinary | Success |
+| On submit | the user is deleted from the database | Success |
+
+MANAGE DREAMS
+
+On deleting a dream:
+
+| On submit | the dream id is removed from the 'dreams_followed' array of any user following it | Success |
+| On submit | all comments on the dream are deleted | Success |
+| On submit | the dream id is removed from the 'dreams_selected' array for any categories selected | Success |
+| On submit | for any categories selected the 'total_dreams_selected' number is decremented by 1 | Success |
+| On submit | for any categories selected the 'total_times_selected' number is decremented by 1 | Success |
+| On submit | if present, the image for the dream is deleted from the 'dreams' Cloudinary folder | Success |
 
 #### Responsiveness Testing
 
@@ -742,6 +830,7 @@ The manual testing process uncovered a number of issues.  The issues around drea
  - edit comment code on view dream page did not check for duplicate comments.  It now does!
  - view dream page was not refocussing on comments after likes/dislikes, but now is.  Also the logged in version of the page was not properly validated (I had previously validated the logged out version!)
 - edit comment code on dreamscape page did not check for duplicate comments.  It now does!
+- editing categories did not update the category in user and dream category arrays, which needed a fix.
 
 
 ### Bugs and Issues

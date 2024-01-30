@@ -2222,8 +2222,7 @@ def categories():
                             {"category": request.form.get(
                                 str(category["_id"]) + "-current")})
                     else:
-                        if request.form.get(str(
-                          category["_id"]) + "-new") != "":
+                        if request.form.get(str(category["_id"]) + "-new"):
                             update_category = {"$set": {
                              "category": request.form.get(
                               str(category["_id"]) + "-new")
@@ -2232,6 +2231,40 @@ def categories():
                                 {"category": request.form.get(
                                     str(category["_id"]) +
                                     "-current")}, update_category)
+                            for user in users:
+                                if "interests" in user:                                
+                                    for interest in user["interests"]:
+                                        if interest == request.form.get(
+                                          str(category["_id"]) + "-current"):
+                                            mongo.db.users.update_one(
+                                            {"user_slug": user["user_slug"]}, {
+                                            "$pull": {
+                                            "interests": request.form.get(
+                                                str(category["_id"]) +
+                                                "-current")}})
+                                            mongo.db.users.update_one(
+                                            {"user_slug": user["user_slug"]}, {
+                                            "$push": {
+                                            "interests": request.form.get(
+                                                str(category["_id"]) +
+                                                "-new")}})
+                            for dream in dreams:
+                                if "categories" in dream:                                
+                                    for cat in dream["categories"]:
+                                        if cat == request.form.get(
+                                            str(category["_id"]) + "-current"):
+                                            mongo.db.dreams.update_one(
+                                            {"dream_slug": dream["dream_slug"]}, {
+                                            "$pull": {
+                                            "categories": request.form.get(
+                                                str(category["_id"]) +
+                                                "-current")}})
+                                            mongo.db.dreams.update_one(
+                                            {"dream_slug": dream["dream_slug"]}, {
+                                            "$push": {
+                                            "categories": request.form.get(
+                                                str(category["_id"]) +
+                                                "-new")}})                            
             categories = list(mongo.db.categories.find())
             return render_template("categories.html", categories=categories)
         return redirect(url_for("dreams"))
