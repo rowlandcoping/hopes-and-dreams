@@ -28,7 +28,8 @@
 ([back to top](#testing-documentation))
 
 I have validated the html code by copying and pasting the source code from each page into the w3c validator [HERE](https://validator.w3.org/).
-Please note I have not validated (or styled) the adbmin only pages as they are not intended to be user facing.  Only I, and the user I will create for assessment purposes, will have admin access for this iteration of the site.
+
+Please note I have not validated (or styled) the admin only pages as they are not intended to be user facing.  Only I and the user created for assessment purposes will have admin access for this iteration of the site.
 
 Page validated: Landing Page\
 URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/\
@@ -81,39 +82,35 @@ Repaired Issues: missing image alts, stray/erroneous tags, an empty javascript-p
 Outstanding Issues: None
 
 Page validated: Edit Dream Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/edit-dream/compete-at-le-mans
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/edit-dream/compete-at-le-mans\
 Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels, table issues requiring major refactoring\
 Outstanding Issues: None
 
 Page validated: Personal Profile Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/profile
-Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels.
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/profile\
+Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels.\
 Outstanding Issues: None
 
 Page validated: Dreamscape\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreamscape
-Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts, misdirected label
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreamscape\
+Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts, misdirected label\
 Outstanding Issues: None
 
 Page validated: Dreams\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreams
-Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreams\
+Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts\
 Outstanding Issues: None
 
 
 ### CSS Validation
 ([back to top](#testing-documentation))
 
-File Validated: style.css
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/
-Repaired Issues: 4 errors total - invalid font-style and ineligable margin values (due to typo)
+File Validated: style.css\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/\
+Repaired Issues: 4 errors total - invalid font-style and ineligable margin values (due to typo)\
 Outstanding Issues: None
 
-
-Outstanding Warnings (ignored):
-
-.headline-wrapper: same color for background-color and color
-_the black text appears on a white background image, not the background color._
+![image](static/images/testing/css-validation.png)
 
 
 

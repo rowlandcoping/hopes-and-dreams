@@ -576,7 +576,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemSlug + "-view-all").style.display="none";
             document.getElementById(itemSlug + "-hide-all").style.display="block";
             document.getElementById(itemSlug + "-all-comments").style.display="block";
-            document.getElementById(itemSlug + "-bar").style.borderBottom="3px solid rgb(228, 255, 0)";
+            document.getElementById(itemSlug + "-bar").style.borderBottom="3px solid rgb(255, 221, 71)";
         }
         if (itemClass === "hide") {
             document.getElementById(itemSlug + "-view-all").style.display="block";
@@ -707,7 +707,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //functions for mouseover/out for the dreamscape icon
     function mouseoverDreamscape() {
         document.getElementById("dreamscape-icon").src = "../../../static/images/general-assets/sun-icon-hover.svg";
-        document.getElementById("dreamscape-icon-container").style.color = "rgb(228, 255, 0)";
+        document.getElementById("dreamscape-icon-container").style.color = "rgb(255, 221, 71)";
     }
     function mouseoutDreamscape() {
         document.getElementById("dreamscape-icon").src = "../../../static/images/general-assets/sun-icon.svg";
@@ -716,7 +716,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //functions for mouseover/out for the profile icon
     function mouseoverProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon-hover.svg";
-        document.getElementById("profile-icon-container").style.color = "rgb(255, 104, 102)";
+        document.getElementById("profile-icon-container").style.color = "rgb(248, 72, 69)";
     }
     function mouseoutProfile() {
         document.getElementById("profile-icon").src = "../../../static/images/general-assets/profile-icon.svg";
@@ -727,9 +727,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (document.getElementById("dreams-icon-container").classList.contains("active-page")) {
             document.getElementById("dreams-icon-container").style.borderColor = "rgb(0, 145, 255)";
         } else if (document.getElementById("dreamscape-icon-container").classList.contains("active-page")) {
-            document.getElementById("dreamscape-icon-container").style.borderColor = "rgb(228, 255, 0)";
+            document.getElementById("dreamscape-icon-container").style.borderColor = "rgb(255, 221, 71)";
         } else {
-            document.getElementById("profile-icon-container").style.borderColor = "rgb(255, 104, 102)";
+            document.getElementById("profile-icon-container").style.borderColor = "rgb(248, 72, 69)";
         }
     }
     //ensure following or unfollowing returns to dream the user followed/unfollowed

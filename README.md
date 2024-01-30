@@ -278,7 +278,7 @@ white - color for text and borders (except in situations where higher contrast w
 rgb(34, 34, 34) - secondary background for Dreamscape.\
 rgb(0, 145, 255) - main color theme for dreams icon, all dreams, view dream and dream creation pages. Also used for highlighting icons and form fields.\
 rgb(6, 28, 46) - secondary color theme for dreams.\
-rgb(228, 255, 0) - main color theme for the Dreamscape feed and icons. Also used for highlighting icons and form fields.\
+rgb(255, 221, 71) - main color theme for the Dreamscape feed and icons. Also used for highlighting icons and form fields.\
 rgb(59, 49, 0) - secondary color theme for the Dreamscape.\
 rgb(255, 104, 102) - main color theme for profile icon and all profile related activities including signup and the profile page. Also used for highlighting icons and form fields.\
 rgb(77, 28, 27) - secondary color theme for the profile pages.\
@@ -291,7 +291,7 @@ rgb(133, 0, 0) - mouseover color for undislike button.
 
 ### Fonts
 
-All fonts found on fontspace. The title font has been chosen because I feel it is evocative or the theme.  The main font is chosen to marry with this but also for its clarity and versatility.  I originally wanted to use a font called ClearSans by Intel but this was throwing errors in the console so I had to abandon it for the purposes of a graded project.
+All fonts found on fontspace or google. The title font has been chosen because I feel it is evocative or the theme.  The main font is chosen to marry with this but also for its clarity and versatility.  I originally wanted to use a font called ClearSans by Intel but this was throwing errors in the console so I had to abandon it for the purposes of a graded project.
 
 #### Titles/some buttons
 
@@ -299,9 +299,6 @@ CfDavesDreamPersonalRegular-WyAGn.ttf
 
 #### Main font
 
-OpenSans-BoldItalic.ttf\
-OpenSans-Bold.ttf\
-OpenSans-Italic.ttf\
 OpenSans-Regular.ttf
 
 ### Images
@@ -769,9 +766,6 @@ CfDavesDreamPersonalRegular-WyAGn.ttf
 
 GOOGLE FONTS:
 
-OpenSans-BoldItalic.ttf\
-OpenSans-Bold.ttf\
-OpenSans-Italic.ttf\
 OpenSans-Regular.ttf
 
 ### Images and Icons
