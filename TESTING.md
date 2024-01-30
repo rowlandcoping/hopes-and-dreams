@@ -228,6 +228,7 @@ LANDING PAGE:
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
 | Sign-in button | reveals form fields and hides sign up button | Success |
 | Cancel button | hides form fields and reveals sign up button | Success |
 | email field | highlights when selected | Success |
@@ -243,12 +244,14 @@ LANDING PAGE:
 | submit button | returns to landing page and displays error message if password is incorrect | Success |
 | Forgotten password link | takes user to the password reset page | Success |
 | sign up button | takes user to the user sign-up page | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
 
 SIGN_UP PAGE:
 
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
 | First name field | highlights when selected | Success |
 | First name field | required field must be populated to submit form | Success |
 | Last name field | highlights when selected | Success |
@@ -260,19 +263,20 @@ SIGN_UP PAGE:
 | password field | required field must be populated to submit form | Success |
 | password field | must be in correct format to submit form | Success |
 | abandon button | takes user back to the landing page | Success |
-| submit button | submits data to database and loads welcome page if form correctly completed | Success |
+| submit button | submits data to back-end and loads welcome page if form correctly completed | Success |
 | submit button | Will not submit data if form not correctly filled out | Success |
-| submit button | On submit First Name field populated in database | Success |
-| submit button | On submit Last Name field populated in database | Success |
-| submit button | On submit user string created and populated in database | Success |
-| submit button | On submit user slug created and populated in database, with correct adjustment for duplicate names | Success |
-| submit button | On submit e-mail address populated in database | Success |
-| submit button | On submit password hashed and populated in database | Success |
-| submit button | On submit role is sssigned as "user" and populated in database | Success |
-| submit button | On submit a user avatar is randonly selected and the url saved to the database | Success |
-| submit button | On submit the image alt for the random avatar is saved to the database | Success |
-| submit button | On submit the pic_type is set to "system" and populated in the database | Success |
-| submit button | On submit a new session is created for the user | Success |
+| On submit | First Name field populated in database | Success |
+| On submit | Last Name field populated in database | Success |
+| On submit | user string created and populated in database | Success |
+| On submit | user slug created and populated in database, with correct adjustment for duplicate names | Success |
+| On submit | e-mail address populated in database | Success |
+| On submit | password hashed and populated in database | Success |
+| On submit | role is sssigned as "user" and populated in database | Success |
+| On submit | a user avatar is randonly selected and the url saved to the database | Success |
+| On submit | the image alt for the random avatar is saved to the database | Success |
+| On submit | the pic_type is set to "system" and populated in the database | Success |
+| On submit | a new session is created for the user | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
 
 
 WELCOME PAGE:
@@ -280,8 +284,10 @@ WELCOME PAGE:
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
 | Let's Create a Dream button | takes user to 'Dreambuilder' (create dream) page | Success |
 | Take me to the Dreamscape button | takes user to the 'Dreamscape' (feed) | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
 
 
 PASSWORD RESET PAGE:
@@ -289,9 +295,136 @@ PASSWORD RESET PAGE:
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
+| Return to Homepage | Displays if user came from landing page | Success |
+| Return to Profile | Displays if user came from profile page | Success |
 | email field | highlights when selected | Success |
 | email field | required field must be populated to submit form | Success |
 | email field | must be in correct format to submit form | Success |
+| reset password button | Will not submit data if form not correctly filled out | Success |
+| reset password button | submits data and re-routes user with confirmation message if form correctly completed | Success |
+| reset password button | if e-mail does not exist re-loads page with error message | Success |
+| on successful submit | reset token created and e-mail sent to the user with message | Success |
+| on successful submit (if user was logged out) | returns user to landing page and displays confirmation message | Success |
+| on successful submit (if user was logged in) | returns user to profile page | Success |
+| on clicking link sent to e-mail | returns user to reset-password page with correct token | Success|
+| manually editing url to non-existent address | takes user to 404 | Success |
+
+PASSWORD RESET PAGE (Dream)
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
+| Return to Dream | Returns user to the dream they were looking at | Success |
+| email field | highlights when selected | Success |
+| email field | required field must be populated to submit form | Success |
+| email field | must be in correct format to submit form | Success |
+| reset password button | Will not submit data if form not correctly filled out | Success |
+| reset password button | submits data and re-routes user with confirmation message if form correctly completed | Success |
+| reset password button | if e-mail does not exist re-loads page with error message | Success |
+| on submit | reset token created and e-mail sent to the user with message | Success |
+| on submit | returns user to dream they were viewing and displays confirmation message | Success |
+| on clicking link sent to e-mail | returns user to reset-password page with correct token | Success|
+| manually editing first part of url to non-existent address | takes user to 404 | Success |
+| manually editing any part of the dream slug in the url | remains on the same page | Success |
+| Return to Dream | returns 404 if dream slug does not exist after editing | Success |
+
+RESET PASSWORD:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
+| Return to Homepage | Returns user to homepage | Success |
+| password field | highlights when selected | Success |
+| password field | required field must be populated to submit form | Success |
+| password field | must be in correct format to submit form | Success |
+| reset password button | Will not submit data if form not correctly filled out | Success |
+| reset password button | submits data and re-routes user with confirmation message if form correctly completed | Success |
+| on submit | reset token securely identifies correct user and creates new hashed password in database | Success |
+| on submit | user is returned to homepage with success message | Success |
+| on login | new password works | Success |
+| manually editing token | returns page with token not valid message | Success |
+| manually editing first part of url to non-existent address | takes user to 404 | Success |
+
+LOST BUNNIES (404 PAGE)
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable elements change on hover and show pointer | Success |
+| (if signed out) | Displays sign up / sign in buttons and link to homepage | Success |
+| Return to Homepage button (if signed out) | returns user to landing page | Success |
+| Sign-in button (if signed out) | reveals form fields and hides sign up button | Success |
+| Cancel button (if signed out) | hides form fields and reveals sign up button | Success |
+| email field (if signed out) | highlights when selected | Success |
+| email field (if signed out) | required field must be populated to submit form | Success |
+| email field (if signed out) | must be in correct format to submit form | Success |
+| password field (if signed out) | highlights when selected | Success |
+| password field (if signed out) | required field must be populated to submit form | Success |
+| password field (if signed out) | must be in correct format to submit form | Success |
+| submit button (if signed out) | submits data to database and loads dreamscape if form correctly completed | Success |
+| submit button (if signed out) | creates new user session if form correctly completed and user details correct | Success |
+| submit button (if signed out) | Will not submit data if form not correctly filled out | Success |
+| submit button (if signed out) | returns to landing page and displays error message if e-mail does not exist | Success |
+| submit button (if signed out) | returns to landing page and displays error message if password is incorrect | Success |
+| (if signed in) | Displays return to dreams and return to dreamscape options | Success |
+| Return to Dreams (if signed in) | Returns user to dreams page | Success |
+| Return to Dreamscape (if signed in) | Returns user to dreamscape page | Success |
+
+MAIN TEMPLATE
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| Main logo | disaplys as expected | Success |
+| navigation icons | Display as expected | Success |
+| Dreams icon | image and text changes on mouseover | Success |
+| Feed icon | image and text changes on mouseover | Success |
+| Profile | image and text changes on mouseover | Success |
+| DOM | all interactable elements show pointer on mouseover | Success |
+| Selected Page | Routing displays selected page box as expected | To be tested on page by page basis |
+| (if signed out) | sign-in/sign-out/password reset buttons displayed instead of navigation on view dream page | Success |
+| Sign-in button (if signed out) | reveals form fields and hides sign up button | Success |
+| Cancel button (if signed out) | hides form fields and reveals sign up button | Success |
+| email field (if signed out) | highlights when selected | Success |
+| email field (if signed out) | required field must be populated to submit form | Success |
+| email field (if signed out) | must be in correct format to submit form | Success |
+| password field (if signed out) | highlights when selected | Success |
+| password field (if signed out) | required field must be populated to submit form | Success |
+| password field (if signed out) | must be in correct format to submit form | Success |
+| submit button (if signed out) | submits data to database and re-loads the correct dream | Success |
+| submit button (if signed out) | creates new user session if form correctly completed and user details correct | Success |
+| submit button (if signed out) | Will not submit data if form not correctly filled out | Success |
+| submit button (if signed out) | returns to the same dream and displays error message if e-mail does not exist | Success |
+| submit button (if signed out) | returns to the same dream and displays error message if password is incorrect | Success |
+
+DREAMS PAGE
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| navigation icons | selected dream box set to dreams icon | Success |
+| Create New Dream button | takes user to Dreambuilder page (create dream) | Success |
+| Create New Dream button | color and pointer change on mouseover | Success |
+| Edit dream icon | takes user to edit the selected dream | Success |
+| Delete Dream Icon | color and pointer change on mouseover | Success |
+| Delete Dream Icon | on click opens confirmation box for selected dream | Success |
+| Delete Dream Alert | all other navigation on page disabled | Success |
+| Delete Dream Alert | all other content on page greyed out | Success |
+| Delete Dream Alert Cancel Button | closes the alert and returns the page to a normal state | Success |
+| Delete Dream Confirm Button | tells server to delete selected dream and returns confirmation message | Success |
+| on dream delete | selected dreams is deleted and page is returned without it displaying | Success |
+| on dream delete | the dream id is removed from the 'dreams_followed' array of any user following it | Success |
+| on dream delete | all comments on the dream are deleted | Success |
+| on dream delete | the dream id is removed from the 'dreams_selected' array for any categories selected | Success |
+| on dream delete | for any categories selected the 'total_dreams_selected' number is decremented by 1 | Success |
+| on dream delete | for any categories selected the 'total_times_selected' number is decremented by 1 | Success |
+| on dream delete | if present, the image for the dream is deleted from the 'dreams' Cloudinary folder | Success |
+| View Dream Icon | color and pointer change on mouseover | Success |
+| View Dream Icon | on click opens view dream page for selected dream | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
+
 
 
 

@@ -6,7 +6,18 @@
     
 {% block content %}
 <div class="other-page">
-    <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>     
+    <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{{ category }} landing-flash" id="large-flash">
+                    <div>
+                        <h3>{{ message }}</h3>
+                    </div>
+                </div>
+            {% endfor %}        
+        {% endif %}
+    {% endwith %}   
     <div class="container-other">
         <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing right"></div>
         {% if user_info %}
@@ -37,7 +48,7 @@
         <a class="signin-link"  id="main-signup" href="{{ url_for('signup') }}">Sign Up</a>        
         <div class="signin-link" id="signin-click">Sign In</div>
         <div id="signin-form" class ="not-displayed">
-            <form id="sign-in-form" action="{{ url_for('signin_dream', dream_slug=dream_slug) }}" method="POST">
+            <form id="sign-in-form" action="{{ url_for('signin') }}" method="POST">
                 <table class="form-table">
                     <tr>
                         <td class="label"><label for="email">e-mail: </label></td>
@@ -54,7 +65,9 @@
                 </div>
             </form>
         </div>
+        <a id="lost-bunnies-exit" class="exit-button" href="{{ url_for('home') }}">Return to Homepage</a>
     </div>
+    
     {% endif %}
 </div>
 {% endblock content %}
