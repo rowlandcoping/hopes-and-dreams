@@ -5,6 +5,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
 {% endblock title %}
 
 {% block content %}
+<hr class="dividing-line profile-line">
 {% if user.role=="administrator" %}
 <div  id="admin-functions">
     <div class="banner-headline personal-headline"><h2>Admin Functions</h2></div>
@@ -46,7 +47,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 <div class="pass-change">
                     <p>Click <a id="profile-pass-change" href="{{url_for('password_reset')}}">HERE</a> to change your password.</p>
                 </div>
-                <a class="cancel-dream-image" href="{{ url_for('log_out') }}">Log Out</a>
+                <a class="cancel-dream-image" id="logging-out" href="{{ url_for('log_out') }}">Log Out</a>
             </div>
             <div class="banner-headline middle-headline not-displayed personal-headline"><h2>{{ user.first_name + " " + user.last_name | title }}'s Avatar</h2></div>
             <div class="image-layout profile-layout" id="edit-layout">

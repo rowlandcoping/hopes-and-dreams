@@ -33,83 +33,83 @@ Please note I have not validated (or styled) the admin only pages as they are no
 Only myself and the user created for assessment purposes will have admin access for this iteration of the site.
 
 Page validated: Landing Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/ \
 Repaired Issues: Missing image alt tags.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Signup Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dare-to-dream\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dare-to-dream \
 Repaired Issues: H2 tag not closed, missing image alts, stray closing tag for div.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Password Reset Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/password-reset\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/password-reset \
 Repaired Issues: Missing image alts.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Password Reset Page (Dream Route)\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/password-reset-dream/compete-at-le-mans\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/password-reset-dream/compete-at-le-mans \
 Repaired Issues: Missing image alts.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Reset Password Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/reset-password/xxxxxxxresetkeyxxxxxxxxx\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/reset-password/xxxxxxxresetkeyxxxxxxxxx \
 Repaired Issues: Missing image alts.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: 404 Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/lost-bunnies\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/lost-bunnies \
 Repaired Issues: Missing image alts.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: View Dream Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dream/compete-at-le-mans\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dream/compete-at-le-mans \
 Repaired Issues: Missing image alts, duplicate IDs for feed images.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Welcome Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/welcome\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/welcome \
 Repaired Issues: Missing image alts, duplicate IDs for intro text (not used anywhere!).\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Create Dream Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dream/compete-at-le-mans\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dream/compete-at-le-mans \
 Repaired Issues: stray/erroneous tags, table issues requiring major refactoring, missing image alts.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Dream Image Upload Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/image-upload/compete-at-le-mans\
-Repaired Issues: missing image alts, stray/erroneous tags, an empty javascript-populated field, misdirected labels\
-Outstanding Issues: None
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/image-upload/compete-at-le-mans \
+Repaired Issues: missing image alts, stray/erroneous tags, an empty javascript-populated field, misdirected labels.\
+Outstanding Issues: None.
 
 Page validated: Edit Dream Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/edit-dream/compete-at-le-mans\
-Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels, table issues requiring major refactoring\
-Outstanding Issues: None
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/edit-dream/compete-at-le-mans \
+Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels, table issues requiring major refactoring.\
+Outstanding Issues: None.
 
 Page validated: Personal Profile Page\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/profile\
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/profile \
 Repaired Issues: missing image alts, stray/erroneous tags, misdirected labels.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 Page validated: Dreamscape\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreamscape\
-Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts, misdirected label\
-Outstanding Issues: None
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreamscape \
+Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts, misdirected label.\
+Outstanding Issues: None.
 
 Page validated: Dreams\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreams\
-Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts\
-Outstanding Issues: None
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/dreams \
+Repaired Issues: duplicate ids in multiple places, stray tags, missing image alts.\
+Outstanding Issues: None.
 
 
 ### CSS Validation
 ([back to top](#testing-documentation))
 
 File Validated: style.css\
-URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/\
-Repaired Issues: 4 errors total - invalid font-style and ineligable margin values (due to typo)\
-Outstanding Issues: None
+URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/ \
+Repaired Issues: 4 errors total - invalid font-style and ineligable margin values (due to typo).\
+Outstanding Issues: None.
 
 ![image](static/images/testing/css-validation.png)
 
@@ -119,17 +119,17 @@ Outstanding Issues: None
 I have validated my JavaScript file using [JSHint](https://jshint.com/)
 
 Repaired Issues: There were a number of missing semicolons and some undeclared variables, but no major issues.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 ![image](static/images/testing/jshint-validation.png)
 
 ### Python Validation
 ([back to top](#testing-documentation))
 
-I have used the [CI Python Linter](https://pep8ci.herokuapp.com/#) to ensure my app.py file is PEP 8 compliant, although the requirement of the linter seems to be set to 79 rather than 80 characters.
+I have used the [CI Python Linter](https://pep8ci.herokuapp.com/#) to ensure my app.py file is PEP 8 compliant, although curiously the requirement of the linter seems to be set to 79 rather than 80 characters.
 
 Repaired Issues: The majority of issues involved whitespace, intentation or line length issues.\
-Outstanding Issues: None
+Outstanding Issues: None.
 
 ![image](static/images/testing/python-validation.png)
 
@@ -208,6 +208,118 @@ Users may delete any comments on their own dreams they find unacceptable, or if 
 
 ### Automated Testing
 ([back to top](#testing-documentation))
+
+Automated testing has not been included in this project for a number of reasons:
+ - I do not know how to set up automatic tests for Flask applications written in Python, which forms the majority of the codebase, and since the suject of automatically testing Python scripts has not been mentioned at all in the course material it won't form part of the assessment criteria.
+ - What Javascript there is performs straightforward DOM functions and can more easily be tested manually.
+ - The time it would take to set up automated testing environments and then learning how to use them are simply not practical given the timescales involved with this project.
+
+My view is that given the scope of the project and the above constraints it is a lot more practical and sensible to put together a comprehensive suite of manual tests to assess core functionality of each page, than it would be to put into place automated testing procedures.
+
+### Manual Testing
+([back to top](#testing-documentation))
+
+#### Logic Manual testing
+
+For me the most sensible way of approaching this is to systematically check the functionality on every page to ensure that everything appears as intended when an action is taken on the site and that the database is updated accoringly.  As such I've created a table for each of the pages on the site and tested all of the features therein.
+
+LANDING PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| Sign-in button | reveals form fields and hides sign up button | Success |
+| Cancel button | hides form fields and reveals sign up button | Success |
+| email field | highlights when selected | Success |
+| email field | required field must be populated to submit form | Success |
+| email field | must be in correct format to submit form | Success |
+| password field | highlights when selected | Success |
+| password field | required field must be populated to submit form | Success |
+| password field | must be in correct format to submit form | Success |
+| submit button | submits data to database and loads dreamscape if form correctly completed and user details correct | Success |
+| submit button | creates new user session if form correctly completed and user details correct | Success |
+| submit button | Will not submit data if form not correctly filled out | Success |
+| submit button | returns to landing page and displays error message if e-mail does not exist | Success |
+| submit button | returns to landing page and displays error message if password is incorrect | Success |
+| Forgotten password link | takes user to the password reset page | Success |
+| sign up button | takes user to the user sign-up page | Success |
+
+SIGN_UP PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| First name field | highlights when selected | Success |
+| First name field | required field must be populated to submit form | Success |
+| Last name field | highlights when selected | Success |
+| Last name field | required field must be populated to submit form | Success |
+| email field | highlights when selected | Success |
+| email field | required field must be populated to submit form | Success |
+| email field | must be in correct format to submit form | Success |
+| password field | highlights when selected | Success |
+| password field | required field must be populated to submit form | Success |
+| password field | must be in correct format to submit form | Success |
+| abandon button | takes user back to the landing page | Success |
+| submit button | submits data to database and loads welcome page if form correctly completed | Success |
+| submit button | Will not submit data if form not correctly filled out | Success |
+| submit button | On submit First Name field populated in database | Success |
+| submit button | On submit Last Name field populated in database | Success |
+| submit button | On submit user string created and populated in database | Success |
+| submit button | On submit user slug created and populated in database, with correct adjustment for duplicate names | Success |
+| submit button | On submit e-mail address populated in database | Success |
+| submit button | On submit password hashed and populated in database | Success |
+| submit button | On submit role is sssigned as "user" and populated in database | Success |
+| submit button | On submit a user avatar is randonly selected and the url saved to the database | Success |
+| submit button | On submit the image alt for the random avatar is saved to the database | Success |
+| submit button | On submit the pic_type is set to "system" and populated in the database | Success |
+| submit button | On submit a new session is created for the user | Success |
+
+
+WELCOME PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| Let's Create a Dream button | takes user to 'Dreambuilder' (create dream) page | Success |
+| Take me to the Dreamscape button | takes user to the 'Dreamscape' (feed) | Success |
+
+
+PASSWORD RESET PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| email field | highlights when selected | Success |
+| email field | required field must be populated to submit form | Success |
+| email field | must be in correct format to submit form | Success |
+
+
+
+
+
+#### Data Manipulation Manual Testing
+
+As well as ensuring the site delivers expected outcomes, it is also important that I test to ensure create and delete actions update all the collections affected as intended, as well as other data stores such as Cloudinary.  As such this section tests data operations that may not be visible to the user.
+
+#### Responsiveness Testing
+
+I have tested at (in descending order) 3072px, 1920px (default), 1200px, 920px, 650px, 450px, 360px, 320px.  This is reflective of the major break points.
+
+As well as using google developer tools in responsive mode, this has been tested in the real world on Chrome and Firefox in Windows on a 1920 x 1080 HD monitor, and on a Samsung Galaxy S8 (at c. 360px width).
+
+| Page tested | Screen width tested | Result |
+
+
+#### Issues found during manual testing
+
+Although I and others have tested the game extensively, a small number of issues were uncovered during formal manual testing.
+It should be noted that the orb issues in particular are never encountered during normal gameplay on account of a known game balance issue that needs addressing (see Code Issues).
+
+ - Slime object image was not displaying due to typographical error.
+ - Glowing Orb did not populate item slot if found in dining room.
+ - Glowing Orb could be discovered multiple times in abandoned dining room
+ - In battle a weapon with an attack value of 0 would actually reduce your minimum attack, and a weapon with a value of 1 did nothig to improve it.  Updated code so this was no longer the case.
+ - This is not a bug, but after testing I believe the vulnerability buff may be somewhat overpowered.
 
 
 ### Bugs and Issues
@@ -292,38 +404,7 @@ https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/5603
 
 This could pretty much be anything that either I've used or that Heroku uses with Python or even something within Python itself over-writing the list of file extensions in the Image module - since my workaround causes no issues or conflicts I'll continue to use Python 3.10.12 for now and add finding and resolving the source of this problem as a future feature.  Alongside a number of other issues I've had, it does raise some concerns in my mind about working with so many moving parts. Because this issue is not limited to Flask (it also seems to affect Django deployments) and seems to affect a lot of people I think that in the future I should seek out a different library for handling images.
 
-### Manual Testing
-([back to top](#testing-documentation))
 
-#### Logic Manual testing
-
-For me the most sensible way of approaching this is to systematically check the functionality on every page to ensure that everything appears as intended when an action is taken on the site.
-
-Include url manipulation stuff I've done.
-
-#### Data Manipulation Manual Testing
-
-As well as ensuring the site delivers expected outcomes, it is also important that I test to ensure create and delete actions update all the collections affected as intended, as well as other data stores such as Cloudinary.  As such this section tests data operations that may not be visible to the user.
-
-#### Responsiveness Testing
-
-I have tested at (in descending order) 3072px, 1920px (default), 1200px, 920px, 650px, 450px, 360px, 320px.  This is reflective of the major break points.
-
-As well as using google developer tools in responsive mode, this has been tested in the real world on Chrome and Firefox in Windows on a 1920 x 1080 HD monitor, and on a Samsung Galaxy S8 (at c. 360px width).
-
-| Page tested | Screen width tested | Result |
-
-
-#### Issues found during manual testing
-
-Although I and others have tested the game extensively, a small number of issues were uncovered during formal manual testing.
-It should be noted that the orb issues in particular are never encountered during normal gameplay on account of a known game balance issue that needs addressing (see Code Issues).
-
- - Slime object image was not displaying due to typographical error.
- - Glowing Orb did not populate item slot if found in dining room.
- - Glowing Orb could be discovered multiple times in abandoned dining room
- - In battle a weapon with an attack value of 0 would actually reduce your minimum attack, and a weapon with a value of 1 did nothig to improve it.  Updated code so this was no longer the case.
- - This is not a bug, but after testing I believe the vulnerability buff may be somewhat overpowered.
 
 
 

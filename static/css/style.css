@@ -438,7 +438,15 @@ body {
     border:1px dotted rgb(248, 72, 69);
     background-color:black;
  }
-
+ .dividing-line {
+    border:none;
+    margin:0;
+    height:0;
+    padding:0;
+ }
+ .profile-line {
+    border-top: 5px solid rgb(248, 72, 69);
+ }
  #profile-info input:focus{
     outline:1px solid rgb(248, 72, 69);
     border:1px solid rgb(248, 72, 69);
@@ -1515,6 +1523,10 @@ body {
     height:100px;
 }
 
+.dream-line {
+    border-top: 5px solid rgb(0, 145, 255);
+ }
+
 /*Dreamscape Page */
 #filter-label {
     display:block;
@@ -1981,6 +1993,13 @@ body {
         align-items:center;
         justify-content: center;
         width:100%;
+    }
+    .cancel-dream-image {
+        margin-left:0;
+    }
+    #logging-out {
+        margin-top:0;
+        margin-bottom:20px;
     }
     /*dreams*/
     .current-image {

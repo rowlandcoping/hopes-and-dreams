@@ -5,6 +5,7 @@ Edit Dream - {{ dream.dream_name }}
 {% endblock title %}
 
 {% block content %}
+<hr class="dividing-line dream-line">
 <div id = "edit-general" class="dream-edit-general">
     <form action="{{ url_for('edit_dream', dream_slug=dream.dream_slug) }}" method="POST" name="dream-update" enctype="multipart/form-data">
         <input type="text" id="initial-interests" class="absolutely-hidden" name="initial-interests" value="{{ dream.categories | join(',') }}" readonly required>
