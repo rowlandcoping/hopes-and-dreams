@@ -126,7 +126,7 @@ Outstanding Issues: None.
 ### Python Validation
 ([back to top](#testing-documentation))
 
-I have used the [CI Python Linter](https://pep8ci.herokuapp.com/#) to ensure my app.py file is PEP 8 compliant, although curiously the requirement of the linter seems to be set to 79 rather than 80 characters.
+I have used the [CI Python Linter](https://pep8ci.herokuapp.com/#) to ensure my app.py file is PEP 8 compliant.
 
 Repaired Issues: The majority of issues involved whitespace, intentation or line length issues.\
 Outstanding Issues: None.
@@ -246,7 +246,7 @@ LANDING PAGE:
 | sign up button | takes user to the user sign-up page | Success |
 | manually editing url to non-existent address | takes user to 404 | Success |
 
-SIGN_UP PAGE:
+SIGN UP PAGE:
 
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
@@ -310,7 +310,7 @@ PASSWORD RESET PAGE:
 | on clicking link sent to e-mail | returns user to reset-password page with correct token | Success|
 | manually editing url to non-existent address | takes user to 404 | Success |
 
-PASSWORD RESET PAGE (Dream)
+PASSWORD RESET PAGE (DREAM):
 
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
@@ -348,7 +348,7 @@ RESET PASSWORD:
 | manually editing token | returns page with token not valid message | Success |
 | manually editing first part of url to non-existent address | takes user to 404 | Success |
 
-LOST BUNNIES (404 PAGE)
+LOST BUNNIES (404 PAGE):
 
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
@@ -373,7 +373,7 @@ LOST BUNNIES (404 PAGE)
 | Return to Dreams (if signed in) | Returns user to dreams page | Success |
 | Return to Dreamscape (if signed in) | Returns user to dreamscape page | Success |
 
-MAIN TEMPLATE
+MAIN TEMPLATE:
 
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
@@ -399,7 +399,7 @@ MAIN TEMPLATE
 | submit button (if signed out) | returns to the same dream and displays error message if e-mail does not exist | Success |
 | submit button (if signed out) | returns to the same dream and displays error message if password is incorrect | Success |
 
-DREAMS PAGE
+DREAMS PAGE:
 
 | Feature Tested                        | Expected Outcome                 | Result  |
 | ------------------------------------- | -------------------------------- | ------- |
@@ -425,7 +425,134 @@ DREAMS PAGE
 | View Dream Icon | on click opens view dream page for selected dream | Success |
 | manually editing url to non-existent address | takes user to 404 | Success |
 
+CREATE DREAM PAGE:
 
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable buttons change on hover and show pointer | Success |
+| My Dream input | highlights on focus | Success |
+| My Dream input | user input is duplicated in mobile and desktop versions of the form | Success |
+| My Dream input | required field must be populated to submit form | Success |
+| Dream Description textarea | highlights on focus | Success |
+| Dream Description textarea | user input is duplicated in mobile and desktop versions of the form | Success |
+| Dream Description textarea | required field must be populated to submit form | Success |
+| Dream Description textarea | re-sizes automatically | Success |
+| Disable comments checkbox | styled in line with page on click | Success |
+| Show more categories button | displays up to 10 additional categories to select from | Success |
+| Show all categories button | displays all categories to select from | Success |
+| Show fewer | displays fewer categories to select from | Success |
+| category buttons | Change color to green when selected | Success |
+| category buttons | change color to grey when deselected | Success |
+| category buttons | When selected adds category to hidden input field | Success |
+| category buttons | When deselected removes category from hidden input field | Success |
+| category buttons | if too many selected warning message appears and submit button disabled | Success |
+| category buttons | if correct number selected warnign message disappears and submit button enabled | Success |
+| Abandon Dream button | returns user to dreams page | Success |
+| submit button | submits data to back-end and progresses to image upload page if fields correct | Success |
+| submit button | Will not submit data if form not correctly filled out | Success |
+| submit button | Returns warning message from server and reloads the page if dream name is a duplicate for the user | Success |
+| On submit | timestamp created field populated in database | Success |
+| On submit | datetime created field populated in database | Success |
+| On submit | datetime created field populated in database | Success |
+| On submit | Dream Name field populated in database | Success |
+| On submit | dream string created and populated in database | Success |
+| On submit | dream slug created and populated in database, with correct adjustment for duplicate names | Success |
+| On submit | Dream Description field populated in database | Success |
+| On submit | Categories Selected field populated in database as an array of categories | Success |
+| On submit | 'dreams_selected' array for selected categories updated with dream id | Success |
+| On submit | for any categories selected the 'total_dreams_selected' number is incremented by 1 | Success |
+| On submit | for any categories selected the 'total_times_selected' number is incremented by 1 | Success |
+| On submit | user_id field populated in database | Success |
+| On submit | user name field populated in database | Success |
+| On submit | comments enabled boolean populated in database | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
+
+IMAGE UPLOAD PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable buttons change on hover and show pointer | Success |
+| I'll do this later button | returns user to dreams page | Success |
+| Browse button | Allows user to select an image to upload | Success |
+| On selecting file | file is previewed on page | Success |
+| On selecting file | select and cancel buttons visible | Success |
+| On selecting file | any existing image is hidden | Success |
+| Cancel Upload Button | removes previewed image, hides preview display and buttons, shows existing image (if any) | Success |
+| Upload Image Button | passes file to server, returns user to Dreams page, displays success message | Success |
+| On upload | image is compressed and converted to webp format, resized to 400pxx wide | Success |
+| On upload | filename for image is created using user ID and existing filename. | Success |
+| On upload | new image filename is saved to database. | Success |
+| On upload | generated image alt is saved to database. | Success |
+| On upload | image is uploaded to the cloudinary 'dreams' folder | Success |
+| On upload | any existing image deleted from the cloudinary 'dreams' folder | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
+| manually editing dream slug to non-existent address or another user's dream | takes user to dreams page with error message | Success |
+
+EDIT DREAM PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable buttons change on hover and show pointer | Success |
+| My Dream input | highlights on focus | Success |
+| My Dream input | displays dream name for selected dream | Success |
+| My Dream input | user input is duplicated in mobile and desktop versions of the form | Success |
+| My Dream input | required field must be populated to submit form | Success |
+| Dream Description textarea | displays dream description for selected dream | Success |
+| Dream Description textarea | expands to contain text on click | Success |
+| Dream Description textarea | highlights on focus | Success |
+| Dream Description textarea | user input is duplicated in mobile and desktop versions of the form | Success |
+| Dream Description textarea | required field must be populated to submit form | Success |
+| Dream Description textarea | re-sizes automatically | Success |
+| Disable comments checkbox | styled in line with page on click | Success |
+| Disable comments checkbox | correctly shows current state for dream | Success |
+| Show fewer | displays fewer categories to select from | Success |
+| Show more categories button | displays up to 10 additional categories to select from | Success |
+| Show all categories button | displays all categories to select from | Success |
+| category buttons | All category buttons displayed on page load | Success |
+| category buttons | Selected dream's categories highlighted green on page load | Success |
+| category buttons | on click change color to green when selected | Success |
+| category buttons | on click change color to grey when deselected | Success |
+| category buttons | When selected adds category to hidden input field | Success |
+| category buttons | When deselected removes category from hidden input field | Success |
+| category buttons | if too many selected warning message appears and submit button disabled | Success |
+| category buttons | if correct number selected warnign message disappears and submit button enabled | Success |
+| Browse button | Allows user to select an image to upload | Success |
+| On selecting file | file is previewed on page | Success |
+| On selecting file | cancel button visible | Success |
+| On selecting file | any existing image is hidden | Success |
+| Cancel Upload Button | removes previewed image, hides preview display and buttons, shows existing image (if any) | Success |
+| Clear Changes button | refreshes page, restoring data to original state | Success |
+| submit button | submits data to back-end, refreshes page with new data and confirmation message if fields correct | Success |
+| submit button | Will not submit data if form not correctly filled out | Success |
+| submit button | Returns warning message from server and reloads the page if dream name is a duplicate for the user | Success |
+| On submit | timestamp updated field updated in database | Success |
+| On submit | datetime updated field updated in database | Success |
+| On submit | datetime field updated in database | Success |
+| On submit | Dream Name field updated in database | Success |
+| On submit | dream string created and updated in database | Success |
+| On submit | dream slug created and updated in database, with correct adjustment for duplicate names | Success |
+| On submit | Dream Description field updated in database | Success |
+| On submit | Categories Selected field updated in database as an array of categories | Success |
+| On submit | 'dreams_selected' array for selected categories updated with dream id | Success |
+| On submit | for any categories selected the 'total_dreams_selected' number is incremented by 1 | Success |
+| On submit | for any categories selected the 'total_times_selected' number is incremented by 1 | Success |
+| On submit | for any categories removed the 'total_dreams_selected' number is decremented by 1 | Success |
+| On submit | for any categories removed the 'total_times_selected' number is decremented by 1 | Success |
+| On submit | comments enabled boolean updated in database | Success |
+| On submit | page is returned with new dream url if name changed | Success |
+| On upload | if added image is compressed and converted to webp format, resized to 400pxx wide | Success |
+| On upload | if added filename for image is created using user ID and existing filename. | Success |
+| On upload | if added new image filename is saved to database. | Success |
+| On upload | if added generated image alt is saved to database. | Success |
+| On upload | if added image is uploaded to the cloudinary 'dreams' folder | Success |
+| On upload | if added any existing image deleted from the cloudinary 'dreams' folder | Success |
+| On upload | if remove image button checked existing image deleted from the cloudinary 'dreams' folder | Success |
+| On upload | if remove image button checked image url removed from dream | Success |
+| manually editing url to non-existent address | takes user to 404 | Success |
+| manually editing dream slug to non-existent address or another user's dream | takes user to dreams page with error message | Success |
 
 
 

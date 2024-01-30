@@ -638,11 +638,9 @@ def dreambuilder():
                 "selected-categories").removesuffix(',')
             categories_array = categories_selected.split(",")
             user_info = dict(mongo.db.users.find_one(
-                {"_id": ObjectId(session["user_id"])}))
-            dream_string = str(
-                re.sub("[.!# \"$%;@&'*+\\/=?^_`{|}~]", "",
-                       request.form.get("dream_name").lower()))
-            dream_string = str(re.sub(" ", "-", dream_string))
+                {"_id": ObjectId(session["user_id"])}))            
+            dream_string = str(re.sub(" ", "-", request.form.get("dream_name").lower()))
+            dream_string = str(re.sub("[.!# \"$%;@&'*+\\/=?^_`{|}~]", "", dream_string))
             timestamp = time()
             date_time = datetime.fromtimestamp(timestamp)
             user_dreams = list(mongo.db.dreams.find(
@@ -735,7 +733,8 @@ def image_upload(dream_slug):
             return render_template(
                 "image-upload.html", dream_slug=dream_slug, dream=dream,
                 base_url=base_url)
-        return redirect(url_for("home"))
+        flash("Dream not Found.", "amber-flash")
+        return redirect(url_for("dreams"))
     return redirect(url_for("home"))
 
 
@@ -763,6 +762,14 @@ def edit_dream(dream_slug):
                     user_info = dict(mongo.db.users.find_one(
                         {"_id": ObjectId(session["user_id"])}))
                     if request.method == "POST":
+                        user_dreams = list(mongo.db.dreams.find(
+                            {"user_id": ObjectId(session["user_id"])}))
+                        for x in user_dreams:
+                            if dream["_id"] != x["_id"]:
+                                if request.form.get("dream_name") == x["dream_name"]:
+                                    flash("You have already created a dream with that name.",
+                                        "amber-flash")
+                                    return redirect(url_for("edit_dream", dream_slug=dream["dream_slug"]))                            
                         if request.form.get("disable_comments"):
                             comments_enabled = False
                         else:
@@ -770,26 +777,17 @@ def edit_dream(dream_slug):
                         categories_selected = request.form.get(
                             "selected-categories").removesuffix(',')
                         categories_array = categories_selected.split(",")
-                        if (request.form.get(
-                          "dream_name").lower() !=
-                          dream["dream_name"].lower()):
-                            dream_string = str(
-                                re.sub(
-                                    "[.!# \"$%;@&'*+\\/=?^_`{|}~]", "",
-                                    request.form.get("dream_name").lower()))
-                            dream_string = str(re.sub(" ", "-", dream_string))
-                            check_slug = list(
-                                mongo.db.dreams.find(
-                                    {"dream_string": dream_string}))
-                            if (check_slug):
-                                user_number = str(len(check_slug)+1)
-                                dream_slug = str(
-                                    dream_string + "-" + user_number)
-                            else:
-                                dream_slug = dream_string
+                        dream_string = str(re.sub(" ", "-", request.form.get("dream_name").lower()))
+                        dream_string = str(re.sub("[.!# \"$%;@&'*+\\/=?^_`{|}~]", "", dream_string))
+                        check_slug = list(
+                            mongo.db.dreams.find(
+                                {"dream_string": dream_string}))
+                        if (check_slug):
+                            user_number = str(len(check_slug)+1)
+                            dream_slug = str(
+                                dream_string + "-" + user_number)
                         else:
-                            dream_slug = dream["dream_slug"]
-                            dream_string = dream["dream_string"]
+                            dream_slug = dream_string
                         timestamp = time()
                         date_time = datetime.fromtimestamp(timestamp)
                         image_alt = (
@@ -918,6 +916,8 @@ def edit_dream(dream_slug):
                         categories_two = categories[10:20]
                         categories_custom = categories[20:len(categories)]
                         flash("Dream Updated.", "amber-flash-reset")
+                        print(dream['dream_slug'])
+                        return redirect(url_for("edit_dream", dream_slug=dream["dream_slug"]))
                     return render_template(
                         "edit-dream.html", base_url=base_url, user=user_info,
                         dream=dream, dream_slug=dream["dream_slug"],
