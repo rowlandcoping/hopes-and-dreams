@@ -1215,12 +1215,25 @@ def add_dream_comment(dream_slug, selected):
 def edit_dream_comment(dream_slug, selected, comment_id):
     if session.get("user_id") is not None:
         if request.method == "POST":
-            new_comment = {"$set": {
-                "comment": request.form.get(comment_id + "-text"),
-            }}
-            mongo.db.comments.update_one(
-                {"_id": ObjectId(comment_id)}, new_comment)
-            flash('Comment Updated', 'amber-flash')
+            existing_comment = mongo.db.comments.find_one(
+                            {"comment": request.form.get(
+                                comment_id + "-text")})
+            if (
+                existing_comment and
+                ObjectId(existing_comment["user_id"]) ==
+                ObjectId(session["user_id"])):
+                flash(
+                    "You have already posted this comment.",
+                    "amber-flash")
+                comments = list(mongo.db.comments.find().sort(
+                    "timestamp_created", -1))
+            else:
+                new_comment = {"$set": {
+                    "comment": request.form.get(comment_id + "-text"),
+                }}
+                mongo.db.comments.update_one(
+                    {"_id": ObjectId(comment_id)}, new_comment)
+                flash('Comment Updated', 'amber-flash')
         dreams = list(mongo.db.dreams.find())
         for dream in dreams:
             if dream["dream_slug"] == dream_slug:

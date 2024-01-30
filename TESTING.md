@@ -563,9 +563,9 @@ VIEW DREAM PAGE
 | ------------------------------------- | -------------------------------- | ------- |
 | DOM | all page elements load as expected | Success |
 | DOM | all interactable buttons change on hover and show pointer | Success |
-| navigation icons | selected page box set to dreams icon | Success |
+| navigation icons | selected page box set to dreams icon for all return routes | Success |
 | Return to Dreams button | returns user to dreams page | Success |
-| Return to Dreams button | returns user to dreams page | Success |
+| Disabled Comments | comments disabled message appears if comments disabled set to true | Success |
 | Add Comment button | opend text box to add a comment | Success |
 | Add Comment button | hides icons to edit or delete a comment | Success |
 | Add Comment button | displays submit and cancel buttons | Success |
@@ -630,6 +630,89 @@ VIEW DREAM PAGE
 | manually editing dream slug | returns 'dream not found' message to user | Success |
 | manually editing base url | returns 404 page | Success |
 
+DREAMSCAPE PAGE:
+
+| Feature Tested                        | Expected Outcome                 | Result  |
+| ------------------------------------- | -------------------------------- | ------- |
+| DOM | all page elements load as expected | Success |
+| DOM | all interactable buttons change on hover and show pointer | Success |
+| navigation icons | selected page box set to dreamscape icon for all return routes | Success |
+| Dreamscape Filter Show Results | Shows the results for the selected filter | Success |
+| Dreamscape Filter Latest | Displays dreams in chronological order | Success |
+| Dreamscape Filter Trending | Displays dreams according to most followers | Success |
+| Dreamscape Filter Personalized | Displays dreams based on matching dream categories to user interests first, then by chronology | Success |
+| Dreamscape Filter Followed | Displays dreams followed and dreams from users that are followed, chronologically | Success |
+| Filter Page return code | Returns the previously selected filter whenever an action is taken on the page | Success |
+| Disabled Comments | comments disabled message appears if comments disabled set to true; no further actions can be taken | Success |
+| View comments carat | Expands the selected comments section to view dream comments | Success |
+| Hide comments carat | Hides the selected comments section | Success |
+| Comments Page return code | Ensures the comments section acted upon is open when page is returned | Success |
+| Add Comment button | opens text box to add a comment | Success |
+| Add Comment button | hides icons to edit or delete a comment | Success |
+| Add Comment button | displays submit and cancel buttons | Success |
+| Add Comment cancel button | returns page to original state | Success |
+| Add Comment textarea | resizes to match text | Success |
+| Add Comment submit button | sends data to server, provides feedback message | Success |
+| Add Comment submit button | once submitted, returns page to original state and re-centers view on the comments section | Success |
+| Add Comment on submit | adds comment and returns success message | Success |
+| Add Comment on submit | If comment text matches an existing comment, returns warning message | Success |
+| Add Comment on submit | Adds comment to comment field in database | Success |
+| Add Comment on submit | Adds user id to comment in database | Success |
+| Add Comment on submit | Adds dream id to comment in database | Success |
+| Add Comment on submit | Adds user name to comment in database | Success |
+| Add Comment on submit | Adds timestamp to comment in database | Success |
+| Add Comment on submit | Adds datetime created to comment in database | Success |
+| Add Comment on submit | Adds user avatar to comment in database | Success |
+| Add Comment on submit | Adds user avatar alt to comment in database | Success |
+| Edit comment icon | hides div displaying text, and opens and focusses the textbox | Success |
+| Edit comment icon | hides add and delete options, and disaplys confirm and cancel buttons | Success |
+| Edit comment textbox | automatically resizes to width of the page and the text contained within | Success |
+| Edit comment cancel button | returns the page to its original state with text reverted to the original comment | Success |
+| Edit comment submit button | sends data to server, provides feedback message | Success |
+| Edit comment submit button | once submitted, returns page to original state and re-centers view on the comments section | Success |
+| Edit comment on submit | edits comment and returns success message | Success |
+| Edit comment on submit | If comment text matches an existing comment, returns warning message | Success |
+| Edit comment on submit | Updates comment in comment field in database | Success |
+| Delete comment Icon | on click opens confirmation box for selected dream | Success |
+| Delete comment Alert | all other navigation on page disabled | Success |
+| Delete comment Alert | all other content on page greyed out | Success |
+| Delete comment Alert Cancel Button | closes the alert and returns the page to a normal state | Success |
+| Delete comment Confirm Button | tells server to delete selected comment and returns confirmation message | Success |
+| Delete comment on submit | deletes comment from database | Success |
+| comment delete return code | returns dream page and re-centers view on the updated comments section | Success |
+| Comment like button | submits like, returns page with updated icon, focusses page on the affected comment | Success |
+| On like | user id is added to user likes array in the comment | Success |
+| On like | comment id is added to comments liked array in user | Success |
+| Comment unlike button | submits like, returns page with updated icon, focusses page on the affected comment | Success |
+| On unlike | user id is removed from user likes array in the comment | Success |
+| On unlike | comment id is removed from comments liked array in user | Success |
+| Comment dislike button | submits dislike, returns page with updated icon, focussed page on the affected comment | Success |
+| On dislike | user id is added to user dislikes array in the comment | Success |
+| On dislike | comment id is added to comments disliked array in user | Success |
+| Comment undislike button | submits undislike, returns page with updated icon, focussed page on the affected comment | Success |
+| On undislike | user id is removed from user dislikes array in the comment | Success |
+| On undislike | comment id is removed from comments disliked array in user | Success |
+| Follow return code | returns page to the dream acted upon when dream or user is followed/unfollowed |
+| Follow Dream Button | submits follow, returns page with updated icon | Success |
+| On follow dream | user id is added to users following array in the dream | Success |
+| On follow dream | dream id is added to dreams followed array in user | Success |
+| On follow dream | total followers number in dreams is incremented by 1 | Success |
+| Unfollow Dream Button | submits unfollow, returns page with updated icon | Success |
+| On unfollow dream | user id is removed from users following array in the dream | Success |
+| On unfollow dream | dream id is removed from dreams followed array in user | Success |
+| On unfollow dream | total followers number in dreams is decremented by 1 | Success |
+| Follow Creator Button | submits follow, returns page with updated icon | Success |
+| On follow user | user id is added to the followed user's users following array | Success |
+| On follow user | followed user's id is added to users followed array in user | Success |
+| Unfollow Creator Button | submits unfollow, returns page with updated icon | Success |
+| On unfollow user | user id is removed from the followed user's users following array | Success |
+| On unfollow user | followed user's id is removed from the users followed array in user | Success |
+| On page reload | new database state is pulled in pre page load to ensure refresh doesn't increment numbers | Success |
+| manually editing comment id | returns 'comment not found' message to user | Success |
+| manually editing dream slug | returns dreamscape page in original state | Success |
+| manually editing selected part of url (ie latest) | returns dreamscape page in original state | Success |
+| manually editing base url | returns 404 page | Success |
+
 
 
 
@@ -658,6 +741,7 @@ The manual testing process uncovered a number of issues.  The issues around drea
  - On submitting a duplicate comment on the view dream page the page was not redirected back to the same dream.
  - edit comment code on view dream page did not check for duplicate comments.  It now does!
  - view dream page was not refocussing on comments after likes/dislikes, but now is.  Also the logged in version of the page was not properly validated (I had previously validated the logged out version!)
+- edit comment code on dreamscape page did not check for duplicate comments.  It now does!
 
 
 ### Bugs and Issues
