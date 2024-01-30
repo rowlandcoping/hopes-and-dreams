@@ -9,7 +9,7 @@
 [HTML Validation](#html-validation)\
 [CSS Validation](#css-validation)\
 [JavaScript Validation](#javascript-validation)\
-[Lighthouse Audit](#lighthouse-audit)
+[Python Validation](#python-validation)
 
 ### User Story Validation
 
@@ -29,7 +29,8 @@
 
 I have validated the html code by copying and pasting the source code from each page into the w3c validator [HERE](https://validator.w3.org/).
 
-Please note I have not validated (or styled) the admin only pages as they are not intended to be user facing.  Only I and the user created for assessment purposes will have admin access for this iteration of the site.
+Please note I have not validated (or styled) the admin only pages as they are not intended to be user facing.\
+Only myself and the user created for assessment purposes will have admin access for this iteration of the site.
 
 Page validated: Landing Page\
 URL: https://hopes-and-dreams-15b83f2d1383.herokuapp.com/\
@@ -112,28 +113,25 @@ Outstanding Issues: None
 
 ![image](static/images/testing/css-validation.png)
 
-
-
-
 ### JavaScript Validation
 ([back to top](#testing-documentation))
 
-Validation:
+I have validated my JavaScript file using [JSHint](https://jshint.com/)
 
+Repaired Issues: There were a number of missing semicolons and some undeclared variables, but no major issues.\
+Outstanding Issues: None
 
-Issues:
+![image](static/images/testing/jshint-validation.png)
 
-
-### Python PEP 8 compliance
-
-Validation:
-
-
-Issues:
-
-### Lighthouse Audit
+### Python Validation
 ([back to top](#testing-documentation))
 
+I have used the [CI Python Linter](https://pep8ci.herokuapp.com/#) to ensure my app.py file is PEP 8 compliant, although the requirement of the linter seems to be set to 79 rather than 80 characters.
+
+Repaired Issues: The majority of issues involved whitespace, intentation or line length issues.\
+Outstanding Issues: None
+
+![image](static/images/testing/python-validation.png)
 
 ## User Stories
 ([back to top](#testing-documentation))

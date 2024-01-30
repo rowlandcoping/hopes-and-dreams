@@ -1,3 +1,5 @@
+/*jshint esversion: 6*/
+
 document.addEventListener("DOMContentLoaded", function() {
     //-------------Helper Functions--------------//
     
@@ -297,9 +299,9 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             document.getElementById('show-fewer').style.display = "none";
         }
-        buttonsArray = Array.from(document.getElementsByClassName('category-selector'));
-        categoryButtons= buttonsArray.map(div => div.innerHTML);
-        categorySelected = document.getElementById("initial-interests").value.split(",");
+        const buttonsArray = Array.from(document.getElementsByClassName('category-selector'));
+        const categoryButtons = buttonsArray.map(div => div.innerHTML);
+        const categorySelected = document.getElementById("initial-interests").value.split(",");
         for (let i = 0; i < categoryButtons.length; i++) {
             for (let j = 0; j < categorySelected.length; j++) {
                 if (categoryButtons[i] === categorySelected[j]) {
@@ -318,8 +320,8 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.backgroundColor = "grey";
             document.getElementById(itemId).style.color = "black";
             document.getElementById(itemId).style.border = "2px solid rgb(53, 52, 52)";
-            oldText = document.getElementById("selected-categories").value;
-            newText = oldText.replace(itemId+ "," ,'');
+            const oldText = document.getElementById("selected-categories").value;
+            const newText = oldText.replace(itemId+ "," ,'');
             document.getElementById("selected-categories").value = newText;
         } else {
             document.getElementById(itemId).style.backgroundColor = "green";
@@ -327,20 +329,20 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById(itemId).style.border = "2px solid white";
             document.getElementById("selected-categories").value += itemId + ",";
         }
-        categories = document.getElementById("selected-categories").value.split(",")
+        const categories = document.getElementById("selected-categories").value.split(",");
         if (categories.length < 7) {
             if (document.getElementById("warning-message")) {
                 document.getElementById("warning-message").innerHTML ="";
                 document.getElementById("disable-button").disabled = false;
                 document.getElementById("disable-button").style.pointerEvents = "auto";
-                document.getElementById("disable-button").style.opacity = "1"
+                document.getElementById("disable-button").style.opacity = "1";
             }
         } else {
             if (document.getElementById("warning-message")) {
-                document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please select a maximum of five.</p>"
+                document.getElementById("warning-message").innerHTML = "<p>Too many categories selected. <br>Please select a maximum of five.</p>";
                 document.getElementById("disable-button").disabled = true;
                 document.getElementById("disable-button").style.pointerEvents = "none";
-                document.getElementById("disable-button").style.opacity = "0.2"
+                document.getElementById("disable-button").style.opacity = "0.2";
             }
         }
 
@@ -354,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const preview = document.getElementById('image-preview');
             fileReader.onload = function (event) {
                 preview.setAttribute('src', event.target.result);
-            }
+            };
             fileReader.readAsDataURL(previewPic[0]);
             if (document.getElementById('current-edit-image')) {
                 document.getElementById('current-edit-image').style.display="none";
@@ -371,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('remove-picture').style.display = "none";
             }
         }
-    }
+    };
     if (imageUpload) {
         imageUpload.addEventListener("change", previewPhoto);
     }
@@ -452,9 +454,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //ensure all form fields populated
     function duplicateField(itemId) {
-        formField = itemId.split('-')[0]
-        formSection = itemId.split('-')[1];
-        console.log(formSection);
+        const formField = itemId.split('-')[0];
+        const formSection = itemId.split('-')[1];
         if (formSection === "desk") {
             document.getElementById(itemId).onkeyup = function () { 
                 document.getElementById(formField + "-mob").value = this.value;
@@ -503,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function() {
             disableMenu[i].style.pointerEvents = "none";
             disableMenu[i].style.opacity = "0.3";
         }
-    };
+    }
     //open comment delete alert
     function deleteComment(itemId) {
         document.getElementById("alert-" + itemId).style.display="block";
@@ -569,9 +570,9 @@ document.addEventListener("DOMContentLoaded", function() {
     //DREAMSCAPE/VIEW DREAM
     //show/hide comments section 
     function showHide(itemId) {
-        idArray = itemId.split('-');
-        itemSlug = idArray.slice(0, -3).join("-");
-        itemClass= idArray[idArray.length -1];
+        const idArray = itemId.split('-');
+        const itemSlug = idArray.slice(0, -3).join("-");
+        const itemClass= idArray[idArray.length -1];
         if (itemClass === "show") {
             document.getElementById(itemSlug + "-view-all").style.display="none";
             document.getElementById(itemSlug + "-hide-all").style.display="block";
@@ -588,10 +589,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     //enable add comment box
     function addComment(itemId) {
-        form= itemId + "-comment";
-        cancel= itemId + "-cancel";
-        widthNow = document.getElementById(itemId + "-bar").offsetWidth;
-        newWidth = String((widthNow/1.3) + "px");
+        const form= itemId + "-comment";
+        const cancel= itemId + "-cancel";
+        const widthNow = document.getElementById(itemId + "-bar").offsetWidth;
+        const newWidth = String((widthNow/1.3) + "px");
         if (document.getElementById("comment-flash")) {
             document.getElementById("comment-flash").style.display="none";
         }
@@ -620,8 +621,8 @@ document.addEventListener("DOMContentLoaded", function() {
     function cancelAddComment(itemId) {
         const fullString = itemId.split('-');
         const selectedDream = fullString.slice(0, -1).join("-");
-        form= selectedDream + "-comment";
-        cancel= selectedDream + "-cancel";
+        const form= selectedDream + "-comment";
+        const cancel= selectedDream + "-cancel";
         document.getElementById(form).style.display="none";
         document.getElementById(cancel).style.display="none";
         const hideEdit = document.getElementsByClassName('edit-comment');
@@ -646,13 +647,13 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("comment-flash").style.display="none";
         }
         document.getElementById(selectedComment + "-cancel").style.display="inline-block";
-        commentTextarea = selectedComment + "-display";
-        commentDivarea = selectedComment + "-fixed";
-        commentCancel=selectedComment + "-cancel";
-        commentSubmit=selectedComment + "-submit";
+        const commentTextarea = selectedComment + "-display";
+        const commentDivarea = selectedComment + "-fixed";
+        const commentCancel=selectedComment + "-cancel";
+        const commentSubmit=selectedComment + "-submit";
         if (document.getElementById(commentDivarea)) {
-            widthNow = document.getElementById(commentDivarea).offsetWidth;
-            newWidth = String((widthNow -10) + "px");
+            const widthNow = document.getElementById(commentDivarea).offsetWidth;
+            const newWidth = String((widthNow -10) + "px");
             document.getElementById(commentTextarea).addEventListener('focus', autoResize, false);
             document.getElementById(commentTextarea).addEventListener('input', autoResize, false);
             document.getElementById(commentDivarea).style.whiteSpace = "break-spaces";

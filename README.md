@@ -641,7 +641,7 @@ If you wish to deploy this website yourself, here is how to go about it.
 #### Create a Version of the repository:
 
  - Log in to or create your own Github account [HERE](https://github.com/).
- - Go to the lost-king-part1 repository [HERE](https://github.com/rowlandcoping/hopes-and-dreams) and select 'Fork' to create your own snapshot of the repository.
+ - Go to the Hopes and Dreams repository [HERE](https://github.com/rowlandcoping/hopes-and-dreams) and select 'Fork' to create your own snapshot of the repository.
 
 #### Creating your own Heroku Account:
 
