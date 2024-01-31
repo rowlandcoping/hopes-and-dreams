@@ -1,19 +1,19 @@
 {% extends 'plain-template.html' %}
 
 {% block title %}
-    Category Management
+Category Management
 {% endblock title%}
     
 {% block content %}
 <div id="headline-wrapper"><h1>Category Manager</h1></div>
-    <div class="admin-task"><a href="{{ url_for('profile_personal') }}"><h4>Return to Profile</h4></a></div> 
-    <form action="{{ url_for('categories') }}" method="POST">
-        <label for ="new_category">Add New Categories (separated by commas if more than one)</label>
-        <br>
-        <input type="text" name="new_categories" id="admin-new-categories">
-        <hr>
-        <table class="form-table">
-    {% if categories %}                
+<div class="admin-task"><a href="{{ url_for('profile_personal') }}"><h4>Return to Profile</h4></a></div> 
+<form action="{{ url_for('categories') }}" method="POST">
+    <label for ="new_category">Add New Categories (separated by commas if more than one)</label>
+    <br>
+    <input type="text" name="new_categories" id="admin-new-categories">
+    <hr>
+    <table class="form-table">
+        {% if categories %} 
         {% for category in categories %}
         <tr>
             <td><label for="category">Current Category: </label></td>
@@ -24,10 +24,10 @@
             <td><input type="checkbox" name="{{ category._id }}-delete"> </td>
         </tr>                       
         {% endfor %}
-    {% else %}
-    <h3>No existing categories found</h3>
-    {% endif %}
-        </table>
-        <button class="landing-button button-large" type="submit">Add and Update</button>
+        {% else %}
+        <h3>No existing categories found</h3>
+        {% endif %}
+    </table>
+    <button class="landing-button button-large" type="submit">Add and Update</button>
 </form>
 {% endblock content%}

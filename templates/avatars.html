@@ -1,23 +1,23 @@
 {% extends 'plain-template.html' %}
 
 {% block title %}
-    Avatar Management
+Avatar Management
 {% endblock title%}
     
 {% block content %}
 <div id="headline-wrapper"><h1>Avatar Manager</h1></div>
-    <div class="admin-task"><a href="{{ url_for('profile_personal') }}"><h4>Return to Profile</h4></a></div>
-    <form action="{{ url_for('add_avatars') }}" method="POST" enctype="multipart/form-data">
-        <label for ="new_avatar"><h3>Add New Avatar</h3></label>
-        <br>
-        <img id="image-preview" class="not-displayed" src="" width="150">
-        <br>
-        <input type="file" id="uploaded-image" name="new_avatar">
-        <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
-        <br>
-        <label for ="new_category">Image Alt:</label>
-        <input type="text" id="image-alt" name="image-alt">
-        <hr>
-        <button class="landing-button button-large" type="submit">Add and Update</button>
+<div class="admin-task"><a href="{{ url_for('profile_personal') }}"><h4>Return to Profile</h4></a></div>
+<form action="{{ url_for('add_avatars') }}" method="POST" enctype="multipart/form-data">
+    <label for ="new_avatar"><h3>Add New Avatar</h3></label>
+    <br>
+    <img id="image-preview" class="not-displayed" src="" width="150">
+    <br>
+    <input type="file" id="uploaded-image" name="new_avatar">
+    <span id="profile-pic-cancel" class="not-displayed"><i class="fa-solid fa-xmark"></i></span>
+    <br>
+    <label for ="new_category">Image Alt:</label>
+    <input type="text" id="image-alt" name="image-alt">
+    <hr>
+    <button class="landing-button button-large" type="submit">Add and Update</button>
 </form>
 {% endblock content%}

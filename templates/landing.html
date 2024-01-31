@@ -1,7 +1,7 @@
 {% extends 'plain-template.html' %}
 
 {% block title %}
-    Hopes and Dreams
+Hopes and Dreams
 {% endblock title%}
     
 {% block content %}
@@ -51,15 +51,15 @@
                 <a id="forgot-password-dream" href="{{ url_for('password_reset')}}">Forgotten password?</a>
             </div>
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class= "{{ category }} other-flash landing-flash" id="large-flash">
-                            <div>
-                                <h3>{{ message }}</h3>
-                            </div>
-                        </div>
-                    {% endfor %} 
-                {% endif %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class= "{{ category }} other-flash landing-flash" id="large-flash">
+                <div>
+                    <h3>{{ message }}</h3>
+                </div>
+            </div>
+            {% endfor %} 
+            {% endif %}
             {% endwith %}
         </div>
         <div id="landing-tree-right">

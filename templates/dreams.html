@@ -14,72 +14,72 @@
     </div>
 {% else %}
 <div class="opaque-element top-border-dream" id="dreams-container-top">
-    {% endif %}
-    {% endwith %}
+{% endif %}
+{% endwith %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class= "{{ category }} dreams-flash" id="large-flash">
-                <div>
-                    <h2>{{ message }}</h2>
-                </div>
-            </div>
-            {% endfor %}            
-        {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+    <div class= "{{ category }} dreams-flash" id="large-flash">
+        <div>
+            <h2>{{ message }}</h2>
+        </div>
+    </div>
+{% endfor %}            
+{% endif %}
+{% endwith %}
     <a class="dream-button" href="{{ url_for('dreambuilder') }}"><h2>Create a New Dream</h2></a> 
 </div>
 <div id="dreams-container-main">
     <div id="dream-list">
         {% with dreams = user_dreams %}
-            {% if dreams %}
-                {% for dream in dreams %}
-                    <div class="delete-alert dreams-delete-alert not-displayed" id="alert-{{ dream.dream_slug }}">
-                        <div class="main-alert">
-                            <div class="alarm-bunny-left">
-                                <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing right">
-                            </div>
-                            <div class="alarm-text">
-                                <h3>Are you sure you want to delete<br>"{{dream.dream_name}}"?</h3>
-                                <div class="alarm-bunny-middle not-displayed">
-                                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
-                                </div>
-                                <p>It will permanently remove the dream, plus all related comments and followers!</p>
-                                <div class="comment-buttons">
-                                    <a class="delete-confirm" href ="{{ url_for('delete_dream', dream_slug = dream.dream_slug) }}">Yes, Please</a>
-                                    <div class="delete-cancel" id="{{ dream.dream_slug }}-cancel-delete-dream">Oops. No!!!</div>
-                                </div>
-                            </div>
-                            <div class="alarm-bunny-right">
-                                <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
-                            </div>
-                        </div>                        
+        {% if dreams %}
+        {% for dream in dreams %}
+        <div class="delete-alert dreams-delete-alert not-displayed" id="alert-{{ dream.dream_slug }}">
+            <div class="main-alert">
+                <div class="alarm-bunny-left">
+                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-left.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing right">
+                </div>
+                <div class="alarm-text">
+                    <h3>Are you sure you want to delete<br>"{{dream.dream_name}}"?</h3>
+                    <div class="alarm-bunny-middle not-displayed">
+                        <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
                     </div>
-                    <div class="dream-list opaque-element">
-                        <div class="general-bar dream-bar main-dream-bar dreams-page-bar">
-                            <div class="dream-name"><h3>{{ dream.dream_name}}</h3></div>
-                            <div class="icons">
-                                <div class="edit-dream"><a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a></div>
-                                <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></div>
-                                <div class="view-dream"><a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}"><i class="fa-regular fa-eye"></i></a></div>
-                            </div>                            
-                        </div>
-                        <div class="dream-general">
-                            <div class="dream-info">
-                                <div class="dream-description view-dream-description">
-                                    {{- dream.dream_description -}}
-                                </div>
-                            </div>
-                            <div class="dream-image">
-                                {% if dream.image %}
-                                    <img class="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
-                                {% endif %}
-                            </div>                            
-                        </div>
+                    <p>It will permanently remove the dream, plus all related comments and followers!</p>
+                    <div class="comment-buttons">
+                        <a class="delete-confirm" href ="{{ url_for('delete_dream', dream_slug = dream.dream_slug) }}">Yes, Please</a>
+                        <div class="delete-cancel" id="{{ dream.dream_slug }}-cancel-delete-dream">Oops. No!!!</div>
                     </div>
-                {% endfor %}
-            {% endif %}
+                </div>
+                <div class="alarm-bunny-right">
+                    <img src="{{ url_for('static', filename='images/general-assets/alert-bunny-right.svg') }}" alt="a line drawing of a bunny with an exclamation mark over its head, facing left">
+                </div>
+            </div>                        
+        </div>
+        <div class="dream-list opaque-element">
+            <div class="general-bar dream-bar main-dream-bar dreams-page-bar">
+                <div class="dream-name"><h3>{{ dream.dream_name}}</h3></div>
+                <div class="icons">
+                    <div class="edit-dream"><a href="{{ url_for('edit_dream', dream_slug = dream.dream_slug) }}"><i class="fas fa-edit"></i></a></div>
+                    <div class="delete-dream" id="{{ dream.dream_slug }}"><i class="fas fa-trash"></i></div>
+                    <div class="view-dream"><a href="{{ url_for('view_dream', dream_slug=dream.dream_slug) }}"><i class="fa-regular fa-eye"></i></a></div>
+                </div>                            
+            </div>
+            <div class="dream-general">
+                <div class="dream-info">
+                    <div class="dream-description view-dream-description">
+                        {{- dream.dream_description -}}
+                    </div>
+                </div>
+                <div class="dream-image">
+                    {% if dream.image %}
+                    <img class="current-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
+                    {% endif %}
+                </div>                            
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}        
     </div>
 </div>

@@ -27,7 +27,7 @@
 ### HTML Validation
 ([back to top](#testing-documentation))
 
-I have validated the html code by copying and pasting the source code from each page into the w3c validator [HERE](https://validator.w3.org/).
+I have validated the html code by copying and pasting the source code from each page into the w3c validator [HERE](https://validator.w3.org/).  When formatting the code I have decided to format the Jinja2 templating without indents to preserve the integrity of the HTML.
 
 Please note I have not validated (or styled) the admin only pages as they are not intended to be user facing.\
 Only myself and the user created for assessment purposes will have admin access for this iteration of the site.
@@ -1032,16 +1032,4 @@ My end decision has been get rid of a checkbox which enables a user to videw the
 
 I developed this solution further using Javascript to focus the user on the area of the page they were looking at when they added a comment or liked a dream.  For likes and unlikes as well as adding, editing or deleting comments this was solved by assigning the id of focussed dream to the comments section according to the route a user had arrived from. With alert messages I went further by embetting them directly into the comments bar and having Javascript focus them when opened. This has proved very effective at redirecting users to the right area of the page and making the flow of the site better, but it's been a painful process getting there!
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+([back to top](#contents))

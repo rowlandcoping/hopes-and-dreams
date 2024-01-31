@@ -8,17 +8,17 @@ Dreamscape - {{ user.first_name }}
 
 <div class="opaque-element top-border-dreamscape" id="dreams-container-top">
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-             {% for category, message in messages %}
-                {% if request.path == url_for('dreamscape') %}
-                <div class= "{{ category }} dreams-flash" id="large-flash">
-                    <div>
-                        <h2>{{ message }}</h2>
-                    </div>
-                </div>
-                {% endif %}
-            {% endfor %}            
-        {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if request.path == url_for('dreamscape') %}
+    <div class= "{{ category }} dreams-flash" id="large-flash">
+        <div>
+            <h2>{{ message }}</h2>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}            
+    {% endif %}
     {% endwith %}
     <div class="filter-section">
         <form id="filter-dreamscape" action="{{ url_for('dreamscape') }}" method="POST" name="personal-update" enctype="multipart/form-data">
@@ -29,25 +29,25 @@ Dreamscape - {{ user.first_name }}
                 <div id="filter-select">
                     <select name="filter" id="dreamscape-filter">
                         {% if selected == "trending" %}
-                            <option value="latest">Latest</option>
-                            <option value="trending" selected>Trending</option>
-                            <option value="personalized">Personalized</option>
-                            <option value="followed">Followed</option>
+                        <option value="latest">Latest</option>
+                        <option value="trending" selected>Trending</option>
+                        <option value="personalized">Personalized</option>
+                        <option value="followed">Followed</option>
                         {% elif selected == "personalized" %}
-                            <option value="latest">Latest</option>
-                            <option value="trending">Trending</option>
-                            <option value="personalized" selected>Personalized</option>
-                            <option value="followed">Followed</option>
+                        <option value="latest">Latest</option>
+                        <option value="trending">Trending</option>
+                        <option value="personalized" selected>Personalized</option>
+                        <option value="followed">Followed</option>
                         {% elif selected == "followed" %}
-                            <option value="latest">Latest</option>
-                            <option value="trending">Trending</option>
-                            <option value="personalized">Personalized</option>
-                            <option value="followed" selected>Followed</option>
+                        <option value="latest">Latest</option>
+                        <option value="trending">Trending</option>
+                        <option value="personalized">Personalized</option>
+                        <option value="followed" selected>Followed</option>
                         {% else %}
-                            <option value="latest" selected>Latest</option>
-                            <option value="trending">Trending</option>
-                            <option value="personalized">Personalized</option>
-                            <option value="followed">Followed</option>
+                        <option value="latest" selected>Latest</option>
+                        <option value="trending">Trending</option>
+                        <option value="personalized">Personalized</option>
+                        <option value="followed">Followed</option>
                         {% endif %}
                     </select>
                 </div>
@@ -98,9 +98,9 @@ Dreamscape - {{ user.first_name }}
             </div>
             <div class="following">
                 {% if dream.total_followers %}
-                    <p>Following: {{ dream.total_followers }}</p>
+                <p>Following: {{ dream.total_followers }}</p>
                 {% else %}
-                    <p>Following: 0</p>
+                <p>Following: 0</p>
                 {% endif %}
             </div>
         </div>
@@ -118,9 +118,9 @@ Dreamscape - {{ user.first_name }}
             </div>
             <div class="following">
                 {% if dream.total_followers %}
-                    <p>Following: {{ dream.total_followers }}</p>
+                <p>Following: {{ dream.total_followers }}</p>
                 {% else %}
-                    <p>Following: 0</p>
+                <p>Following: 0</p>
                 {% endif %}
             </div>
         </div>
@@ -270,17 +270,17 @@ Dreamscape - {{ user.first_name }}
             </div>
             {% endif %}
             {% if request.path == url_for('like_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('edit_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('add_dream_comment',dream_slug=dream_slug, selected=selected)
-                or request.path == url_for('delete_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
-                or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
-                {% if dream.dream_slug == dream_slug %}
-                <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
-                {% else %}
-                <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
-                {% endif %}           
+            or request.path == url_for('edit_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('add_dream_comment',dream_slug=dream_slug, selected=selected)
+            or request.path == url_for('delete_dream_comment',dream_slug=dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('unlike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('dislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id)
+            or request.path == url_for('undislike_dream_comment',dream_slug=dream.dream_slug, selected=selected, comment_id=comment_id) %}                                    
+            {% if dream.dream_slug == dream_slug %}
+            <div class="comments-container" id="{{dream.dream_slug}}-all-comments">
+            {% else %}
+            <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
+            {% endif %}           
             {% else %}
             <div class="comments-container not-displayed" id="{{dream.dream_slug}}-all-comments">
             {% endif %}
@@ -290,6 +290,7 @@ Dreamscape - {{ user.first_name }}
                             Add Comment
                         </div>
                         {% if dream_slug == dream.dream_slug %}
+
                         {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                         {% for category, message in messages %}
@@ -301,6 +302,7 @@ Dreamscape - {{ user.first_name }}
                         {% endfor %}        
                         {% endif %}
                         {% endwith %}
+
                         {% endif %}
                     </div>
                     <form class="comment-form not-displayed" id="{{ dream.dream_slug }}-comment" action="{{ url_for('add_dream_comment', dream_slug=dream.dream_slug, selected=selected) }}" method="POST" name="personal-update" enctype="multipart/form-data">
@@ -354,28 +356,28 @@ Dreamscape - {{ user.first_name }}
                         </div>
                         <div class="opaque-element like-dislike-section">
                             {% if comment.user_id | string != session['user_id'] | string %}                                                    
-                                {% if comment._id | string in user.comments_liked | string %}
-                                    <a href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                        <i class="unlike-button fa-solid fa-thumbs-up"></i>
-                                    </a>
-                                    <span>{{ comment.user_likes|length }}</span>
-                                {% else %}
-                                    <a href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                        <i class="like-button fa-solid fa-thumbs-up"></i>
-                                    </a>
-                                    <span>{{ comment.user_likes|length }}</span>                                            
-                                {% endif %}
-                                {% if comment._id | string in user.comments_disliked | string %}
-                                    <a href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                        <i class="undislike-button fa-solid fa-thumbs-down"></i>
-                                    </a>
-                                    <span>{{ comment.user_dislikes|length }}</span>
-                                {% else %}
-                                    <a href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
-                                        <i class="dislike-button fa-solid fa-thumbs-down"></i>
-                                    </a>
-                                    <span>{{ comment.user_dislikes|length }}</span>
-                                {% endif %}
+                            {% if comment._id | string in user.comments_liked | string %}
+                                <a href="{{ url_for('unlike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <i class="unlike-button fa-solid fa-thumbs-up"></i>
+                                </a>
+                                <span>{{ comment.user_likes|length }}</span>
+                            {% else %}
+                                <a href="{{ url_for('like_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <i class="like-button fa-solid fa-thumbs-up"></i>
+                                </a>
+                                <span>{{ comment.user_likes|length }}</span>                                            
+                            {% endif %}
+                            {% if comment._id | string in user.comments_disliked | string %}
+                                <a href="{{ url_for('undislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <i class="undislike-button fa-solid fa-thumbs-down"></i>
+                                </a>
+                                <span>{{ comment.user_dislikes|length }}</span>
+                            {% else %}
+                                <a href="{{ url_for('dislike_dream_comment', dream_slug=dream.dream_slug, comment_id=comment._id, selected=selected) }}">
+                                    <i class="dislike-button fa-solid fa-thumbs-down"></i>
+                                </a>
+                                <span>{{ comment.user_dislikes|length }}</span>
+                            {% endif %}
                             {% else %}                                                    
                                 <i class="fa-solid fa-thumbs-up"></i>
                                 <span>{{ comment.user_likes|length }}</span>                                            

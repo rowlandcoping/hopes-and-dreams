@@ -815,3 +815,28 @@ https://web.archive.org/web/20121002225637/http://www.lutonculture.com/wardown-p
 
 ## Technical Information
 ([back to top](#contents))
+
+Version Control: Git and Github.
+JavaScript validation: jshint.
+Python validation: CI Python Linter.
+Framework: Flask.
+Image Hosting: Cloudinary.
+DBMS: MongoDB Atlas.
+SMTP Mail Server: Gmail.
+Languages: HTML, CSS, JavaScript, Python, PyMongo, Jinja2.
+Development Environment: VS Code on Linux.
+Wireframes: Balsamiq.
+Database Modelling: Hackolade.
+Image Creation: Bing Image Creator & Inkscape
+Image Editing: GIMP.
+Screen Capture: Kazam.
+
+
+
+
+
+
+
+
+
+([back to top](#contents))

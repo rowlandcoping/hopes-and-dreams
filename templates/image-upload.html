@@ -1,6 +1,6 @@
 {% extends 'plain-template.html' %}
 {% block title %}
-    Dreambuilder
+Dreambuilder
 {% endblock title%}
  
 {% block content %}
@@ -42,15 +42,15 @@
                             <img id="image-preview" class="not-displayed" src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}" alt="A preview of the uploaded image">
                         </div>
                         {% with messages = get_flashed_messages(with_categories=true) %}
-                            {% if messages %}
-                                {% for category, message in messages %}
-                                <div class= "{{ category }} dreams-flash" id="large-flash">
-                                    <div>
-                                        <h2>{{ message }}</h2>
-                                    </div>
-                                </div>
-                                {% endfor %}            
-                            {% endif %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class= "{{ category }} dreams-flash" id="large-flash">
+                            <div>
+                                <h2>{{ message }}</h2>
+                            </div>
+                        </div>
+                        {% endfor %}            
+                        {% endif %}
                         {% endwith %}
                         <div id="dream-image-uploads">
                             <button id="image-submit" type="submit" class="upload-dream-image not-displayed">Upload Image</button>

@@ -1,40 +1,38 @@
 {% extends 'plain-template.html' %}
 
 {% block title %}
-    Hopes and Dreams - Page not Found
+Hopes and Dreams - Page not Found
 {% endblock title%}
     
 {% block content %}
 <div class="other-page">
     <div class="headline-wrapper" id="welcome-headline"><h1>Lost Bunnies</h1></div>
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="{{ category }} landing-flash" id="large-flash">
-                    <div>
-                        <h3>{{ message }}</h3>
-                    </div>
-                </div>
-            {% endfor %}        
-        {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="{{ category }} landing-flash" id="large-flash">
+        <div>
+            <h3>{{ message }}</h3>
+        </div>
+    </div>
+    {% endfor %}        
+    {% endif %}
     {% endwith %}   
     <div class="container-other">
         <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing right"></div>
-        {% if user_info %}
+            {% if user_info %}
             <div class="password-reset">
                 <h3>We're ever so sorry, but that content is not avaiable.</h3>
                 <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}"></div>
                 <p>It's probably been deleted, either that or it never existed in the first place. Why not visit the Dreamscape? That's where we're going!</p>
             </div>
-        {% else %}
+            {% else %}
         <div class="password-reset">
             <h3>We're ever so sorry, but that content is not avaiable.</h3>
             <div class="lost-bunny-middle not-displayed"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing left"></div>
             <p>It's probably been deleted, either that or it never existed in the first place.</p>
             <p>If you are not a member already, why not sign up and have a look around?  I'm sure there is something here for you!</p>
         </div>
-
-
         {% endif %}
         <div class="lost-bunny"><img src="{{ url_for('static', filename='images/general-assets/quesbunnyleft.svg') }}" alt="a line drawing of a bunny with a question mark over its head, facing left"></div>
     </div>
@@ -66,8 +64,7 @@
             </form>
         </div>
         <a id="lost-bunnies-exit" class="exit-button" href="{{ url_for('home') }}">Return to Homepage</a>
-    </div>
-    
+    </div>    
     {% endif %}
 </div>
 {% endblock content %}
