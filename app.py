@@ -167,7 +167,7 @@ def signup():
         existing_user = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
         if existing_user:
-            flash("This e-mail address is already in use.", "red-flash-reset")
+            flash("This e-mail address is already in use.", "red-flash")
             return redirect(url_for("signup"))
         first_submitted = str(
             re.sub("[.!# $%;@&'*+/=?^_` {|}~]", "",
@@ -217,7 +217,7 @@ def signup():
             return redirect(url_for("welcome"))
         flash(
             "Registration not successful, please try again.",
-            "red-flash-reset")
+            "red-flash")
         return render_template(
             "signup.html", categories_one=categories_one,
             categories_two=categories_two, categories_custom=categories_custom)
@@ -257,12 +257,12 @@ def signin():
             else:
                 flash(
                     "Username or Password not valid, please try again.",
-                    "red-flash-reset")
+                    "red-flash")
                 return redirect(url_for("home"))
         else:
             flash(
                 "Username or Password not valid, please try again.",
-                "red-flash-reset")
+                "red-flash")
             return redirect(url_for("home"))
     return render_template("landing.html")
 
@@ -281,12 +281,12 @@ def signin_dream(dream_slug):
             else:
                 flash(
                     "Username or Password not valid, please try again.",
-                    "red-flash-reset")
+                    "red-flash")
                 return redirect(url_for("view_dream", dream_slug=dream_slug))
         else:
             flash(
                 "Username or Password not valid, please try again.",
-                "red-flash-reset")
+                "red-flash")
             return redirect(url_for("view_dream", dream_slug=dream_slug))
     return render_template("landing.html")
 
@@ -541,14 +541,14 @@ def password_reset():
             try:
                 mail.send(msg)
                 flash("Password update link sent, please check your e-mail.",
-                      'green-flash-reset')
+                      'green-flash')
             except Exception:
                 flash("Password update link not sent, " +
                       "please contact support if issues continue.",
-                      'red-flash-reset')
+                      'red-flash')
                 return render_template("password-reset.html")
             return redirect(url_for("profile_personal"))
-        flash('Please enter a registered e-mail address.', 'red-flash-reset')
+        flash('Please enter a registered e-mail address.', 'red-flash')
     return render_template("password-reset.html")
 
 
@@ -583,16 +583,16 @@ def password_reset_dream(dream_slug):
                 mail.send(msg)
                 flash(
                     "Password update link sent, please check your e-mail",
-                    "green-flash-reset")
+                    "green-flash")
             except Exception:
                 flash(
                     "Password update link not sent," +
                     "please contact support if issues continue.",
-                    "red-flash-reset")
+                    "red-flash")
                 return render_template(
                     "password-reset-dream.html", dream_slug=dream_slug)
             return redirect(url_for("view_dream", dream_slug=dream_slug))
-        flash('Please enter a registered e-mail address', "red-flash-reset")
+        flash('Please enter a registered e-mail address', "red-flash")
     return render_template("password-reset-dream.html", dream_slug=dream_slug)
 
 
@@ -609,13 +609,13 @@ def reset_password(token):
             mongo.db.users.update_one(
                         {"email": existing_user}, new_password)
             session.clear()
-            flash('Password Updated!', 'green-flash-reset')
+            flash('Password Updated!', 'green-flash')
             return redirect(url_for("home"))
         return render_template(
             'reset-password.html', existing_user=existing_user, token=token)
     flash(
         'Your password reset token is no longer valid, please try again.',
-        'red-flash-reset')
+        'red-flash')
     return redirect(url_for("password_reset"))
 # --end of code block--.
 
@@ -729,9 +729,9 @@ def image_upload(dream_slug):
                     }}
                     mongo.db.dreams.update_one(
                         {"dream_slug": dream_slug}, image)
-                    flash("Dream Image Uploaded.", "green-flash-reset")
+                    flash("Dream Image Uploaded.", "green-flash")
                     return redirect(url_for("dreams"))
-                flash("Image Upload Failed", "red-flash-reset")
+                flash("Image Upload Failed", "red-flash")
             return render_template(
                 "image-upload.html", dream_slug=dream_slug, dream=dream,
                 base_url=base_url)
@@ -929,7 +929,7 @@ def edit_dream(dream_slug):
                         categories_one = categories[0:10]
                         categories_two = categories[10:20]
                         categories_custom = categories[20:len(categories)]
-                        flash("Dream Updated.", "amber-flash-reset")
+                        flash("Dream Updated.", "amber-flash")
                         print(dream['dream_slug'])
                         return redirect(url_for(
                             "edit_dream", dream_slug=dream["dream_slug"]))
@@ -984,7 +984,7 @@ def delete_dream(dream_slug):
                 if ObjectId(comment["dream_id"]) == ObjectId(dream["_id"]):
                     mongo.db.comments.delete_one(
                         {"_id": ObjectId(comment["_id"])})
-            flash('Dream deleted.  How sad.', 'red-flash-reset')
+            flash('Dream deleted.  How sad.', 'red-flash')
             return redirect(url_for("dreams"))
         return redirect(url_for("dreams"))
     return redirect(url_for("home"))
