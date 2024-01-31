@@ -55,7 +55,7 @@ Profile Information - {{ (user.first_name + " " + user.last_name) | title }}
                 <input type="file" id="uploaded-image" name="profile_picture">
                 <div>
                     <img id="current-edit-image" src="{{ base_url.profile + user.profile_picture }}" alt = "{{ user.profilepic_alt }}">
-                    <img id="image-preview" class="not-displayed" src="false" alt="This is the preview of the uploaded user avatar">
+                    <img id="image-preview" class="not-displayed" src="{{ url_for('static', filename='images/general-assets/quesbunnyright.svg') }}" alt="This is the preview of the uploaded user avatar">
                 </div>
                 <div id="remove-picture" class="profile-pic-remove">
                     <label for="delete_image">Generate Random Avatar: </label>

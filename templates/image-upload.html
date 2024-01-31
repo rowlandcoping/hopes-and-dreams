@@ -39,7 +39,7 @@
                             {% if dream.image %}
                             <img id="current-edit-image" src="{{ base_url.dreams + dream.image }}" alt = "{{ dream.image_alt }}">
                             {% endif %}
-                            <img id="image-preview" class="not-displayed" src="false" alt="A preview of the uploaded image">
+                            <img id="image-preview" class="not-displayed" src="{{ url_for('static', filename='images/general-assets/palm-tree.svg') }}" alt="A preview of the uploaded image">
                         </div>
                         {% with messages = get_flashed_messages(with_categories=true) %}
                             {% if messages %}

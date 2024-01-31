@@ -954,84 +954,85 @@ As well as using google developer tools in responsive mode, this has been tested
 ### Bugs and Issues
 ([back to top](#testing-documentation))
 
+#### Image Handling
 
-Bugs:
+I faced a number of challenges in setting up image handling for this website.
 
-Image handling
+FILE FORMAT ISSUES:
 
-Used pillow to handle images, most references had the code saving to file which was awkward knowing I was deploying to Heroku.
-Managed to get images uploaded to cloudinary, but not converted to the right file size/dimensions/format.
-Ran trial using pillow with temp folder to store converted images, but could not then upload to cloudinary because they were in a converted format (Cloudinary required direct uploads)
-Managed to find guide to convert and store file in a byte array (after chasing error message on google), eliminating need for local storage and presenting in a format I could upload to cloudinary.
-Found that appending file extensions meant images did not display properly, so removed file extensions from filepath.
-Ended up with image handling function which compresses file to a usable size, resizes to a set width, converts to preferred file format then stores a filename and alt in the database and uploads to cloudinary.  
+I decided to use Pillow to handle images as it seemed to be the most popular technology and there were several guides, but most references had the code saving to file which was awkward knowing I was deploying to Heroku. I ran trial using pillow with temp folder to store converted images, and successfully managed to handle and store them in cloudinary but could not then upload to cloudinary because they were in a converted format (Cloudinary required direct uploads).  In order to solve this problem I managed to find guide to convert and store the file in a byte array (after chasing the error messages on google), eliminating need for local storage and presenting the image in a format I could upload to cloudinary.
 
-I wanted to display an image previoew using JavaScript prior to upload, and found a great guide with an easy to adapt code snippet.  I struggled to make it work for a while, before realising I hadn't added my scrip.js file to the page.  oops.
+FILE EXTENSION PROBLEM:
 
-BUGS
+I then encountered a problem where appending file extensions to image files meant that they did not display properly when served from Cloudinary - I solved this by removing file extensions from filepath as apparently they aren't needed!
 
-Passwords not saved!
+IMAGE PREVIEW ISSUES
 
-REbuild on boxing day removed the code to store passwords along with the old interests and categories fields by accident.  This didn't show itself until last week, when a user who had signed up since then tried to log in a second time, as on initial sign-in the user is validated by e-mail and logged into a session straight away.  This was an extremely alarming bug.
+I wanted to display an image previoew using JavaScript prior to upload, and found a great guide with an easy to adapt code snippet.  I struggled to make it work for a while, before realising I hadn't added my script.js file to the page on which I was working - the sort of silly error that can derail you for hours!
 
-Textbox manipulation
+IMAGE DELETE ISSUE
 
-Textbox sizing and focussing.
+I noticed that images were not being deleted from cloudinary when replaced or removed as the code intended. It turned out I needed to add an additional condition to ensure an empty field was treated the same as a null value - this is important as the server returns an error if it tries to return soimething that is not there but an empty string is treated as something being there, so it wasn't deleting the image if the database field had previously been populated.
 
-key missing
+IMAGE FORMAT ISSUE (DEPLOYED VERSION)
 
-I discovered that if in flask I was checking if a key existed in the database or a session then it would throw an error when it didn't, stopping the application.
-I solved this using .get and is not None, referencing the key implicitly.  This also prevented the error where if session cookies were deleted and the site couldn't find them it brought the whole thing down, which I also noticed in the walkthrough project.  I recommend it!
-
-user slug
-
-I decided to build unique readable user IDs that I could pass to the site urls and use as session cookies based on first and last names.  On building the process to edit user data I discovered that I had to update this if a user's name changed.  Unfortunately this would also invalidate their session cookie and crash the website. As such I changed back to storing the user's _id as the session data as it is the only immutable part of the dataset.
-
-converting cursor objects
-
-During the course we were taught that converting database queries to list objects meant we were able to iterate over data multiple times using Jinja2.  When I ran into this problem naturally this was the first thing I did.  unfortunately this led to the site crashing.  The reason was some data queries from the database aren't suitable for being converted to a list, and therefore when my query was converted it ended up returning an empty dataset - the list was only being populated by the keys. It took me a long time to realise this. I tried multiple solutions and eventually realised that instead of a list the cursor object is converted to a dictionary then it returned an equivalent object that I was able to pass to Jinja.
-
-A sidenote to this discovery is that I originally hit on this solution a long time before I implemented - once I initially tried it I saw no difference because of an html error, where a hidden div remained open due to missing forward slash,  hiding all the content I was trying to view.  It was working, but I didn't see it on the page.  As a result I hastily refactored all my code into seperate pages to solve the issue, before realising my mistake the next day and equally hastily re-building it how it was in the first place!
-
-A further sidenote is that neither this problem nor this solution seems to be reported anywhere on the internet (that I could see!).  I really had to work it out through trial and error.
-
-Creating a password reset.
-
-This posed a number of challenges, mainly, again that there is little available documentation.  Eventually after several hours I solved it useing this blog: https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968 although it doesn't bear massive resemblance to my final code on behalf of it being created with SQLAlchemy and using a very different file structure.  I still consider it a mysetery exactly how the token was extracted from the site url.  My assumption is it pulled everything after the backslash into the token varialbe, so after manually creating the url more in hope than expectaion you can imagine my surprise when it worked.  The final thing I did not know and which the blog did not include was that the jwt method needed an algorithm/algorithms assigned to tell it how to encode/decode it.  I consider it a christmas miracle that this produced the desired result, and it took a couple of hours to come to the solution. Generally speaking it seems using Python with flask, PyMongo and MongoDB is not a popular choice, and I'm having to find solutions by piecing things together from multiple sources.  As an aside given this is the case it might be useful if this sort of thing were included in the course!  
-
-Session cookie issue
-
-I noticed that when I logged out of a session using session.pop() as instructed on the course I was getting a warning message about SameSite cookies.  presumably there was some trace left behind which the browser was detecting as a secutiry risk. I solved this issue by using session.clear() instead
-
-Image delete issue
-
-I noticed that images were not being deleted from cloudinary when replaced or removed as the code intended. It turned out I needed to add an additional condition to ensure an emptry field was treated the same as a null value - this is important as the server returns an error if it tries to return soimething tha tis not there but an empty string is treated as something being there, so it wasn't deleting the image if the database field had previously been populated.
-
-Following / unfollowing dreams and retaining page state
-
-I spent a considerable amount of time trying to ensure the current page state is retained when reloading the dreamscape template after following or unfollowing a dream.  This will also apply to liking or unliking comments, so I thought it was worth spending time on.  I tried a number of methods, but struggled to properly affect the 'show own dreams' checkbox, which meant I eventually gave up on it.
-
-I also forsee a need to return the focus of the page to the dream which has just been clicked on.  
-
-My main method was passing parameters to the URL using the get method, but it wasn't clear how this would work with multiple parameters. Most examples online use a different method to that which I have been taught on the course, which would require learning an entirely new methodology and re-writing a bunch of code.
-
-My end decision has been get rid of a checkbox which enables a user to videw their own dreams in the feed, as it seemed to be causing an issue (the checkbox was never marked correctly).  However on further revision the problem was solved by passing the entire dreamscape script to create a feed into the follow/unfollow functions, and calling the template directly with the parameters passed rather than redirecting.  hitting on this solution suggests to me that the show own dreams option may be viable, but if I'm honest now I've removed it I don't seem much point in having this option anyway!
-
-I was then able to assign an element of the followed dream the id of focussed if it was reached through onie of the follow app routes, and use javascript to focus the page on the selected dream.
-
-broken link error issue:
-
-re-build everything to test the existance of the values passed via the URL before processing it.  Analyzing same overhead as a normal server query.  Should mean however the user manipulates the url it won't break the code and in many cases provide logical error messages ()
-
-IMAGE FORMAT ISSUE - HEROKU
-
-When deploying to Heroku I discovered that the code to reformat images did not work. First I checked the code I used for any deprecated methods and re-wrote it.  When the problem persisted, and after a bit of reading and research, I discovered that this was an issue with the Image module, which for some reason only supports the 'png' image format when deployed with Python 3.12.1.  When it comes to compressing images 'png' probably isn't the best option, so I opted to use an older version of Python (3.10.12) which appears to cause no conflicts with Pillow, and therefore works fine with the 'webp' image format which I want to use.
+When deploying to Heroku I discovered that the code to reformat images did not work. First I checked the code I used for any deprecated methods and re-wrote it.  When the problem persisted, and after a bit of reading and research, I discovered that this was an issue with the Image module, which for some reason only supports the 'png' image format when deployed with Python 3.12.1.  When it comes to compressing images 'png' probably isn't the best option, so I opted to use an older version of Python (3.10.12) which appears to cause no conflicts with Pillow, and therefore works fine with the 'webp' image format which I wanted to use.
 
 Hopefully I'll eventually get to the bottom of what is causing the PIL Image module to have most of the image extensions removed on Heroku with the latest Python version - it seems to be a known issue and something to do with a dependency of another module: 
 
 https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/5603
 
-This could pretty much be anything that either I've used or that Heroku uses with Python or even something within Python itself over-writing the list of file extensions in the Image module - since my workaround causes no issues or conflicts I'll continue to use Python 3.10.12 for now and add finding and resolving the source of this problem as a future feature.  Alongside a number of other issues I've had, it does raise some concerns in my mind about working with so many moving parts. Because this issue is not limited to Flask (it also seems to affect Django deployments) and seems to affect a lot of people I think that in the future I should seek out a different library for handling images.
+This could pretty much be anything that either I've used in the project or that Heroku uses with Python.  It could even be something within Python itself over-writing the list of file extensions in the Image module - since my workaround causes no issues or conflicts I'll continue to use Python 3.10.12 for now and add finding and resolving the source of this problem as a future feature.  Alongside a number of other issues I've had, it does raise some concerns in my mind about working with so many moving parts. Because this issue is not limited to Flask (it also seems to affect Django deployments) and seems to affect a lot of people I think that in the future I should seek out a different library for handling images.
+
+#### Other Bugs and Issues
+
+PASSWORD SAVE ISSUE:
+
+I rebuild part of the site shortly after Christmas to set up the new categories system.  In doing so I removed the code from the signup route which stored the old interest, skills, etc to the database.  Unfortunately as I did so I inadvertantly removed the code which stored the user password on signup.  This didn't show itself until last week, when a user who had signed up since then tried to log in a second time, as on initial sign-in the user is validated by e-mail and logged into a session straight away.  This was an extremely alarming site-breaking bug, made worse by many of the users not submitting real e-mail addresses so they would have been unable to reset their password.  It also made me think that for future iterations of the site I ought to use the password reset process to confirm user e-mails in order to complete signup.
+
+TEXTAREA MANIPULATION CHALLENGES:
+
+Once of the major difficulties I faced was having textareas resize to their content.  It can be achieved with JavaScript, and indeed that is how the site works now, but I came across several issues in making it work.  I initially used a textarea for the comment display section, but replaced it with a div because the textarea wasn't resizing to its content unless an event listener was fired - on edit this div is replaced by a textarea instead, sized to the dimensions of the div.  Indeed the order of firing even listeners was the major challenge.  I have ultimately come up with a solution where most textareas are re-sized on when a user clicks in them, then auto-resize from there.
+
+MISSING KEY ISSUES:
+
+I discovered that if in flask I was checking if a key existed in the database or a session then it would throw a site-breaking error if this was done as part of a database query. I solved this in multiple ways - using methods such as .get and the term is not None for sessions. This approach also prevented an error where if session cookies were deleted and the site couldn't find them it stopped the program, a problem I also noticed afflicted the walkthrough project.  
+
+I also came across a similar problem where if a route wasn't found it would stop the program instead of serving the 404 if is was anything other than a base template.  This was a problem when Pymongo tried to execute a database query for something that didn't exist.  I solved this by pulling the entire collection into a list then iterating through it with a for loop to check the existence of data, which is actually a manual version of a normal database query so shouldn't slow the site down.  It has also allowed me to refactor the site so that I can decide where to direct the user and what error messages to display if parts of the url are corrupted.  Extensive testing means the url can be manipulated in any way without returning a site error, either delivering a logical error message, a clean version of the page, or the 404 page.
+
+USER SLUG BUG:
+
+I decided to build unique readable user IDs that I could pass to the site urls and use as session cookies based on first and last names.  On building the process to edit user data I discovered that I had to update this if a user's name changed.  Unfortunately changing this information would also invalidate their session cookie and immediately crash the website. As such I changed back to storing the user's _id as the session data as it is the only immutable part of the dataset.
+
+CONVERTING CURSOR OBJECTS:
+
+During the course we were taught that converting database queries to list objects before passing to the template meant we were able to iterate over data multiple times using Jinja2.  When I ran into this problem naturally this was the first thing I did.  Unfortunately in the first use case I had for this it led to the site crashing.  The reason was some data queries from the database aren't suitable for being converted to a list, and therefore when my query was converted it ended up returning an empty dataset - the list was only being populated by the keys. It took me a long time to realise this. I tried multiple solutions and eventually found an obvious solution.  If finding multiple results then passing a list object works because the template needs to iterate through the result set.  However if the query returned a single result this would result in no data being found as the template would try to iterate over the single key/value pairs returned as if they were a list, resulting in no values being returned.  The solution to this was to convert such results to a dictionary object instead. which would convert to an equivalent object that I was able to pass to Jinja.
+
+A sidenote to this discovery is that I originally hit on this solution a long time before I finally implemented it - once I initially tried it I saw no difference because of an html error, where a hidden div remained open due to missing forward slash, hiding all the content I was trying to view.  It was working, but I didn't see it on the page.  As a result I hastily refactored all my code into seperate pages to solve the issue, before realising my mistake the next day and equally hastily re-building it how it was in the first place!  Of course the irony to all of this is I ended up completely re-building this section of the code and none of it ended up in the MVP.
+
+A further sidenote to this issue is that neither this problem nor this solution seems to be reported anywhere on the internet (that I could see!) and certainly isn't covered in the course material.  I really had to work it out through trial and error, plus a healthy amount of guesswork.
+
+CREATING A PASSWORD RESET
+
+This posed a number of challenges, mainly, again that there is little available documentation.  Eventually after several hours I solved it useng this blog: https://medium.com/@stevenrmonaghan/password-reset-with-flask-mail-protocol-ddcdfc190968 - although it doesn't bear massive resemblance to my final code on behalf of it being created with SQLAlchemy and using a very different file structure.
+
+I still consider it a mysetery exactly how the token was extracted from the site url.  My assumption is it pulled everything after the backslash into the token variable, so after manually creating the url more in hope than expectaion you can imagine my surprise when it worked.  The final thing I did not know and which the blog did not include was that the JWT token method needed an algorithm/algorithms assigned to tell it how to encode/decode it. I finally found an explanation of this in a completely unrelated Stack Overflow answer. Generally speaking it seems using Python with Flask, PyMongo and MongoDB is not a popular choice (JavaScript seems the language of choice with MongoDB), and I'm having to find solutions by piecing things together from multiple sources.  As an aside,given this is the case, it might be useful if this sort of thing were included in the course!  
+
+SESSION COOKIE ISSUE
+
+I noticed that when I logged out of a session using session.pop() as instructed on the course I was getting a warning message about SameSite cookies in my console.  Presumably there was some trace left behind which the browser was detecting as a secutiry risk. I solved this issue by using session.clear() instead.
+
+RETAINING THE CURRENT PAGE STATE
+
+I spent a considerable amount of time trying to ensure the current page state is retained when reloading the dreamscape template after following or unfollowing a dream.  This will also apply to liking or unliking comments, so I thought it was worth spending time on.  I tried a number of methods, but struggled to properly affect the 'show own dreams' checkbox, which meant I eventually gave up on it.
+
+My main method was passing parameters to the URL using the get method, but it wasn't clear how this would work with multiple parameters. Most examples online use a different method to that which I have been taught on the course, which would require learning an entirely new methodology and re-writing a lot of the code.
+
+My end decision has been get rid of a checkbox which enables a user to videw their own dreams in the feed, as it seemed to be causing an issue (the checkbox was never marked correctly).  However on further revision the problem was solved by passing the entire dreamscape script to create a feed into the follow/unfollow and like/unlike functions as well as the comment related code, and calling the template directly with the parameters passed rather than redirecting.  Hitting on this solution suggests to me that the show own dreams option may be viable, but if I'm honest now I've removed it I don't seem much point in having this option anyway!
+
+I developed this solution further using Javascript to focus the user on the area of the page they were looking at when they added a comment or liked a dream.  For likes and unlikes as well as adding, editing or deleting comments this was solved by assigning the id of focussed dream to the comments section according to the route a user had arrived from. With alert messages I went further by embetting them directly into the comments bar and having Javascript focus them when opened. This has proved very effective at redirecting users to the right area of the page and making the flow of the site better, but it's been a painful process getting there!
+
+
 
 
 

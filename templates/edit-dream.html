@@ -82,7 +82,7 @@ Edit Dream - {{ dream.dream_name }}
                         <input type="checkbox" id="delete_image" name="delete_image">
                     </div>
                     {% endif %}
-                    <img id="image-preview" class="not-displayed" src="false" alt="This is a preview of the uploaded image">
+                    <img id="image-preview" class="not-displayed" src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-right.svg') }}" alt="This is a preview of the uploaded image">
                 </div>
                 <div id="dream-image-uploads">
                     <div id="profile-pic-cancel" class="cancel-dream-image not-displayed">Cancel Upload</div>
