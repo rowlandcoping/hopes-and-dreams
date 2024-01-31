@@ -41,7 +41,7 @@ My research ahead of this project has involved looking at existing social platfo
 
 Hopes and Dreams intends to be a place to realise positive aspirations. In spite of this, I intend to avoid the sort of language that exists around setting goals.  Whilst planning tools can be part of the process (either as part of the MVP or part of the evolution of the project) this platform is about encouraging blue skies thinking. The intention is that a community will develop to support people in pursuit of their dreams, at which point they might even become goals, rather than interaction with the site be a goal-setting exercise in itself.  The aspiration is almost as important as the realisation, as such creating and sharing a dream with the community will be intended as a journey of discovery rather than a chore.  Dreams are meant to be shared and celebrated almost as much as they are meant to be realised.
 
-The main goal of the project then, is to develop this community and bring people together, through a UI which makes the site a pleasure to use.  It's about having people put their dreams and ideas in writing and find like-minded people.  On a simple MVP level this will simply be about matching dreams to users, creating a 'feed of dreams' containing a variety of fascinating hopes and aspirations, hopefully some of which will motivate the user to positively engage - whether this engagement means offering advice, the benefit of experience or even practical assistance.  The site will also act as a more conventional social platform, where you can actively search for and follow individuals or their aspirations and receive updates about how things are going for them.
+The main goal of the project then, is to develop this community and bring people together, through a UI which makes the site a pleasure to use.  It's about having people put their dreams and ideas in writing and find like-minded people.  On an MVP level this will simply be about matching dreams to users, creating a 'feed of dreams' containing a variety of fascinating hopes and aspirations, hopefully some of which will motivate the user to positively engage - whether this engagement means offering advice, the benefit of experience or even practical assistance.  The site will also act as a more conventional social platform, where you can actively search for and follow individuals or their aspirations and receive updates about how things are going for them.
 
 ### 3) Developer Goals
 
@@ -53,7 +53,7 @@ The main goal of the project then, is to develop this community and bring people
 
 Based on my project research I have identified the following key areas.
 
-- Brand Identity: The branding needs to be strong and clear from page one
+- Brand Identity: The branding needs to be strong and clear from page one.
 - Site purpose:  The site mission and purpose needs to be clearly stated to encourage sign-up.  It needs to inspire people.
 - Simple sign-up: I want as much site interaction as possible as quickly as possible and users need a simple sign-up process just as soon as they hit the homepage.
 - Clean UI: I want the UI to be a stripped down and simple as possible so that it functions as well on mobile as it does on desktop, and looks great on both.  I want it to look so great people can't wait to click or tap on things.
@@ -111,11 +111,11 @@ NB This MVP feature list represents this site as I currently envisage it, and wi
  - Dreamscape feed is a 'feed of dreams' consisting of dreams from other users that appear based on the user's interests/skills and also personal settings.  The user can choose to comment, offer advice or offer a service (based on dream requirements).  Alternatively users can just enjoy reading other peoples hopes and dreams.
  - Personal feed will consist of actions from people or dreams you follow, reactions to your comments, comments on your own dreams or any other modules (beyond the MVP)
  - Step-by-step Dreambuilder wizard to walk the user through the process of building their dream. Only a name, description and keywords are compulsary fields, the rest can be added later, or not added at all.  The intention is dreams should be quite freeform.
- - Optional modular elements for your dream, the core of which will be the dream diary, dream requirements and a dream planner
+ - Optional modular elements for your dream, the core of which will be the dream diary, dream requirements and a dream planner.
  - Each dream will be listed with a brief description if any exist, and the option to view the dream, update it, or undream it.  If you have no dreams a tutorial message will appear below the Dreambuilder inviting you to share your hopes and dreams.
- - Opportunities to update skills and interests to ensure the user only sees what they are intererested in. Account and personal settings which allow the user to customize their experience.Account settings will include Name, Profile Pic, e-mail address, Location (optional), notifications/privacy settings (if included). Personal settings inlcude Skills/Experiences/Interests, projects, open to (which may be rolled into the privacy settings)
+ - Opportunities to update skills and interests to ensure the user only sees what they are intererested in. Account and personal settings which allow the user to customize their experience.Account settings will include Name, Profile Pic, e-mail address, Location (optional), notifications/privacy settings (if included). Personal settings inlcude Skills/Experiences/Interests, projects, open to (which may be rolled into the privacy settings).
  - Users may comment on a dream to offer advice or encouragement, or offer specific help or services.  They may also follow a specific dream in their personal feed.
- - Users may rate comments, and have the option to filter users with very low scores (which indicates spam, trolling or other destructive behaviour)
+ - Users may rate comments, and have the option to filter users with very low scores (which indicates spam, trolling or other destructive behaviour).
  - Search facility to find friends or chase specific dreams.
  - 3 user levels, admin, moderator or user.  The single admin (ie me) will be able to create other moderators and both will be able to remove users and content deemded to be in breach of the Terms of Use Policy.
  - Basic themes - dreams and indeed profiles can be tailored with basic color themes.
@@ -139,7 +139,7 @@ NB This MVP feature list represents this site as I currently envisage it, and wi
 ## UX - Structure
 ([back to top](#contents))
 
-As with the Scope, it is important to make clear at that the below is the scope envisaged at the beginning of the project, and that there was always anticipated to be an evolutionary process in producing an MVP.  For a full overview of specification changes in the finished MVP, please click [HERE](#specification-changes).
+As with the Scope, it is important to make clear at that the below is the structure envisaged at the beginning of the project, and that there was always anticipated to be an evolutionary process in producing an MVP.  For a full overview of specification changes in the finished MVP, please click [HERE](#specification-changes).
 
 The data structure for the submitted MPV can be found [HERE](#mvp-data-structure).
 
@@ -178,7 +178,7 @@ The dreams page will list Dreams and descriptions of them, with latest comments.
 
 #### Dream Editor
 
-Large icons will represent the various dream modules if present, otherwise there is an icon to create them.  Here you can also enter various modules to edit and update them
+Large icons will represent the various dream modules if present, otherwise there is an icon to create them.  Here you can also enter various modules to edit and update them.
 
 #### Dream Builder
 
@@ -246,7 +246,7 @@ As with the Scope and Structure, it is important to make clear at that the below
  - On smaller screen sizes, to avoid clutter, I will move the search facility to a seperate page.  This is also an option for the desktop site, and may end up being the most desirable option in order to keep the user experience consistent across platforms.
  - Search results pages will use the exact layout of the feed pages.
  - Although the dreams menu icon is still available from the Dream Editor and can be clicked, I have chosen to include a button to return to the Dreamscape feed, for user clarity.
- - All content is consistently sited in a central scrolling area.  Feeds MAY use an infinite scroll depending on time and technical constraints
+ - All content is consistently sited in a central scrolling area.  Feeds MAY use an infinite scroll depending on time and technical constraints.
  - When clicking to expand a dream the user will be able to view all modular components.
  - The dream editor is only available to the owner of a dream.  When one of the modular components is selected the user will be able to edit all the components of that section in a seperate page with form input.  If the plus sign is selected to add a component it will take the user on a new user journey though the build process.
  - It is envisaged that the dream-builder button and the sign up button walk the user through a highly intuitive, staged sign-up / build process.  This will include walk-throughs explaining the data required and what it does, and with luck some really nice visuals.  During the initial build this will be a simple form in both cases; at a push these forms could also serve as a viable MVP.
@@ -271,7 +271,7 @@ red - warning, delete and fail messages.  Also used as activated/mousover color 
 green - success messages. Also used as activated/mousover color for buttons which submit or follow. Used to indicate user has liked something already.  Green background indicates a category is selected.\
 orange - user for edit confirmation messages, or non-critical alerts.\
 grey - initial background for category buttons.\
-white - color for text and borders (except in situations where higher contrast was required)
+white - color for text and borders (except in situations where higher contrast was required).
 
 #### RGB
 
@@ -413,11 +413,11 @@ The data structure has evolved significantly as the project has developed, parti
 
 DREAM MODULES:
 
-There are no dream modules in the MVP, so none of these schemas have been implemented
+There are no dream modules in the MVP, so none of these schemas have been implemented.
 
 COMMENTS:
 
-Comments have been split into their own collection
+Comments have been split into their own collection.
 
 CATEGORIES:
 
@@ -435,8 +435,8 @@ In light of the limitations of Jinja2 as a templating language and to limit as m
 
 Most of this has been covered above, and the principles underlying the initial design have not deviated.  The wireframes, however, show significant deviation from the finished design.
 
- - Main navigation moved to the top of the page
- - No search bar/icon
+ - Main navigation moved to the top of the page.
+ - No search bar/icon.
  - Dream editor page goes straight into editing general info.
  - Profile page is now all in one place and significantly less complex.
 
@@ -512,11 +512,11 @@ The final collection is a repository of details for pre-defined user avatars, wh
 
 ![image](static/images/feature-list/dream-creation.png)
 
- - custom 404 page is only served when reaching broken links for dreams to avoid breaking the user's flow, and provides a clear path back to the site.
+ - Custom 404 page is only served when reaching broken links for dreams to avoid breaking the user's flow, and provides a clear path back to the site.
 
 ![image](static/images/feature-list/custom-404.png)
 
- - fully functional password reset features means users are not at risk of losing access to their account content
+ - Fully functional password reset features means users are not at risk of losing access to their account content
 
 ![image](static/images/feature-list/password-reset.png)
 
@@ -526,35 +526,35 @@ The final collection is a repository of details for pre-defined user avatars, wh
 
 ![image](static/images/feature-list/dream-icons.png)
 
- - the dream creation category selector (also present in the profile and dream editing) provides point and click interface for selecting categories with user validation and clear messaging if they select too many.
+ - The dream creation category selector (also present in the profile and dream editing) provides point and click interface for selecting categories with user validation and clear messaging if they select too many.
 
 ![image](static/images/feature-list/category-selector.png)
 
- - option to disable comments when editing or creating a dream as a safeguarding feature.
+ - Option to disable comments when editing or creating a dream as a safeguarding feature.
 
 ![image](static/images/feature-list/disable-comments.png)
 
- - users can see previews of any image they upload with the aspect ratio in which they will be displayed - also applies to user profile; all user images are compressed, reformatted and appropriately resized on upload to maintain site performance.
+ - Users can see previews of any image they upload with the aspect ratio in which they will be displayed - also applies to user profile; all user images are compressed, reformatted and appropriately resized on upload to maintain site performance.
 
 ![image](static/images/feature-list/image-preview.png)
 
- - users are provided with clear feedback for any action they take relating to a dream.
+ - Users are provided with clear feedback for any action they take relating to a dream.
 
 ![image](static/images/feature-list/dream-edit-feedback.png)
 
- - users may view their own dreams from the dreams page and review any comments that have been made.
+ - Users may view their own dreams from the dreams page and review any comments that have been made.
 
 ![image](static/images/feature-list/view-dream.png)
 
- - users have the freedom to delete any comments relating to their own content which they find unacceptable, as a safeguarding feature.
+ - Users have the freedom to delete any comments relating to their own content which they find unacceptable, as a safeguarding feature.
 
 ![image](static/images/feature-list/own-dream-delete.png)
 
- - users may add comments to a dream with an intuitive interface; all textboxes across the site automatically resize to their content providing a seamless user experience
+ - Users may add comments to a dream with an intuitive interface; all textboxes across the site automatically resize to their content providing a seamless user experience.
 
 ![image](static/images/feature-list/add-comment.png)
 
- - users are able to share dreams they like or have created external to Hopes and Dreams; people do not have to be logged in to view them.
+ - Users are able to share dreams they like or have created external to Hopes and Dreams; people do not have to be logged in to view them.
 
 ![image](static/images/feature-list/share-dream.png)
 
@@ -565,15 +565,15 @@ The final collection is a repository of details for pre-defined user avatars, wh
 
 ![image](static/images/feature-list/feed-filter.png)
 
- - follow and unfollow buttons allow the user to follow dreams or users of interest to them and then view them using the 'following' filter.  When following a dream on the feed, the page returns the user to the area of the page they were looking at when they pressed the button, providing a seamless experience.
+ - Follow and unfollow buttons allow the user to follow dreams or users of interest to them and then view them using the 'following' filter.  When following a dream on the feed, the page returns the user to the area of the page they were looking at when they pressed the button, providing a seamless experience.
 
 ![image](static/images/feature-list/follow-buttons.png)
 
- - users can immediately see from the feed how popular a dream (or their dream in 'view dream') is.
+ - Users can immediately see from the feed how popular a dream (or their dream in 'view dream') is.
 
 ![image](static/images/feature-list/follower-count.png)
 
- - comments on the feed are expandable which not only reduce clutter on the feed but allow the user to fully explore any content they are interested in without having to open a new window.
+ - Comments on the feed are expandable which not only reduce clutter on the feed but allow the user to fully explore any content they are interested in without having to open a new window.
 
 ![image](static/images/feature-list/expandable-comments.png)
 
@@ -581,11 +581,11 @@ The final collection is a repository of details for pre-defined user avatars, wh
 
 ![image](static/images/feature-list/like-dislike.png)
 
- - users may edit or delete their own comments from within the feed.
+ - Users may edit or delete their own comments from within the feed.
 
 ![image](static/images/feature-list/edit-own.png)
 
- - on adding, editing, or deleting a comment users are provided with clear feedback inline with the dream affected.  The user's page focus is returned to the dream they were commenting on and if commenting in the feed that set of comments begin in an opened state.  This significantly enhances user experience.
+ - On adding, editing, or deleting a comment users are provided with clear feedback inline with the dream affected.  The user's page focus is returned to the dream they were commenting on and if commenting in the feed that set of comments begin in an opened state.  This significantly enhances user experience.
 
 ![image](static/images/feature-list/comment-focus.png)
 
@@ -613,14 +613,14 @@ Hopes and Dreams has been deployed [HERE](https://hopes-and-dreams-15b83f2d1383.
 
 Preparing for Deployment:
 
-- For the site to function, I needed to add a Procfile to the repo containing the command to start the app (web: python app.py)
+- For the site to function, I needed to add a Procfile to the repo containing the command to start the app (web: python app.py).
 - I already had an up-to-date requirements.txt file in my repository which I updated as I installed new dependencies.  This was a product of developing my project using a virtual environment in VS Code.
-- On initial deployment I received error messages related to my image handling code. This was on account of Heroku using a different version of Python which was actually ahead of the official version!  In order to make the app function as intended, I needed to add a runtime.txt file to the repo containing the Python version used for this project (python-3.10.12)
+- On initial deployment I received error messages related to my image handling code. This was on account of Heroku using a different version of Python which was actually ahead of the official version!  In order to make the app function as intended, I needed to add a runtime.txt file to the repo containing the Python version used for this project (python-3.10.12).
 
 Creating the App and connecting to Github:
 
-- I logged into my Heroku account
-- From my Dashboard, I selected 'new' then 'Create new app'
+- I logged into my Heroku account.
+- From my Dashboard, I selected 'new' then 'Create new app'.
 - I selected an available name appropriate to the website - in this case I chose hopes-and-dreams, before selecting my region (Europe) and clicking the 'create app' button.
 - Heroku immediately took me to the 'Deploy' page.  From this page I went straight to 'Deployment Method' and clicked on Github.
 - Once my Github account was connected, I selected the hopes and dreams repository and clicked 'connect'.
@@ -652,8 +652,8 @@ If you wish to deploy this website yourself, here is how to go about it.
 
 This project uses MongoDB to store all data, therefore you will need a copy of the database to deploy it for yourself.
 
- - Sign up to MongoDB Atlas [HERE](https://www.mongodb.com/cloud/atlas/register)
- - Create a database (call it what you like, but something indicative of the project is a good idea!)
+ - Sign up to MongoDB Atlas [HERE](https://www.mongodb.com/cloud/atlas/register).
+ - Create a database (call it what you like, but something indicative of the project is a good idea!).
  - Use the database structure outlined in this readme to re-create the database.  Keep in mind you only need to create the collections - the beauty of MongoDB is that everything else will be created on the fly.
  - Keep in mind if you want administrator access you will have to manually add the key/value pair user: "administrator" to the document for that user in Atlas.
 
@@ -661,7 +661,7 @@ This project uses MongoDB to store all data, therefore you will need a copy of t
 
 This project hosts all images on Cloudinary.  In order to do the same you will need a Cloudinary account.
 
- - Sign up to Cloudinary [HERE](https://cloudinary.com/)
+ - Sign up to Cloudinary [HERE](https://cloudinary.com/).
 
  Creating an email for the password reset functionality:
 
@@ -697,7 +697,7 @@ Setting up:
 Making it work:
 
 - Create an env.py file and a .gitignore file.  Add env.py to your .gitignore file to ensure you don't upload sensitive data to the public repository!
-- Ensure you have python3-venv installed ($sudo apt get update, then $sudo apt-get install python3-venv)
+- Ensure you have python3-venv installed ($sudo apt get update, then $sudo apt-get install python3-venv).
 - Press CTRL-shift-P again, then type in python: Create Environment.
 - Select Venv, then select the recommended settings to create a new virtual environment. It will install all the dependencies outlined in the requirements.txt file.  If it has worked you should see (.venv) in your terminal.  I found depending on the system I had to restart VS Code to make this work.
 - Add the [environment variables](#hopes-and-dreams-environment-variables) to your env.py file. Be sure to update the Base_URL to reflect the port you are using locally as opposed to any deployment on Heroku.  Normally it's 127.0.0.1:5000/.
@@ -791,8 +791,8 @@ IMAGE HANDLING:
 
 My image handling process was put together using information from the following sources.
 
-https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18\
-https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array\
+https://dev.to/feranmiodugbemi/image-conversion-web-app-with-python-1e18 \
+https://stackoverflow.com/questions/33101935/convert-pil-image-to-byte-array \
 https://gist.github.com/tomvon/ae288482869b495201a0
 
 PASSWORD RESET:
@@ -816,27 +816,19 @@ https://web.archive.org/web/20121002225637/http://www.lutonculture.com/wardown-p
 ## Technical Information
 ([back to top](#contents))
 
-Version Control: Git and Github.
-JavaScript validation: jshint.
-Python validation: CI Python Linter.
-Framework: Flask.
-Image Hosting: Cloudinary.
-DBMS: MongoDB Atlas.
-SMTP Mail Server: Gmail.
-Languages: HTML, CSS, JavaScript, Python, PyMongo, Jinja2.
-Development Environment: VS Code on Linux.
-Wireframes: Balsamiq.
-Database Modelling: Hackolade.
-Image Creation: Bing Image Creator & Inkscape
+Version Control: Git and Github.\
+JavaScript validation: jshint.\
+Python validation: CI Python Linter.\
+Framework: Flask.\
+Image Hosting: Cloudinary.\
+DBMS: MongoDB Atlas.\
+SMTP Mail Server: Gmail.\
+Languages: HTML, CSS, JavaScript, Python, PyMongo, Jinja2.\
+Development Environment: VS Code on Linux.\
+Wireframes: Balsamiq.\
+Database Modelling: Hackolade.\
+Image Creation: Bing Image Creator & Inkscape.\
 Image Editing: GIMP.
 Screen Capture: Kazam.
-
-
-
-
-
-
-
-
 
 ([back to top](#contents))

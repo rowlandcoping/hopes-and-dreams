@@ -1,7 +1,8 @@
 /*jshint esversion: 6*/
 
 document.addEventListener("DOMContentLoaded", function() {
-    //-------------Helper Functions--------------//
+
+    //-------------HELPER FUNCTIONS--------------//
     
     function autoResize() {
         this.style.height = "auto";
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    //Create Dream page
+    //CREATE DREAM PAGE
     //add event listeners to listen for key up on input fields and populate the mobile field as well
     const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
     attachCategoryListners.forEach(item => {
@@ -120,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteDream(itemId);
         });
     });
-   
 
     //DREAMSCAPE/VIEW DREAM
     //add event listners to show/hide comments
@@ -195,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function() {
             mouseoutDreams();
         }
     });
-    
     //mouseover/out events for dreamscape icon & caption
     document.addEventListener("mouseover", function(e){
         const target = e.target.closest("#dreamscape-icon"); 
@@ -269,7 +268,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cancelAlert(itemId);
         });
     });
-
 
     //------------ACTIONS-------------//
     
@@ -472,8 +470,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
         }
     }
-
-
 
     //EDITING PROFILE INFO    
     //cancel profile pic change 
