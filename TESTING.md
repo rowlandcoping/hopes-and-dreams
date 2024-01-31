@@ -146,7 +146,7 @@ The art style and color palate is clearly established on the landing page and co
 ![image](static/images/user-stories/hopes-logo.png)
 
 _"The site mission and purpose needs to be clearly stated to encourage sign-up.  It needs to inspire people."_\
-The landing page includes a site description which alongside the imagary is designed to inspire curiosity
+The landing page includes a site description which alongside the imagary is designed to inspire curiosity.
 
 ![image](static/images/user-stories/hopes-intro.png)
 
@@ -219,7 +219,7 @@ My view is that given the scope of the project and the above constraints it is a
 ### Manual Testing
 ([back to top](#testing-documentation))
 
-#### Logic Manual testing
+#### Manually Testing Page Functionality
 
 For me the most sensible way of approaching this is to systematically check the functionality on every page to ensure that everything appears as intended when an action is taken on the site and that the database is updated accoringly.  As such I've created a table for each of the pages on the site and tested all of the features therein.
 
