@@ -464,10 +464,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     target.style.height = this.scrollHeight + 'px';           
                 }
             });
+            document.addEventListener("input", function(e){
+                const target = e.target.closest("#dream_name-desk"); 
+                if(target){
+                    document.getElementById(formField + "-mob").value = target.value;
+                    target.style.height = "auto";
+                    target.style.height = this.scrollHeight + 'px';           
+                }
+            });
         }
         if (formSection === "mob") {
             document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_description-desk"); 
+                const target = e.target.closest("#dream_name-desk"); 
                 if(target){
                     document.getElementById(formField + "-desk").value = target.value;
                     target.style.height = "auto";
