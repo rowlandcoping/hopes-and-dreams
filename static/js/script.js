@@ -475,13 +475,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         if (formSection === "mob") {
             document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_name-desk"); 
+                const target = e.target.closest("#dream_name-mob"); 
                 if(target){
                     document.getElementById(formField + "-desk").value = target.value;
                     target.style.height = "auto";
                     target.style.height =  target.scrollHeight + 'px';           
                 }
-            });            
+            });
+            document.addEventListener("input", function(e){
+                const target = e.target.closest("#dream_description-mob"); 
+                if(target){
+                    document.getElementById(formField + "-desk").value = target.value;
+                    target.style.height = "auto";
+                    target.style.height =  target.scrollHeight + 'px';           
+                }
+            });           
         }
     }
 
