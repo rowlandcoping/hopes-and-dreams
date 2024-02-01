@@ -454,21 +454,26 @@ document.addEventListener("DOMContentLoaded", function() {
     //ensure all form fields populated
     function duplicateField(itemId) {
         const formField = itemId.split('-')[0];
-        const formSection = itemId.split('-')[1];
+        const formSection = itemId.split('-')[1];        
         if (formSection === "desk") {
-            document.getElementById(itemId).oninput = function () { 
-                document.getElementById(formField + "-mob").value = this.value;
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + 'px';
-            };
+            document.addEventListener("input", function(e){
+                const target = e.target.closest("#dream_description-desk"); 
+                if(target){
+                    document.getElementById(formField + "-mob").value = target.value;
+                    target.style.height = "auto";
+                    target.style.height = this.scrollHeight + 'px';           
+                }
+            });
         }
         if (formSection === "mob") {
-            document.getElementById(itemId).oninput = function () { 
-                document.getElementById(formField + "-desk").value = this.value;
-                this.style.height = "auto";
-                this.style.height =  this.scrollHeight + 'px';
-            };
-            
+            document.addEventListener("input", function(e){
+                const target = e.target.closest("#dream_description-desk"); 
+                if(target){
+                    document.getElementById(formField + "-desk").value = target.value;
+                    target.style.height = "auto";
+                    target.style.height =  target.scrollHeight + 'px';           
+                }
+            });            
         }
     }
 
