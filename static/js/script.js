@@ -460,16 +460,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 const target = e.target.closest("#dream_description-desk"); 
                 if(target){
                     document.getElementById(formField + "-mob").value = target.value;
-                    target.style.height = "auto";
-                    target.style.height = this.scrollHeight + 'px';           
+                    autoResize;           
                 }
             });
             document.addEventListener("input", function(e){
                 const target = e.target.closest("#dream_name-desk"); 
                 if(target){
                     document.getElementById(formField + "-mob").value = target.value;
-                    target.style.height = "auto";
-                    target.style.height = this.scrollHeight + 'px';           
+                    autoResize;          
                 }
             });
         }
@@ -478,16 +476,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 const target = e.target.closest("#dream_name-mob"); 
                 if(target){
                     document.getElementById(formField + "-desk").value = target.value;
-                    target.style.height = "auto";
-                    target.style.height =  target.scrollHeight + 'px';           
+                    autoResize;          
                 }
             });
             document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_description-mob"); 
+                const target = e.target.closest("#dream_description-desk"); 
                 if(target){
                     document.getElementById(formField + "-desk").value = target.value;
-                    target.style.height = "auto";
-                    target.style.height =  target.scrollHeight + 'px';           
+                    autoResize;          
                 }
             });           
         }
