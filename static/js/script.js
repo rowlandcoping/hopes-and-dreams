@@ -457,35 +457,23 @@ document.addEventListener("DOMContentLoaded", function() {
         const formSection = itemId.split('-')[1];        
         if (formSection === "desk") {
             document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_description-desk"); 
+                const target = e.target.closest("#" + formField +"-desk"); 
                 if(target){
                     document.getElementById(formField + "-mob").value = target.value;
-                    autoResize;           
-                }
-            });
-            document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_name-desk"); 
-                if(target){
-                    document.getElementById(formField + "-mob").value = target.value;
-                    autoResize;          
+                    target.style.height = "auto";
+                    target.style.height = target.scrollHeight + 'px';          
                 }
             });
         }
         if (formSection === "mob") {
             document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_name-mob"); 
+                const target = e.target.closest("#" + formField +"-mob"); 
                 if(target){
                     document.getElementById(formField + "-desk").value = target.value;
-                    autoResize;          
+                    target.style.height = "auto";
+                    target.style.height = target.scrollHeight + 'px';             
                 }
-            });
-            document.addEventListener("input", function(e){
-                const target = e.target.closest("#dream_description-desk"); 
-                if(target){
-                    document.getElementById(formField + "-desk").value = target.value;
-                    autoResize;          
-                }
-            });           
+            });       
         }
     }
 
