@@ -55,8 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     //CREATE DREAM PAGE
-    //add event listeners to listen for key up on input fields and populate the mobile field as well
-       
+    //add event listeners to listen for focus on input fields and populate the mobile field as well       
     const attachDupeFieldListeners= Array.from(document.getElementsByClassName('input-field-duplicate'));
     attachDupeFieldListeners.forEach(item => {
         item.addEventListener('focus', function handleClick(event) {
@@ -457,14 +456,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const formField = itemId.split('-')[0];
         const formSection = itemId.split('-')[1];
         if (formSection === "desk") {
-            document.getElementById(itemId).input = function () { 
+            document.getElementById(itemId).oninput = function () { 
                 document.getElementById(formField + "-mob").value = this.value;
                 this.style.height = "auto";
                 this.style.height = this.scrollHeight + 'px';
             };
         }
         if (formSection === "mob") {
-            document.getElementById(itemId).input = function () { 
+            document.getElementById(itemId).oninput = function () { 
                 document.getElementById(formField + "-desk").value = this.value;
                 this.style.height = "auto";
                 this.style.height =  this.scrollHeight + 'px';
