@@ -609,7 +609,7 @@ Please find all testing documentation [HERE](TESTING.md).
 
 ### Initial Deployment
 
-Hopes and Dreams has been deployed [HERE](https://hopes-and-dreams-15b83f2d1383.herokuapp.com/) via Heroku, taking the following steps:
+Hopes and Dreams has been deployed [HERE](https://hopesanddreams-c6e1e042df41.herokuapp.com/) via Heroku, taking the following steps:
 
 Preparing for Deployment:
 
