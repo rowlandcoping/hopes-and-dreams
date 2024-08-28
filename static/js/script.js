@@ -46,6 +46,16 @@ document.addEventListener("DOMContentLoaded", function() {
     
     //SIGN-UP PROCESS
     //add event listners to all category button clicks
+    const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
+    attachCategoryListners.forEach(item => {
+        item.addEventListener('click', function handleClick(event) {
+            const itemId = item.getAttribute('id');                
+            addSignupCategory(itemId);
+        });
+    });
+    
+    //CREATE DREAM PAGE
+    //add event listeners to listen for focus on input fields and populate the mobile field as well       
     const attachDupeFieldListeners= Array.from(document.getElementsByClassName('input-field-duplicate'));
     attachDupeFieldListeners.forEach(item => {
         item.addEventListener('focus', function handleClick(event) {
@@ -54,15 +64,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    //CREATE DREAM PAGE
-    //add event listeners to listen for key up on input fields and populate the mobile field as well
-    const attachCategoryListners= Array.from(document.getElementsByClassName('category-selector'));
-    attachCategoryListners.forEach(item => {
-        item.addEventListener('click', function handleClick(event) {
-            const itemId = item.getAttribute('id');                
-            addSignupCategory(itemId);
-        });
-    });
 
     //CATEGORY SELECTION PROCESSES
     //show more categories
@@ -453,21 +454,26 @@ document.addEventListener("DOMContentLoaded", function() {
     //ensure all form fields populated
     function duplicateField(itemId) {
         const formField = itemId.split('-')[0];
-        const formSection = itemId.split('-')[1];
+        const formSection = itemId.split('-')[1];        
         if (formSection === "desk") {
-            document.getElementById(itemId).onkeyup = function () { 
-                document.getElementById(formField + "-mob").value = this.value;
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + 'px';
-            };
+            document.addEventListener("input", function(e){
+                const target = e.target.closest("#" + formField +"-desk"); 
+                if(target){
+                    document.getElementById(formField + "-mob").value = target.value;
+                    target.style.height = "auto";
+                    target.style.height = target.scrollHeight + 'px';          
+                }
+            });
         }
         if (formSection === "mob") {
-            document.getElementById(itemId).onkeyup = function () { 
-                document.getElementById(formField + "-desk").value = this.value;
-                this.style.height = "auto";
-                this.style.height =  this.scrollHeight + 'px';
-            };
-            
+            document.addEventListener("input", function(e){
+                const target = e.target.closest("#" + formField +"-mob"); 
+                if(target){
+                    document.getElementById(formField + "-desk").value = target.value;
+                    target.style.height = "auto";
+                    target.style.height = target.scrollHeight + 'px';             
+                }
+            });       
         }
     }
 

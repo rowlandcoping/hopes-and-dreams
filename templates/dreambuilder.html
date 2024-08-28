@@ -30,7 +30,7 @@ Dreambuilder
                 <div class="cloud">
                     <img src="{{ url_for('static', filename='images/general-assets/dreamsbuild-cloud-left.svg') }}" alt="a line drawing of a little cloud in blue, with dots underneathing indicating a thought or dream">
                 </div>
-                <table class="form-table-builder dreambuild-table mobile-version not-displayed" id="edit-table-dream-mobile">
+                <table class="form-table-edit mobile-version not-displayed" id="edit-table-dream-mobile">
                     <tr class="labelmob">
                         <td>
                             <label for="dream_name-mob">My Dream:</label>
@@ -38,29 +38,28 @@ Dreambuilder
                     </tr>
                     <tr>
                         <td>
-                            <input placeholder="Your dream..." class="dreams-dotted input-field-duplicate" type="text" id="dream_name-mob" name="dream_name" required>
+                            <input class="dreams-dotted input-field-duplicate" type="text" id="dream_name-mob" name="dream_name" required>
                         </td>
                     </tr>
                     <tr class="labelmob">
                         <td>
                             <label for="dream_description-mob">Dream Description:</label>
-                        </td>                        
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            <textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted input-field-dupliaate" id="dream_description-mob" name="dream_description" required>
-                            </textarea>
+                            <textarea class="dreams-dotted input-field-duplicate" id="dream_description-mob" name="dream_description" required></textarea>
                         </td>
                     </tr>
                 </table>
                 <table class="form-table-builder dreambuild-table desktop-version" id="edit-table-dream">
                     <tr>
                         <td class="label dream-label"><label for="dream_name-desk">My Dream: </label></td>
-                        <td><input placeholder="Your dream..." class="dreams-dotted input-field-duplicate" type="text" id="dream_name-desk" name="dream_name" required></td>
+                        <td><input class="dreams-dotted input-field-duplicate desktop-input" type="text" id="dream_name-desk" name="dream_name" required></td>
                     </tr>
                     <tr>
                         <td class="label dream-label"><label for="dream_description-desk">Dream Description: </label></td>
-                        <td><textarea placeholder="Enter a desctription of your dream here..." class="dreams-dotted input-field-duplicate" id="dream_description-desk" name="dream_description" required></textarea></td>
+                        <td><textarea class="dreams-dotted input-field-duplicate desktop-input" id="dream_description-desk" name="dream_description" required></textarea></td>
                     </tr>
                 </table>
                 <div class="cloud cloud-right">
