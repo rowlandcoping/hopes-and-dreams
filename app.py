@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import io
 import re
 import jwt
@@ -17,34 +18,33 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 
-if os.path.exists("env.py"):
-    import env
+load_dotenv()
 
 app = Flask(__name__)
 
 # call session cookie environment variables
-app.config["SESSION_COOKIE_SAMESITE"] = os.environ.get(
+app.config["SESSION_COOKIE_SAMESITE"] = os.getenv(
     "SESSION_COOKIE_SAMESITE")
-app.config["SESSION_COOKIE_SECURE"] = os.environ.get("SESSION_COOKIE_SECURE")
+app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE")
 
 # call mail environment variables
-app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
-app.config["MAIL_PORT"] = os.environ.get("MAIL_PORT")
-app.config["MAIL_USE_SSL"] = os.environ.get("MAIL_USE_SSL")
-app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
-app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT"))
+app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL") == "True"
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 mail = Mail(app)
 
 # call MongoDB environment variables
-app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
-app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
-app.secret_key = os.environ.get("SECRET_KEY")
+app.config["MONGO_DBNAME"] = os.getenv("MONGO_DBNAME")
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.secret_key = os.getenv("SECRET_KEY")
 
 # call Cloudinary environment variables
 cloudinary.config(
-    cloud_name=os.environ.get('CLOUD_NAME'),
-    api_key=os.environ.get('API_KEY'),
-    api_secret=os.environ.get('API_SECRET'))
+    cloud_name=os.getenv('CLOUD_NAME'),
+    api_key=os.getenv('API_KEY'),
+    api_secret=os.getenv('API_SECRET'))
 
 # base urls for images and passoword reset
 base_url = {"profile": os.getenv("CLOUDINARY_BASE") + "profile/",
@@ -2461,6 +2461,6 @@ def page_not_found(e):
 
 # launches Hopes and Dreams, calls app environment variables
 if __name__ == "__main__":
-    app.run(host=os.environ.get("IP"),
-            port=int(os.environ.get("PORT")),
-            debug=bool(os.environ.get("DEBUG")))
+    app.run(host=os.getenv("IP"),
+            port=int(os.getenv("PORT")),
+            debug=os.getenv("DEBUG", "False").lower() == "true")
