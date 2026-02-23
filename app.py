@@ -25,7 +25,7 @@ app = Flask(__name__)
 # call session cookie environment variables
 app.config["SESSION_COOKIE_SAMESITE"] = os.getenv(
     "SESSION_COOKIE_SAMESITE")
-app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE")
+app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE") == "True"
 
 # call mail environment variables
 app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")

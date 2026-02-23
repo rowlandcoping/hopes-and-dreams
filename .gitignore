@@ -2,3 +2,4 @@ __pycache__
 .env
 .venv
 /dump/
+docker-compose.override.yml

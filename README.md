@@ -607,9 +607,16 @@ Please find all testing documentation [HERE](TESTING.md).
 ## Deployment
 ([back to top](#contents))
 
+### Current Deployment
+
+Hopes and Dreams can currently be found [HERE](https://hopes.cookery-corner.co.uk).  It is presently deployed in a containerised setup running on a VPS using Docker, Nginx and a local instance of Mongo.  Although this repository has accordingly been updated to contain a docker-compose.yml file and Dockerfile with that deployment in mind, the below steps SHOULD still work, although I have not tested them.  The only provisos are:
+
+ - a runtime.txt file will need to be created to tell Heroku the correct Python version (ie python-3.10.12, although it will likely work just fine with newer versions).
+ - the project is now configured to use a .env file and the 'os.getenv' syntax.
+
 ### Initial Deployment
 
-Hopes and Dreams has been deployed [HERE](https://hopesanddreams-c6e1e042df41.herokuapp.com/) via Heroku, taking the following steps:
+Hopes and Dreams was initially deployed via Heroku, taking the following steps:
 
 Preparing for Deployment:
 
