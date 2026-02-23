@@ -613,7 +613,7 @@ Hopes and Dreams can currently be found [HERE](https://hopes.cookery-corner.co.u
 
  - a runtime.txt file will need to be created to tell Heroku the correct Python version (ie python-3.10.12, although it will likely work just fine with newer versions).
  - the project is now configured to use a .env file and the 'os.getenv' syntax.
- - rather than using the 'environment variables' section below this repository now contains a .env.example document which I recommend as an easy reference for the required settings and their format.
+ - The 'environment variables' section below is now outdated - this repository now contains a .env.example document as an easy reference for the required settings and their format.
 
 ### Initial Deployment
 
