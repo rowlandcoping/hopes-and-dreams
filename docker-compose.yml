@@ -8,12 +8,6 @@ services:
       - .env
     networks:
       - shared-network
-    volumes:
-      # Mount code for development (optional - remove for production)
-      - ./app.py:/app/app.py
-      - ./static:/app/static
-      - ./templates:/app/templates
-
 networks:
   shared-network:
     external: true
